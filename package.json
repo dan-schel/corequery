@@ -2,6 +2,11 @@
   "name": "corequery",
   "version": "0.1.0",
   "type": "module",
+  "files": [
+    "server/dist"
+  ],
+  "exports": "./server/dist/index.js",
+  "types": "./server/dist/index.d.ts",
   "scripts": {
     "dev": "vite web",
     "build": "tsc -p server/tsconfig.json && vite build web",
@@ -16,5 +21,22 @@
     "tsx": "4.20.6",
     "typescript": "5.9.3",
     "vite": "7.2.4"
+  },
+  "author": "dan-schel",
+  "description": "A platform for building web apps serving transit information.",
+  "homepage": "https://github.com/dan-schel/corequery",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "trainquery",
+    "gtfs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dan-schel/corequery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dan-schel/corequery/issues"
   }
 }
