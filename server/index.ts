@@ -1,8 +1,6 @@
 import { runSharedCode } from "../shared/example.js";
 
-async function main() {
+export async function main() {
   console.log("Hello!");
   runSharedCode();
 }
-
-main();
