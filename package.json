@@ -14,8 +14,12 @@
     "dev": "tsx scripts/demo-app.ts dev",
     "start": "tsx scripts/demo-app.ts start"
   },
+  "dependencies": {
+    "express": "5.2.1"
+  },
   "devDependencies": {
     "@preact/preset-vite": "2.10.2",
+    "@types/express": "5.0.6",
     "@types/node": "24.10.1",
     "preact": "10.27.2",
     "preact-iso": "2.11.0",
