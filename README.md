@@ -4,12 +4,10 @@
 
 To prove it works:
 
-- Setup express server
-- Setup server to serve frontend
-- Setup demo app
+- Hot reloading server code
+- Prove everything works when installed in an external repo
 - Script to create demo app from external git repo
-- Setup PWA
-- Some mechanism to inject stuff into the built Vite project (i.e. for the App name in the navbar, PWA manifest, etc.)
+- Some mechanism to inject stuff into the built Vite project (i.e. the app name and favicons into PWA manifest, etc.)
 
 For the real deal:
 
@@ -19,3 +17,4 @@ For the real deal:
 - Setup unit tests
 - Setup renovate
 - Setup CI
+- Setup PWA properly
