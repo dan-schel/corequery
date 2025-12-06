@@ -28,10 +28,10 @@ async function startServer(args: Args) {
 }
 
 async function servePrebuiltFrontend(server: express.Express) {
-  const indexHtmlPath = getPathWithinWebFolder("dist/index.html");
+  const indexHtmlPath = getWebFolderPath("dist/index.html");
   const indexHtml = await fsp.readFile(indexHtmlPath, "utf-8");
 
-  server.use(express.static(getPathWithinWebFolder("dist")));
+  server.use(express.static(getWebFolderPath("dist")));
 
   server.use("*all", async (_req, res) => {
     res.status(200).set({ "Content-Type": "text/html" }).end(indexHtml);
@@ -41,12 +41,12 @@ async function servePrebuiltFrontend(server: express.Express) {
 async function serveHotReloadingFrontend(server: express.Express) {
   const vite = await createServer({
     server: { middlewareMode: true },
-    root: getPathWithinWebFolder(""),
+    root: getWebFolderPath(),
   });
   server.use(vite.middlewares);
 }
 
-function getPathWithinWebFolder(innerPath: string) {
+function getWebFolderPath(innerPath: string = "") {
   // TODO: This assumes this file is <folder>/server/dist/server/index.js. Is it
   // still true if we're also hot-reloading the server code?
   return path.resolve(
