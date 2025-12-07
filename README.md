@@ -4,9 +4,7 @@
 
 To prove it works:
 
-- Hot reloading server code, and `COREQUERY_HOT_RELOAD` env var set by script
-- Prove everything works when installed in an external repo
-- Script to create demo app from external git repo
+- Hot reloading server code
 - Some mechanism to inject stuff into the built Vite project (i.e. the app name and favicons into PWA manifest, etc.)
 
 For the real deal:

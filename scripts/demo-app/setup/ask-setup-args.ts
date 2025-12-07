@@ -6,13 +6,7 @@ export async function askSetupArgs(
   existingSetup: SetupArgs | null
 ): Promise<SetupArgs> {
   if (existingSetup != null) {
-    const formattedArgs = formatSetupArgs(existingSetup);
-    console.log(chalk.cyanBright.bold("NOTICE:"));
-    console.log(`Found existing demo app: ${chalk.white.bold(formattedArgs)}`);
-    console.log(
-      "Continue the setup to update this local copy, otherwise press Ctrl+C to abort."
-    );
-    console.log();
+    showExistingSetupNotice(existingSetup);
   }
 
   const gitRepoUrl = await askGitRepoQuestion(existingSetup);
@@ -26,46 +20,50 @@ export async function askSetupArgs(
   };
 }
 
-async function askGitRepoQuestion(
-  existingSetup: SetupArgs | null
-): Promise<string> {
-  if (existingSetup != null) {
-    const defaultValue = chalk.gray(`(${existingSetup.gitRepoUrl})`);
-    return (
-      (await ask(`Git repository URL ${defaultValue}: `)) ??
-      existingSetup.gitRepoUrl
-    );
-  }
+function showExistingSetupNotice(existingSetup: SetupArgs) {
+  const formattedArgs = formatSetupArgs(existingSetup);
 
-  const response = await ask(`Git repository URL: `);
-  if (response == null) {
-    throw new Error("Git repository URL is required.");
-  }
-  return response;
-}
-
-async function askBranchQuestion(existingSetup: SetupArgs | null) {
-  if (existingSetup != null) {
-    const defaultValue = chalk.gray(
-      `(${existingSetup.branch ?? "default branch"})`
-    );
-    return (await ask(`Branch ${defaultValue}: `)) ?? existingSetup.branch;
-  }
-
-  const response = await ask(
-    `Branch ${chalk.gray("(leave empty for default branch)")}: `
+  console.log(chalk.cyanBright.bold("Notice:"));
+  console.log(`Found existing demo app: ${chalk.white.bold(formattedArgs)}`);
+  console.log(
+    "Continue the setup to update this local copy, otherwise press Ctrl+C to abort."
   );
-  return response;
+
+  console.log();
 }
 
-function ask(query: string): Promise<string | null> {
+async function askGitRepoQuestion(existing: SetupArgs | null): Promise<string> {
+  if (existing != null) {
+    const gitRepoUrl = await ask("Git repository URL", existing.gitRepoUrl);
+    return gitRepoUrl ?? existing.gitRepoUrl;
+  }
+
+  const gitRepoUrl = await ask("Git repository URL", null);
+  if (gitRepoUrl == null) throw new Error("Git repository URL is required.");
+  return gitRepoUrl;
+}
+
+async function askBranchQuestion(
+  existing: SetupArgs | null
+): Promise<string | null> {
+  if (existing != null) {
+    const branch = await ask("Branch", existing.branch ?? "default branch");
+    return branch ?? existing.branch;
+  }
+
+  return (await ask("Branch", "leave empty for default branch")) ?? null;
+}
+
+function ask(field: string, hint: string | null): Promise<string | null> {
   const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
   return new Promise((resolve) => {
-    rl.question(query, (answer) => {
+    const hintText = hint != null ? ` ${chalk.gray(`(${hint})`)}` : "";
+
+    rl.question(`${field}${hintText}: `, (answer) => {
       rl.close();
 
       if (answer.length === 0) {

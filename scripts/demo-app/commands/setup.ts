@@ -4,7 +4,7 @@ import { detectExistingSetupArgs } from "../setup/package-json";
 import { askSetupArgs } from "../setup/ask-setup-args";
 
 async function main() {
-  logInfo("Setting up demo app...");
+  logInfo("Hello, let's set up the demo app!");
   console.log();
 
   const existingSetupArgs = await detectExistingSetupArgs();
