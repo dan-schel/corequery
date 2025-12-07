@@ -1,11 +1,14 @@
 import { createInterface } from "readline";
 import { formatSetupArgs, SetupArgs } from "./setup-args";
+import chalk from "chalk";
 
 export async function askSetupArgs(
   existingSetup: SetupArgs | null
 ): Promise<SetupArgs> {
   if (existingSetup != null) {
-    console.log(`Found existing demo app: ${formatSetupArgs(existingSetup)}`);
+    const formattedArgs = formatSetupArgs(existingSetup);
+    console.log(chalk.cyanBright.bold("NOTICE:"));
+    console.log(`Found existing demo app: ${chalk.white.bold(formattedArgs)}`);
     console.log(
       "Continue the setup to update this local copy, otherwise press Ctrl+C to abort."
     );
@@ -13,6 +16,7 @@ export async function askSetupArgs(
   }
 
   const gitRepoUrl = await askGitRepoQuestion(existingSetup);
+  console.log();
   const branch = await askBranchQuestion(existingSetup);
 
   return {
@@ -26,8 +30,9 @@ async function askGitRepoQuestion(
   existingSetup: SetupArgs | null
 ): Promise<string> {
   if (existingSetup != null) {
+    const defaultValue = chalk.gray(`(${existingSetup.gitRepoUrl})`);
     return (
-      (await ask(`Git repository URL (${existingSetup.gitRepoUrl}): `)) ??
+      (await ask(`Git repository URL ${defaultValue}: `)) ??
       existingSetup.gitRepoUrl
     );
   }
@@ -41,13 +46,15 @@ async function askGitRepoQuestion(
 
 async function askBranchQuestion(existingSetup: SetupArgs | null) {
   if (existingSetup != null) {
-    return (
-      (await ask(`Branch (${existingSetup.branch ?? "default branch"}): `)) ??
-      existingSetup.branch
+    const defaultValue = chalk.gray(
+      `(${existingSetup.branch ?? "default branch"})`
     );
+    return (await ask(`Branch ${defaultValue}: `)) ?? existingSetup.branch;
   }
 
-  const response = await ask(`Branch (leave empty for default branch): `);
+  const response = await ask(
+    `Branch ${chalk.gray("(leave empty for default branch)")}: `
+  );
   return response;
 }
 

@@ -6,14 +6,11 @@ import path from "path";
 import { SetupArgs } from "./setup-args";
 
 export async function doSetup(args: SetupArgs) {
-  logInfo("Preparing demo-app folder...");
-  console.log();
   await prepareEmptyDemoAppFolder();
-
   await loadCodeIntoFolder(args);
+  await updatePackageJson(args);
 
   logInfo("Installing dependencies...");
-  await updatePackageJson(args);
   execSync("npm install", { cwd: DEMO_APP_PATH, stdio: "inherit" });
   console.log();
 }
@@ -35,8 +32,8 @@ async function loadCodeFromGit(gitRepoUrl: string, branch: string | null) {
   logInfo("Cloning repository...");
   console.log();
 
-  const branchArg = branch ? `-b ${branch}` : ``;
-  execSync(`git clone ${branchArg} ${gitRepoUrl} ${DEMO_APP_PATH}`, {
+  const branchArg = branch ? ` -b ${branch}` : ``;
+  execSync(`git clone${branchArg} ${gitRepoUrl} ${DEMO_APP_PATH}`, {
     stdio: "inherit",
   });
 
