@@ -1,7 +1,6 @@
 import express from "express";
 import fsp from "fs/promises";
 import path from "path";
-import { createServer } from "vite";
 import type { Corequery } from "./corequery.js";
 
 export const clientModes = ["dist-folder", "vite-middleware"] as const;
@@ -46,6 +45,12 @@ export class WebServer {
 
   private async _serveFrontendUsingViteMiddleware(server: express.Express) {
     console.log("Running with Vite middleware for hot-reloading...");
+
+    // Dynamic import, as it'll only be available when developing CoreQuery
+    // (Vite is installed as a dev dependency), and apps consuming this package
+    // don't have/need it.
+    const { createServer } = await import("vite");
+
     const vite = await createServer({
       server: { middlewareMode: true },
       root: this._getWebFolderPath(),

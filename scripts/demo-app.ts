@@ -24,7 +24,7 @@ async function setup() {
 }
 
 async function dev() {
-  logInfo("Running demo app with hot-reloading...");
+  logInfo("Running demo app (with hot-reloading)...");
 
   // Two aspects of hot-reloading:
   // - `COREQUERY_HOT_RELOAD=true` to tell the server to use the vite dev
@@ -34,7 +34,7 @@ async function dev() {
 }
 
 async function start() {
-  logInfo("Starting demo app...");
+  logInfo("Running demo app...");
   runDemoAppWithCommand("npm run start");
 }
 
