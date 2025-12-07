@@ -4,15 +4,14 @@ import path from "path";
 import { createServer } from "vite";
 import type { Corequery } from "./corequery.js";
 
-export type WebServerArgs = {
-  clientMode: "prebuilt" | "hot-reloading";
-  port: number;
-};
+export const clientModes = ["dist-folder", "vite-middleware"] as const;
+export type ClientMode = (typeof clientModes)[number];
 
 export class WebServer {
   constructor(
     private readonly _app: Corequery,
-    private readonly _args: WebServerArgs,
+    private readonly _port: number,
+    private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string
   ) {}
 
@@ -22,19 +21,19 @@ export class WebServer {
     // TODO: Implement APIs
     // server.use("/api", express.json(), createApiRouter(this._app));
 
-    if (this._args.clientMode === "prebuilt") {
-      await this._servePrebuiltFrontend(server);
+    if (this._clientMode === "dist-folder") {
+      await this._serveFrontendFromDistFolder(server);
     }
-    if (this._args.clientMode === "hot-reloading") {
-      await this._serveHotReloadingFrontend(server);
+    if (this._clientMode === "vite-middleware") {
+      await this._serveFrontendUsingViteMiddleware(server);
     }
 
-    server.listen(this._args.port, () => {
-      console.log(`Server ready (http://localhost:${this._args.port})!`);
+    server.listen(this._port, () => {
+      console.log(`Server ready (http://localhost:${this._port})!`);
     });
   }
 
-  private async _servePrebuiltFrontend(server: express.Express) {
+  private async _serveFrontendFromDistFolder(server: express.Express) {
     const indexHtmlPath = this._getWebFolderPath("dist/index.html");
     const indexHtml = await fsp.readFile(indexHtmlPath, "utf-8");
 
@@ -45,7 +44,8 @@ export class WebServer {
     });
   }
 
-  private async _serveHotReloadingFrontend(server: express.Express) {
+  private async _serveFrontendUsingViteMiddleware(server: express.Express) {
+    console.log("Running with Vite middleware for hot-reloading...");
     const vite = await createServer({
       server: { middlewareMode: true },
       root: this._getWebFolderPath(),

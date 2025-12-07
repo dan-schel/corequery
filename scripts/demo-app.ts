@@ -23,7 +23,10 @@ async function setup() {
 
 async function dev() {
   console.log("Running demo app with hot-reloading...");
-  execSync("npm run dev", { cwd: DEMO_APP_PATH, stdio: "inherit" });
+  execSync("COREQUERY_HOT_RELOAD=true npm run dev", {
+    cwd: DEMO_APP_PATH,
+    stdio: "inherit",
+  });
 }
 
 async function start() {

@@ -15,7 +15,8 @@
     "start": "tsx scripts/demo-app.ts start"
   },
   "dependencies": {
-    "express": "5.2.1"
+    "express": "5.2.1",
+    "zod": "4.1.13"
   },
   "devDependencies": {
     "@preact/preset-vite": "2.10.2",
