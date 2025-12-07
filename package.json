@@ -10,9 +10,9 @@
   "types": "./server/dist/server/index.d.ts",
   "scripts": {
     "build": "tsc -p server/tsconfig.json && vite build web",
-    "setup": "tsx scripts/demo-app.ts setup",
-    "dev": "tsx scripts/demo-app.ts dev",
-    "start": "tsx scripts/demo-app.ts start"
+    "setup": "scripts/setup",
+    "dev": "scripts/dev",
+    "start": "scripts/start"
   },
   "dependencies": {
     "express": "5.2.1",
