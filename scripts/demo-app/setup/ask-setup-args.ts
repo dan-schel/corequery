@@ -26,7 +26,7 @@ function showExistingSetupNotice(existingSetup: SetupArgs) {
   console.log(chalk.cyanBright.bold("Notice:"));
   console.log(`Found existing demo app: ${chalk.white.bold(formattedArgs)}`);
   console.log(
-    "Continue the setup to update this local copy, otherwise press Ctrl+C to abort."
+    "If you'd like to update this local copy, continue the setup, otherwise press Ctrl+C to abort."
   );
 
   console.log();

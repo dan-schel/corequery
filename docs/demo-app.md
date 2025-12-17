@@ -82,7 +82,7 @@ corequery
 └─ (...)
 ```
 
-When setting up the demo app, we modify `demo-app/package.json` to point `corequery` to the upper directory (`file:../`), which causes NPM to create a symlink at `demo-app/node_modules/corequery`. While that means `demo-app/node_modules/corequery` contains the raw source code for CoreQuery (exactly as it appears in this repository), the prior `npm run build` (in the CoreQuery project) means that the built code is also ready at `demo-app/node_modules/corequery/server/dist` and `demo-app/node_modules/corequery/web/dist`, and therefore the demo app runs normally (from the built code) from its perspective. We change into the `demo-app` directory and run its `npm run start` script.
+When setting up the demo app, we modify `demo-app/package.json` to point `corequery` to the upper directory (`file:../`), which causes NPM to create a symlink at `demo-app/node_modules/corequery`. While that means `demo-app/node_modules/corequery` contains the raw source code for CoreQuery (exactly as it appears in this repository), the prior `npm run build` (in the CoreQuery project) means that the built code is also ready at `demo-app/node_modules/corequery/server/dist` and `demo-app/node_modules/corequery/web/dist`, and therefore the demo app runs normally (from the built code) from its perspective. We change into the `demo-app` directory and run the script specified in `corequeryDemoApp.scripts.start` in `demo-app/package.json` (usually `npm run start`).
 
 ### Option 4 - A developer in this repo runs it with hot-reloading enabled, in the context of a demo app.
 
@@ -90,7 +90,7 @@ This is the most common situation when developing CoreQuery itself.
 
 Just like Option 3, we have the demo app with a symlink at `demo-app/node_modules/corequery` pointing to the upper directory (the CoreQuery repo), but there are two key differences:
 
-1. We run the demo app's `npm run dev` script instead of `npm run start`. The demo app will likely be configured to hot-reload its server code if `npm run dev` is used.
+1. We run the demo app's `corequeryDemoApp.scripts.dev` script instead of `corequeryDemoApp.scripts.start`. The demo app will likely configure this to point to a script that hot-reloads it's (server) code.
 
 2. We set the `COREQUERY_HOT_RELOAD` environment variable to `true` before starting the demo app. CoreQuery is configured to look out for this variable, and if seen, it uses the Vite middleware to serve the frontend code instead of serving the static files from `web/dist`. This means that any changes made to CoreQuery's frontend code (in the `web` folder) are hot-reloaded live in the demo app environment.
 

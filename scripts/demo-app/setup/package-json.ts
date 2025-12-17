@@ -27,7 +27,10 @@ export async function updatePackageJson(args: SetupArgs) {
       ...originalJson.dependencies,
       corequery: "file:../",
     },
-    corequeryDemoApp: args,
+    corequeryDemoApp: {
+      ...(originalJson.corequeryDemoApp ?? {}),
+      setup: args,
+    },
   };
 
   const newStr = JSON.stringify(newJson, null, 2);
@@ -39,11 +42,11 @@ export async function detectExistingSetupArgs(): Promise<SetupArgs | null> {
   if (packageJson == null) return null;
 
   const schema = z.object({
-    corequeryDemoApp: setupArgsSchema,
+    corequeryDemoApp: z.object({ setup: setupArgsSchema }),
   });
 
   const result = schema.safeParse(packageJson);
   if (!result.success) return null;
 
-  return result.data.corequeryDemoApp;
+  return result.data.corequeryDemoApp.setup;
 }
