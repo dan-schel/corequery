@@ -4,7 +4,6 @@
 
 To prove it works:
 
-- Hot reloading server code
 - Some mechanism to inject stuff into the built Vite project (i.e. the app name and favicons into PWA manifest, etc.)
 
 For the real deal:
