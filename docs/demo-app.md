@@ -105,3 +105,5 @@ The reason an enviroment variable is used (over configuration passed into the `C
 ### Why do we need to modify files in `web/dist` before starting the server?
 
 The `web/dist` folder contains all the static code served as the frontend. CoreQuery is not server-rendered. Assets like the PWA manifest and favicons are built into the `web/dist` folder when Vite builds the frontend, but we still want the end-consumer of the package to be able to customize the app name and icons. Therefore, before we start serving the `node_modules/corequery/web/dist` folder in the consumer repo, we need to swap out and modify certain files within that folder based on the consumer's configuration. This is one of the many things `Corequery#start()` does when it's called, before launching the web server.
+
+The alternative would be to compile the frontend with Vite inside the consumer project, but that would result in slower build times, having to install Vite (and several other devDependencies) as a dependency, and have to include the full source code of the frontend in the NPM package.
