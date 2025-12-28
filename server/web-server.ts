@@ -2,17 +2,37 @@ import express from "express";
 import fsp from "fs/promises";
 import path from "path";
 import type { Corequery } from "./corequery.js";
+import {
+  WebServerAssetPreparer,
+  type AssetConfig,
+} from "./web-server-asset-preparer.js";
 
 export const clientModes = ["dist-folder", "vite-middleware"] as const;
 export type ClientMode = (typeof clientModes)[number];
 
 export class WebServer {
+  private readonly _assetPreparer: WebServerAssetPreparer;
+
   constructor(
     private readonly _app: Corequery,
     private readonly _port: number,
+    private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string
-  ) {}
+  ) {
+    this._assetPreparer = new WebServerAssetPreparer(_assetConfig);
+  }
+
+  async prepareAssets() {
+    if (this._clientMode === "dist-folder") {
+      await this._assetPreparer.prepareDistFolder();
+    }
+
+    // It's hard to think of a way to reasonably replace the assets in
+    // middleware mode, as you'd be replacing the source assets. It's only a
+    // "nice to have" anyway, using the CoreQuery assets during demo-app
+    // development is perfectly acceptable.
+  }
 
   async start() {
     const server = express();
