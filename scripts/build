@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -euo pipefail
+tsc -p server/tsconfig.json
+tsc -p scripts/generate-pwa-assets/tsconfig.json
+vite build web

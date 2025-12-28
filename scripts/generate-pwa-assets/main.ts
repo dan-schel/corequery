@@ -23,7 +23,7 @@ const whiteCircleSvg = `
   </svg>
 `;
 
-async function main() {
+export async function main() {
   const faviconSvg = await fsp.readFile(faviconSvgPath, "utf-8");
 
   const appleTouchIcon = {
@@ -105,5 +105,3 @@ async function createIcon({
     .png()
     .toFile(path.join(outputDir, name));
 }
-
-main();

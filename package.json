@@ -4,12 +4,16 @@
   "type": "module",
   "files": [
     "server/dist",
-    "web/dist"
+    "web/dist",
+    "scripts/generate-pwa-assets/dist"
   ],
   "exports": "./server/dist/server/index.js",
   "types": "./server/dist/server/index.d.ts",
+  "bin": {
+    "corequery-generate-assets": "./scripts/generate-pwa-assets/bin"
+  },
   "scripts": {
-    "build": "tsc -p server/tsconfig.json && vite build web",
+    "build": "scripts/build",
     "setup": "scripts/setup",
     "dev": "scripts/dev",
     "start": "scripts/start"
