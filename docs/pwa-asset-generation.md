@@ -16,4 +16,4 @@ https://favicon.inbrowser.app/tools/favicon-generator
 
 ### `"purpose": "maskable"`
 
-- Margin: 40
+- Margin: 42
