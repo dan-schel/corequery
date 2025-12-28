@@ -25,7 +25,8 @@ export class WebServer {
 
   async prepareAssets() {
     if (this._clientMode === "dist-folder") {
-      await this._assetPreparer.prepareDistFolder();
+      const distFolderPath = this._getWebFolderPath("dist");
+      await this._assetPreparer.prepareDistFolder(distFolderPath);
     }
 
     // It's hard to think of a way to reasonably replace the assets in

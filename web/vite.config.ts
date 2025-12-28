@@ -8,10 +8,15 @@ export default defineConfig({
     preact(),
     VitePWA({
       manifest: {
-        name: "CoreQuery",
+        // When running in production, before the server starts it replaces the
+        // manifest.webmanifest file to overwrite these values. These values are
+        // only seen when a demo app is running within this repo, in dev mode.
+        name: "CoreQuery Demo App",
         short_name: "CoreQuery",
-        description:
-          "A platform for building web apps serving transit information.",
+        description: "This is a CoreQuery demo app.",
+
+        // The values below remain as they are, although the images at the
+        // specified paths are replaced.
         theme_color: "#242933",
         background_color: "#242933",
         icons: [

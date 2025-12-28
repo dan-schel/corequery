@@ -1,3 +1,7 @@
+import path from "path";
+import fsp from "fs/promises";
+import { parse } from "node-html-parser";
+
 export type AssetConfig = {
   readonly appName: string;
   readonly shortAppName: string;
@@ -14,7 +18,7 @@ export type AssetConfig = {
 export class WebServerAssetPreparer {
   constructor(private readonly _config: AssetConfig) {}
 
-  async prepareDistFolder() {
+  async prepareDistFolder(distFolderPath: string) {
     // Things to replace:
     //
     // - web/dist/index.html
@@ -37,5 +41,42 @@ export class WebServerAssetPreparer {
     // - web/dist/pwa-maskable-192x192.png
     //
     // - web/dist/pwa-maskable-512x512.png
+
+    const indexHtmlPath = path.join(distFolderPath, "index.html");
+    const webManifestPath = path.join(distFolderPath, "manifest.webmanifest");
+
+    await this._replaceIndexHtmlTags(indexHtmlPath);
+    await this._replaceWebManifest(webManifestPath);
+  }
+
+  private async _replaceWebManifest(filePath: string) {
+    const manifestStr = await fsp.readFile(filePath, "utf-8");
+    const manifestJson = JSON.parse(manifestStr);
+
+    const newManifestJson = {
+      ...manifestJson,
+      name: this._config.appName,
+      short_name: this._config.shortAppName,
+      description: this._config.description,
+    };
+
+    const newManifestStr = JSON.stringify(newManifestJson);
+    await fsp.writeFile(filePath, newManifestStr);
+  }
+
+  private async _replaceIndexHtmlTags(filePath: string) {
+    const indexHtmlStr = await fsp.readFile(filePath, "utf-8");
+    const indexHtml = parse(indexHtmlStr);
+
+    const titleTag = indexHtml.querySelector("title");
+    if (titleTag == null) throw new Error("Title tag not found.");
+    titleTag.set_content(this._config.appName);
+
+    const descriptionTag = indexHtml.querySelector('meta[name="description"]');
+    if (descriptionTag == null) throw new Error("Description tag not found.");
+    descriptionTag.setAttribute("content", this._config.description);
+
+    const newIndexHtmlStr = indexHtml.toString();
+    await fsp.writeFile(filePath, newIndexHtmlStr);
   }
 }
