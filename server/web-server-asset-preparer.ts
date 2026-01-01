@@ -77,10 +77,12 @@ export class WebServerAssetPreparer {
 
     const titleTag = requireTag("title");
     const descriptionTag = requireTag('meta[name="description"]');
+    const appNameTag = requireTag('meta[name="corequery-app-name"]');
     const versionTag = requireTag('meta[name="corequery-frontend-version"]');
 
     titleTag.textContent = this._config.appName;
     descriptionTag.setAttribute("content", this._config.description);
+    appNameTag.setAttribute("content", this._config.appName);
     versionTag.setAttribute("content", this._config.version);
 
     const newIndexHtmlStr = indexHtml.toString();

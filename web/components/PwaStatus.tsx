@@ -2,6 +2,8 @@ import { useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
 
 export function PwaStatus() {
+  // TODO: Move this into a StaticDataProvider/useStaticData react context,
+  // along with fetching `corequery-app-name`.
   const frontendVersion = useMemo(
     () =>
       document
