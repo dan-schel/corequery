@@ -80,9 +80,6 @@ export class WebServer {
   }
 
   private _getWebFolderPath(innerPath: string = "") {
-    // TODO: This assumes we're running in <folder>/server/dist/server, and so
-    // need three hops to find the web/ folder. Is it still true if we're
-    // hot-reloading the server code?
     return path.resolve(
       path.resolve(this._serverFolderPath, "../../../web"),
       innerPath
