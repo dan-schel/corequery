@@ -6,6 +6,7 @@ export type AssetConfig = {
   readonly appName: string;
   readonly shortAppName: string;
   readonly description: string;
+  readonly version: string;
 
   readonly faviconSvgPath: string;
   readonly appleTouchIconPngPath: string;
@@ -68,13 +69,19 @@ export class WebServerAssetPreparer {
     const indexHtmlStr = await fsp.readFile(filePath, "utf-8");
     const indexHtml = parse(indexHtmlStr);
 
-    const titleTag = indexHtml.querySelector("title");
-    if (titleTag == null) throw new Error("Title tag not found.");
-    titleTag.set_content(this._config.appName);
+    const requireTag = (selector: string) => {
+      const tag = indexHtml.querySelector(selector);
+      if (tag == null) throw new Error(`${selector}" tag not found.`);
+      return tag;
+    };
 
-    const descriptionTag = indexHtml.querySelector('meta[name="description"]');
-    if (descriptionTag == null) throw new Error("Description tag not found.");
+    const titleTag = requireTag("title");
+    const descriptionTag = requireTag('meta[name="description"]');
+    const versionTag = requireTag('meta[name="corequery-frontend-version"]');
+
+    titleTag.textContent = this._config.appName;
     descriptionTag.setAttribute("content", this._config.description);
+    versionTag.setAttribute("content", this._config.version);
 
     const newIndexHtmlStr = indexHtml.toString();
     await fsp.writeFile(filePath, newIndexHtmlStr);
