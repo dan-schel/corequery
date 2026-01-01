@@ -8,10 +8,10 @@ To prove it works:
 
 For the real deal:
 
+- Setup TailwindCSS
 - Setup linting with ESLint and TSC
-- Setup Prisma, and check it can easily swap between PostgreSQL and SQLite.
+- Setup TypeORM, and check it can easily swap between PostgreSQL and SQLite.
 - Setup Prettier
 - Setup unit tests
 - Setup renovate
 - Setup CI
-- Setup PWA properly
