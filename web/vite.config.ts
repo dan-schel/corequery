@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [
     preact(),
     VitePWA({
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,png,svg}"],
+      },
       manifest: {
         // When running in production, before the server starts it replaces the
         // manifest.webmanifest file to overwrite these values. These values are

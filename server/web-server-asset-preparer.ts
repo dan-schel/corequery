@@ -1,6 +1,7 @@
 import path from "path";
 import fsp from "fs/promises";
 import { parse } from "node-html-parser";
+import crypto from "crypto";
 
 export type AssetConfig = {
   readonly appName: string;
@@ -26,6 +27,10 @@ export class WebServerAssetPreparer {
     await this._replaceIndexHtmlTags(indexHtmlPath);
     await this._replaceWebManifest(webManifestPath);
     await this._replaceIcons(distFolderPath);
+
+    // Must come last, otherwise we'll calculate hashes before the file contents
+    // are swapped.
+    await this._replaceServiceWorkerRevisionHashes(distFolderPath);
   }
 
   private async _replaceWebManifest(filePath: string) {
@@ -49,7 +54,7 @@ export class WebServerAssetPreparer {
 
     function requireTag(selector: string) {
       const tag = indexHtml.querySelector(selector);
-      if (tag == null) throw new Error(`${selector}" tag not found.`);
+      if (tag == null) throw new Error(`"${selector}" tag not found.`);
       return tag;
     }
 
@@ -81,5 +86,50 @@ export class WebServerAssetPreparer {
       const destPath = path.join(distFolderPath, fileName);
       await fsp.copyFile(sourcePath, destPath);
     }
+  }
+
+  private async _replaceServiceWorkerRevisionHashes(distFolderPath: string) {
+    const serviceWorkerPath = path.join(distFolderPath, "sw.js");
+    const serviceWorkerStr = await fsp.readFile(serviceWorkerPath, "utf-8");
+
+    // Any files this class modifies should be listed here.
+    const filesRequiringRevisionUpdates = [
+      "index.html",
+      "manifest.webmanifest",
+      "favicon.svg",
+      "apple-touch-icon.png",
+      "pwa-192x192.png",
+      "pwa-512x512.png",
+      "pwa-maskable-192x192.png",
+      "pwa-maskable-512x512.png",
+    ];
+
+    const matches = Array.from(
+      serviceWorkerStr.matchAll(/{url:"([^"]+)",revision:"[^"]+"}/g)
+    ).map((match) => ({
+      fullText: match[0],
+      url: match[1],
+    }));
+
+    let newServiceWorkerStr = serviceWorkerStr;
+
+    for (const file of filesRequiringRevisionUpdates) {
+      // Filter, as some assets (e.g. pwa-192x192.png) are in there twice.
+      const entries = matches.filter((m) => m.url === file);
+      if (entries.length === 0) throw new Error(`"${file}" had no revisions.`);
+
+      const fullFilePath = path.join(distFolderPath, file);
+      const fileContent = await fsp.readFile(fullFilePath);
+      const hash = crypto.createHash("md5").update(fileContent).digest("hex");
+
+      for (const entry of entries) {
+        newServiceWorkerStr = newServiceWorkerStr.replace(
+          entry.fullText,
+          `{url:"${entry.url}",revision:"${hash}"}`
+        );
+      }
+    }
+
+    await fsp.writeFile(serviceWorkerPath, newServiceWorkerStr);
   }
 }
