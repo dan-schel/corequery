@@ -69,11 +69,11 @@ export class WebServerAssetPreparer {
     const indexHtmlStr = await fsp.readFile(filePath, "utf-8");
     const indexHtml = parse(indexHtmlStr);
 
-    const requireTag = (selector: string) => {
+    function requireTag(selector: string) {
       const tag = indexHtml.querySelector(selector);
       if (tag == null) throw new Error(`${selector}" tag not found.`);
       return tag;
-    };
+    }
 
     const titleTag = requireTag("title");
     const descriptionTag = requireTag('meta[name="description"]');

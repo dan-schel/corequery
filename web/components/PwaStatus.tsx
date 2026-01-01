@@ -1,16 +1,9 @@
 import { useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
+import { useStaticData } from "../data/static-data";
 
 export function PwaStatus() {
-  // TODO: Move this into a StaticDataProvider/useStaticData react context,
-  // along with fetching `corequery-app-name`.
-  const frontendVersion = useMemo(
-    () =>
-      document
-        .querySelector('meta[name="corequery-frontend-version"]')
-        ?.getAttribute("content") ?? "unknown",
-    []
-  );
+  const { frontendVersion } = useStaticData();
 
   return (
     <div>
