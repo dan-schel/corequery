@@ -104,6 +104,10 @@ export class WebServerAssetPreparer {
       "pwa-maskable-512x512.png",
     ];
 
+    // TODO: This regex is fragile. I should write a test of some sort which
+    // runs Vite to build the service worker and ensures this regex finds all
+    // the files listed above. Otherwise, an update to the Vite PWA plugin could
+    // cause consumers to fail on startup.
     const matches = Array.from(
       serviceWorkerStr.matchAll(/{url:"([^"]+)",revision:"[^"]+"}/g)
     ).map((match) => ({
