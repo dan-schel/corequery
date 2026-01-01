@@ -1,7 +1,25 @@
 import { useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
 
-export function ReloadPrompt() {
+export function PwaStatus() {
+  const frontendVersion = useMemo(
+    () =>
+      document
+        .querySelector('meta[name="corequery-frontend-version"]')
+        ?.getAttribute("content") ?? "unknown",
+    []
+  );
+
+  return (
+    <div>
+      <span>PWA version: {frontendVersion}</span>
+      <br />
+      <StatusMessageAndReloadPrompt />
+    </div>
+  );
+}
+
+function StatusMessageAndReloadPrompt() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [offlineReady, setOfflineReady] = useState(false);
 
@@ -19,29 +37,17 @@ export function ReloadPrompt() {
   }
 
   if (updateAvailable) {
-    return <NeedsRefreshMessage onReloadClick={handleUpdateClick} />;
+    return (
+      <>
+        <span>Update available</span>
+        <button onClick={handleUpdateClick}>Update</button>
+      </>
+    );
   }
 
   if (offlineReady) {
-    return <OfflineReadyMessage />;
+    return <span>App ready to work offline</span>;
   }
 
-  return <NothingToReportMessage />;
-}
-
-function OfflineReadyMessage() {
-  return <span>PWA: App ready to work offline</span>;
-}
-
-function NeedsRefreshMessage({ onReloadClick }: { onReloadClick: () => void }) {
-  return (
-    <div>
-      <span>PWA: Update available</span>
-      <button onClick={onReloadClick}>Update</button>
-    </div>
-  );
-}
-
-function NothingToReportMessage() {
-  return <span>PWA: Nothing to report!</span>;
+  return <span>Nothing to report!</span>;
 }
