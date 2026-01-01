@@ -7,7 +7,7 @@ export function PwaStatus() {
 
   return (
     <div>
-      <span>PWA version: {frontendVersion}</span>
+      <span>Version: {frontendVersion}</span>
       <br />
       <StatusMessageAndReloadPrompt />
     </div>
