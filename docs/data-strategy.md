@@ -28,6 +28,8 @@ This data is fetched from the server when the app first loads, and the app isn't
 
 The idea is to enable a user browsing on a flaky connection (or entirely offline) to navigate around the site (searching stop/line names, etc.) without issue, and only need to rely on the server to supply live data. It helps apps powered by CoreQuery work in an "offline-first" manner.
 
+The size of the foundational data is not really a concern (within reason of course) because it only needs to be downloaded once by the user each time it changes, and it won't ever slow down navigation (except the initial load).
+
 ### Force update mechanism
 
 To avoid potential data inconsistencies between the foundational data and live data, foundational data includes a `hash` field which is always included in the request for any live data. If the server has newer foundational data to serve when a live data query is made, the server will include the latest version of the foundational data in its response. Whenever this happens, the frontend caches the new foundational data immediately before attempting to process the live data response.
@@ -57,4 +59,4 @@ The reason this is done _at all_ is that:
 - we show the app name on the splash screen before the foundational data is loaded, and it can't be updated dynamically anyway since it's hardcoded in the PWA manifest
 - the frontend version is by design meant to the tied to the precached frontend code to aid debugging, and therefore also shouldn't be dynamic
 
-Anything added to the static data needs a similarly strong justification.
+Anything added to the static data needs a similarly strong justification. For example, the app description (shown on the landing page) _doesn't_ need to be static data, because it's not part of the splash screen, and so can live in the foundational data instead.
