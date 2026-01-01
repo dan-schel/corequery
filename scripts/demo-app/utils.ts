@@ -3,7 +3,7 @@ import chalk from "chalk";
 
 export const DEMO_APP_PATH = "./demo-app";
 
-export function logInfo(...message: any[]) {
+export function logInfo(...message: unknown[]) {
   console.log(chalk.bgMagenta(" Demo App Runner "), ...message);
 }
 

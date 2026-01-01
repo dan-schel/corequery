@@ -1,9 +1,9 @@
-import { DEMO_APP_PATH, logInfo } from "../utils";
+import { DEMO_APP_PATH, logInfo } from "../utils.js";
 import fsp from "fs/promises";
 import { execSync } from "child_process";
-import { updatePackageJson } from "./package-json";
+import { updatePackageJson } from "./package-json.js";
 import path from "path";
-import { SetupArgs } from "./setup-args";
+import { type SetupArgs } from "./setup-args.js";
 
 export async function doSetup(args: SetupArgs) {
   await prepareEmptyDemoAppFolder();
@@ -24,7 +24,7 @@ async function loadCodeIntoFolder(args: SetupArgs) {
   if (args.source === "git") {
     await loadCodeFromGit(args.gitRepoUrl, args.branch);
   } else {
-    throw new Error(`Unknown setup source: ${(args as any).source}`);
+    throw new Error(`Unknown setup source: ${args.source}`);
   }
 }
 

@@ -19,7 +19,7 @@
     "start": "scripts/start",
     "test": "vitest --run",
     "test-coverage": "vitest --run --coverage",
-    "lint": "eslint . --max-warnings 0 && tsc -p server/tsconfig.json --noEmit && tsc -p web/tsconfig.json --noEmit",
+    "lint": "scripts/lint",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "bump-check": "bump-check --ignore \"^renovate\\/\""

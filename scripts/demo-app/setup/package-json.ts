@@ -1,8 +1,8 @@
 import path from "path";
-import { DEMO_APP_PATH } from "../utils";
+import { DEMO_APP_PATH } from "../utils.js";
 import fsp from "fs/promises";
 import z from "zod";
-import { SetupArgs, setupArgsSchema } from "./setup-args";
+import { type SetupArgs, setupArgsSchema } from "./setup-args.js";
 
 const PACKAGE_JSON_PATH = path.join(DEMO_APP_PATH, "package.json");
 
