@@ -3,7 +3,7 @@ import { formatSetupArgs, SetupArgs } from "./setup-args";
 import chalk from "chalk";
 
 export async function askSetupArgs(
-  existingSetup: SetupArgs | null
+  existingSetup: SetupArgs | null,
 ): Promise<SetupArgs> {
   if (existingSetup != null) {
     showExistingSetupNotice(existingSetup);
@@ -26,7 +26,7 @@ function showExistingSetupNotice(existingSetup: SetupArgs) {
   console.log(chalk.cyanBright.bold("Notice:"));
   console.log(`Found existing demo app: ${chalk.white.bold(formattedArgs)}`);
   console.log(
-    "If you'd like to update this local copy, continue the setup, otherwise press Ctrl+C to abort."
+    "If you'd like to update this local copy, continue the setup, otherwise press Ctrl+C to abort.",
   );
 
   console.log();
@@ -44,7 +44,7 @@ async function askGitRepoQuestion(existing: SetupArgs | null): Promise<string> {
 }
 
 async function askBranchQuestion(
-  existing: SetupArgs | null
+  existing: SetupArgs | null,
 ): Promise<string | null> {
   if (existing != null) {
     const branch = await ask("Branch", existing.branch ?? "default branch");

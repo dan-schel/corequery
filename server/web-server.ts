@@ -18,7 +18,7 @@ export class WebServer {
     private readonly _port: number,
     private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,
-    private readonly _serverFolderPath: string
+    private readonly _serverFolderPath: string,
   ) {
     this._assetPreparer = new WebServerAssetPreparer(_assetConfig);
   }
@@ -82,7 +82,7 @@ export class WebServer {
   private _getWebFolderPath(innerPath: string = "") {
     return path.resolve(
       path.resolve(this._serverFolderPath, "../../../web"),
-      innerPath
+      innerPath,
     );
   }
 }

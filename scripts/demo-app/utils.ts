@@ -27,13 +27,13 @@ export function runDemoAppWithCommand(command: string) {
 
 export function notifyOfMissingDemoAppConfiguration(script: "dev" | "start") {
   console.log(
-    `❌ The demo-app's package.json does not specify a ${script} script.`
+    `❌ The demo-app's package.json does not specify a ${script} script.`,
   );
   console.log();
   console.log(
     `Please add a ${chalk.cyan(
-      "corequeryDemoApp"
-    )} field to the package.json like so:`
+      "corequeryDemoApp",
+    )} field to the package.json like so:`,
   );
   console.log();
 
@@ -52,6 +52,6 @@ export function notifyOfMissingDemoAppConfiguration(script: "dev" | "start") {
       "start": "start"
     }
   }
-}`)
+}`),
   );
 }

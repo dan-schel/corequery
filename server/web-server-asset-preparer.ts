@@ -110,7 +110,7 @@ export class WebServerAssetPreparer {
     // cause consumers to fail on startup. (And I should probably have similar
     // tests for everything else in this class too!)
     const matches = Array.from(
-      serviceWorkerStr.matchAll(/{url:"([^"]+)",revision:"[^"]+"}/g)
+      serviceWorkerStr.matchAll(/{url:"([^"]+)",revision:"[^"]+"}/g),
     ).map((match) => ({
       fullText: match[0],
       url: match[1],
@@ -130,7 +130,7 @@ export class WebServerAssetPreparer {
       for (const entry of entries) {
         newServiceWorkerStr = newServiceWorkerStr.replace(
           entry.fullText,
-          `{url:"${entry.url}",revision:"${hash}"}`
+          `{url:"${entry.url}",revision:"${hash}"}`,
         );
       }
     }

@@ -21,7 +21,7 @@ export class Corequery {
     console.log(
       "Corequery config:",
       this._config,
-      env.COREQUERY_HOT_RELOAD ? "vite-middleware" : "dist-folder"
+      env.COREQUERY_HOT_RELOAD ? "vite-middleware" : "dist-folder",
     );
 
     this._webServer = new WebServer(
@@ -29,7 +29,7 @@ export class Corequery {
       this._config.port,
       this._config.assets,
       env.COREQUERY_HOT_RELOAD ? "vite-middleware" : "dist-folder",
-      serverFolderPath
+      serverFolderPath,
     );
   }
 
