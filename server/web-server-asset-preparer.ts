@@ -20,34 +20,12 @@ export class WebServerAssetPreparer {
   constructor(private readonly _config: AssetConfig) {}
 
   async prepareDistFolder(distFolderPath: string) {
-    // Things to replace:
-    //
-    // - web/dist/index.html
-    //   - <title>
-    //   - <meta name="description">
-    //
-    // - web/dist/manifest.webmanifest
-    //   - "name"
-    //   - "short_name"
-    //   - "description"
-    //
-    // - web/dist/favicon.svg
-    //
-    // - web/dist/apple-touch-icon.png
-    //
-    // - web/dist/pwa-192x192.png
-    //
-    // - web/dist/pwa-512x512.png
-    //
-    // - web/dist/pwa-maskable-192x192.png
-    //
-    // - web/dist/pwa-maskable-512x512.png
-
     const indexHtmlPath = path.join(distFolderPath, "index.html");
     const webManifestPath = path.join(distFolderPath, "manifest.webmanifest");
 
     await this._replaceIndexHtmlTags(indexHtmlPath);
     await this._replaceWebManifest(webManifestPath);
+    await this._replaceIcons(distFolderPath);
   }
 
   private async _replaceWebManifest(filePath: string) {
@@ -87,5 +65,21 @@ export class WebServerAssetPreparer {
 
     const newIndexHtmlStr = indexHtml.toString();
     await fsp.writeFile(filePath, newIndexHtmlStr);
+  }
+
+  private async _replaceIcons(distFolderPath: string) {
+    const mapping = {
+      "favicon.svg": this._config.faviconSvgPath,
+      "apple-touch-icon.png": this._config.appleTouchIconPngPath,
+      "pwa-192x192.png": this._config.pwa192PngPath,
+      "pwa-512x512.png": this._config.pwa512PngPath,
+      "pwa-maskable-192x192.png": this._config.pwaMaskable192PngPath,
+      "pwa-maskable-512x512.png": this._config.pwaMaskable512PngPath,
+    };
+
+    for (const [fileName, sourcePath] of Object.entries(mapping)) {
+      const destPath = path.join(distFolderPath, fileName);
+      await fsp.copyFile(sourcePath, destPath);
+    }
   }
 }
