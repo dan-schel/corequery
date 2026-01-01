@@ -1,0 +1,7 @@
+/node_modules/
+/local/
+/server/dist/
+/web/dist/
+/demo-app/
+/scripts/generate-pwa-assets/dist/
+/coverage/
