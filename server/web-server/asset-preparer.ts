@@ -18,19 +18,47 @@ export type AssetConfig = {
 };
 
 export class AssetPreparer {
-  constructor(private readonly _config: AssetConfig) {}
+  private static readonly ALL_MODIFIED_FILES = [
+    IndexHtmlPreparer.FILE_PATH,
+    WebManifestPreparer.FILE_PATH,
+    ...IconPreparer.FILE_PATHS,
+  ];
 
-  async prepareDistFolder(distFolderPath: string) {
-    await new IndexHtmlPreparer(distFolderPath, this._config).run();
-    await new WebManifestPreparer(distFolderPath, this._config).run();
-    await new IconPreparer(distFolderPath, this._config).run();
+  private readonly _indexHtmlPreparer: IndexHtmlPreparer;
+  private readonly _webManifestPreparer: WebManifestPreparer;
+  private readonly _iconPreparer: IconPreparer;
+  private readonly _serviceWorkerPreparer: ServiceWorkerPreparer;
 
-    // Must come last, otherwise we'll calculate hashes before the file contents
-    // are swapped.
-    await new ServiceWorkerPreparer(distFolderPath, [
-      IndexHtmlPreparer.FILE_PATH,
-      WebManifestPreparer.FILE_PATH,
-      ...IconPreparer.FILE_PATHS,
-    ]).run();
+  constructor(
+    private readonly _distFolderPath: string,
+    private readonly _config: AssetConfig,
+  ) {
+    this._indexHtmlPreparer = new IndexHtmlPreparer(
+      this._distFolderPath,
+      this._config,
+    );
+    this._webManifestPreparer = new WebManifestPreparer(
+      this._distFolderPath,
+      this._config,
+    );
+    this._iconPreparer = new IconPreparer(this._distFolderPath, this._config);
+    this._serviceWorkerPreparer = new ServiceWorkerPreparer(
+      this._distFolderPath,
+      AssetPreparer.ALL_MODIFIED_FILES,
+    );
+  }
+
+  async run() {
+    await this._indexHtmlPreparer.run();
+    await this._webManifestPreparer.run();
+    await this._iconPreparer.run();
+    await this._serviceWorkerPreparer.run();
+  }
+
+  async validateDistFolder() {
+    await this._indexHtmlPreparer.validate();
+    await this._webManifestPreparer.validate();
+    await this._iconPreparer.validate();
+    await this._serviceWorkerPreparer.validate();
   }
 }

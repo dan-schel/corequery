@@ -18,10 +18,10 @@ export class IndexHtmlPreparer {
   ) {}
 
   async run() {
-    await fsp.writeFile(this._fullFilePath(), await this.replacedContent());
+    await fsp.writeFile(this._fullFilePath(), await this.getReplacedContent());
   }
 
-  async replacedContent() {
+  async getReplacedContent() {
     const tags = await this._readTags();
 
     tags.title.textContent = this._config.appName;

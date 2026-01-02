@@ -1,0 +1,18 @@
+import { describe, expect, it } from "vitest";
+import { WebManifestPreparer } from "../../../server/web-server/web-manifest-preparer.js";
+
+describe("WebManifestPreparer", () => {
+  it("expects the format of the currently built Vite project", async () => {
+    const preparer = new WebManifestPreparer("web/dist", {
+      appName: "Corequery Test App",
+      shortAppName: "CorequeryTest",
+      description: "A test app for Corequery",
+    });
+
+    const newContent = await preparer.getReplacedContent();
+
+    expect(newContent).toContain(`"name":"Corequery Test App"`);
+    expect(newContent).toContain(`"short_name":"CorequeryTest"`);
+    expect(newContent).toContain(`"description":"A test app for Corequery"`);
+  });
+});

@@ -17,10 +17,10 @@ export class WebManifestPreparer {
   ) {}
 
   async run() {
-    await fsp.writeFile(this._fullFilePath(), await this.replacedContent());
+    await fsp.writeFile(this._fullFilePath(), await this.getReplacedContent());
   }
 
-  async replacedContent() {
+  async getReplacedContent() {
     const manifest = await this._readManifestJson();
 
     const newManifest = {

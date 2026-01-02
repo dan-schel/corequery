@@ -8,22 +8,18 @@ export const clientModes = ["dist-folder", "vite-middleware"] as const;
 export type ClientMode = (typeof clientModes)[number];
 
 export class WebServer {
-  private readonly _assetPreparer: AssetPreparer;
-
   constructor(
     private readonly _app: Corequery,
     private readonly _port: number,
     private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string,
-  ) {
-    this._assetPreparer = new AssetPreparer(_assetConfig);
-  }
+  ) {}
 
   async prepareAssets() {
     if (this._clientMode === "dist-folder") {
       const distFolderPath = this._getWebFolderPath("dist");
-      await this._assetPreparer.prepareDistFolder(distFolderPath);
+      await new AssetPreparer(distFolderPath, this._assetConfig).run();
     }
 
     // It's hard to think of a way to reasonably replace the assets in

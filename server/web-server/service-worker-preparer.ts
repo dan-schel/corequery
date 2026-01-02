@@ -11,10 +11,10 @@ export class ServiceWorkerPreparer {
   ) {}
 
   async run() {
-    await fsp.writeFile(this._fullFilePath(), await this.replacedContent());
+    await fsp.writeFile(this._fullFilePath(), await this.getReplacedContent());
   }
 
-  async replacedContent() {
+  async getReplacedContent() {
     const { serviceWorkerStr, substringsPerFile } =
       await this._getSubstringsToReplace();
 
