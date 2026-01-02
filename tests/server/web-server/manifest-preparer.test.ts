@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ManifestPreparer } from "../../../server/web-server/manifest-preparer.js";
 
 describe("ManifestPreparer", () => {
-  it("expects the format of the currently built Vite project", async () => {
+  it("correctly replaces the content", async () => {
     const preparer = new ManifestPreparer("web/dist", {
       appName: "Corequery Test App",
       shortAppName: "CorequeryTest",

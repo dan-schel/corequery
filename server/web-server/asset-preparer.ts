@@ -45,6 +45,9 @@ export class AssetPreparer {
     await this._indexHtml.run();
     await this._manifest.run();
     await this._icons.run();
+
+    // Must run last, otherwise we'll calculate hashes before the file contents
+    // are swapped.
     await this._serviceWorker.run();
   }
 

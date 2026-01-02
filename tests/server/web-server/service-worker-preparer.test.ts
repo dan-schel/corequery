@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { ServiceWorkerPreparer } from "../../../server/web-server/service-worker-preparer.js";
 import { AssetPreparer } from "../../../server/web-server/asset-preparer.js";
 
-describe("ManifestPreparer", () => {
-  it("expects the format of the currently built Vite project", async () => {
+describe("ServiceWorkerPreparer", () => {
+  it("correctly replaces the content", async () => {
     const preparer = new ServiceWorkerPreparer("web/dist", {
       filesReplaced: AssetPreparer.ALL_MODIFIED_FILES,
       getFileHash: async (_filePath: string) => "bacon",

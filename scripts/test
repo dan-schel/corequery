@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -euo pipefail
+
+# Some tests are testing the files built by Vite are as they expect (to test
+# asset preparation), so we need to make sure there's a build available first.
 npm run build
 
 if [[ "$*" == *"--coverage"* ]]; then

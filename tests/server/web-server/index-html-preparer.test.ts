@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { IndexHtmlPreparer } from "../../../server/web-server/index-html-preparer.js";
 
-describe("WebManifestPreparer", () => {
-  it("expects the format of the currently built Vite project", async () => {
+describe("IndexHtmlPreparer", () => {
+  it("correctly replaces the content", async () => {
     const preparer = new IndexHtmlPreparer("web/dist", {
       appName: "Corequery Test App",
       shortAppName: "CorequeryTest",
