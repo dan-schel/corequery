@@ -10,7 +10,7 @@ type Config = {
 };
 
 export class IndexHtmlPreparer {
-  public static readonly FILE_PATH = "index.html";
+  static readonly FILE_PATH = "index.html";
 
   constructor(
     private readonly _distFolderPath: string,

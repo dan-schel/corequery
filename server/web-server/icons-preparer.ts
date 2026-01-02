@@ -10,8 +10,8 @@ type Config = {
   readonly pwaMaskable512PngPath: string;
 };
 
-export class IconPreparer {
-  public static readonly FILE_PATHS = [
+export class IconsPreparer {
+  static readonly FILE_PATHS = [
     "favicon.svg",
     "apple-touch-icon.png",
     "pwa-192x192.png",
@@ -26,7 +26,7 @@ export class IconPreparer {
   ) {}
 
   async run() {
-    const mapping: Record<(typeof IconPreparer.FILE_PATHS)[number], string> = {
+    const mapping: Record<(typeof IconsPreparer.FILE_PATHS)[number], string> = {
       "favicon.svg": this._config.faviconSvgPath,
       "apple-touch-icon.png": this._config.appleTouchIconPngPath,
       "pwa-192x192.png": this._config.pwa192PngPath,
@@ -42,7 +42,7 @@ export class IconPreparer {
   }
 
   async validate() {
-    for (const fileName of IconPreparer.FILE_PATHS) {
+    for (const fileName of IconsPreparer.FILE_PATHS) {
       const destPath = path.join(this._distFolderPath, fileName);
       await fsp.access(destPath);
     }

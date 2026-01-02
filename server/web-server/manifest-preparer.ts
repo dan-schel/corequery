@@ -8,8 +8,8 @@ type Config = {
   readonly description: string;
 };
 
-export class WebManifestPreparer {
-  public static readonly FILE_PATH = "manifest.webmanifest";
+export class ManifestPreparer {
+  static readonly FILE_PATH = "manifest.webmanifest";
 
   constructor(
     private readonly _distFolderPath: string,
@@ -53,6 +53,6 @@ export class WebManifestPreparer {
   }
 
   private _fullFilePath() {
-    return path.join(this._distFolderPath, WebManifestPreparer.FILE_PATH);
+    return path.join(this._distFolderPath, ManifestPreparer.FILE_PATH);
   }
 }

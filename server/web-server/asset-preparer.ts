@@ -1,6 +1,6 @@
 import { IndexHtmlPreparer } from "./index-html-preparer.js";
-import { WebManifestPreparer } from "./web-manifest-preparer.js";
-import { IconPreparer } from "./icon-preparer.js";
+import { ManifestPreparer } from "./manifest-preparer.js";
+import { IconsPreparer } from "./icons-preparer.js";
 import { ServiceWorkerPreparer } from "./service-worker-preparer.js";
 
 export type AssetConfig = {
@@ -18,47 +18,40 @@ export type AssetConfig = {
 };
 
 export class AssetPreparer {
-  private static readonly ALL_MODIFIED_FILES = [
+  static readonly ALL_MODIFIED_FILES = [
     IndexHtmlPreparer.FILE_PATH,
-    WebManifestPreparer.FILE_PATH,
-    ...IconPreparer.FILE_PATHS,
+    ManifestPreparer.FILE_PATH,
+    ...IconsPreparer.FILE_PATHS,
   ];
 
-  private readonly _indexHtmlPreparer: IndexHtmlPreparer;
-  private readonly _webManifestPreparer: WebManifestPreparer;
-  private readonly _iconPreparer: IconPreparer;
-  private readonly _serviceWorkerPreparer: ServiceWorkerPreparer;
+  private readonly _indexHtml: IndexHtmlPreparer;
+  private readonly _manifest: ManifestPreparer;
+  private readonly _icons: IconsPreparer;
+  private readonly _serviceWorker: ServiceWorkerPreparer;
 
   constructor(
     private readonly _distFolderPath: string,
     private readonly _config: AssetConfig,
   ) {
-    this._indexHtmlPreparer = new IndexHtmlPreparer(
-      this._distFolderPath,
-      this._config,
-    );
-    this._webManifestPreparer = new WebManifestPreparer(
-      this._distFolderPath,
-      this._config,
-    );
-    this._iconPreparer = new IconPreparer(this._distFolderPath, this._config);
-    this._serviceWorkerPreparer = new ServiceWorkerPreparer(
-      this._distFolderPath,
-      AssetPreparer.ALL_MODIFIED_FILES,
-    );
+    this._indexHtml = new IndexHtmlPreparer(this._distFolderPath, this._config);
+    this._manifest = new ManifestPreparer(this._distFolderPath, this._config);
+    this._icons = new IconsPreparer(this._distFolderPath, this._config);
+    this._serviceWorker = new ServiceWorkerPreparer(this._distFolderPath, {
+      filesReplaced: AssetPreparer.ALL_MODIFIED_FILES,
+    });
   }
 
   async run() {
-    await this._indexHtmlPreparer.run();
-    await this._webManifestPreparer.run();
-    await this._iconPreparer.run();
-    await this._serviceWorkerPreparer.run();
+    await this._indexHtml.run();
+    await this._manifest.run();
+    await this._icons.run();
+    await this._serviceWorker.run();
   }
 
   async validateDistFolder() {
-    await this._indexHtmlPreparer.validate();
-    await this._webManifestPreparer.validate();
-    await this._iconPreparer.validate();
-    await this._serviceWorkerPreparer.validate();
+    await this._indexHtml.validate();
+    await this._manifest.validate();
+    await this._icons.validate();
+    await this._serviceWorker.validate();
   }
 }
