@@ -1,8 +1,8 @@
 import { runSharedCode } from "../shared/example.js";
 import { serverFolderPath } from "./dirname.js";
 import { env } from "./env.js";
-import type { AssetConfig } from "./web-server-asset-preparer.js";
-import { WebServer } from "./web-server.js";
+import type { AssetConfig } from "./web-server/asset-preparer.js";
+import { WebServer } from "./web-server/web-server.js";
 
 type CorequeryConfig = {
   readonly port: number;

@@ -1,6 +1,6 @@
 {
   "name": "corequery",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "type": "module",
   "files": [
     "server/dist",
@@ -17,8 +17,8 @@
     "setup": "scripts/setup",
     "dev": "scripts/dev",
     "start": "scripts/start",
-    "test": "vitest --run",
-    "test-coverage": "vitest --run --coverage",
+    "test": "scripts/test",
+    "test-coverage": "scripts/test --coverage",
     "lint": "scripts/lint",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
