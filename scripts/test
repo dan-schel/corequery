@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+npm run build
+
+if [[ "$*" == *"--coverage"* ]]; then
+  npx vitest --run --coverage
+else
+  npx vitest --run
+fi
