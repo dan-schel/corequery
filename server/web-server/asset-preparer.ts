@@ -17,7 +17,7 @@ export type AssetConfig = {
   readonly pwaMaskable512PngPath: string;
 };
 
-export class WebServerAssetPreparer {
+export class AssetPreparer {
   constructor(private readonly _config: AssetConfig) {}
 
   async prepareDistFolder(distFolderPath: string) {

@@ -1,17 +1,14 @@
 import express from "express";
 import fsp from "fs/promises";
 import path from "path";
-import type { Corequery } from "./corequery.js";
-import {
-  WebServerAssetPreparer,
-  type AssetConfig,
-} from "./web-server-asset-preparer.js";
+import type { Corequery } from "../corequery.js";
+import { AssetPreparer, type AssetConfig } from "./asset-preparer.js";
 
 export const clientModes = ["dist-folder", "vite-middleware"] as const;
 export type ClientMode = (typeof clientModes)[number];
 
 export class WebServer {
-  private readonly _assetPreparer: WebServerAssetPreparer;
+  private readonly _assetPreparer: AssetPreparer;
 
   constructor(
     private readonly _app: Corequery,
@@ -20,7 +17,7 @@ export class WebServer {
     private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string,
   ) {
-    this._assetPreparer = new WebServerAssetPreparer(_assetConfig);
+    this._assetPreparer = new AssetPreparer(_assetConfig);
   }
 
   async prepareAssets() {
