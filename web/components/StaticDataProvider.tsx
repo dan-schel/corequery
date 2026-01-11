@@ -1,9 +1,9 @@
-import { type VNode } from "preact";
+import { type ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { retrieveStaticData, staticDataContext } from "../data/static-data";
 
 type StaticDataProviderProps = {
-  children: VNode;
+  children: ComponentChildren;
 };
 
 export function StaticDataProvider(props: StaticDataProviderProps) {

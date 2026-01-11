@@ -1,17 +1,18 @@
+import { Row } from "./common/Row";
+import { TextBlock } from "./common/TextBlock";
+
 export function Nav() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/about">About</a>
-        </li>
-        <li>
-          <a href="/bacon">Not Found</a>
-        </li>
-      </ul>
-    </nav>
+    <Row as="nav" class="gap-4">
+      <TextBlock>
+        <a href="/">Home</a>
+      </TextBlock>
+      <TextBlock>
+        <a href="/about">About</a>
+      </TextBlock>
+      <TextBlock>
+        <a href="/bacon">Not Found</a>
+      </TextBlock>
+    </Row>
   );
 }
