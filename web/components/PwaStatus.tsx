@@ -1,16 +1,19 @@
 import { useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
 import { useStaticData } from "../data/static-data";
+import { TextBlock } from "./core/TextBlock";
+import { Column } from "./core/Column";
+import { Button } from "./core/Button";
 
 export function PwaStatus() {
   const { frontendVersion } = useStaticData();
 
   return (
-    <div>
-      <span>Version: {frontendVersion}</span>
-      <br />
+    <Column class="gap-4">
+      <TextBlock style="strong">PWA Status</TextBlock>
+      <TextBlock>Version: {frontendVersion}</TextBlock>
       <StatusMessageAndReloadPrompt />
-    </div>
+    </Column>
   );
 }
 
@@ -34,15 +37,15 @@ function StatusMessageAndReloadPrompt() {
   if (updateAvailable) {
     return (
       <>
-        <span>Update available</span>
-        <button onClick={handleUpdateClick}>Update</button>
+        <TextBlock>Update available</TextBlock>
+        <Button onClick={handleUpdateClick}>Update</Button>
       </>
     );
   }
 
   if (offlineReady) {
-    return <span>App ready to work offline</span>;
+    return <TextBlock>App ready to work offline</TextBlock>;
   }
 
-  return <span>Nothing to report!</span>;
+  return <TextBlock>Nothing to report!</TextBlock>;
 }

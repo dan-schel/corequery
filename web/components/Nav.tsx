@@ -1,17 +1,19 @@
+import { LinkText } from "./core/LinkText";
+import { Row } from "./core/Row";
+import { TextBlock } from "./core/TextBlock";
+
 export function Nav() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/about">About</a>
-        </li>
-        <li>
-          <a href="/bacon">Not Found</a>
-        </li>
-      </ul>
-    </nav>
+    <Row as="nav" class="gap-4">
+      <TextBlock>
+        <LinkText href="/">Home</LinkText>
+      </TextBlock>
+      <TextBlock>
+        <LinkText href="/about">About</LinkText>
+      </TextBlock>
+      <TextBlock>
+        <LinkText href="/bacon">Not Found</LinkText>
+      </TextBlock>
+    </Row>
   );
 }

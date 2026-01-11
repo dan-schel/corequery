@@ -1,0 +1,6 @@
+{
+  // Stops VSCode complaining about custom Tailwind CSS at rules, e.g. @theme.
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

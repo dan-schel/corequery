@@ -3,6 +3,8 @@ import { Nav } from "../components/Nav";
 import { runSharedCode } from "../../shared/example";
 import { PwaStatus } from "../components/PwaStatus";
 import { useStaticData } from "../data/static-data";
+import { TextBlock } from "../components/core/TextBlock";
+import { Column } from "../components/core/Column";
 
 export default function Home() {
   const { appName } = useStaticData();
@@ -12,24 +14,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <h1>{appName} - Home</h1>
-      <Nav />
-      <h2>PWA Status:</h2>
+    <Column class="px-4 py-8 gap-8">
+      <Column class="gap-4">
+        <TextBlock style="title" oneLine>
+          {appName} - Home
+        </TextBlock>
+        <Nav />
+      </Column>
       <PwaStatus />
-      <h2>Assets:</h2>
-      <h3>Favicon SVG</h3>
-      <img src="/favicon.svg" alt={`${appName} logo`} />
-      <h3>Apple touch icon</h3>
-      <img src="/apple-touch-icon.png" alt={`${appName} logo`} />
-      <h3>PWA 192x192</h3>
-      <img src="/pwa-192x192.png" alt={`${appName} logo`} />
-      <h3>PWA 512x512</h3>
-      <img src="/pwa-512x512.png" alt={`${appName} logo`} />
-      <h3>PWA maskable 192x192</h3>
-      <img src="/pwa-maskable-192x192.png" alt={`${appName} logo`} />
-      <h3>PWA maskable 512x512</h3>
-      <img src="/pwa-maskable-512x512.png" alt={`${appName} logo`} />
-    </div>
+    </Column>
   );
 }
