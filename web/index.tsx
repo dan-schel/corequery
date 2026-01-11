@@ -7,6 +7,7 @@ import {
 } from "preact-iso";
 import { render } from "preact";
 import { StaticDataProvider } from "./components/StaticDataProvider.js";
+import "./index.css";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));
