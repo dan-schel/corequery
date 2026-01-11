@@ -57,6 +57,10 @@
   --color-shadow-weak: rgba(0, 0, 0, 20%); */
 }
 
+:root {
+  background-color: var(--color-bg);
+}
+
 @font-face {
   font-family: "Mona Sans";
   font-weight: 200 900;
