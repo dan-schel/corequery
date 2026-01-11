@@ -9,8 +9,8 @@ export function PwaStatus() {
   const { frontendVersion } = useStaticData();
 
   return (
-    <Column>
-      <TextBlock style="subtitle">PWA Status</TextBlock>
+    <Column class="gap-4">
+      <TextBlock style="strong">PWA Status</TextBlock>
       <TextBlock>Version: {frontendVersion}</TextBlock>
       <StatusMessageAndReloadPrompt />
     </Column>

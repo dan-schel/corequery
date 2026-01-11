@@ -14,9 +14,13 @@ export default function Home() {
   }, []);
 
   return (
-    <Column class="gap-2">
-      <TextBlock style="title">{appName} - Home</TextBlock>
-      <Nav />
+    <Column class="px-4 py-8 gap-8">
+      <Column class="gap-4">
+        <TextBlock style="title" oneLine>
+          {appName} - Home
+        </TextBlock>
+        <Nav />
+      </Column>
       <PwaStatus />
     </Column>
   );

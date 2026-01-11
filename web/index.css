@@ -15,7 +15,7 @@
   --font-weight-bold: 700;
 
   /* Light theme */
-  --color-bg: hsl(220, 30%, 93.5%);
+  /* --color-bg: hsl(220, 30%, 93.5%);
   --color-bg-raised: hsl(220, 35%, 97%);
   --color-bg-navbar: hsl(220, 40%, 100%);
   --color-bg-dialog: hsl(220, 40%, 100%);
@@ -33,10 +33,10 @@
   --color-soft-border-disabled: hsla(220, 100%, 17.6%, 12%);
   --color-field-border: hsla(220, 100%, 10%, 50%);
   --color-shadow: rgba(0, 0, 0, 40%);
-  --color-shadow-weak: rgba(0, 0, 0, 10%);
+  --color-shadow-weak: rgba(0, 0, 0, 10%); */
 
   /* Dark theme */
-  /* --color-bg: hsl(220, 16%, 7%);
+  --color-bg: hsl(220, 16%, 7%);
   --color-bg-raised: hsl(220, 17%, 12%);
   --color-bg-dialog: hsl(220, 18%, 17%);
   --color-bg-navbar: hsl(220, 18%, 17%);
@@ -54,11 +54,12 @@
   --color-soft-border-disabled: hsla(220, 100%, 82.4%, 12%);
   --color-field-border: hsla(220, 100%, 90%, 50%);
   --color-shadow: rgba(0, 0, 0, 60%);
-  --color-shadow-weak: rgba(0, 0, 0, 20%); */
+  --color-shadow-weak: rgba(0, 0, 0, 20%);
 }
 
 :root {
   background-color: var(--color-bg);
+  flex-shrink: 0;
 }
 
 @font-face {

@@ -7,9 +7,13 @@ export default function About() {
   const { appName } = useStaticData();
 
   return (
-    <Column class="gap-2">
-      <TextBlock style="title">{appName} - About</TextBlock>
-      <Nav />
+    <Column class="px-4 py-8 gap-8">
+      <Column class="gap-4">
+        <TextBlock style="title" oneLine>
+          {appName} - About
+        </TextBlock>
+        <Nav />
+      </Column>
       <TextBlock>
         This is text so long that it needs to wrap. Lorem ipsum dolor sit amet
         consectetur adipisicing elit. Earum corporis, autem expedita, minus

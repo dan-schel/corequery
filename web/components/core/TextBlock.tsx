@@ -1,5 +1,6 @@
 import type { ComponentChildren } from "preact";
 import clsx from "clsx";
+import { TextBoxTrim } from "./TextBoxTrim";
 
 type TextBlockTag = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -23,12 +24,26 @@ type TextBlockProps = {
   as?: TextBlockTag;
   align?: keyof typeof alignments;
   style?: keyof typeof styles;
+  oneLine?: boolean;
 };
 
 export function TextBlock(props: TextBlockProps) {
   const Tag = props.as ?? "span";
   const align = alignments[props.align ?? "left"];
   const style = styles[props.style ?? "regular"];
+  const oneLine = props.oneLine ?? false;
 
-  return <Tag class={clsx(props.class, style, align)}>{props.children}</Tag>;
+  const content = oneLine ? (
+    <span class="whitespace-nowrap overflow-hidden block text-ellipsis">
+      {props.children}
+    </span>
+  ) : (
+    props.children
+  );
+
+  return (
+    <Tag class={clsx(props.class, style, align)}>
+      <TextBoxTrim>{content}</TextBoxTrim>
+    </Tag>
+  );
 }

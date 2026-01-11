@@ -7,9 +7,14 @@ export default function NotFound() {
   const { appName } = useStaticData();
 
   return (
-    <Column class="gap-2">
-      <TextBlock style="title">{appName} - Not Found</TextBlock>
-      <Nav />
+    <Column class="px-4 py-8 gap-8">
+      <Column class="gap-4">
+        <TextBlock style="title" oneLine>
+          {appName} - Not Found
+        </TextBlock>
+        <Nav />
+      </Column>
+      <TextBlock>This page was not found.</TextBlock>
     </Column>
   );
 }
