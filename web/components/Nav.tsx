@@ -1,5 +1,5 @@
-import { Row } from "./common/Row";
-import { TextBlock } from "./common/TextBlock";
+import { Row } from "./core/Row";
+import { TextBlock } from "./core/TextBlock";
 
 export function Nav() {
   return (

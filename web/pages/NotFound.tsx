@@ -1,5 +1,5 @@
-import { Column } from "../components/common/Column";
-import { TextBlock } from "../components/common/TextBlock";
+import { Column } from "../components/core/Column";
+import { TextBlock } from "../components/core/TextBlock";
 import { Nav } from "../components/Nav";
 import { useStaticData } from "../data/static-data";
 

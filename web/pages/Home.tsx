@@ -3,8 +3,8 @@ import { Nav } from "../components/Nav";
 import { runSharedCode } from "../../shared/example";
 import { PwaStatus } from "../components/PwaStatus";
 import { useStaticData } from "../data/static-data";
-import { TextBlock } from "../components/common/TextBlock";
-import { Column } from "../components/common/Column";
+import { TextBlock } from "../components/core/TextBlock";
+import { Column } from "../components/core/Column";
 
 export default function Home() {
   const { appName } = useStaticData();

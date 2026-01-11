@@ -1,8 +1,8 @@
 import { useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
 import { useStaticData } from "../data/static-data";
-import { TextBlock } from "./common/TextBlock";
-import { Column } from "./common/Column";
+import { TextBlock } from "./core/TextBlock";
+import { Column } from "./core/Column";
 
 export function PwaStatus() {
   const { frontendVersion } = useStaticData();
