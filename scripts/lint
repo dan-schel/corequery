@@ -1,8 +1,9 @@
 #!/bin/bash
 
 set -euo pipefail
-npx eslint . --max-warnings 0
 npx tsc -p server/tsconfig.json --noEmit
 npx tsc -p web/tsconfig.json --noEmit
 npx tsc -p scripts/demo-app/tsconfig.json --noEmit
 npx tsc -p scripts/generate-pwa-assets/tsconfig.json --noEmit
+npx eslint . --max-warnings 0
+npx knip

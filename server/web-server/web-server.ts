@@ -4,8 +4,7 @@ import path from "path";
 import type { Corequery } from "../corequery.js";
 import { AssetPreparer, type AssetConfig } from "./asset-preparer.js";
 
-export const clientModes = ["dist-folder", "vite-middleware"] as const;
-export type ClientMode = (typeof clientModes)[number];
+export type ClientMode = "dist-folder" | "vite-middleware";
 
 export class WebServer {
   constructor(

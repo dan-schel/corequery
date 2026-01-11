@@ -43,6 +43,7 @@
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
+    "knip": "5.80.2",
     "preact": "10.28.1",
     "preact-iso": "2.11.1",
     "prettier": "3.7.4",
