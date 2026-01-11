@@ -17,9 +17,9 @@ const yAlignments = {
 };
 
 type ColumnProps = {
-  as?: LayoutTag;
-  children: ComponentChildren;
   class?: string;
+  children?: ComponentChildren;
+  as?: LayoutTag;
   xAlign?: "stretch" | "left" | "center" | "right";
   yAlign?: "top" | "center" | "bottom" | "space-between";
   wrap?: boolean;

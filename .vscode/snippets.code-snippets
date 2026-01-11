@@ -1,0 +1,20 @@
+{
+  "New Preact component": {
+    "scope": "typescriptreact",
+    "prefix": "component",
+    "body": [
+      "import type { ComponentChildren } from \"preact\";",
+      "",
+      "type ${1:ComponentName}Props = {",
+      "  class?: string;",
+      "  children?: ComponentChildren;",
+      "};",
+      "",
+      "export function ${1:ComponentName}(props: ${1:ComponentName}Props) {",
+      "  $0",
+      "}",
+      "",
+    ],
+    "description": "Create a new Preact component",
+  },
+}

@@ -4,10 +4,10 @@ import clsx from "clsx";
 type TextBlockTag = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 const styles = {
-  regular: "text-md",
-  strong: "text-md font-bold",
-  subtitle: "text-lg font-bold",
-  title: "text-xl font-bold",
+  regular: "text-md text-fg",
+  strong: "text-md font-bold text-fg-strong",
+  subtitle: "text-lg font-bold text-fg-strong",
+  title: "text-xl font-bold text-fg-strong",
 };
 
 const alignments = {
@@ -18,11 +18,11 @@ const alignments = {
 };
 
 type TextBlockProps = {
-  children: ComponentChildren;
+  class?: string;
+  children?: ComponentChildren;
   as?: TextBlockTag;
   align?: keyof typeof alignments;
   style?: keyof typeof styles;
-  class?: string;
 };
 
 export function TextBlock(props: TextBlockProps) {

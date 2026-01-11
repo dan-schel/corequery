@@ -13,6 +13,48 @@
 
   --font-weight-normal: 400;
   --font-weight-bold: 700;
+
+  /* Light theme */
+  --color-bg: hsl(220, 30%, 93.5%);
+  --color-bg-raised: hsl(220, 35%, 97%);
+  --color-bg-navbar: hsl(220, 40%, 100%);
+  --color-bg-dialog: hsl(220, 40%, 100%);
+  --color-fg: hsla(220, 100%, 4%, 80%);
+  --color-fg-strong: hsla(220, 100%, 0%, 100%);
+  --color-fg-weak: hsla(220, 100%, 10%, 50%);
+  --color-accent: hsl(210, 100%, 45%);
+  --color-accent-hover: hsl(210, 100%, 50%);
+  --color-accent-active: hsl(210, 100%, 40%);
+  --color-on-accent: #ffffff;
+  --color-soft: hsla(220, 100%, 17.6%, 12%);
+  --color-soft-hover: hsla(220, 100%, 18.4%, 8%);
+  --color-soft-active: hsla(220, 100%, 16.8%, 16%);
+  --color-soft-border: hsla(220, 100%, 16%, 20%);
+  --color-soft-border-disabled: hsla(220, 100%, 17.6%, 12%);
+  --color-field-border: hsla(220, 100%, 10%, 50%);
+  --color-shadow: rgba(0, 0, 0, 40%);
+  --color-shadow-weak: rgba(0, 0, 0, 10%);
+
+  /* Dark theme */
+  /* --color-bg: hsl(220, 16%, 7%);
+  --color-bg-raised: hsl(220, 17%, 12%);
+  --color-bg-dialog: hsl(220, 18%, 17%);
+  --color-bg-navbar: hsl(220, 18%, 17%);
+  --color-fg: hsla(220, 100%, 96%, 80%);
+  --color-fg-strong: hsla(220, 100%, 100%, 100%);
+  --color-fg-weak: hsla(220, 100%, 90%, 50%);
+  --color-accent: hsl(210, 100%, 65%);
+  --color-accent-hover: hsl(210, 100%, 70%);
+  --color-accent-active: hsl(210, 100%, 60%);
+  --color-on-accent: #000000;
+  --color-soft: hsla(220, 100%, 82.4%, 12%);
+  --color-soft-hover: hsla(220, 100%, 83.2%, 16%);
+  --color-soft-active: hsla(220, 100%, 81.6%, 8%);
+  --color-soft-border: hsla(220, 100%, 84%, 20%);
+  --color-soft-border-disabled: hsla(220, 100%, 82.4%, 12%);
+  --color-field-border: hsla(220, 100%, 90%, 50%);
+  --color-shadow: rgba(0, 0, 0, 60%);
+  --color-shadow-weak: rgba(0, 0, 0, 20%); */
 }
 
 @font-face {

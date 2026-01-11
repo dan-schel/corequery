@@ -1,3 +1,4 @@
+import { LinkText } from "./core/LinkText";
 import { Row } from "./core/Row";
 import { TextBlock } from "./core/TextBlock";
 
@@ -5,13 +6,13 @@ export function Nav() {
   return (
     <Row as="nav" class="gap-4">
       <TextBlock>
-        <a href="/">Home</a>
+        <LinkText href="/">Home</LinkText>
       </TextBlock>
       <TextBlock>
-        <a href="/about">About</a>
+        <LinkText href="/about">About</LinkText>
       </TextBlock>
       <TextBlock>
-        <a href="/bacon">Not Found</a>
+        <LinkText href="/bacon">Not Found</LinkText>
       </TextBlock>
     </Row>
   );
