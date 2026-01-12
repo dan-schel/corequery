@@ -1,3 +1,3 @@
-export class LandingPageConfig {
-  constructor(readonly primaryMarkdown: string) {}
-}
+export type LandingPageConfig = {
+  readonly primaryMarkdown: string;
+};

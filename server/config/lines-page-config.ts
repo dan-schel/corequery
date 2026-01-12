@@ -1,10 +1,8 @@
-export class LinesPageConfig {
-  constructor(readonly sections: readonly LinesPageSection[]) {}
-}
+export type LinesPageConfig = {
+  readonly sections: readonly LinesPageSection[];
+};
 
-export class LinesPageSection {
-  constructor(
-    readonly tag: string,
-    readonly name: string,
-  ) {}
-}
+export type LinesPageSection = {
+  readonly tag: string;
+  readonly name: string;
+};

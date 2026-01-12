@@ -1,3 +1,3 @@
-export class FooterConfig {
-  constructor(readonly footerMessageMarkdown: string) {}
-}
+export type FooterConfig = {
+  readonly footerMessageMarkdown: string;
+};

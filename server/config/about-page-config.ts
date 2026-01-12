@@ -1,21 +1,12 @@
-export class AboutPageConfig {
-  constructor(
-    readonly primaryMarkdown: string,
-    readonly dataSources: readonly DataSource[],
-  ) {}
-}
+export type AboutPageConfig = {
+  readonly primaryMarkdown: string;
 
-export class DataSource {
-  constructor(
-    readonly name: string,
-    readonly licensingMessage: string | null,
-    readonly links: readonly DataSourceLink[],
-  ) {}
-}
-
-export class DataSourceLink {
-  constructor(
-    readonly label: string,
-    readonly url: string,
-  ) {}
-}
+  readonly dataSources: readonly {
+    readonly name: string;
+    readonly licensingMessage: string | null;
+    readonly links: readonly {
+      readonly label: string;
+      readonly url: string;
+    }[];
+  }[];
+};
