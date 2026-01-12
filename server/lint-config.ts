@@ -1,4 +1,4 @@
-import type { CorequeryConfig } from "./corequery.js";
+import type { CorequeryConfig } from "./config/config.js";
 
 type LintableConfig = Omit<CorequeryConfig, "assets" | "port">;
 
