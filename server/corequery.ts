@@ -1,12 +1,16 @@
 import { runSharedCode } from "../shared/example.js";
+import type { Line } from "./data/line.js";
+import type { Stop } from "./data/stop.js";
 import { serverFolderPath } from "./dirname.js";
 import { env } from "./env.js";
 import type { AssetConfig } from "./web-server/asset-preparer.js";
 import { WebServer } from "./web-server/web-server.js";
 
-type CorequeryConfig = {
+export type CorequeryConfig = {
   readonly port: number;
   readonly assets: AssetConfig;
+  readonly stops: readonly Stop[];
+  readonly lines: readonly Line[];
 };
 
 type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
