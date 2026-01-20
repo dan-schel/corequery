@@ -17,9 +17,6 @@ jobs:
         with:
           node-version: "24.12.0"
           registry-url: "https://registry.npmjs.org"
-      - name: Install modules
-        run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Publish to npm
-        run: npm publish
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish

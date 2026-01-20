@@ -2,7 +2,7 @@ export type LineConfig = {
   readonly id: number;
   readonly name: string;
   readonly code: string | null;
-  readonly tags: string[];
+  readonly tags: number[];
   readonly urlPath: string;
   readonly routes: readonly RouteConfig[];
   readonly diagram: LineDiagramConfig;
@@ -11,7 +11,7 @@ export type LineConfig = {
 export type RouteConfig = {
   readonly id: number;
   readonly name: string;
-  readonly tags: string[];
+  readonly tags: number[];
 
   readonly stops: readonly {
     readonly stopId: number;
