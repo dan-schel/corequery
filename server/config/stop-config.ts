@@ -1,7 +1,7 @@
 export type StopConfig = {
   readonly id: number;
   readonly name: string;
-  readonly tags: string[];
+  readonly tags: number[];
   readonly urlPath: string;
 
   readonly location: {

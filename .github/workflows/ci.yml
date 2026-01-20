@@ -8,42 +8,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24.12.0
-      - name: Install modules
-        run: npm ci
-      - name: Run formatting
-        run: npm run format-check
+      - run: npm ci
+      - run: npm run format-check
   lint:
     name: No lint errors
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24.12.0
-      - name: Install modules
-        run: npm ci
-      - name: Run linting
-        run: npm run lint
+      - run: npm ci
+      - run: npm run lint
   test:
     name: Unit tests pass
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24.12.0
-      - name: Install modules
-        run: npm ci
-      - name: Run tests
-        run: npm run test-coverage
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5.5.2
+      - run: npm ci
+      - run: npm run test-coverage
+      - uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: dan-schel/corequery
@@ -52,28 +42,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          submodules: true
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24.12.0
-      - name: Install modules
-        run: npm ci
-      - name: Run build
-        run: npm run build
+      - run: npm ci
+      - run: npm run build
   bump:
     name: Bumps version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          submodules: true
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24.12.0
-      - name: Install modules
-        run: npm ci
-      - name: Confirm version bump
-        run: npm run bump-check
+      - run: npm ci
+      - run: npm run bump-check
