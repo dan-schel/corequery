@@ -5,4 +5,5 @@ export * from "./landing-page-config.js";
 export * from "./line-config.js";
 export * from "./lines-page-config.js";
 export * from "./stop-config.js";
-export * from "./terminology.js";
+export * from "./tags-config.js";
+export * from "./terminology-config.js";

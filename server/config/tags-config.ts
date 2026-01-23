@@ -1,7 +1,7 @@
 export type TagsConfig = {
-  readonly stopTagSuccession: TagSuccession;
-  readonly lineTagSuccession: TagSuccession;
-  readonly routeTagSuccession: TagSuccession;
+  readonly stopTagSuccession: TagSuccessionConfig;
+  readonly lineTagSuccession: TagSuccessionConfig;
+  readonly routeTagSuccession: TagSuccessionConfig;
 };
 
-export type TagSuccession = Readonly<Record<number, readonly number[]>>;
+export type TagSuccessionConfig = Readonly<Record<number, readonly number[]>>;
