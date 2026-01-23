@@ -1,8 +1,8 @@
 export type LinesPageConfig = {
-  readonly sections: readonly LinesPageSection[];
+  readonly sections: readonly LinesPageSectionConfig[];
 };
 
-export type LinesPageSection = {
+export type LinesPageSectionConfig = {
   readonly tag: string;
   readonly name: string;
 };

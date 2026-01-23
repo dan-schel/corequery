@@ -1,4 +1,4 @@
-export type Terminology = {
+export type TerminologyConfig = {
   readonly stop: "stop" | "station";
   readonly line: "line" | "route";
   readonly stopPosition:
