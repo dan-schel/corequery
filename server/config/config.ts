@@ -5,6 +5,7 @@ import type { LandingPageConfig } from "./landing-page-config.js";
 import type { LineConfig } from "./line-config.js";
 import type { LinesPageConfig } from "./lines-page-config.js";
 import type { StopConfig } from "./stop-config.js";
+import type { TagsConfig } from "./tags-config.js";
 import type { Terminology } from "./terminology.js";
 
 export type CorequeryConfig = {
@@ -17,4 +18,5 @@ export type CorequeryConfig = {
   readonly footer: FooterConfig;
   readonly aboutPage: AboutPageConfig;
   readonly linesPage: LinesPageConfig;
+  readonly tags: TagsConfig;
 };
