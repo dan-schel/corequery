@@ -2,20 +2,7 @@ import { IndexHtmlPreparer } from "./index-html-preparer.js";
 import { ManifestPreparer } from "./manifest-preparer.js";
 import { IconsPreparer } from "./icons-preparer.js";
 import { ServiceWorkerPreparer } from "./service-worker-preparer.js";
-
-export type AssetConfig = {
-  readonly appName: string;
-  readonly shortAppName: string;
-  readonly description: string;
-  readonly version: string;
-
-  readonly faviconSvgPath: string;
-  readonly appleTouchIconPngPath: string;
-  readonly pwa192PngPath: string;
-  readonly pwa512PngPath: string;
-  readonly pwaMaskable192PngPath: string;
-  readonly pwaMaskable512PngPath: string;
-};
+import type { AssetConfig } from "../config/asset-config.js";
 
 export class AssetPreparer {
   static readonly ALL_MODIFIED_FILES = [

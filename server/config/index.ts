@@ -1,4 +1,5 @@
 export * from "./about-page-config.js";
+export * from "./asset-config.js";
 export * from "./config.js";
 export * from "./footer-config.js";
 export * from "./landing-page-config.js";

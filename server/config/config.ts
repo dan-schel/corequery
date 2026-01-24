@@ -1,5 +1,5 @@
-import type { AssetConfig } from "../web-server/asset-preparer.js";
 import type { AboutPageConfig } from "./about-page-config.js";
+import type { AssetConfig } from "./asset-config.js";
 import type { FooterConfig } from "./footer-config.js";
 import type { LandingPageConfig } from "./landing-page-config.js";
 import type { LineConfig } from "./line-config.js";

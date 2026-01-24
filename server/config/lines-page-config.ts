@@ -3,6 +3,6 @@ export type LinesPageConfig = {
 };
 
 export type LinesPageSectionConfig = {
-  readonly tag: string;
+  readonly tag: number;
   readonly name: string;
 };
