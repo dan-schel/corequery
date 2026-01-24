@@ -2,7 +2,8 @@ import express from "express";
 import fsp from "fs/promises";
 import path from "path";
 import type { Corequery } from "../corequery.js";
-import { AssetPreparer, type AssetConfig } from "./asset-preparer.js";
+import { AssetPreparer } from "./asset-preparer.js";
+import type { AssetConfig } from "../config/asset-config.js";
 
 export type ClientMode = "dist-folder" | "vite-middleware";
 
