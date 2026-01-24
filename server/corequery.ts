@@ -4,7 +4,7 @@ import { serverFolderPath } from "./dirname.js";
 import { env } from "./env.js";
 import { WebServer } from "./web-server/web-server.js";
 
-type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
+export type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
 
 export class Corequery {
   private readonly _config: CorequeryConfig;
