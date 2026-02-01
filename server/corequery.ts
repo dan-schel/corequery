@@ -1,5 +1,5 @@
 import { runSharedCode } from "../shared/example.js";
-import type { CorequeryConfig } from "./config/config.js";
+import type { CorequeryConfig } from "./config/index.js";
 import { serverFolderPath } from "./dirname.js";
 import { env } from "./env.js";
 import { WebServer } from "./web-server/web-server.js";

@@ -1,4 +1,4 @@
-import type { CorequeryConfig } from "../config/config.js";
+import type { CorequeryConfig } from "../config/index.js";
 import { Line } from "./line.js";
 import { Stop } from "./stop.js";
 

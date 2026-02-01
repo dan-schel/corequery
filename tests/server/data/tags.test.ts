@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type TagSuccessionConfig } from "../../../server/config/tags-config.js";
+import { type TagSuccessionConfig } from "../../../server/config/index.js";
 import { Tags } from "../../../server/data/tags.js";
 
 describe("Tags", () => {
