@@ -8,6 +8,10 @@ export type LintOptions = {
   /** Whether to print issues to the console, if found. (Default: `true`) */
   readonly printOnFailure?: boolean;
 
+  readonly lines?: {
+    readonly lineNameRegex?: RegExp;
+  };
+
   readonly linesPage?: {
     readonly ignoreMissingLines?: readonly number[];
     readonly ignoreDuplicatedLines?: readonly number[];
