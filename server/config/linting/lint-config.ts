@@ -1,8 +1,9 @@
 import { FoundationalData } from "../../data/foundational-data.js";
 import { checks } from "./checks/index.js";
+import type { LintOptions } from "./lint-options.js";
 import { LintingContext } from "./linting-context.js";
 import { LintingReporter } from "./linting-reporter.js";
-import type { LintableConfig, LintIssue, LintOptions } from "./types.js";
+import type { LintableConfig, LintIssue } from "./types.js";
 
 export function lintConfig(
   config: LintableConfig,
