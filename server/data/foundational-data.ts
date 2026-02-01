@@ -1,5 +1,7 @@
 import type { CorequeryConfig } from "../config/index.js";
+import { LineCollection } from "./line-collection.js";
 import { Line } from "./line.js";
+import { StopCollection } from "./stop-collection.js";
 import { Stop } from "./stop.js";
 
 type FoundationalDataFields = {
@@ -8,12 +10,12 @@ type FoundationalDataFields = {
 };
 
 export class FoundationalData {
-  readonly stops: readonly Stop[];
-  readonly lines: readonly Line[];
+  readonly stops: StopCollection;
+  readonly lines: LineCollection;
 
   constructor(fields: FoundationalDataFields) {
-    this.stops = fields.stops;
-    this.lines = fields.lines;
+    this.stops = new StopCollection(fields.stops);
+    this.lines = new LineCollection(fields.lines);
   }
 
   static build(

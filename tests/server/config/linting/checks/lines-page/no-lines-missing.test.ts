@@ -28,7 +28,7 @@ describe("noLinesMissingCheck", () => {
         },
       },
       issue: {
-        message: '"Line 1" (id: 1) not present in any section.',
+        message: '"Line 1" (#1) not present in any section.',
       },
     });
   });

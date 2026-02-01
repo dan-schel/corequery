@@ -38,7 +38,7 @@ describe("noLinesDuplicatedCheck", () => {
           },
         },
         issue: {
-          message: '"Line 1" (id: 1) listed in "First" and "Second".',
+          message: '"Line 1" (#1) listed in "First" and "Second".',
         },
       });
     });
@@ -63,7 +63,7 @@ describe("noLinesDuplicatedCheck", () => {
           },
         },
         issue: {
-          message: '"Line 1" (id: 1) listed in "First" and "Second".',
+          message: '"Line 1" (#1) listed in "First" and "Second".',
         },
       });
     });

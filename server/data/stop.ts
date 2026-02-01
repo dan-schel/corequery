@@ -37,8 +37,8 @@ export class Stop {
     return new Stop({ ...this, ...newValues });
   }
 
-  /** e.g. `"Sandringham" (id: 1)` */
+  /** e.g. `"Sandringham" (#1)` */
   get debugName(): string {
-    return `"${this.name}" (id: ${this.id})`;
+    return `"${this.name}" (#${this.id})`;
   }
 }

@@ -7,7 +7,7 @@ export const noLinesDuplicatedCheck: LintingCheck = {
     const sections = ctx.config.linesPage.sections;
     const ignores = ctx.options.linesPage?.ignoreDuplicatedLines ?? [];
 
-    for (const line of ctx.foundationalData.lines) {
+    for (const line of ctx.foundationalData.lines.all()) {
       const isIgnored = ignores.includes(line.id);
       if (isIgnored) continue;
 

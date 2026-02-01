@@ -6,7 +6,7 @@ export const noLinesMissingCheck: LintingCheck = {
     const sections = ctx.config.linesPage.sections;
     const ignores = ctx.options.linesPage?.ignoreMissingLines ?? [];
 
-    for (const line of ctx.foundationalData.lines) {
+    for (const line of ctx.foundationalData.lines.all()) {
       const isIgnored = ignores.includes(line.id);
       if (isIgnored) continue;
 
