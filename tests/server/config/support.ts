@@ -1,4 +1,9 @@
-import { LineConfig, LintableConfig, TagsConfig } from "../../../server/config";
+import {
+  LineConfig,
+  LintableConfig,
+  StopConfig,
+  TagsConfig,
+} from "../../../server/config";
 
 export const emptyLintableConfig: LintableConfig = {
   stops: [],
@@ -26,6 +31,15 @@ export const emptyLintableConfig: LintableConfig = {
     lineTagSuccession: {},
     routeTagSuccession: {},
   },
+};
+
+export const emptyStopConfig: StopConfig = {
+  id: 0,
+  name: "",
+  tags: [],
+  urlPath: "",
+  location: null,
+  positions: [],
 };
 
 export const emptyLineConfig: LineConfig = {
