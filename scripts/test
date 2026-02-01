@@ -6,8 +6,9 @@ set -euo pipefail
 # asset preparation), so we need to make sure there's a build available first.
 npm run build
 
+# Note: We need to specify --dir so tests in the demo-app are ignored.
 if [[ "$*" == *"--coverage"* ]]; then
-  npx vitest --run --coverage
+  npx vitest --dir tests --run --coverage
 else
-  npx vitest --run
+  npx vitest --dir tests --run
 fi
