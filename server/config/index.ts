@@ -1,3 +1,5 @@
+export * from "./linting/index.js";
+
 export * from "./about-page-config.js";
 export * from "./asset-config.js";
 export * from "./config.js";
