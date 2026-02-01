@@ -1,3 +1,4 @@
+import type { FoundationalData } from "../../data/foundational-data.js";
 import type { LintingCheck } from "./checks/check.js";
 import type { LintingReporter } from "./linting-reporter.js";
 import type { LintableConfig, LintOptions } from "./types.js";
@@ -7,6 +8,7 @@ export class LintingContext {
     readonly config: LintableConfig,
     readonly options: LintOptions,
     readonly reporter: LintingReporter,
+    readonly foundationalData: FoundationalData,
   ) {}
 
   run(check: LintingCheck) {
