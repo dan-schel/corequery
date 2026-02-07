@@ -31,7 +31,7 @@ describe("checkLineDiagramStopsExist", () => {
     const issues = collectIssues(checkLineDiagramStopsExist, line, 0, stops);
 
     expectIssueMessages(issues, [
-      'Stop ID 2 in diagram entry "Entry 0" of line "Line" does not exist in the stop list.',
+      'Stop ID 2 in diagram entry <Entry 1> of line "Line" does not exist in the stop list.',
     ]);
   });
 });
