@@ -9,12 +9,12 @@ export function checkStopNoDuplicateTags(
 ) {
   const duplicates = findDuplicates(stop.tags, (tag) => tag);
 
-  duplicates.forEach((indices, tag) => {
-    indices.forEach((index) => {
+  for (const [tag, indices] of duplicates) {
+    for (const index of indices) {
       issues.add({
         message: `Tag ${tag} is duplicated in stop "${stop.name}".`,
         path: `stops[${stopIndex}].tags[${index}]`,
       });
-    });
-  });
+    }
+  }
 }

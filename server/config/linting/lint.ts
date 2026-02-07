@@ -40,7 +40,7 @@ export function lintConfig(
   checkStopsAllOrNoneHavePositions(issues, config.stops, options?.stops);
   checkStopsAppearInRoutes(issues, config.stops, config.lines, options?.stops);
 
-  config.stops.forEach((stop, index) => {
+  for (const [index, stop] of config.stops.entries()) {
     checkStopPositionsUniqueIds(issues, stop, index);
     checkStopPositionsUniqueNames(
       issues,
@@ -49,13 +49,13 @@ export function lintConfig(
       options?.stops?.[stop.id],
     );
     checkStopNoDuplicateTags(issues, stop, index);
-  });
+  }
 
   checkLinesUniqueIds(issues, config.lines);
   checkLinesUniqueNames(issues, config.lines, options?.lines);
   checkLinesAllOrNoneHaveCodes(issues, config.lines, options?.lines);
 
-  config.lines.forEach((line, lineIndex) => {
+  for (const [lineIndex, line] of config.lines.entries()) {
     checkLineHasRoutes(issues, line, lineIndex, options?.lines?.[line.id]);
     checkLineRoutesUniqueIds(issues, line, lineIndex);
     checkLineRoutesUniqueNames(
@@ -67,7 +67,7 @@ export function lintConfig(
     checkLineRoutesMirrored(issues, line, lineIndex, options?.lines?.[line.id]);
     checkLineNoDuplicateTags(issues, line, lineIndex);
 
-    line.routes.forEach((route, routeIndex) => {
+    for (const [routeIndex, route] of line.routes.entries()) {
       checkRouteHasMinimumStops(
         issues,
         route,
@@ -90,7 +90,7 @@ export function lintConfig(
         line.name,
         config.stops,
       );
-    });
+    }
 
     checkLineDiagramHasEntries(
       issues,
@@ -106,7 +106,7 @@ export function lintConfig(
       lineIndex,
       options?.lines?.[line.id],
     );
-  });
+  }
 
   checkLinesPageAllLinesListed(
     issues,

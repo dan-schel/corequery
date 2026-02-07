@@ -12,10 +12,8 @@ export function checkLinesPageNoDuplicateLines(
   lineTagSuccession: TagSuccessionConfig,
   options?: Record<number, LinesPageLineLintOptions>,
 ) {
-  lines.forEach((line) => {
-    if (options?.[line.id]?.ignoreDuplicatedLine) {
-      return;
-    }
+  for (const line of lines) {
+    if (options?.[line.id]?.ignoreDuplicatedLine) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const sectionNames = linesPage.sections
@@ -28,5 +26,5 @@ export function checkLinesPageNoDuplicateLines(
         path: "linesPage.sections",
       });
     }
-  });
+  }
 }

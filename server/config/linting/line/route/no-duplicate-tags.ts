@@ -11,12 +11,12 @@ export function checkRouteNoDuplicateTags(
 ) {
   const duplicates = findDuplicates(route.tags, (tag) => tag);
 
-  duplicates.forEach((indices, tag) => {
-    indices.forEach((index) => {
+  for (const [tag, indices] of duplicates) {
+    for (const index of indices) {
       issues.add({
         message: `Tag ${tag} is duplicated in route "${route.name}" of line "${lineName}".`,
         path: `lines[${lineIndex}].routes[${routeIndex}].tags[${index}]`,
       });
-    });
-  });
+    }
+  }
 }

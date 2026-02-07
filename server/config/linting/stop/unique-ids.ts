@@ -8,12 +8,12 @@ export function checkStopsUniqueIds(
 ) {
   const duplicates = findDuplicates(stops, (stop) => stop.id);
 
-  duplicates.forEach((indices, id) => {
-    indices.forEach((index) => {
+  for (const [id, indices] of duplicates) {
+    for (const index of indices) {
       issues.add({
         message: `Stop ID ${id} is duplicated.`,
         path: `stops[${index}].id`,
       });
-    });
-  });
+    }
+  }
 }

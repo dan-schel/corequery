@@ -9,21 +9,19 @@ export function checkStopPositionsUniqueNames(
   stopIndex: number,
   options?: StopLintOptions,
 ) {
-  if (options?.ignoreDuplicatedPositionName) {
-    return;
-  }
+  if (options?.ignoreDuplicatedPositionName) return;
 
   const duplicates = findDuplicates(
     stop.positions,
     (position) => position.name,
   );
 
-  duplicates.forEach((indices, name) => {
-    indices.forEach((index) => {
+  for (const [name, indices] of duplicates) {
+    for (const index of indices) {
       issues.add({
         message: `Position name "${name}" is duplicated in stop "${stop.name}".`,
         path: `stops[${stopIndex}].positions[${index}].name`,
       });
-    });
-  });
+    }
+  }
 }

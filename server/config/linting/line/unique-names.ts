@@ -10,17 +10,15 @@ export function checkLinesUniqueNames(
 ) {
   const duplicates = findDuplicates(lines, (line) => line.name);
 
-  duplicates.forEach((indices, name) => {
-    indices.forEach((index) => {
+  for (const [name, indices] of duplicates) {
+    for (const index of indices) {
       const line = lines[index];
-      if (!line || options?.[line.id]?.ignoreDuplicatedName) {
-        return;
-      }
+      if (!line || options?.[line.id]?.ignoreDuplicatedName) continue;
 
       issues.add({
         message: `Line name "${name}" is duplicated.`,
         path: `lines[${index}].name`,
       });
-    });
-  });
+    }
+  }
 }

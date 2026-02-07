@@ -4,11 +4,9 @@ export function findAllOrNoneViolations<T>(
 ): Array<{ item: T; index: number }> | null {
   const violations: Array<{ item: T; index: number }> = [];
 
-  items.forEach((item, index) => {
-    if (!hasProperty(item)) {
-      violations.push({ item, index });
-    }
-  });
+  for (const [index, item] of items.entries()) {
+    if (!hasProperty(item)) violations.push({ item, index });
+  }
 
   if (violations.length === 0 || violations.length === items.length) {
     return null;

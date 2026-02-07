@@ -10,18 +10,16 @@ export function checkStopsAppearInRoutes(
   options?: Record<number, StopLintOptions>,
 ) {
   const stopIdsInRoutes = new Set<number>();
-  lines.forEach((line) => {
-    line.routes.forEach((route) => {
-      route.stops.forEach((stop) => {
+  for (const line of lines) {
+    for (const route of line.routes) {
+      for (const stop of route.stops) {
         stopIdsInRoutes.add(stop.stopId);
-      });
-    });
-  });
-
-  stops.forEach((stop, index) => {
-    if (options?.[stop.id]?.ignoreUnusedStop) {
-      return;
+      }
     }
+  }
+
+  for (const [index, stop] of stops.entries()) {
+    if (options?.[stop.id]?.ignoreUnusedStop) continue;
 
     if (!stopIdsInRoutes.has(stop.id)) {
       issues.add({
@@ -29,5 +27,5 @@ export function checkStopsAppearInRoutes(
         path: `stops[${index}]`,
       });
     }
-  });
+  }
 }

@@ -8,12 +8,12 @@ export function checkLinesUniqueIds(
 ) {
   const duplicates = findDuplicates(lines, (line) => line.id);
 
-  duplicates.forEach((indices, id) => {
-    indices.forEach((index) => {
+  for (const [id, indices] of duplicates) {
+    for (const index of indices) {
       issues.add({
         message: `Line ID ${id} is duplicated.`,
         path: `lines[${index}].id`,
       });
-    });
-  });
+    }
+  }
 }

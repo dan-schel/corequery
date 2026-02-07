@@ -10,17 +10,15 @@ export function checkStopsUniqueNames(
 ) {
   const duplicates = findDuplicates(stops, (stop) => stop.name);
 
-  duplicates.forEach((indices, name) => {
-    indices.forEach((index) => {
+  for (const [name, indices] of duplicates) {
+    for (const index of indices) {
       const stop = stops[index];
-      if (!stop || options?.[stop.id]?.ignoreDuplicatedName) {
-        return;
-      }
+      if (!stop || options?.[stop.id]?.ignoreDuplicatedName) continue;
 
       issues.add({
         message: `Stop name "${name}" is duplicated.`,
         path: `stops[${index}].name`,
       });
-    });
-  });
+    }
+  }
 }

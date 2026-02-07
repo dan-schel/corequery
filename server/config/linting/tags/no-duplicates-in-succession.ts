@@ -28,16 +28,16 @@ function checkSuccessionNoDuplicates(
   succession: Record<number, readonly number[]>,
   path: string,
 ) {
-  Object.entries(succession).forEach(([key, tags]) => {
+  for (const [key, tags] of Object.entries(succession)) {
     const duplicates = findDuplicates(tags, (tag) => tag);
 
-    duplicates.forEach((indices, tag) => {
-      indices.forEach((index) => {
+    for (const [tag, indices] of duplicates) {
+      for (const index of indices) {
         issues.add({
           message: `Tag ${tag} is duplicated in succession for key ${key}.`,
           path: `${path}[${key}][${index}]`,
         });
-      });
-    });
-  });
+      }
+    }
+  }
 }

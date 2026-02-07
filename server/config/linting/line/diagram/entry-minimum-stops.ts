@@ -7,7 +7,7 @@ export function checkLineDiagramEntriesMinimumStops(
   line: LineConfig,
   lineIndex: number,
 ) {
-  line.diagram.entries.forEach((entry, entryIndex) => {
+  for (const [entryIndex, entry] of line.diagram.entries.entries()) {
     if (entry.stops.length < 2) {
       const entryName = chooseNameForEntry(entry.name, entryIndex);
       issues.add({
@@ -15,5 +15,5 @@ export function checkLineDiagramEntriesMinimumStops(
         path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops`,
       });
     }
-  });
+  }
 }

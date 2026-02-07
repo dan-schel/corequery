@@ -8,10 +8,8 @@ export function checkLineRoutesMirrored(
   lineIndex: number,
   options?: LineLintOptions,
 ) {
-  line.routes.forEach((route, routeIndex) => {
-    if (options?.routes?.[route.id]?.ignoreMissingMirrored) {
-      return;
-    }
+  for (const [routeIndex, route] of line.routes.entries()) {
+    if (options?.routes?.[route.id]?.ignoreMissingMirrored) continue;
 
     const hasMirror = line.routes.some(
       (otherRoute, otherIndex) =>
@@ -24,21 +22,17 @@ export function checkLineRoutesMirrored(
         path: `lines[${lineIndex}].routes[${routeIndex}]`,
       });
     }
-  });
+  }
 }
 
 function routesAreMirrored(route1: RouteConfig, route2: RouteConfig): boolean {
-  if (route1.stops.length !== route2.stops.length) {
-    return false;
-  }
+  if (route1.stops.length !== route2.stops.length) return false;
 
   for (let i = 0; i < route1.stops.length; i++) {
     const stop1 = route1.stops[i];
     const stop2 = route2.stops[route2.stops.length - 1 - i];
 
-    if (!stop1 || !stop2) {
-      return false;
-    }
+    if (!stop1 || !stop2) return false;
 
     if (stop1.stopId !== stop2.stopId || stop1.type !== stop2.type) {
       return false;

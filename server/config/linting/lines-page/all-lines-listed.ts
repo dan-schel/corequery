@@ -12,10 +12,8 @@ export function checkLinesPageAllLinesListed(
   lineTagSuccession: TagSuccessionConfig,
   options?: Record<number, LinesPageLineLintOptions>,
 ) {
-  lines.forEach((line, index) => {
-    if (options?.[line.id]?.ignoreUnlistedLine) {
-      return;
-    }
+  for (const [index, line] of lines.entries()) {
+    if (options?.[line.id]?.ignoreUnlistedLine) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const isListed = linesPage.sections.some((section) =>
@@ -28,5 +26,5 @@ export function checkLinesPageAllLinesListed(
         path: `lines[${index}]`,
       });
     }
-  });
+  }
 }

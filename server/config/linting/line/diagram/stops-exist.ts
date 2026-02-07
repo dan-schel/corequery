@@ -11,8 +11,8 @@ export function checkLineDiagramStopsExist(
 ) {
   const stopIds = new Set(stops.map((stop) => stop.id));
 
-  line.diagram.entries.forEach((entry, entryIndex) => {
-    entry.stops.forEach((diagramStop, stopIndex) => {
+  for (const [entryIndex, entry] of line.diagram.entries.entries()) {
+    for (const [stopIndex, diagramStop] of entry.stops.entries()) {
       if (!stopIds.has(diagramStop.stopId)) {
         const entryName = chooseNameForEntry(entry.name, entryIndex);
         issues.add({
@@ -20,6 +20,6 @@ export function checkLineDiagramStopsExist(
           path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops[${stopIndex}].stopId`,
         });
       }
-    });
-  });
+    }
+  }
 }

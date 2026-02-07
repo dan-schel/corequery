@@ -9,19 +9,17 @@ export function checkLineDiagramStopsInRoutes(
   lineIndex: number,
   options?: LineLintOptions,
 ) {
-  if (options?.ignoreDiagramStopNotInRoute) {
-    return;
-  }
+  if (options?.ignoreDiagramStopNotInRoute) return;
 
   const routeStopIds = new Set<number>();
-  line.routes.forEach((route) => {
-    route.stops.forEach((stop) => {
+  for (const route of line.routes) {
+    for (const stop of route.stops) {
       routeStopIds.add(stop.stopId);
-    });
-  });
+    }
+  }
 
-  line.diagram.entries.forEach((entry, entryIndex) => {
-    entry.stops.forEach((diagramStop, stopIndex) => {
+  for (const [entryIndex, entry] of line.diagram.entries.entries()) {
+    for (const [stopIndex, diagramStop] of entry.stops.entries()) {
       if (!routeStopIds.has(diagramStop.stopId)) {
         const entryName = chooseNameForEntry(entry.name, entryIndex);
         issues.add({
@@ -29,6 +27,6 @@ export function checkLineDiagramStopsInRoutes(
           path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops[${stopIndex}].stopId`,
         });
       }
-    });
-  });
+    }
+  }
 }
