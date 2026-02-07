@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkLinesUniqueIds } from "../../../../../server/config/linting/line-rules/unique-ids.js";
+import { checkLinesUniqueIds } from "../../../../../server/config/linting/line/unique-ids.js";
 import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import type { LineConfig } from "../../../../../server/config/line-config.js";
 

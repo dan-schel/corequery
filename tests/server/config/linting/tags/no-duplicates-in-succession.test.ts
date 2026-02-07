@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkTagsNoDuplicatesInSuccession } from "../../../../../server/config/linting/tags-rules/no-duplicates-in-succession.js";
+import { checkTagsNoDuplicatesInSuccession } from "../../../../../server/config/linting/tags/no-duplicates-in-succession.js";
 import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import type { TagsConfig } from "../../../../../server/config/tags-config.js";
 

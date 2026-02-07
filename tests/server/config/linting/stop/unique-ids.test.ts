@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkStopsUniqueIds } from "../../../../../server/config/linting/stop-rules/unique-ids.js";
+import { checkStopsUniqueIds } from "../../../../../server/config/linting/stop/unique-ids.js";
 import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import type { StopConfig } from "../../../../../server/config/stop-config.js";
 

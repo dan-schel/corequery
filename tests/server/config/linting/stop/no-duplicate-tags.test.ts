@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkStopNoDuplicateTags } from "../../../../../server/config/linting/stop-rules/no-duplicate-tags.js";
+import { checkStopNoDuplicateTags } from "../../../../../server/config/linting/stop/no-duplicate-tags.js";
 import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import type { StopConfig } from "../../../../../server/config/stop-config.js";
 
