@@ -1,6 +1,13 @@
 {
+  // Ensures the ESLint extension uses the project's config file.
+  "eslint.useFlatConfig": true,
+
   // Stops VSCode complaining about custom Tailwind CSS at rules, e.g. @theme.
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+
+  // Configures VSCode's auto import to use "@/..." paths.
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative"
 }
