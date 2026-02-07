@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkRouteStopsExist } from "../../../../../../server/config/linting/line/route/route-stops-exist.js";
+import { checkRouteStopsExist } from "../../../../../../server/config/linting/line/route/stops-exist.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createRoute, createStop } from "../../support/factories.js";

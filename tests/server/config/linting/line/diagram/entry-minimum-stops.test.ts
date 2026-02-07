@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramEntriesMinimumStops } from "../../../../../../server/config/linting/line/diagram/diagram-entry-minimum-stops.js";
+import { checkLineDiagramEntriesMinimumStops } from "../../../../../../server/config/linting/line/diagram/entry-minimum-stops.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createDiagramEntry, createLine } from "../../support/factories.js";

@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkStopPositionsUniqueNames } from "../../../../../../server/config/linting/stop/position/position-unique-names.js";
+import { checkStopPositionsUniqueNames } from "../../../../../../server/config/linting/stop/position/unique-names.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createStop } from "../../support/factories.js";

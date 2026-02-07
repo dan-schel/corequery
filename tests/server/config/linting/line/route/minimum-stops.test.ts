@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkRouteHasMinimumStops } from "../../../../../../server/config/linting/line/route/route-minimum-stops.js";
+import { checkRouteHasMinimumStops } from "../../../../../../server/config/linting/line/route/minimum-stops.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createRoute } from "../../support/factories.js";

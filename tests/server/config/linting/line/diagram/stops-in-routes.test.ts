@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramStopsInRoutes } from "../../../../../../server/config/linting/line/diagram/diagram-stops-in-routes.js";
+import { checkLineDiagramStopsInRoutes } from "../../../../../../server/config/linting/line/diagram/stops-in-routes.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine, createRoute } from "../../support/factories.js";

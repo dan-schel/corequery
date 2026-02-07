@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkLineRoutesUniqueNames } from "../../../../../../server/config/linting/line/route/route-unique-names.js";
+import { checkLineRoutesUniqueNames } from "../../../../../../server/config/linting/line/route/unique-names.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine, createRoute } from "../../support/factories.js";

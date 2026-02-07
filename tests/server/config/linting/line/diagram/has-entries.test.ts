@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramHasEntries } from "../../../../../../server/config/linting/line/diagram/diagram-has-entries.js";
+import { checkLineDiagramHasEntries } from "../../../../../../server/config/linting/line/diagram/has-entries.js";
 import { collectIssues } from "../../support/collect-issues.js";
 import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine } from "../../support/factories.js";
