@@ -1,6 +1,6 @@
 import type { StopConfig } from "../../stop-config.js";
 import type { StopLintOptions } from "../types.js";
-import { allOrNone } from "../utils/helpers.js";
+import { findAllOrNoneViolations } from "../utils/helpers.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopsAllOrNoneHaveLocations(
@@ -12,16 +12,15 @@ export function checkStopsAllOrNoneHaveLocations(
     (stop) => !options?.[stop.id]?.ignoreMissingLocation,
   );
 
-  const status = allOrNone(stopsToCheck, (stop) => stop.location !== null);
+  const missingLocations = findAllOrNoneViolations(
+    stopsToCheck,
+    (stop) => stop.location !== null,
+  );
 
-  if (status === "mixed") {
-    stopsToCheck.forEach((stop, index) => {
-      if (stop.location === null) {
-        issues.add({
-          message: `Stop "${stop.name}" is missing a location`,
-          path: `stops[${index}].location`,
-        });
-      }
+  for (const { item: stop, index } of missingLocations ?? []) {
+    issues.add({
+      message: `Stop "${stop.name}" is missing a location`,
+      path: `stops[${index}].location`,
     });
   }
 }
