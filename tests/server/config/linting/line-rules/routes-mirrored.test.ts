@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkLineRoutesMirrored } from "../../../../../server/config/linting/line-rules/routes-mirrored.js";
+import { checkLineRoutesMirrored } from "../../../../../server/config/linting/line-rules/route-rules/routes-mirrored.js";
 import type {
   LineConfig,
   RouteConfig,

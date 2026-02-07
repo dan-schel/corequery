@@ -1,6 +1,6 @@
-import type { LineConfig, RouteConfig } from "../../line-config.js";
-import type { LintIssue, LineLintOptions } from "../types.js";
-import { createIssue } from "../utils/helpers.js";
+import type { LineConfig, RouteConfig } from "../../../line-config.js";
+import type { LintIssue, LineLintOptions } from "../../types.js";
+import { createIssue } from "../../utils/helpers.js";
 
 function routesAreMirrored(route1: RouteConfig, route2: RouteConfig): boolean {
   if (route1.stops.length !== route2.stops.length) {

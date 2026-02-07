@@ -1,6 +1,6 @@
-import type { StopConfig } from "../../stop-config.js";
-import type { LintIssue } from "../types.js";
-import { createIssue, findDuplicates } from "../utils/helpers.js";
+import type { StopConfig } from "../../../stop-config.js";
+import type { LintIssue } from "../../types.js";
+import { createIssue, findDuplicates } from "../../utils/helpers.js";
 
 export function checkStopPositionsUniqueIds(
   stop: StopConfig,

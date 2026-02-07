@@ -3,6 +3,7 @@
 set -euo pipefail
 npx tsc -p server/tsconfig.json --noEmit
 npx tsc -p web/tsconfig.json --noEmit
+# npx tsc -p tests/tsconfig.json --noEmit
 npx tsc -p scripts/demo-app/tsconfig.json --noEmit
 npx tsc -p scripts/generate-pwa-assets/tsconfig.json --noEmit
 npx eslint . --max-warnings 0

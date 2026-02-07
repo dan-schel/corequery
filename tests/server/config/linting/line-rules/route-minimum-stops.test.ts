@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkRouteHasMinimumStops } from "../../../../../server/config/linting/line-rules/route-minimum-stops.js";
+import { checkRouteHasMinimumStops } from "../../../../../server/config/linting/line-rules/route-rules/route-minimum-stops.js";
 import type { RouteConfig } from "../../../../../server/config/line-config.js";
 
 const createRoute = (stopCount: number): RouteConfig => ({

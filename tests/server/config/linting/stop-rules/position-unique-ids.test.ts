@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkStopPositionsUniqueIds } from "../../../../../server/config/linting/stop-rules/position-unique-ids.js";
+import { checkStopPositionsUniqueIds } from "../../../../../server/config/linting/stop-rules/position-rules/position-unique-ids.js";
 import type { StopConfig } from "../../../../../server/config/stop-config.js";
 
 const createStop = (): StopConfig => ({

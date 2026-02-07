@@ -1,6 +1,6 @@
-import type { RouteConfig } from "../../line-config.js";
-import type { LintIssue } from "../types.js";
-import { createIssue } from "../utils/helpers.js";
+import type { RouteConfig } from "../../../line-config.js";
+import type { LintIssue } from "../../types.js";
+import { createIssue } from "../../utils/helpers.js";
 
 export function checkRouteHasMinimumStops(
   route: RouteConfig,

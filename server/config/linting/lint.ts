@@ -1,34 +1,30 @@
 import type { CorequeryConfig } from "../config.js";
 import type { LintIssue, LintOptions } from "./types.js";
-
 import { checkStopsUniqueIds } from "./stop-rules/unique-ids.js";
 import { checkStopsUniqueNames } from "./stop-rules/unique-names.js";
 import { checkStopsAllOrNoneHaveLocations } from "./stop-rules/all-or-none-locations.js";
 import { checkStopsAllOrNoneHavePositions } from "./stop-rules/all-or-none-positions.js";
 import { checkStopsAppearInRoutes } from "./stop-rules/appears-in-routes.js";
-import { checkStopPositionsUniqueIds } from "./stop-rules/position-unique-ids.js";
-import { checkStopPositionsUniqueNames } from "./stop-rules/position-unique-names.js";
+import { checkStopPositionsUniqueIds } from "./stop-rules/position-rules/position-unique-ids.js";
+import { checkStopPositionsUniqueNames } from "./stop-rules/position-rules/position-unique-names.js";
 import { checkStopNoDuplicateTags } from "./stop-rules/no-duplicate-tags.js";
-
 import { checkLinesUniqueIds } from "./line-rules/unique-ids.js";
 import { checkLinesUniqueNames } from "./line-rules/unique-names.js";
 import { checkLinesAllOrNoneHaveCodes } from "./line-rules/all-or-none-codes.js";
 import { checkLineHasRoutes } from "./line-rules/has-routes.js";
-import { checkLineRoutesUniqueIds } from "./line-rules/route-unique-ids.js";
-import { checkLineRoutesUniqueNames } from "./line-rules/route-unique-names.js";
-import { checkLineRoutesMirrored } from "./line-rules/routes-mirrored.js";
+import { checkLineRoutesUniqueIds } from "./line-rules/route-rules/route-unique-ids.js";
+import { checkLineRoutesUniqueNames } from "./line-rules/route-rules/route-unique-names.js";
+import { checkLineRoutesMirrored } from "./line-rules/route-rules/routes-mirrored.js";
 import { checkLineNoDuplicateTags } from "./line-rules/no-duplicate-tags.js";
-import { checkRouteHasMinimumStops } from "./line-rules/route-minimum-stops.js";
-import { checkRouteNoDuplicateTags } from "./line-rules/route-no-duplicate-tags.js";
-import { checkRouteStopsExist } from "./line-rules/route-stops-exist.js";
-import { checkLineDiagramHasEntries } from "./line-rules/diagram-has-entries.js";
-import { checkLineDiagramEntriesMinimumStops } from "./line-rules/diagram-entry-minimum-stops.js";
-import { checkLineDiagramStopsExist } from "./line-rules/diagram-stops-exist.js";
-import { checkLineDiagramStopsInRoutes } from "./line-rules/diagram-stops-in-routes.js";
-
+import { checkRouteHasMinimumStops } from "./line-rules/route-rules/route-minimum-stops.js";
+import { checkRouteNoDuplicateTags } from "./line-rules/route-rules/route-no-duplicate-tags.js";
+import { checkRouteStopsExist } from "./line-rules/route-rules/route-stops-exist.js";
+import { checkLineDiagramHasEntries } from "./line-rules/diagram-rules/diagram-has-entries.js";
+import { checkLineDiagramEntriesMinimumStops } from "./line-rules/diagram-rules/diagram-entry-minimum-stops.js";
+import { checkLineDiagramStopsExist } from "./line-rules/diagram-rules/diagram-stops-exist.js";
+import { checkLineDiagramStopsInRoutes } from "./line-rules/diagram-rules/diagram-stops-in-routes.js";
 import { checkLinesPageAllLinesListed } from "./lines-page-rules/all-lines-listed.js";
 import { checkLinesPageNoDuplicateLines } from "./lines-page-rules/no-duplicate-lines.js";
-
 import { checkTagsNoDuplicatesInSuccession } from "./tags-rules/no-duplicates-in-succession.js";
 
 export function lintConfig(

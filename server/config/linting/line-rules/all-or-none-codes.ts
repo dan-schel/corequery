@@ -15,11 +15,11 @@ export function checkLinesAllOrNoneHaveCodes(
   const status = allOrNone(linesToCheck, (line) => line.code !== null);
 
   if (status === "mixed") {
-    lines.forEach((line, index) => {
-      if (line.code === null && !options?.[line.id]?.ignoreMissingCode) {
+    linesToCheck.forEach((line, index) => {
+      if (line.code === null) {
         issues.push(
           createIssue(
-            `Line "${line.name}" is missing a code (all lines should have codes or none should)`,
+            `Line "${line.name}" is missing a code.`,
             `lines[${index}].code`,
           ),
         );
