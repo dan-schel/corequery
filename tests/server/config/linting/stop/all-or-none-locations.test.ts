@@ -20,7 +20,7 @@ describe("checkStopsAllOrNoneHaveLocations", () => {
       createStop({ id: 2, location: null }),
     ]);
 
-    expectIssueMessages(issues, ['Stop "Stop" is missing a location']);
+    expectIssueMessages(issues, ['Stop "Stop" is missing a location.']);
   });
 
   it("ignores missing locations when configured", () => {

@@ -19,7 +19,7 @@ export function checkStopsAllOrNoneHavePositions(
 
   for (const { item: stop, index } of missingPositions ?? []) {
     issues.add({
-      message: `Stop "${stop.name}" has no positions`,
+      message: `Stop "${stop.name}" has no positions.`,
       path: `stops[${index}].positions`,
     });
   }

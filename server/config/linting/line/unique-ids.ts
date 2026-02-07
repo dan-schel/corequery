@@ -11,7 +11,7 @@ export function checkLinesUniqueIds(
   duplicates.forEach((indices, id) => {
     indices.forEach((index) => {
       issues.add({
-        message: `Line ID ${id} is duplicated`,
+        message: `Line ID ${id} is duplicated.`,
         path: `lines[${index}].id`,
       });
     });

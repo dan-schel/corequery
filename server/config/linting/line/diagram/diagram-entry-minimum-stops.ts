@@ -10,7 +10,7 @@ export function checkLineDiagramEntriesMinimumStops(
     if (entry.stops.length < 2) {
       const entryName = entry.name || `Entry ${entryIndex}`;
       issues.add({
-        message: `Diagram entry "${entryName}" in line "${line.name}" has fewer than 2 stops`,
+        message: `Diagram entry "${entryName}" in line "${line.name}" has fewer than 2 stops.`,
         path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops`,
       });
     }

@@ -33,7 +33,7 @@ describe("checkLineDiagramStopsInRoutes", () => {
     const issues = collectIssues(checkLineDiagramStopsInRoutes, line, 0);
 
     expectIssueMessages(issues, [
-      'Stop ID 2 in diagram entry "Entry 0" of line "Line" does not exist in any route',
+      'Stop ID 2 in diagram entry "Entry 0" of line "Line" does not exist in any route.',
     ]);
   });
 

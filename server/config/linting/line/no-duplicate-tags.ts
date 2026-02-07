@@ -11,7 +11,7 @@ export function checkLineNoDuplicateTags(
   line.tags.forEach((tag, tagIndex) => {
     if (seen.has(tag)) {
       issues.add({
-        message: `Tag ${tag} is duplicated in line "${line.name}"`,
+        message: `Tag ${tag} is duplicated in line "${line.name}".`,
         path: `lines[${lineIndex}].tags[${tagIndex}]`,
       });
     }

@@ -11,7 +11,7 @@ export function checkStopNoDuplicateTags(
   stop.tags.forEach((tag, tagIndex) => {
     if (seen.has(tag)) {
       issues.add({
-        message: `Tag ${tag} is duplicated in stop "${stop.name}"`,
+        message: `Tag ${tag} is duplicated in stop "${stop.name}".`,
         path: `stops[${stopIndex}].tags[${tagIndex}]`,
       });
     }

@@ -23,7 +23,7 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
 
     expectIssueMessages(issues, [
-      'Diagram entry "Entry 0" in line "Line" has fewer than 2 stops',
+      'Diagram entry "Entry 0" in line "Line" has fewer than 2 stops.',
     ]);
   });
 });

@@ -24,7 +24,7 @@ export function checkLineDiagramStopsInRoutes(
       if (!routeStopIds.has(diagramStop.stopId)) {
         const entryName = entry.name || `Entry ${entryIndex}`;
         issues.add({
-          message: `Stop ID ${diagramStop.stopId} in diagram entry "${entryName}" of line "${line.name}" does not exist in any route`,
+          message: `Stop ID ${diagramStop.stopId} in diagram entry "${entryName}" of line "${line.name}" does not exist in any route.`,
           path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops[${stopIndex}].stopId`,
         });
       }

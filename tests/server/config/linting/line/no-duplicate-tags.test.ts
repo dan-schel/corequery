@@ -16,6 +16,6 @@ describe("checkLineNoDuplicateTags", () => {
     const line = createLine({ tags: [1, 2, 1] });
     const issues = collectIssues(checkLineNoDuplicateTags, line, 0);
 
-    expectIssueMessages(issues, ['Tag 1 is duplicated in line "Line"']);
+    expectIssueMessages(issues, ['Tag 1 is duplicated in line "Line".']);
   });
 });

@@ -21,8 +21,8 @@ describe("checkStopsUniqueNames", () => {
     ]);
 
     expectIssueMessages(issues, [
-      'Stop name "A" is duplicated',
-      'Stop name "A" is duplicated',
+      'Stop name "A" is duplicated.',
+      'Stop name "A" is duplicated.',
     ]);
   });
 

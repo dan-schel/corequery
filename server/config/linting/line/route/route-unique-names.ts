@@ -19,7 +19,7 @@ export function checkLineRoutesUniqueNames(
       }
 
       issues.add({
-        message: `Route name "${name}" is duplicated in line "${line.name}"`,
+        message: `Route name "${name}" is duplicated in line "${line.name}".`,
         path: `lines[${lineIndex}].routes[${index}].name`,
       });
     });

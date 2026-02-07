@@ -24,7 +24,7 @@ export function checkLinesPageNoDuplicateLines(
 
     if (sectionNames.length > 1) {
       issues.add({
-        message: `Line "${line.name}" appears in multiple lines page sections: ${sectionNames.join(", ")}`,
+        message: `Line "${line.name}" appears in multiple lines page sections: ${sectionNames.join(", ")}.`,
         path: "linesPage.sections",
       });
     }

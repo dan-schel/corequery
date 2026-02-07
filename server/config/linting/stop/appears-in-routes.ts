@@ -25,7 +25,7 @@ export function checkStopsAppearInRoutes(
 
     if (!stopIdsInRoutes.has(stop.id)) {
       issues.add({
-        message: `Stop "${stop.name}" does not appear in any route`,
+        message: `Stop "${stop.name}" does not appear in any route.`,
         path: `stops[${index}]`,
       });
     }

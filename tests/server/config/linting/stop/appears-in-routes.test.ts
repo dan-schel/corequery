@@ -51,7 +51,7 @@ describe("checkStopsAppearInRoutes", () => {
 
     const issues = collectIssues(checkStopsAppearInRoutes, stops, lines);
 
-    expectIssueMessages(issues, ['Stop "Stop" does not appear in any route']);
+    expectIssueMessages(issues, ['Stop "Stop" does not appear in any route.']);
   });
 
   it("ignores unused stops when configured", () => {

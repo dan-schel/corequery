@@ -19,7 +19,7 @@ export function checkStopsAllOrNoneHaveLocations(
 
   for (const { item: stop, index } of missingLocations ?? []) {
     issues.add({
-      message: `Stop "${stop.name}" is missing a location`,
+      message: `Stop "${stop.name}" is missing a location.`,
       path: `stops[${index}].location`,
     });
   }

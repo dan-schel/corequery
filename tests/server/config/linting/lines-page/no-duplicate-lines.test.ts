@@ -36,7 +36,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
     );
 
     expectIssueMessages(issues, [
-      'Line "Line" appears in multiple lines page sections: A, B',
+      'Line "Line" appears in multiple lines page sections: A, B.',
     ]);
   });
 

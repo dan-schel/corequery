@@ -18,7 +18,7 @@ export function checkLinesUniqueNames(
       }
 
       issues.add({
-        message: `Line name "${name}" is duplicated`,
+        message: `Line name "${name}" is duplicated.`,
         path: `lines[${index}].name`,
       });
     });

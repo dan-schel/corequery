@@ -29,8 +29,8 @@ describe("checkStopPositionsUniqueNames", () => {
     const issues = collectIssues(checkStopPositionsUniqueNames, stop, 0);
 
     expectIssueMessages(issues, [
-      'Position name "A" is duplicated in stop "Stop"',
-      'Position name "A" is duplicated in stop "Stop"',
+      'Position name "A" is duplicated in stop "Stop".',
+      'Position name "A" is duplicated in stop "Stop".',
     ]);
   });
 

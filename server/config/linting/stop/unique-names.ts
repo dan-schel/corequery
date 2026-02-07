@@ -18,7 +18,7 @@ export function checkStopsUniqueNames(
       }
 
       issues.add({
-        message: `Stop name "${name}" is duplicated`,
+        message: `Stop name "${name}" is duplicated.`,
         path: `stops[${index}].name`,
       });
     });

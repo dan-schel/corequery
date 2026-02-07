@@ -35,7 +35,7 @@ describe("checkLineRoutesMirrored", () => {
     const issues = collectIssues(checkLineRoutesMirrored, line, 0);
 
     expectIssueMessages(issues, [
-      'Route "Route" in line "Line" does not have a mirrored route',
+      'Route "Route" in line "Line" does not have a mirrored route.',
     ]);
   });
 

@@ -35,7 +35,7 @@ describe("checkRouteHasMinimumStops", () => {
     );
 
     expectIssueMessages(issues, [
-      'Route "Route" in line "Line" has fewer than 2 stops',
+      'Route "Route" in line "Line" has fewer than 2 stops.',
     ]);
   });
 });

@@ -13,7 +13,7 @@ export function checkRouteNoDuplicateTags(
   route.tags.forEach((tag, tagIndex) => {
     if (seen.has(tag)) {
       issues.add({
-        message: `Tag ${tag} is duplicated in route "${route.name}" of line "${lineName}"`,
+        message: `Tag ${tag} is duplicated in route "${route.name}" of line "${lineName}".`,
         path: `lines[${lineIndex}].routes[${routeIndex}].tags[${tagIndex}]`,
       });
     }

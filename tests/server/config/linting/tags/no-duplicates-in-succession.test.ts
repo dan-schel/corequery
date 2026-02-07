@@ -17,7 +17,7 @@ describe("checkTagsNoDuplicatesInSuccession", () => {
     const issues = collectIssues(checkTagsNoDuplicatesInSuccession, tags);
 
     expectIssueMessages(issues, [
-      "Tag 1 is duplicated in succession for key 1",
+      "Tag 1 is duplicated in succession for key 1.",
     ]);
   });
 });

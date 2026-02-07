@@ -11,7 +11,7 @@ export function checkStopsUniqueIds(
   duplicates.forEach((indices, id) => {
     indices.forEach((index) => {
       issues.add({
-        message: `Stop ID ${id} is duplicated`,
+        message: `Stop ID ${id} is duplicated.`,
         path: `stops[${index}].id`,
       });
     });

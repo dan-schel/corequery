@@ -21,8 +21,8 @@ describe("checkLinesUniqueNames", () => {
     ]);
 
     expectIssueMessages(issues, [
-      'Line name "A" is duplicated',
-      'Line name "A" is duplicated',
+      'Line name "A" is duplicated.',
+      'Line name "A" is duplicated.',
     ]);
   });
 

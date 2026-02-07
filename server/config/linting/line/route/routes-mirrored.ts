@@ -20,7 +20,7 @@ export function checkLineRoutesMirrored(
 
     if (!hasMirror) {
       issues.add({
-        message: `Route "${route.name}" in line "${line.name}" does not have a mirrored route`,
+        message: `Route "${route.name}" in line "${line.name}" does not have a mirrored route.`,
         path: `lines[${lineIndex}].routes[${routeIndex}]`,
       });
     }

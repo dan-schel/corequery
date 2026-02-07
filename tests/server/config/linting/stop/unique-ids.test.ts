@@ -21,8 +21,8 @@ describe("checkStopsUniqueIds", () => {
     ]);
 
     expectIssueMessages(issues, [
-      "Stop ID 1 is duplicated",
-      "Stop ID 1 is duplicated",
+      "Stop ID 1 is duplicated.",
+      "Stop ID 1 is duplicated.",
     ]);
   });
 });

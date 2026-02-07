@@ -14,7 +14,7 @@ export function checkLineDiagramHasEntries(
 
   if (line.diagram.entries.length === 0) {
     issues.add({
-      message: `Line "${line.name}" has no diagram entries`,
+      message: `Line "${line.name}" has no diagram entries.`,
       path: `lines[${lineIndex}].diagram.entries`,
     });
   }

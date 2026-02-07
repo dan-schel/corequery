@@ -20,7 +20,7 @@ describe("checkStopsAllOrNoneHavePositions", () => {
       createStop({ id: 2, positions: [] }),
     ]);
 
-    expectIssueMessages(issues, ['Stop "Stop" has no positions']);
+    expectIssueMessages(issues, ['Stop "Stop" has no positions.']);
   });
 
   it("ignores missing positions when configured", () => {

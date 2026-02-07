@@ -32,7 +32,7 @@ function checkSuccessionNoDuplicates(
     tags.forEach((tag, index) => {
       if (seen.has(tag)) {
         issues.add({
-          message: `Tag ${tag} is duplicated in succession for key ${key}`,
+          message: `Tag ${tag} is duplicated in succession for key ${key}.`,
           path: `${path}[${key}][${index}]`,
         });
       }

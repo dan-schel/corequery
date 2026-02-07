@@ -10,7 +10,7 @@ export function checkRouteHasMinimumStops(
 ) {
   if (route.stops.length < 2) {
     issues.add({
-      message: `Route "${route.name}" in line "${lineName}" has fewer than 2 stops`,
+      message: `Route "${route.name}" in line "${lineName}" has fewer than 2 stops.`,
       path: `lines[${lineIndex}].routes[${routeIndex}].stops`,
     });
   }

@@ -24,7 +24,7 @@ export function checkLinesPageAllLinesListed(
 
     if (!isListed) {
       issues.add({
-        message: `Line "${line.name}" is not listed in any lines page section`,
+        message: `Line "${line.name}" is not listed in any lines page section.`,
         path: `lines[${index}]`,
       });
     }

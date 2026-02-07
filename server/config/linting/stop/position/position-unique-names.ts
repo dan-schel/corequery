@@ -21,7 +21,7 @@ export function checkStopPositionsUniqueNames(
   duplicates.forEach((indices, name) => {
     indices.forEach((index) => {
       issues.add({
-        message: `Position name "${name}" is duplicated in stop "${stop.name}"`,
+        message: `Position name "${name}" is duplicated in stop "${stop.name}".`,
         path: `stops[${stopIndex}].positions[${index}].name`,
       });
     });

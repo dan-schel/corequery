@@ -16,6 +16,6 @@ describe("checkStopNoDuplicateTags", () => {
     const stop = createStop({ tags: [1, 2, 1] });
     const issues = collectIssues(checkStopNoDuplicateTags, stop, 0);
 
-    expectIssueMessages(issues, ['Tag 1 is duplicated in stop "Stop"']);
+    expectIssueMessages(issues, ['Tag 1 is duplicated in stop "Stop".']);
   });
 });

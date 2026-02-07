@@ -16,7 +16,7 @@ describe("checkLineHasRoutes", () => {
     const line = createLine({ routes: [] });
     const issues = collectIssues(checkLineHasRoutes, line, 0);
 
-    expectIssueMessages(issues, ['Line "Line" has no routes']);
+    expectIssueMessages(issues, ['Line "Line" has no routes.']);
   });
 
   it("ignores missing routes when configured", () => {

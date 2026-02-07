@@ -35,7 +35,7 @@ describe("checkRouteStopsExist", () => {
     );
 
     expectIssueMessages(issues, [
-      'Stop ID 2 in route "Route" of line "Line" does not exist in the stop list',
+      'Stop ID 2 in route "Route" of line "Line" does not exist in the stop list.',
     ]);
   });
 });

@@ -29,7 +29,7 @@ describe("checkRouteNoDuplicateTags", () => {
     );
 
     expectIssueMessages(issues, [
-      'Tag 1 is duplicated in route "Route" of line "Line"',
+      'Tag 1 is duplicated in route "Route" of line "Line".',
     ]);
   });
 });

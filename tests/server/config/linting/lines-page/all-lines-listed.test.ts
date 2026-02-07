@@ -31,7 +31,7 @@ describe("checkLinesPageAllLinesListed", () => {
     );
 
     expectIssueMessages(issues, [
-      'Line "Line" is not listed in any lines page section',
+      'Line "Line" is not listed in any lines page section.',
     ]);
   });
 

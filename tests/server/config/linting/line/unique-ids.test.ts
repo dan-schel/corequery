@@ -21,8 +21,8 @@ describe("checkLinesUniqueIds", () => {
     ]);
 
     expectIssueMessages(issues, [
-      "Line ID 1 is duplicated",
-      "Line ID 1 is duplicated",
+      "Line ID 1 is duplicated.",
+      "Line ID 1 is duplicated.",
     ]);
   });
 });

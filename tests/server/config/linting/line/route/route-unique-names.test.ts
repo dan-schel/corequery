@@ -29,8 +29,8 @@ describe("checkLineRoutesUniqueNames", () => {
     const issues = collectIssues(checkLineRoutesUniqueNames, line, 0);
 
     expectIssueMessages(issues, [
-      'Route name "A" is duplicated in line "Line"',
-      'Route name "A" is duplicated in line "Line"',
+      'Route name "A" is duplicated in line "Line".',
+      'Route name "A" is duplicated in line "Line".',
     ]);
   });
 
