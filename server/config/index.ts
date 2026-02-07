@@ -8,3 +8,4 @@ export * from "./lines-page-config.js";
 export * from "./stop-config.js";
 export * from "./tags-config.js";
 export * from "./terminology-config.js";
+export * from "./linting/index.js";
