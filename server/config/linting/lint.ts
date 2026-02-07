@@ -97,12 +97,14 @@ export function lintConfig(
     issues,
     config.linesPage,
     config.lines,
+    config.tags.lineTagSuccession,
     options?.linesPage,
   );
   checkLinesPageNoDuplicateLines(
     issues,
     config.linesPage,
     config.lines,
+    config.tags.lineTagSuccession,
     options?.linesPage,
   );
 

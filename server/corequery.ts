@@ -1,5 +1,6 @@
 import { runSharedCode } from "../shared/example.js";
 import type { CorequeryConfig } from "./config/config.js";
+import { FoundationalData } from "./data/foundational-data.js";
 import { serverFolderPath } from "./dirname.js";
 import { env } from "./env.js";
 import { WebServer } from "./web-server/web-server.js";
@@ -12,6 +13,9 @@ export class Corequery {
 
   constructor(configBuilder: CorequeryConfigBuilder) {
     this._config = configBuilder(this);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const foundationalData = FoundationalData.build(this._config);
 
     this._webServer = new WebServer(
       this,

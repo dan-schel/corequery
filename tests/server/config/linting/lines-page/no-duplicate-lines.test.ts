@@ -13,6 +13,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       checkLinesPageNoDuplicateLines,
       linesPage,
       lines,
+      {},
     );
 
     expectIssueMessages(issues, []);
@@ -23,7 +24,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
     const linesPage = createLinesPage({
       sections: [
         { tag: 10, name: "A" },
-        { tag: 10, name: "B" },
+        { tag: 11, name: "B" },
       ],
     });
 
@@ -31,11 +32,11 @@ describe("checkLinesPageNoDuplicateLines", () => {
       checkLinesPageNoDuplicateLines,
       linesPage,
       lines,
+      { 10: [11] },
     );
 
     expectIssueMessages(issues, [
-      'Line "Line" appears in multiple lines page sections',
-      'Line "Line" appears in multiple lines page sections',
+      'Line "Line" appears in multiple lines page sections: A, B',
     ]);
   });
 
@@ -52,6 +53,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       checkLinesPageNoDuplicateLines,
       linesPage,
       lines,
+      {},
       { ignoreDuplicatedLine: true },
     );
 

@@ -6,13 +6,14 @@ import { createLine, createLinesPage } from "../support/factories.js";
 
 describe("checkLinesPageAllLinesListed", () => {
   it("returns no issues when all lines are listed", () => {
-    const lines = [createLine({ id: 1, tags: [10] })];
+    const lines = [createLine({ id: 1, tags: [1] })];
     const linesPage = createLinesPage({ sections: [{ tag: 10, name: "A" }] });
 
     const issues = collectIssues(
       checkLinesPageAllLinesListed,
       linesPage,
       lines,
+      { 1: [10] },
     );
 
     expectIssueMessages(issues, []);
@@ -26,6 +27,7 @@ describe("checkLinesPageAllLinesListed", () => {
       checkLinesPageAllLinesListed,
       linesPage,
       lines,
+      {},
     );
 
     expectIssueMessages(issues, [
@@ -41,6 +43,7 @@ describe("checkLinesPageAllLinesListed", () => {
       checkLinesPageAllLinesListed,
       linesPage,
       lines,
+      {},
       { ignoreUnlistedLine: true },
     );
 
