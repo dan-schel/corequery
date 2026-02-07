@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopsUniqueNames } from "../../../../../server/config/linting/stop/unique-names.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createStop } from "../support/factories.js";
 
 describe("checkStopsUniqueNames", () => {
@@ -10,7 +11,7 @@ describe("checkStopsUniqueNames", () => {
       createStop({ id: 2, name: "B" }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate names", () => {
@@ -19,7 +20,10 @@ describe("checkStopsUniqueNames", () => {
       createStop({ id: 2, name: "A" }),
     ]);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      'Stop name "A" is duplicated',
+      'Stop name "A" is duplicated',
+    ]);
   });
 
   it("ignores duplicates when configured", () => {
@@ -29,6 +33,6 @@ describe("checkStopsUniqueNames", () => {
       { 1: { ignoreDuplicatedName: true }, 2: { ignoreDuplicatedName: true } },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

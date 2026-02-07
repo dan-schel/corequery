@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkRouteHasMinimumStops } from "../../../../../../server/config/linting/line/route/route-minimum-stops.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createRoute } from "../../support/factories.js";
 
 describe("checkRouteHasMinimumStops", () => {
@@ -20,7 +21,7 @@ describe("checkRouteHasMinimumStops", () => {
       "Line",
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when route has fewer than 2 stops", () => {
@@ -33,6 +34,8 @@ describe("checkRouteHasMinimumStops", () => {
       "Line",
     );
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Route "Route" in line "Line" has fewer than 2 stops',
+    ]);
   });
 });

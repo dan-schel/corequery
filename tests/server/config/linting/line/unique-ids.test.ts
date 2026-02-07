@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLinesUniqueIds } from "../../../../../server/config/linting/line/unique-ids.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine } from "../support/factories.js";
 
 describe("checkLinesUniqueIds", () => {
@@ -10,7 +11,7 @@ describe("checkLinesUniqueIds", () => {
       createLine({ id: 2 }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate IDs", () => {
@@ -19,6 +20,9 @@ describe("checkLinesUniqueIds", () => {
       createLine({ id: 1 }),
     ]);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      "Line ID 1 is duplicated",
+      "Line ID 1 is duplicated",
+    ]);
   });
 });

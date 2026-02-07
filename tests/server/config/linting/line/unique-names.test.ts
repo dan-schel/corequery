@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLinesUniqueNames } from "../../../../../server/config/linting/line/unique-names.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine } from "../support/factories.js";
 
 describe("checkLinesUniqueNames", () => {
@@ -10,7 +11,7 @@ describe("checkLinesUniqueNames", () => {
       createLine({ id: 2, name: "B" }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate names", () => {
@@ -19,7 +20,10 @@ describe("checkLinesUniqueNames", () => {
       createLine({ id: 2, name: "A" }),
     ]);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      'Line name "A" is duplicated',
+      'Line name "A" is duplicated',
+    ]);
   });
 
   it("ignores duplicates when configured", () => {
@@ -29,6 +33,6 @@ describe("checkLinesUniqueNames", () => {
       { 1: { ignoreDuplicatedName: true }, 2: { ignoreDuplicatedName: true } },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

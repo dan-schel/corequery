@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineRoutesUniqueNames } from "../../../../../../server/config/linting/line/route/route-unique-names.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine, createRoute } from "../../support/factories.js";
 
 describe("checkLineRoutesUniqueNames", () => {
@@ -14,7 +15,7 @@ describe("checkLineRoutesUniqueNames", () => {
 
     const issues = collectIssues(checkLineRoutesUniqueNames, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate route names", () => {
@@ -27,7 +28,10 @@ describe("checkLineRoutesUniqueNames", () => {
 
     const issues = collectIssues(checkLineRoutesUniqueNames, line, 0);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      'Route name "A" is duplicated in line "Line"',
+      'Route name "A" is duplicated in line "Line"',
+    ]);
   });
 
   it("ignores duplicates when configured", () => {
@@ -45,6 +49,6 @@ describe("checkLineRoutesUniqueNames", () => {
       },
     });
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

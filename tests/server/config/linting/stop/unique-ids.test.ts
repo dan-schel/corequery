@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopsUniqueIds } from "../../../../../server/config/linting/stop/unique-ids.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createStop } from "../support/factories.js";
 
 describe("checkStopsUniqueIds", () => {
@@ -10,7 +11,7 @@ describe("checkStopsUniqueIds", () => {
       createStop({ id: 2 }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate IDs", () => {
@@ -19,6 +20,9 @@ describe("checkStopsUniqueIds", () => {
       createStop({ id: 1 }),
     ]);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      "Stop ID 1 is duplicated",
+      "Stop ID 1 is duplicated",
+    ]);
   });
 });

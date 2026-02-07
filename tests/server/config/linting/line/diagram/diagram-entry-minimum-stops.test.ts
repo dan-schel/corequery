@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineDiagramEntriesMinimumStops } from "../../../../../../server/config/linting/line/diagram/diagram-entry-minimum-stops.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createDiagramEntry, createLine } from "../../support/factories.js";
 
 describe("checkLineDiagramEntriesMinimumStops", () => {
@@ -8,7 +9,7 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     const line = createLine({ diagram: { entries: [createDiagramEntry()] } });
     const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when an entry has fewer than 2 stops", () => {
@@ -21,6 +22,8 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     });
     const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Diagram entry "Entry 0" in line "Line" has fewer than 2 stops',
+    ]);
   });
 });

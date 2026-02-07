@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLinesAllOrNoneHaveCodes } from "../../../../../server/config/linting/line/all-or-none-codes.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine } from "../support/factories.js";
 
 describe("checkLinesAllOrNoneHaveCodes", () => {
@@ -10,7 +11,7 @@ describe("checkLinesAllOrNoneHaveCodes", () => {
       createLine({ id: 2, code: null }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when codes are mixed", () => {
@@ -19,7 +20,7 @@ describe("checkLinesAllOrNoneHaveCodes", () => {
       createLine({ id: 2, code: null }),
     ]);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Line "Line" is missing a code.']);
   });
 
   it("ignores missing codes when configured", () => {
@@ -29,6 +30,6 @@ describe("checkLinesAllOrNoneHaveCodes", () => {
       { 2: { ignoreMissingCode: true } },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

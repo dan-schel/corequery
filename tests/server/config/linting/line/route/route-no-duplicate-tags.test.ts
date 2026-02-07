@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkRouteNoDuplicateTags } from "../../../../../../server/config/linting/line/route/route-no-duplicate-tags.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createRoute } from "../../support/factories.js";
 
 describe("checkRouteNoDuplicateTags", () => {
@@ -14,7 +15,7 @@ describe("checkRouteNoDuplicateTags", () => {
       "Line",
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when tags are duplicated", () => {
@@ -27,6 +28,8 @@ describe("checkRouteNoDuplicateTags", () => {
       "Line",
     );
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Tag 1 is duplicated in route "Route" of line "Line"',
+    ]);
   });
 });

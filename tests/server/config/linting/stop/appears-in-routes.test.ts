@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopsAppearInRoutes } from "../../../../../server/config/linting/stop/appears-in-routes.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine, createStop } from "../support/factories.js";
 
 describe("checkStopsAppearInRoutes", () => {
@@ -29,7 +30,7 @@ describe("checkStopsAppearInRoutes", () => {
 
     const issues = collectIssues(checkStopsAppearInRoutes, stops, lines);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for unused stops", () => {
@@ -50,7 +51,7 @@ describe("checkStopsAppearInRoutes", () => {
 
     const issues = collectIssues(checkStopsAppearInRoutes, stops, lines);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Stop "Stop" does not appear in any route']);
   });
 
   it("ignores unused stops when configured", () => {
@@ -73,6 +74,6 @@ describe("checkStopsAppearInRoutes", () => {
       2: { ignoreUnusedStop: true },
     });
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

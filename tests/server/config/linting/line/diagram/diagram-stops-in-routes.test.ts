@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineDiagramStopsInRoutes } from "../../../../../../server/config/linting/line/diagram/diagram-stops-in-routes.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine, createRoute } from "../../support/factories.js";
 
 describe("checkLineDiagramStopsInRoutes", () => {
@@ -16,7 +17,7 @@ describe("checkLineDiagramStopsInRoutes", () => {
 
     const issues = collectIssues(checkLineDiagramStopsInRoutes, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when diagram stop is not in any route", () => {
@@ -31,6 +32,8 @@ describe("checkLineDiagramStopsInRoutes", () => {
 
     const issues = collectIssues(checkLineDiagramStopsInRoutes, line, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Stop ID 2 in diagram entry "Entry 0" of line "Line" does not exist in any route',
+    ]);
   });
 });

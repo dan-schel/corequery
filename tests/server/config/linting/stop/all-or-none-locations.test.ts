@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopsAllOrNoneHaveLocations } from "../../../../../server/config/linting/stop/all-or-none-locations.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createStop } from "../support/factories.js";
 
 describe("checkStopsAllOrNoneHaveLocations", () => {
@@ -10,7 +11,7 @@ describe("checkStopsAllOrNoneHaveLocations", () => {
       createStop({ id: 2, location: null }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when locations are mixed", () => {
@@ -19,7 +20,7 @@ describe("checkStopsAllOrNoneHaveLocations", () => {
       createStop({ id: 2, location: null }),
     ]);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Stop "Stop" is missing a location']);
   });
 
   it("ignores missing locations when configured", () => {
@@ -32,6 +33,6 @@ describe("checkStopsAllOrNoneHaveLocations", () => {
       { 2: { ignoreMissingLocation: true } },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

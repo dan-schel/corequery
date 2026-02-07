@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopPositionsUniqueIds } from "../../../../../../server/config/linting/stop/position/position-unique-ids.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createStop } from "../../support/factories.js";
 
 describe("checkStopPositionsUniqueIds", () => {
@@ -14,7 +15,7 @@ describe("checkStopPositionsUniqueIds", () => {
 
     const issues = collectIssues(checkStopPositionsUniqueIds, stop, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate IDs", () => {
@@ -27,6 +28,9 @@ describe("checkStopPositionsUniqueIds", () => {
 
     const issues = collectIssues(checkStopPositionsUniqueIds, stop, 0);
 
-    expect(issues).toHaveLength(2);
+    expectIssueMessages(issues, [
+      'Position ID 1 is duplicated in stop "Stop"',
+      'Position ID 1 is duplicated in stop "Stop"',
+    ]);
   });
 });

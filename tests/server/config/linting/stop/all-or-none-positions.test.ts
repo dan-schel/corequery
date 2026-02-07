@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopsAllOrNoneHavePositions } from "../../../../../server/config/linting/stop/all-or-none-positions.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createStop } from "../support/factories.js";
 
 describe("checkStopsAllOrNoneHavePositions", () => {
@@ -10,7 +11,7 @@ describe("checkStopsAllOrNoneHavePositions", () => {
       createStop({ id: 2, positions: [] }),
     ]);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when positions are mixed", () => {
@@ -19,7 +20,7 @@ describe("checkStopsAllOrNoneHavePositions", () => {
       createStop({ id: 2, positions: [] }),
     ]);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Stop "Stop" has no positions']);
   });
 
   it("ignores missing positions when configured", () => {
@@ -32,6 +33,6 @@ describe("checkStopsAllOrNoneHavePositions", () => {
       { 2: { ignoreMissingPosition: true } },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

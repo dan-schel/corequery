@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineHasRoutes } from "../../../../../server/config/linting/line/has-routes.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine, createRoute } from "../support/factories.js";
 
 describe("checkLineHasRoutes", () => {
@@ -8,13 +9,13 @@ describe("checkLineHasRoutes", () => {
     const line = createLine({ routes: [createRoute()] });
     const issues = collectIssues(checkLineHasRoutes, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when routes are missing", () => {
     const line = createLine({ routes: [] });
     const issues = collectIssues(checkLineHasRoutes, line, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Line "Line" has no routes']);
   });
 });

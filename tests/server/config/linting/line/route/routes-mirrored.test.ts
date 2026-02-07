@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineRoutesMirrored } from "../../../../../../server/config/linting/line/route/routes-mirrored.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine, createRoute } from "../../support/factories.js";
 
 describe("checkLineRoutesMirrored", () => {
@@ -26,14 +27,16 @@ describe("checkLineRoutesMirrored", () => {
 
     const issues = collectIssues(checkLineRoutesMirrored, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when no mirror exists", () => {
     const line = createLine({ routes: [createRoute({ id: 1 })] });
     const issues = collectIssues(checkLineRoutesMirrored, line, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Route "Route" in line "Line" does not have a mirrored route',
+    ]);
   });
 
   it("ignores missing mirrors when configured", () => {
@@ -42,6 +45,6 @@ describe("checkLineRoutesMirrored", () => {
       routes: { 1: { ignoreMissingMirrored: true } },
     });
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

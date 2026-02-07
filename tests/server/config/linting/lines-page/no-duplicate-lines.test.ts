@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLinesPageNoDuplicateLines } from "../../../../../server/config/linting/lines-page/no-duplicate-lines.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine, createLinesPage } from "../support/factories.js";
 
 describe("checkLinesPageNoDuplicateLines", () => {
@@ -14,7 +15,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       lines,
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when a line appears twice", () => {
@@ -32,7 +33,10 @@ describe("checkLinesPageNoDuplicateLines", () => {
       lines,
     );
 
-    expect(issues.length).toBeGreaterThan(0);
+    expectIssueMessages(issues, [
+      'Line "Line" appears in multiple lines page sections',
+      'Line "Line" appears in multiple lines page sections',
+    ]);
   });
 
   it("ignores duplicates when configured", () => {
@@ -51,6 +55,6 @@ describe("checkLinesPageNoDuplicateLines", () => {
       { ignoreDuplicatedLine: true },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

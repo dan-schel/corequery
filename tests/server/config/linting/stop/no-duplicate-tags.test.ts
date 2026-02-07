@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkStopNoDuplicateTags } from "../../../../../server/config/linting/stop/no-duplicate-tags.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createStop } from "../support/factories.js";
 
 describe("checkStopNoDuplicateTags", () => {
@@ -8,13 +9,13 @@ describe("checkStopNoDuplicateTags", () => {
     const stop = createStop({ tags: [1, 2, 3] });
     const issues = collectIssues(checkStopNoDuplicateTags, stop, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when tags are duplicated", () => {
     const stop = createStop({ tags: [1, 2, 1] });
     const issues = collectIssues(checkStopNoDuplicateTags, stop, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Tag 1 is duplicated in stop "Stop"']);
   });
 });

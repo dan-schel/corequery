@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkTagsNoDuplicatesInSuccession } from "../../../../../server/config/linting/tags/no-duplicates-in-succession.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createTagsConfig } from "../support/factories.js";
 
 describe("checkTagsNoDuplicatesInSuccession", () => {
@@ -8,13 +9,15 @@ describe("checkTagsNoDuplicatesInSuccession", () => {
     const tags = createTagsConfig({ stopTagSuccession: { 1: [1, 2, 3] } });
     const issues = collectIssues(checkTagsNoDuplicatesInSuccession, tags);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when tags are duplicated", () => {
     const tags = createTagsConfig({ stopTagSuccession: { 1: [1, 2, 1] } });
     const issues = collectIssues(checkTagsNoDuplicatesInSuccession, tags);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      "Tag 1 is duplicated in succession for key 1",
+    ]);
   });
 });

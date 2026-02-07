@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLinesPageAllLinesListed } from "../../../../../server/config/linting/lines-page/all-lines-listed.js";
 import { collectIssues } from "../support/collect-issues.js";
+import { expectIssueMessages } from "../support/expect-issues.js";
 import { createLine, createLinesPage } from "../support/factories.js";
 
 describe("checkLinesPageAllLinesListed", () => {
@@ -14,7 +15,7 @@ describe("checkLinesPageAllLinesListed", () => {
       lines,
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when a line is unlisted", () => {
@@ -27,7 +28,9 @@ describe("checkLinesPageAllLinesListed", () => {
       lines,
     );
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, [
+      'Line "Line" is not listed in any lines page section',
+    ]);
   });
 
   it("ignores unlisted lines when configured", () => {
@@ -41,6 +44,6 @@ describe("checkLinesPageAllLinesListed", () => {
       { ignoreUnlistedLine: true },
     );
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 });

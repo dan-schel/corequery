@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { checkLineDiagramHasEntries } from "../../../../../../server/config/linting/line/diagram/diagram-has-entries.js";
 import { collectIssues } from "../../support/collect-issues.js";
+import { expectIssueMessages } from "../../support/expect-issues.js";
 import { createLine } from "../../support/factories.js";
 
 describe("checkLineDiagramHasEntries", () => {
@@ -10,13 +11,13 @@ describe("checkLineDiagramHasEntries", () => {
     });
     const issues = collectIssues(checkLineDiagramHasEntries, line, 0);
 
-    expect(issues).toEqual([]);
+    expectIssueMessages(issues, []);
   });
 
   it("returns issues when no entries exist", () => {
     const line = createLine({ diagram: { entries: [] } });
     const issues = collectIssues(checkLineDiagramHasEntries, line, 0);
 
-    expect(issues).toHaveLength(1);
+    expectIssueMessages(issues, ['Line "Line" has no diagram entries']);
   });
 });
