@@ -15,8 +15,10 @@ export function checkLinesPageAllLinesListed(
   const issues: LintIssue[] = [];
   const listedLineIds = new Set<number>();
 
+  // TODO: Seems unnecessary to do this in two stages.
   linesPage.sections.forEach((section) => {
     lines.forEach((line) => {
+      // TODO: This is not correct, because tags have succession.
       if (line.tags.includes(section.tag)) {
         listedLineIds.add(line.id);
       }
