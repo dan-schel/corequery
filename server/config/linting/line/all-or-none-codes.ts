@@ -1,6 +1,6 @@
 import type { LineConfig } from "../../line-config.js";
 import type { LineLintOptions } from "../types.js";
-import { findAllOrNoneViolations } from "../utils/helpers.js";
+import { findAllOrNoneViolations } from "../utils/find-all-or-none-violations.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLinesAllOrNoneHaveCodes(

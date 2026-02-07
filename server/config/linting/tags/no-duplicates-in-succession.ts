@@ -1,6 +1,6 @@
 import type { TagsConfig } from "../../tags-config.js";
 import { IssueCollector } from "../utils/issue-collector.js";
-import { findDuplicates } from "../utils/helpers.js";
+import { findDuplicates } from "../utils/find-duplicates.js";
 
 export function checkTagsNoDuplicatesInSuccession(
   issues: IssueCollector,

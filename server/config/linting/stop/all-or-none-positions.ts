@@ -1,6 +1,6 @@
 import type { StopConfig } from "../../stop-config.js";
 import type { StopLintOptions } from "../types.js";
-import { findAllOrNoneViolations } from "../utils/helpers.js";
+import { findAllOrNoneViolations } from "../utils/find-all-or-none-violations.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopsAllOrNoneHavePositions(

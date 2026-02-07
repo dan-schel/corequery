@@ -1,6 +1,6 @@
 import type { LineConfig } from "../../../line-config.js";
 import type { LineLintOptions } from "../../types.js";
-import { findDuplicates } from "../../utils/helpers.js";
+import { findDuplicates } from "../../utils/find-duplicates.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkLineRoutesUniqueNames(
