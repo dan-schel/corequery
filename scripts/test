@@ -7,7 +7,7 @@ set -euo pipefail
 npm run build
 
 if [[ "$*" == *"--coverage"* ]]; then
-  npx vitest --run --coverage
+  npx vitest --run --coverage --config tests/vitest.config.ts
 else
-  npx vitest --run
+  npx vitest --run --config tests/vitest.config.ts
 fi
