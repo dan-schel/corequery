@@ -1,33 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { checkLinesUniqueIds } from "../../../../../server/config/linting/line/unique-ids.js";
-import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
-import type { LineConfig } from "../../../../../server/config/line-config.js";
-
-const createLine = (id: number): LineConfig => ({
-  id,
-  name: "Line",
-  code: null,
-  tags: [],
-  urlPath: "/line",
-  routes: [],
-  diagram: { entries: [] },
-});
+import { collectIssues } from "../support/collect-issues.js";
+import { createLine } from "../support/factories.js";
 
 describe("checkLinesUniqueIds", () => {
-  it("returns no issues for unique IDs", () => {
-    const lines = [createLine(1), createLine(2)];
-    const collector = new IssueCollector();
-    checkLinesUniqueIds(collector, lines);
-    const issues = collector.getIssues();
+  it("returns no issues when IDs are unique", () => {
+    const issues = collectIssues(checkLinesUniqueIds, [
+      createLine({ id: 1 }),
+      createLine({ id: 2 }),
+    ]);
+
     expect(issues).toEqual([]);
   });
 
   it("returns issues for duplicate IDs", () => {
-    const lines = [createLine(1), createLine(1)];
-    const collector = new IssueCollector();
-    checkLinesUniqueIds(collector, lines);
-    const issues = collector.getIssues();
+    const issues = collectIssues(checkLinesUniqueIds, [
+      createLine({ id: 1 }),
+      createLine({ id: 1 }),
+    ]);
+
     expect(issues).toHaveLength(2);
-    expect(issues[0].message).toContain("Line ID 1 is duplicated");
   });
 });

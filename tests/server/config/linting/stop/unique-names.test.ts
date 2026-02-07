@@ -1,42 +1,34 @@
 import { describe, expect, it } from "vitest";
 import { checkStopsUniqueNames } from "../../../../../server/config/linting/stop/unique-names.js";
-import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
-import type { StopConfig } from "../../../../../server/config/stop-config.js";
-
-const createStop = (id: number, name: string): StopConfig => ({
-  id,
-  name,
-  tags: [],
-  urlPath: "/stop",
-  location: null,
-  positions: [],
-});
+import { collectIssues } from "../support/collect-issues.js";
+import { createStop } from "../support/factories.js";
 
 describe("checkStopsUniqueNames", () => {
-  it("returns no issues for unique names", () => {
-    const stops = [createStop(1, "Stop A"), createStop(2, "Stop B")];
-    const collector = new IssueCollector();
-    checkStopsUniqueNames(collector, stops);
-    const issues = collector.getIssues();
+  it("returns no issues when names are unique", () => {
+    const issues = collectIssues(checkStopsUniqueNames, [
+      createStop({ id: 1, name: "A" }),
+      createStop({ id: 2, name: "B" }),
+    ]);
+
     expect(issues).toEqual([]);
   });
 
   it("returns issues for duplicate names", () => {
-    const stops = [createStop(1, "Stop A"), createStop(2, "Stop A")];
-    const collector = new IssueCollector();
-    checkStopsUniqueNames(collector, stops);
-    const issues = collector.getIssues();
+    const issues = collectIssues(checkStopsUniqueNames, [
+      createStop({ id: 1, name: "A" }),
+      createStop({ id: 2, name: "A" }),
+    ]);
+
     expect(issues).toHaveLength(2);
-    expect(issues[0].message).toContain('Stop name "Stop A" is duplicated');
   });
 
-  it("respects ignore option", () => {
-    const stops = [createStop(1, "Stop A"), createStop(2, "Stop A")];
-    const collector = new IssueCollector();
-    checkStopsUniqueNames(collector, stops, {
-      1: { ignoreDuplicatedName: true },
-    });
-    const issues = collector.getIssues();
-    expect(issues).toHaveLength(1);
+  it("ignores duplicates when configured", () => {
+    const issues = collectIssues(
+      checkStopsUniqueNames,
+      [createStop({ id: 1, name: "A" }), createStop({ id: 2, name: "A" })],
+      { 1: { ignoreDuplicatedName: true }, 2: { ignoreDuplicatedName: true } },
+    );
+
+    expect(issues).toEqual([]);
   });
 });

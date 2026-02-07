@@ -1,0 +1,34 @@
+import { describe, expect, it } from "vitest";
+import { checkLineDiagramStopsExist } from "../../../../../../server/config/linting/line/diagram/diagram-stops-exist.js";
+import { collectIssues } from "../../support/collect-issues.js";
+import { createLine, createStop } from "../../support/factories.js";
+
+describe("checkLineDiagramStopsExist", () => {
+  it("returns no issues when stops exist", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          { name: null, color: "red", stops: [{ stopId: 1, type: "regular" }] },
+        ],
+      },
+    });
+    const stops = [createStop({ id: 1 })];
+    const issues = collectIssues(checkLineDiagramStopsExist, line, 0, stops);
+
+    expect(issues).toEqual([]);
+  });
+
+  it("returns issues when a stop is missing", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          { name: null, color: "red", stops: [{ stopId: 2, type: "regular" }] },
+        ],
+      },
+    });
+    const stops = [createStop({ id: 1 })];
+    const issues = collectIssues(checkLineDiagramStopsExist, line, 0, stops);
+
+    expect(issues).toHaveLength(1);
+  });
+});
