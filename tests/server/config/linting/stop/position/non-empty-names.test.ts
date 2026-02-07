@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
-import { checkStopPositionNonEmptyName } from "../../../../../../server/config/linting/stop/position/non-empty-name.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
+import { checkStopPositionNonEmptyName } from "@/server/config/linting/stop/position/non-empty-name.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
 
 describe("checkStopPositionsNonEmptyNames", () => {
   it("returns no issues when position names are non-empty", () => {

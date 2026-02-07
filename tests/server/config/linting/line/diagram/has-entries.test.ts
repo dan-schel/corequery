@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramHasEntries } from "../../../../../../server/config/linting/line/diagram/has-entries.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createLine } from "../../support/factories.js";
+import { checkLineDiagramHasEntries } from "@/server/config/linting/line/diagram/has-entries.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import { createLine } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineDiagramHasEntries", () => {
   it("returns no issues when entries exist", () => {

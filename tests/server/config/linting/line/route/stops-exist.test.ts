@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkRouteStopsExist } from "../../../../../../server/config/linting/line/route/stops-exist.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createRoute, createStop } from "../../support/factories.js";
+import { checkRouteStopsExist } from "@/server/config/linting/line/route/stops-exist.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createRoute,
+  createStop,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkRouteStopsExist", () => {
   it("returns no issues when stops exist", () => {

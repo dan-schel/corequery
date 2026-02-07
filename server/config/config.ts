@@ -8,7 +8,7 @@ import type {
   StopConfig,
   TagsConfig,
   TerminologyConfig,
-} from "./types/index.js";
+} from "@/server/config/types/index.js";
 
 export type CorequeryConfig = {
   readonly port: number;

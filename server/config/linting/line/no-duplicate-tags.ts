@@ -1,6 +1,6 @@
-import type { LineConfig } from "../../types/line-config.js";
-import { findDuplicates } from "../utils/find-duplicates.js";
-import { IssueCollector } from "../utils/issue-collector.js";
+import type { LineConfig } from "@/server/config/types/line-config.js";
+import { findDuplicates } from "@/server/config/linting/utils/find-duplicates.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkLineNoDuplicateTags(
   issues: IssueCollector,

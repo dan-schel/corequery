@@ -1,5 +1,5 @@
-import { Collection } from "./collection.js";
-import type { Stop } from "./stop.js";
+import { Collection } from "@/server/data/collection.js";
+import type { Stop } from "@/server/data/stop.js";
 
 export class StopCollection extends Collection<number, Stop> {
   constructor(data: readonly Stop[]) {

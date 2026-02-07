@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
-import { checkLinesUniqueIds } from "../../../../../server/config/linting/line/unique-ids.js";
-import { collectIssues } from "../support/collect-issues.js";
-import { expectIssueMessages } from "../support/expect-issues.js";
-import { createLine } from "../support/factories.js";
+import { checkLinesUniqueIds } from "@/server/config/linting/line/unique-ids.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import { createLine } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLinesUniqueIds", () => {
   it("returns no issues when IDs are unique", () => {

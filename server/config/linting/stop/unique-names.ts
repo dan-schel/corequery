@@ -1,7 +1,7 @@
-import type { StopConfig } from "../../types/stop-config.js";
-import type { StopLintOptions } from "../types.js";
-import { findDuplicates } from "../utils/find-duplicates.js";
-import { IssueCollector } from "../utils/issue-collector.js";
+import type { StopConfig } from "@/server/config/types/stop-config.js";
+import type { StopLintOptions } from "@/server/config/linting/types.js";
+import { findDuplicates } from "@/server/config/linting/utils/find-duplicates.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkStopsUniqueNames(
   issues: IssueCollector,

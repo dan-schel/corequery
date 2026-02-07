@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramEntriesMinimumStops } from "../../../../../../server/config/linting/line/diagram/entry-minimum-stops.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createDiagramEntry, createLine } from "../../support/factories.js";
+import { checkLineDiagramEntriesMinimumStops } from "@/server/config/linting/line/diagram/entry-minimum-stops.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createDiagramEntry,
+  createLine,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineDiagramEntriesMinimumStops", () => {
   it("returns no issues when entries have 2 stops", () => {

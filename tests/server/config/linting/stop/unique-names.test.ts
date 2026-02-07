@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
-import { checkStopsUniqueNames } from "../../../../../server/config/linting/stop/unique-names.js";
-import { collectIssues } from "../support/collect-issues.js";
-import { expectIssueMessages } from "../support/expect-issues.js";
-import { createStop } from "../support/factories.js";
+import { checkStopsUniqueNames } from "@/server/config/linting/stop/unique-names.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import { createStop } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkStopsUniqueNames", () => {
   it("returns no issues when names are unique", () => {

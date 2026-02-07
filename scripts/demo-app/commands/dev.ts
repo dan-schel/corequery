@@ -1,10 +1,10 @@
 import { spawn } from "child_process";
-import { tryReadPackageJson } from "../setup/package-json.js";
+import { tryReadPackageJson } from "@/scripts/demo-app/setup/package-json.js";
 import {
   logInfo,
   notifyOfMissingDemoAppConfiguration,
   runDemoAppWithCommand,
-} from "../utils.js";
+} from "@/scripts/demo-app/utils.js";
 
 logInfo("Running demo app (with hot-reloading)...");
 

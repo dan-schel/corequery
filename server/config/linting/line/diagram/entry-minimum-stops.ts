@@ -1,6 +1,6 @@
-import type { LineConfig } from "../../../types/line-config.js";
-import { chooseNameForEntry } from "../../utils/choose-name-for-entry.js";
-import { IssueCollector } from "../../utils/issue-collector.js";
+import type { LineConfig } from "@/server/config/types/line-config.js";
+import { chooseNameForEntry } from "@/server/config/linting/utils/choose-name-for-entry.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkLineDiagramEntriesMinimumStops(
   issues: IssueCollector,

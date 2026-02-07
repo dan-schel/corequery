@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
-import { checkLineRouteNonEmptyName } from "../../../../../../server/config/linting/line/route/non-empty-name.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createRoute } from "../../support/factories.js";
+import { checkLineRouteNonEmptyName } from "@/server/config/linting/line/route/non-empty-name.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import { createRoute } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineRoutesNonEmptyNames", () => {
   it("returns no issues when route names are non-empty", () => {

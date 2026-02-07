@@ -1,5 +1,5 @@
-import type { PositionConfig } from "../../../types/stop-config.js";
-import { IssueCollector } from "../../utils/issue-collector.js";
+import type { PositionConfig } from "@/server/config/types/stop-config.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkStopPositionNonEmptyName(
   issues: IssueCollector,

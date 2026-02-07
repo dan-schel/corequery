@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
-import { checkStopPositionsUniqueIds } from "../../../../../../server/config/linting/stop/position/unique-ids.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createStop } from "../../support/factories.js";
+import { checkStopPositionsUniqueIds } from "@/server/config/linting/stop/position/unique-ids.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import { createStop } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkStopPositionsUniqueIds", () => {
   it("returns no issues for unique IDs", () => {

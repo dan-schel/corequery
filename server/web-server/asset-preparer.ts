@@ -1,8 +1,8 @@
-import { IndexHtmlPreparer } from "./index-html-preparer.js";
-import { ManifestPreparer } from "./manifest-preparer.js";
-import { IconsPreparer } from "./icons-preparer.js";
-import { ServiceWorkerPreparer } from "./service-worker-preparer.js";
-import type { AssetConfig } from "../config/types/asset-config.js";
+import { IndexHtmlPreparer } from "@/server/web-server/index-html-preparer.js";
+import { ManifestPreparer } from "@/server/web-server/manifest-preparer.js";
+import { IconsPreparer } from "@/server/web-server/icons-preparer.js";
+import { ServiceWorkerPreparer } from "@/server/web-server/service-worker-preparer.js";
+import type { AssetConfig } from "@/server/config/types/asset-config.js";
 
 export class AssetPreparer {
   static readonly ALL_MODIFIED_FILES = [

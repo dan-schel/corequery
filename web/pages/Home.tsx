@@ -1,10 +1,10 @@
 import { useEffect } from "preact/hooks";
-import { Nav } from "../components/Nav";
-import { runSharedCode } from "../../shared/example";
-import { PwaStatus } from "../components/PwaStatus";
-import { useStaticData } from "../data/static-data";
-import { TextBlock } from "../components/core/TextBlock";
-import { Column } from "../components/core/Column";
+import { Nav } from "@/web/components/Nav";
+import { runSharedCode } from "@/shared/example";
+import { PwaStatus } from "@/web/components/PwaStatus";
+import { useStaticData } from "@/web/data/static-data";
+import { TextBlock } from "@/web/components/core/TextBlock";
+import { Column } from "@/web/components/core/Column";
 
 export default function Home() {
   const { appName } = useStaticData();

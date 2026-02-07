@@ -1,5 +1,5 @@
-import type { StopConfig, TagSuccessionConfig } from "../config/index.js";
-import { Tags } from "./tags.js";
+import type { StopConfig, TagSuccessionConfig } from "@/server/config/index.js";
+import { Tags } from "@/server/data/tags.js";
 
 type StopFields = {
   readonly id: number;

@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkLineRoutesMirrored } from "../../../../../../server/config/linting/line/route/routes-mirrored.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createLine, createRoute } from "../../support/factories.js";
+import { checkLineRoutesMirrored } from "@/server/config/linting/line/route/routes-mirrored.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createLine,
+  createRoute,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineRoutesMirrored", () => {
   it("returns no issues when routes are mirrored", () => {

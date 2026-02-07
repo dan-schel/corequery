@@ -1,4 +1,4 @@
-import type { LintIssue } from "../types.js";
+import type { LintIssue } from "@/server/config/linting/types.js";
 
 export class IssueCollector {
   private _issues: LintIssue[];

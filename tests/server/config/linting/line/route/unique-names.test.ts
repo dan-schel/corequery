@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkLineRoutesUniqueNames } from "../../../../../../server/config/linting/line/route/unique-names.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createLine, createRoute } from "../../support/factories.js";
+import { checkLineRoutesUniqueNames } from "@/server/config/linting/line/route/unique-names.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createLine,
+  createRoute,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineRoutesUniqueNames", () => {
   it("returns no issues when route names are unique", () => {

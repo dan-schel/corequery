@@ -1,8 +1,8 @@
-import type { CorequeryConfig } from "../config/index.js";
-import { LineCollection } from "./line-collection.js";
-import { Line } from "./line.js";
-import { StopCollection } from "./stop-collection.js";
-import { Stop } from "./stop.js";
+import type { CorequeryConfig } from "@/server/config/index.js";
+import { LineCollection } from "@/server/data/line-collection.js";
+import { Line } from "@/server/data/line.js";
+import { StopCollection } from "@/server/data/stop-collection.js";
+import { Stop } from "@/server/data/stop.js";
 
 type FoundationalDataFields = {
   readonly stops: readonly Stop[];

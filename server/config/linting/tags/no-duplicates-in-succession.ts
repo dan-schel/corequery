@@ -1,6 +1,6 @@
-import type { TagsConfig } from "../../types/tags-config.js";
-import { IssueCollector } from "../utils/issue-collector.js";
-import { findDuplicates } from "../utils/find-duplicates.js";
+import type { TagsConfig } from "@/server/config/types/tags-config.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
+import { findDuplicates } from "@/server/config/linting/utils/find-duplicates.js";
 
 export function checkTagsNoDuplicatesInSuccession(
   issues: IssueCollector,

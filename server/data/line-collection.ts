@@ -1,5 +1,5 @@
-import { Collection } from "./collection.js";
-import type { Line } from "./line.js";
+import { Collection } from "@/server/data/collection.js";
+import type { Line } from "@/server/data/line.js";
 
 export class LineCollection extends Collection<number, Line> {
   constructor(data: readonly Line[]) {

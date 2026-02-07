@@ -1,6 +1,6 @@
 import { type ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
-import { retrieveStaticData, staticDataContext } from "../data/static-data";
+import { retrieveStaticData, staticDataContext } from "@/web/data/static-data";
 
 type StaticDataProviderProps = {
   children: ComponentChildren;

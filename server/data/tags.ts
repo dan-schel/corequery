@@ -1,4 +1,4 @@
-import type { TagSuccessionConfig } from "../config/index.js";
+import type { TagSuccessionConfig } from "@/server/config/index.js";
 
 export class Tags {
   constructor(private readonly _tags: Set<number>) {}

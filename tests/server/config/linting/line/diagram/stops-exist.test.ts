@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkLineDiagramStopsExist } from "../../../../../../server/config/linting/line/diagram/stops-exist.js";
-import { collectIssues } from "../../support/collect-issues.js";
-import { expectIssueMessages } from "../../support/expect-issues.js";
-import { createLine, createStop } from "../../support/factories.js";
+import { checkLineDiagramStopsExist } from "@/server/config/linting/line/diagram/stops-exist.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createLine,
+  createStop,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLineDiagramStopsExist", () => {
   it("returns no issues when stops exist", () => {

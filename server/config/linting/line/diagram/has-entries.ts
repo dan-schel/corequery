@@ -1,6 +1,6 @@
-import type { LineConfig } from "../../../types/line-config.js";
-import type { LineLintOptions } from "../../types.js";
-import { IssueCollector } from "../../utils/issue-collector.js";
+import type { LineConfig } from "@/server/config/types/line-config.js";
+import type { LineLintOptions } from "@/server/config/linting/types.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkLineDiagramHasEntries(
   issues: IssueCollector,

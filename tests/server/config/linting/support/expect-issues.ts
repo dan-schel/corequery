@@ -1,5 +1,5 @@
 import { expect } from "vitest";
-import type { LintIssue } from "../../../../../server/config/linting/types.js";
+import type { LintIssue } from "@/server/config/linting/types.js";
 
 export function expectIssueMessages(
   issues: readonly LintIssue[],

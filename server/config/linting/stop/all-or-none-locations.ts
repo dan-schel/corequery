@@ -1,7 +1,7 @@
-import type { StopConfig } from "../../types/stop-config.js";
-import type { StopLintOptions } from "../types.js";
-import { findAllOrNoneViolations } from "../utils/find-all-or-none-violations.js";
-import { IssueCollector } from "../utils/issue-collector.js";
+import type { StopConfig } from "@/server/config/types/stop-config.js";
+import type { StopLintOptions } from "@/server/config/linting/types.js";
+import { findAllOrNoneViolations } from "@/server/config/linting/utils/find-all-or-none-violations.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkStopsAllOrNoneHaveLocations(
   issues: IssueCollector,

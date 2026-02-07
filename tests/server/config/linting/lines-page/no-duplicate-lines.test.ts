@@ -1,8 +1,11 @@
 import { describe, it } from "vitest";
-import { checkLinesPageNoDuplicateLines } from "../../../../../server/config/linting/lines-page/no-duplicate-lines.js";
-import { collectIssues } from "../support/collect-issues.js";
-import { expectIssueMessages } from "../support/expect-issues.js";
-import { createLine, createLinesPage } from "../support/factories.js";
+import { checkLinesPageNoDuplicateLines } from "@/server/config/linting/lines-page/no-duplicate-lines.js";
+import { collectIssues } from "@/tests/server/config/linting/support/collect-issues.js";
+import { expectIssueMessages } from "@/tests/server/config/linting/support/expect-issues.js";
+import {
+  createLine,
+  createLinesPage,
+} from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLinesPageNoDuplicateLines", () => {
   it("returns no issues when lines appear once", () => {

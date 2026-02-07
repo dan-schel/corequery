@@ -1,9 +1,9 @@
-import type { LinesPageConfig } from "../../types/lines-page-config.js";
-import type { LineConfig } from "../../types/line-config.js";
-import type { TagSuccessionConfig } from "../../types/tags-config.js";
-import { Tags } from "../../../data/tags.js";
-import type { LinesPageLineLintOptions } from "../types.js";
-import { IssueCollector } from "../utils/issue-collector.js";
+import type { LinesPageConfig } from "@/server/config/types/lines-page-config.js";
+import type { LineConfig } from "@/server/config/types/line-config.js";
+import type { TagSuccessionConfig } from "@/server/config/types/tags-config.js";
+import { Tags } from "@/server/data/tags.js";
+import type { LinesPageLineLintOptions } from "@/server/config/linting/types.js";
+import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 
 export function checkLinesPageAllLinesListed(
   issues: IssueCollector,

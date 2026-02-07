@@ -1,5 +1,5 @@
-import type { LineConfig, TagSuccessionConfig } from "../config/index.js";
-import { Tags } from "./tags.js";
+import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
+import { Tags } from "@/server/data/tags.js";
 
 type LineFields = {
   readonly id: number;

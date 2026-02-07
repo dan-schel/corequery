@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { IndexHtmlPreparer } from "../../../server/web-server/index-html-preparer.js";
+import { IndexHtmlPreparer } from "@/server/web-server/index-html-preparer.js";
 
 describe("IndexHtmlPreparer", () => {
   it("correctly replaces the content", async () => {
