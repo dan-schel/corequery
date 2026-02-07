@@ -1,13 +1,13 @@
 import type { StopConfig } from "../../stop-config.js";
-import type { LintIssue, StopLintOptions } from "../types.js";
-import { createIssue, allOrNone } from "../utils/helpers.js";
+import type { StopLintOptions } from "../types.js";
+import { allOrNone } from "../utils/helpers.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopsAllOrNoneHaveLocations(
+  issues: IssueCollector,
   stops: readonly StopConfig[],
   options?: Record<number, StopLintOptions>,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   const stopsToCheck = stops.filter(
     (stop) => !options?.[stop.id]?.ignoreMissingLocation,
   );
@@ -17,15 +17,11 @@ export function checkStopsAllOrNoneHaveLocations(
   if (status === "mixed") {
     stopsToCheck.forEach((stop, index) => {
       if (stop.location === null) {
-        issues.push(
-          createIssue(
-            `Stop "${stop.name}" is missing a location`,
-            `stops[${index}].location`,
-          ),
-        );
+        issues.add({
+          message: `Stop "${stop.name}" is missing a location`,
+          path: `stops[${index}].location`,
+        });
       }
     });
   }
-
-  return issues;
 }

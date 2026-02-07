@@ -1,13 +1,13 @@
 import type { LineConfig } from "../../line-config.js";
-import type { LintIssue, LineLintOptions } from "../types.js";
-import { createIssue, allOrNone } from "../utils/helpers.js";
+import type { LineLintOptions } from "../types.js";
+import { allOrNone } from "../utils/helpers.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLinesAllOrNoneHaveCodes(
+  issues: IssueCollector,
   lines: readonly LineConfig[],
   options?: Record<number, LineLintOptions>,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   const linesToCheck = lines.filter(
     (line) => !options?.[line.id]?.ignoreMissingCode,
   );
@@ -17,15 +17,11 @@ export function checkLinesAllOrNoneHaveCodes(
   if (status === "mixed") {
     linesToCheck.forEach((line, index) => {
       if (line.code === null) {
-        issues.push(
-          createIssue(
-            `Line "${line.name}" is missing a code.`,
-            `lines[${index}].code`,
-          ),
-        );
+        issues.add({
+          message: `Line "${line.name}" is missing a code.`,
+          path: `lines[${index}].code`,
+        });
       }
     });
   }
-
-  return issues;
 }

@@ -1,14 +1,13 @@
 import type { LineConfig, RouteConfig } from "../../../line-config.js";
-import type { LintIssue, LineLintOptions } from "../../types.js";
-import { createIssue } from "../../utils/helpers.js";
+import type { LineLintOptions } from "../../types.js";
+import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkLineRoutesMirrored(
+  issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
   options?: LineLintOptions,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   line.routes.forEach((route, routeIndex) => {
     if (options?.routes?.[route.id]?.ignoreMissingMirrored) {
       return;
@@ -20,16 +19,12 @@ export function checkLineRoutesMirrored(
     );
 
     if (!hasMirror) {
-      issues.push(
-        createIssue(
-          `Route "${route.name}" in line "${line.name}" does not have a mirrored route`,
-          `lines[${lineIndex}].routes[${routeIndex}]`,
-        ),
-      );
+      issues.add({
+        message: `Route "${route.name}" in line "${line.name}" does not have a mirrored route`,
+        path: `lines[${lineIndex}].routes[${routeIndex}]`,
+      });
     }
   });
-
-  return issues;
 }
 
 function routesAreMirrored(route1: RouteConfig, route2: RouteConfig): boolean {

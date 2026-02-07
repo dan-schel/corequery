@@ -1,21 +1,15 @@
 import type { LineConfig } from "../../line-config.js";
-import type { LintIssue } from "../types.js";
-import { createIssue } from "../utils/helpers.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLineHasRoutes(
+  issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   if (line.routes.length === 0) {
-    issues.push(
-      createIssue(
-        `Line "${line.name}" has no routes`,
-        `lines[${lineIndex}].routes`,
-      ),
-    );
+    issues.add({
+      message: `Line "${line.name}" has no routes`,
+      path: `lines[${lineIndex}].routes`,
+    });
   }
-
-  return issues;
 }

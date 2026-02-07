@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { checkLineRoutesMirrored } from "../../../../../server/config/linting/line-rules/route-rules/routes-mirrored.js";
+import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import type {
   LineConfig,
   RouteConfig,
@@ -34,14 +35,18 @@ describe("checkLineRoutesMirrored", () => {
       createRoute(2, "Inbound", [3, 2, 1]),
     ];
     const line = createLine(routes);
-    const issues = checkLineRoutesMirrored(line, 0);
+    const collector = new IssueCollector();
+    checkLineRoutesMirrored(collector, line, 0);
+    const issues = collector.getIssues();
     expect(issues).toEqual([]);
   });
 
   it("returns issues when routes are not mirrored", () => {
     const routes = [createRoute(1, "Outbound", [1, 2, 3])];
     const line = createLine(routes);
-    const issues = checkLineRoutesMirrored(line, 0);
+    const collector = new IssueCollector();
+    checkLineRoutesMirrored(collector, line, 0);
+    const issues = collector.getIssues();
     expect(issues).toHaveLength(1);
     expect(issues[0].message).toContain("does not have a mirrored route");
   });
@@ -49,9 +54,11 @@ describe("checkLineRoutesMirrored", () => {
   it("respects ignore option", () => {
     const routes = [createRoute(1, "Outbound", [1, 2, 3])];
     const line = createLine(routes);
-    const issues = checkLineRoutesMirrored(line, 0, {
+    const collector = new IssueCollector();
+    checkLineRoutesMirrored(collector, line, 0, {
       routes: { 1: { ignoreMissingMirrored: true } },
     });
+    const issues = collector.getIssues();
     expect(issues).toEqual([]);
   });
 });

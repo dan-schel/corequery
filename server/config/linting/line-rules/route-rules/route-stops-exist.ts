@@ -1,28 +1,23 @@
 import type { RouteConfig } from "../../../line-config.js";
 import type { StopConfig } from "../../../stop-config.js";
-import type { LintIssue } from "../../types.js";
-import { createIssue } from "../../utils/helpers.js";
+import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkRouteStopsExist(
+  issues: IssueCollector,
   route: RouteConfig,
   routeIndex: number,
   lineIndex: number,
   lineName: string,
   stops: readonly StopConfig[],
-): LintIssue[] {
-  const issues: LintIssue[] = [];
+) {
   const stopIds = new Set(stops.map((stop) => stop.id));
 
   route.stops.forEach((routeStop, stopIndex) => {
     if (!stopIds.has(routeStop.stopId)) {
-      issues.push(
-        createIssue(
-          `Stop ID ${routeStop.stopId} in route "${route.name}" of line "${lineName}" does not exist in the stop list`,
-          `lines[${lineIndex}].routes[${routeIndex}].stops[${stopIndex}].stopId`,
-        ),
-      );
+      issues.add({
+        message: `Stop ID ${routeStop.stopId} in route "${route.name}" of line "${lineName}" does not exist in the stop list`,
+        path: `lines[${lineIndex}].routes[${routeIndex}].stops[${stopIndex}].stopId`,
+      });
     }
   });
-
-  return issues;
 }

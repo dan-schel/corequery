@@ -1,15 +1,14 @@
 import type { StopConfig } from "../../stop-config.js";
 import type { LineConfig } from "../../line-config.js";
-import type { LintIssue, StopLintOptions } from "../types.js";
-import { createIssue } from "../utils/helpers.js";
+import type { StopLintOptions } from "../types.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopsAppearInRoutes(
+  issues: IssueCollector,
   stops: readonly StopConfig[],
   lines: readonly LineConfig[],
   options?: Record<number, StopLintOptions>,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   const stopIdsInRoutes = new Set<number>();
   lines.forEach((line) => {
     line.routes.forEach((route) => {
@@ -25,14 +24,10 @@ export function checkStopsAppearInRoutes(
     }
 
     if (!stopIdsInRoutes.has(stop.id)) {
-      issues.push(
-        createIssue(
-          `Stop "${stop.name}" does not appear in any route`,
-          `stops[${index}]`,
-        ),
-      );
+      issues.add({
+        message: `Stop "${stop.name}" does not appear in any route`,
+        path: `stops[${index}]`,
+      });
     }
   });
-
-  return issues;
 }

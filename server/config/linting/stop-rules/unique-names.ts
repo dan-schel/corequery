@@ -1,12 +1,13 @@
 import type { StopConfig } from "../../stop-config.js";
-import type { LintIssue, StopLintOptions } from "../types.js";
-import { createIssue, findDuplicates } from "../utils/helpers.js";
+import type { StopLintOptions } from "../types.js";
+import { findDuplicates } from "../utils/helpers.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopsUniqueNames(
+  issues: IssueCollector,
   stops: readonly StopConfig[],
   options?: Record<number, StopLintOptions>,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
+) {
   const duplicates = findDuplicates(stops, (stop) => stop.name);
 
   duplicates.forEach((indices, name) => {
@@ -16,14 +17,10 @@ export function checkStopsUniqueNames(
         return;
       }
 
-      issues.push(
-        createIssue(
-          `Stop name "${name}" is duplicated`,
-          `stops[${index}].name`,
-        ),
-      );
+      issues.add({
+        message: `Stop name "${name}" is duplicated`,
+        path: `stops[${index}].name`,
+      });
     });
   });
-
-  return issues;
 }

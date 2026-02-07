@@ -1,12 +1,12 @@
 import type { StopConfig } from "../../../stop-config.js";
-import type { LintIssue } from "../../types.js";
-import { createIssue, findDuplicates } from "../../utils/helpers.js";
+import { findDuplicates } from "../../utils/helpers.js";
+import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkStopPositionsUniqueNames(
+  issues: IssueCollector,
   stop: StopConfig,
   stopIndex: number,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
+) {
   const duplicates = findDuplicates(
     stop.positions,
     (position) => position.name,
@@ -14,14 +14,10 @@ export function checkStopPositionsUniqueNames(
 
   duplicates.forEach((indices, name) => {
     indices.forEach((index) => {
-      issues.push(
-        createIssue(
-          `Position name "${name}" is duplicated in stop "${stop.name}"`,
-          `stops[${stopIndex}].positions[${index}].name`,
-        ),
-      );
+      issues.add({
+        message: `Position name "${name}" is duplicated in stop "${stop.name}"`,
+        path: `stops[${stopIndex}].positions[${index}].name`,
+      });
     });
   });
-
-  return issues;
 }

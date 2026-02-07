@@ -1,19 +1,21 @@
 import { describe, expect, it } from "vitest";
+import { IssueCollector } from "../../../../../server/config/linting/utils/issue-collector.js";
 import {
-  createIssue,
   findDuplicates,
   allOrNone,
 } from "../../../../../server/config/linting/utils/helpers.js";
 
-describe("createIssue", () => {
-  it("creates issue with message only", () => {
-    const issue = createIssue("Test message");
-    expect(issue).toEqual({ message: "Test message" });
-  });
+describe("IssueCollector", () => {
+  it("stores issues in order", () => {
+    const collector = new IssueCollector();
 
-  it("creates issue with message and path", () => {
-    const issue = createIssue("Test message", "stops[0].id");
-    expect(issue).toEqual({ message: "Test message", path: "stops[0].id" });
+    collector.add({ message: "First" });
+    collector.add({ message: "Second", path: "stops[0]" });
+
+    expect(collector.getIssues()).toEqual([
+      { message: "First" },
+      { message: "Second", path: "stops[0]" },
+    ]);
   });
 });
 

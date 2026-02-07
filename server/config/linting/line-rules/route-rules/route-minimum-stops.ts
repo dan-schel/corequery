@@ -1,23 +1,17 @@
 import type { RouteConfig } from "../../../line-config.js";
-import type { LintIssue } from "../../types.js";
-import { createIssue } from "../../utils/helpers.js";
+import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkRouteHasMinimumStops(
+  issues: IssueCollector,
   route: RouteConfig,
   routeIndex: number,
   lineIndex: number,
   lineName: string,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
-
+) {
   if (route.stops.length < 2) {
-    issues.push(
-      createIssue(
-        `Route "${route.name}" in line "${lineName}" has fewer than 2 stops`,
-        `lines[${lineIndex}].routes[${routeIndex}].stops`,
-      ),
-    );
+    issues.add({
+      message: `Route "${route.name}" in line "${lineName}" has fewer than 2 stops`,
+      path: `lines[${lineIndex}].routes[${routeIndex}].stops`,
+    });
   }
-
-  return issues;
 }

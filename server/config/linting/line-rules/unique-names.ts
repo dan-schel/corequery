@@ -1,12 +1,13 @@
 import type { LineConfig } from "../../line-config.js";
-import type { LintIssue, LineLintOptions } from "../types.js";
-import { createIssue, findDuplicates } from "../utils/helpers.js";
+import type { LineLintOptions } from "../types.js";
+import { findDuplicates } from "../utils/helpers.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLinesUniqueNames(
+  issues: IssueCollector,
   lines: readonly LineConfig[],
   options?: Record<number, LineLintOptions>,
-): LintIssue[] {
-  const issues: LintIssue[] = [];
+) {
   const duplicates = findDuplicates(lines, (line) => line.name);
 
   duplicates.forEach((indices, name) => {
@@ -16,14 +17,10 @@ export function checkLinesUniqueNames(
         return;
       }
 
-      issues.push(
-        createIssue(
-          `Line name "${name}" is duplicated`,
-          `lines[${index}].name`,
-        ),
-      );
+      issues.add({
+        message: `Line name "${name}" is duplicated`,
+        path: `lines[${index}].name`,
+      });
     });
   });
-
-  return issues;
 }

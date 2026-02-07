@@ -1,18 +1,17 @@
 import type { LinesPageConfig } from "../../lines-page-config.js";
 import type { LineConfig } from "../../line-config.js";
-import type { LintIssue, LinesPageLintOptions } from "../types.js";
-import { createIssue } from "../utils/helpers.js";
+import type { LinesPageLintOptions } from "../types.js";
+import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLinesPageNoDuplicateLines(
+  issues: IssueCollector,
   linesPage: LinesPageConfig,
   lines: readonly LineConfig[],
   options?: LinesPageLintOptions,
-): LintIssue[] {
+) {
   if (options?.ignoreDuplicatedLine) {
-    return [];
+    return;
   }
-
-  const issues: LintIssue[] = [];
   const lineOccurrences = new Map<number, number[]>();
 
   // TODO: Seems unnecessary to do this in two stages.
@@ -34,16 +33,12 @@ export function checkLinesPageNoDuplicateLines(
         // TODO: Not sure about how this is formatted. We're getting error
         // for each section with the line in it?
         sectionIndices.forEach((sectionIndex) => {
-          issues.push(
-            createIssue(
-              `Line "${line.name}" appears in multiple lines page sections`,
-              `linesPage.sections[${sectionIndex}]`,
-            ),
-          );
+          issues.add({
+            message: `Line "${line.name}" appears in multiple lines page sections`,
+            path: `linesPage.sections[${sectionIndex}]`,
+          });
         });
       }
     }
   });
-
-  return issues;
 }

@@ -1,9 +1,3 @@
-import type { LintIssue } from "../types.js";
-
-export function createIssue(message: string, path?: string): LintIssue {
-  return { message, path };
-}
-
 export function findDuplicates<T>(
   items: readonly T[],
   getId: (item: T) => number | string,

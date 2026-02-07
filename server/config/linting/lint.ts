@@ -1,5 +1,6 @@
 import type { CorequeryConfig } from "../config.js";
 import type { LintIssue, LintOptions } from "./types.js";
+import { IssueCollector } from "./utils/issue-collector.js";
 import { checkStopsUniqueIds } from "./stop-rules/unique-ids.js";
 import { checkStopsUniqueNames } from "./stop-rules/unique-names.js";
 import { checkStopsAllOrNoneHaveLocations } from "./stop-rules/all-or-none-locations.js";
@@ -31,81 +32,81 @@ export function lintConfig(
   config: CorequeryConfig,
   options?: LintOptions,
 ): LintIssue[] {
-  const issues: LintIssue[] = [];
+  const issues = new IssueCollector();
 
-  issues.push(...checkStopsUniqueIds(config.stops));
-  issues.push(...checkStopsUniqueNames(config.stops, options?.stops));
-  issues.push(
-    ...checkStopsAllOrNoneHaveLocations(config.stops, options?.stops),
-  );
-  issues.push(
-    ...checkStopsAllOrNoneHavePositions(config.stops, options?.stops),
-  );
-  issues.push(
-    ...checkStopsAppearInRoutes(config.stops, config.lines, options?.stops),
-  );
+  checkStopsUniqueIds(issues, config.stops);
+  checkStopsUniqueNames(issues, config.stops, options?.stops);
+  checkStopsAllOrNoneHaveLocations(issues, config.stops, options?.stops);
+  checkStopsAllOrNoneHavePositions(issues, config.stops, options?.stops);
+  checkStopsAppearInRoutes(issues, config.stops, config.lines, options?.stops);
 
   config.stops.forEach((stop, index) => {
-    issues.push(...checkStopPositionsUniqueIds(stop, index));
-    issues.push(...checkStopPositionsUniqueNames(stop, index));
-    issues.push(...checkStopNoDuplicateTags(stop, index));
+    checkStopPositionsUniqueIds(issues, stop, index);
+    checkStopPositionsUniqueNames(issues, stop, index);
+    checkStopNoDuplicateTags(issues, stop, index);
   });
 
-  issues.push(...checkLinesUniqueIds(config.lines));
-  issues.push(...checkLinesUniqueNames(config.lines, options?.lines));
-  issues.push(...checkLinesAllOrNoneHaveCodes(config.lines, options?.lines));
+  checkLinesUniqueIds(issues, config.lines);
+  checkLinesUniqueNames(issues, config.lines, options?.lines);
+  checkLinesAllOrNoneHaveCodes(issues, config.lines, options?.lines);
 
   config.lines.forEach((line, lineIndex) => {
-    issues.push(...checkLineHasRoutes(line, lineIndex));
-    issues.push(...checkLineRoutesUniqueIds(line, lineIndex));
-    issues.push(
-      ...checkLineRoutesUniqueNames(line, lineIndex, options?.lines?.[line.id]),
+    checkLineHasRoutes(issues, line, lineIndex);
+    checkLineRoutesUniqueIds(issues, line, lineIndex);
+    checkLineRoutesUniqueNames(
+      issues,
+      line,
+      lineIndex,
+      options?.lines?.[line.id],
     );
-    issues.push(
-      ...checkLineRoutesMirrored(line, lineIndex, options?.lines?.[line.id]),
-    );
-    issues.push(...checkLineNoDuplicateTags(line, lineIndex));
+    checkLineRoutesMirrored(issues, line, lineIndex, options?.lines?.[line.id]);
+    checkLineNoDuplicateTags(issues, line, lineIndex);
 
     line.routes.forEach((route, routeIndex) => {
-      issues.push(
-        ...checkRouteHasMinimumStops(route, routeIndex, lineIndex, line.name),
+      checkRouteHasMinimumStops(
+        issues,
+        route,
+        routeIndex,
+        lineIndex,
+        line.name,
       );
-      issues.push(
-        ...checkRouteNoDuplicateTags(route, routeIndex, lineIndex, line.name),
+      checkRouteNoDuplicateTags(
+        issues,
+        route,
+        routeIndex,
+        lineIndex,
+        line.name,
       );
-      issues.push(
-        ...checkRouteStopsExist(
-          route,
-          routeIndex,
-          lineIndex,
-          line.name,
-          config.stops,
-        ),
+      checkRouteStopsExist(
+        issues,
+        route,
+        routeIndex,
+        lineIndex,
+        line.name,
+        config.stops,
       );
     });
 
-    issues.push(...checkLineDiagramHasEntries(line, lineIndex));
-    issues.push(...checkLineDiagramEntriesMinimumStops(line, lineIndex));
-    issues.push(...checkLineDiagramStopsExist(line, lineIndex, config.stops));
-    issues.push(...checkLineDiagramStopsInRoutes(line, lineIndex));
+    checkLineDiagramHasEntries(issues, line, lineIndex);
+    checkLineDiagramEntriesMinimumStops(issues, line, lineIndex);
+    checkLineDiagramStopsExist(issues, line, lineIndex, config.stops);
+    checkLineDiagramStopsInRoutes(issues, line, lineIndex);
   });
 
-  issues.push(
-    ...checkLinesPageAllLinesListed(
-      config.linesPage,
-      config.lines,
-      options?.linesPage,
-    ),
+  checkLinesPageAllLinesListed(
+    issues,
+    config.linesPage,
+    config.lines,
+    options?.linesPage,
   );
-  issues.push(
-    ...checkLinesPageNoDuplicateLines(
-      config.linesPage,
-      config.lines,
-      options?.linesPage,
-    ),
+  checkLinesPageNoDuplicateLines(
+    issues,
+    config.linesPage,
+    config.lines,
+    options?.linesPage,
   );
 
-  issues.push(...checkTagsNoDuplicatesInSuccession(config.tags));
+  checkTagsNoDuplicatesInSuccession(issues, config.tags);
 
-  return issues;
+  return issues.getIssues();
 }
