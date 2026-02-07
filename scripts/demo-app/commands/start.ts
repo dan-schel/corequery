@@ -7,8 +7,6 @@ import {
 
 logInfo("Running demo app...");
 
-runDemoAppWithCommand("npm run start");
-
 const packageJson = await tryReadPackageJson();
 
 const startScriptName = packageJson?.corequeryDemoApp?.scripts?.start;
