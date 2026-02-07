@@ -1,4 +1,4 @@
-import type { StopConfig } from "../../stop-config.js";
+import type { StopConfig } from "../../types/stop-config.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopNonEmptyName(

@@ -1,4 +1,4 @@
-import type { RouteConfig } from "../../../line-config.js";
+import type { RouteConfig } from "../../../types/line-config.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkLineRouteNonEmptyName(

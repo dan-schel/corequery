@@ -1,5 +1,4 @@
 import type { LineConfig } from "../../../types/line-config.js";
-import { chooseNameForEntry } from "../../utils/choose-name-for-entry.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkLineDiagramEntriesMinimumStops(
@@ -7,13 +6,13 @@ export function checkLineDiagramEntriesMinimumStops(
   line: LineConfig,
   lineIndex: number,
 ) {
-  for (const [entryIndex, entry] of line.diagram.entries.entries()) {
+  line.diagram.entries.forEach((entry, entryIndex) => {
     if (entry.stops.length < 2) {
-      const entryName = chooseNameForEntry(entry.name, entryIndex);
+      const entryName = entry.name || `Entry ${entryIndex}`;
       issues.add({
-        message: `Diagram entry ${entryName} in line "${line.name}" has fewer than 2 stops.`,
+        message: `Diagram entry "${entryName}" in line "${line.name}" has fewer than 2 stops`,
         path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops`,
       });
     }
-  }
+  });
 }

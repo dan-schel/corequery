@@ -2,10 +2,10 @@ import type {
   LineConfig,
   RouteConfig,
   LineDiagramConfig,
-} from "../../../../../server/config/line-config.js";
-import type { StopConfig } from "../../../../../server/config/stop-config.js";
-import type { LinesPageConfig } from "../../../../../server/config/lines-page-config.js";
-import type { TagsConfig } from "../../../../../server/config/tags-config.js";
+} from "../../../../../server/config/types/line-config.js";
+import type { StopConfig } from "../../../../../server/config/types/stop-config.js";
+import type { LinesPageConfig } from "../../../../../server/config/types/lines-page-config.js";
+import type { TagsConfig } from "../../../../../server/config/types/tags-config.js";
 
 export function createStop(overrides: Partial<StopConfig> = {}): StopConfig {
   return {

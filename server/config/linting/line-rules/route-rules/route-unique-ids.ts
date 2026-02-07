@@ -9,12 +9,12 @@ export function checkLineRoutesUniqueIds(
 ) {
   const duplicates = findDuplicates(line.routes, (route) => route.id);
 
-  for (const [id, indices] of duplicates) {
-    for (const index of indices) {
+  duplicates.forEach((indices, id) => {
+    indices.forEach((index) => {
       issues.add({
-        message: `Route ID ${id} is duplicated in line "${line.name}".`,
+        message: `Route ID ${id} is duplicated in line "${line.name}"`,
         path: `lines[${lineIndex}].routes[${index}].id`,
       });
-    }
-  }
+    });
+  });
 }

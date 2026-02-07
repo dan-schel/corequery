@@ -1,6 +1,5 @@
 import type { LineConfig } from "../../../types/line-config.js";
 import type { StopConfig } from "../../../types/stop-config.js";
-import { chooseNameForEntry } from "../../utils/choose-name-for-entry.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkLineDiagramStopsExist(
@@ -11,15 +10,15 @@ export function checkLineDiagramStopsExist(
 ) {
   const stopIds = new Set(stops.map((stop) => stop.id));
 
-  for (const [entryIndex, entry] of line.diagram.entries.entries()) {
-    for (const [stopIndex, diagramStop] of entry.stops.entries()) {
+  line.diagram.entries.forEach((entry, entryIndex) => {
+    entry.stops.forEach((diagramStop, stopIndex) => {
       if (!stopIds.has(diagramStop.stopId)) {
-        const entryName = chooseNameForEntry(entry.name, entryIndex);
+        const entryName = entry.name || `Entry ${entryIndex}`;
         issues.add({
-          message: `Stop ID ${diagramStop.stopId} in diagram entry ${entryName} of line "${line.name}" does not exist in the stop list.`,
+          message: `Stop ID ${diagramStop.stopId} in diagram entry "${entryName}" of line "${line.name}" does not exist in the stop list`,
           path: `lines[${lineIndex}].diagram.entries[${entryIndex}].stops[${stopIndex}].stopId`,
         });
       }
-    }
-  }
+    });
+  });
 }

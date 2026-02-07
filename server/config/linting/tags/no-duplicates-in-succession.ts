@@ -1,4 +1,4 @@
-import type { TagsConfig } from "../../tags-config.js";
+import type { TagsConfig } from "../../types/tags-config.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 import { findDuplicates } from "../utils/find-duplicates.js";
 

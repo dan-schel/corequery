@@ -1,5 +1,5 @@
-import type { StopConfig } from "../../stop-config.js";
-import type { LineConfig } from "../../line-config.js";
+import type { StopConfig } from "../../types/stop-config.js";
+import type { LineConfig } from "../../types/line-config.js";
 import type { StopLintOptions } from "../types.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 

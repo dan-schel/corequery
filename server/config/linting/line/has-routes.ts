@@ -1,4 +1,4 @@
-import type { LineConfig } from "../../line-config.js";
+import type { LineConfig } from "../../types/line-config.js";
 import type { LineLintOptions } from "../types.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 

@@ -3,7 +3,7 @@ import fsp from "fs/promises";
 import path from "path";
 import type { Corequery } from "../corequery.js";
 import { AssetPreparer } from "./asset-preparer.js";
-import type { AssetConfig } from "../config/asset-config.js";
+import type { AssetConfig } from "../config/types/asset-config.js";
 
 export type ClientMode = "dist-folder" | "vite-middleware";
 

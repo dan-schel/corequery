@@ -2,7 +2,7 @@ import { IndexHtmlPreparer } from "./index-html-preparer.js";
 import { ManifestPreparer } from "./manifest-preparer.js";
 import { IconsPreparer } from "./icons-preparer.js";
 import { ServiceWorkerPreparer } from "./service-worker-preparer.js";
-import type { AssetConfig } from "../config/asset-config.js";
+import type { AssetConfig } from "../config/types/asset-config.js";
 
 export class AssetPreparer {
   static readonly ALL_MODIFIED_FILES = [

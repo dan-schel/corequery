@@ -1,4 +1,4 @@
-import type { StopConfig } from "../../stop-config.js";
+import type { StopConfig } from "../../types/stop-config.js";
 import type { StopLintOptions } from "../types.js";
 import { findDuplicates } from "../utils/find-duplicates.js";
 import { IssueCollector } from "../utils/issue-collector.js";

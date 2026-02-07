@@ -12,12 +12,12 @@ export function checkStopPositionsUniqueIds(
     (position) => position.stopPositionId,
   );
 
-  for (const [id, indices] of duplicates) {
-    for (const index of indices) {
+  duplicates.forEach((indices, id) => {
+    indices.forEach((index) => {
       issues.add({
-        message: `Position ID ${id} is duplicated in stop "${stop.name}".`,
+        message: `Position ID ${id} is duplicated in stop "${stop.name}"`,
         path: `stops[${stopIndex}].positions[${index}].stopPositionId`,
       });
-    }
-  }
+    });
+  });
 }

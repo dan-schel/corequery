@@ -11,15 +11,17 @@ export function checkLineRoutesUniqueNames(
 ) {
   const duplicates = findDuplicates(line.routes, (route) => route.name);
 
-  for (const [name, indices] of duplicates) {
-    for (const index of indices) {
+  duplicates.forEach((indices, name) => {
+    indices.forEach((index) => {
       const route = line.routes[index];
-      if (!route || options?.routes?.[route.id]?.ignoreDuplicatedName) continue;
+      if (!route || options?.routes?.[route.id]?.ignoreDuplicatedName) {
+        return;
+      }
 
       issues.add({
-        message: `Route name "${name}" is duplicated in line "${line.name}".`,
+        message: `Route name "${name}" is duplicated in line "${line.name}"`,
         path: `lines[${lineIndex}].routes[${index}].name`,
       });
-    }
-  }
+    });
+  });
 }

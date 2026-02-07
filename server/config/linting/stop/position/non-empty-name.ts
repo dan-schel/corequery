@@ -1,4 +1,4 @@
-import type { PositionConfig } from "../../../stop-config.js";
+import type { PositionConfig } from "../../../types/stop-config.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkStopPositionNonEmptyName(
