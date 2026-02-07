@@ -3,18 +3,22 @@ import type { LintIssue, LintOptions } from "./types.js";
 import { IssueCollector } from "./utils/issue-collector.js";
 import { checkStopsUniqueIds } from "./stop/unique-ids.js";
 import { checkStopsUniqueNames } from "./stop/unique-names.js";
+import { checkStopNonEmptyName } from "./stop/non-empty-name.js";
 import { checkStopsAllOrNoneHaveLocations } from "./stop/all-or-none-locations.js";
 import { checkStopsAllOrNoneHavePositions } from "./stop/all-or-none-positions.js";
 import { checkStopsAppearInRoutes } from "./stop/appears-in-routes.js";
 import { checkStopPositionsUniqueIds } from "./stop/position/unique-ids.js";
 import { checkStopPositionsUniqueNames } from "./stop/position/unique-names.js";
+import { checkStopPositionNonEmptyName } from "./stop/position/non-empty-name.js";
 import { checkStopNoDuplicateTags } from "./stop/no-duplicate-tags.js";
 import { checkLinesUniqueIds } from "./line/unique-ids.js";
 import { checkLinesUniqueNames } from "./line/unique-names.js";
+import { checkLineNonEmptyName } from "./line/non-empty-name.js";
 import { checkLinesAllOrNoneHaveCodes } from "./line/all-or-none-codes.js";
 import { checkLineHasRoutes } from "./line/has-routes.js";
 import { checkLineRoutesUniqueIds } from "./line/route/unique-ids.js";
 import { checkLineRoutesUniqueNames } from "./line/route/unique-names.js";
+import { checkLineRouteNonEmptyName } from "./line/route/non-empty-name.js";
 import { checkLineRoutesMirrored } from "./line/route/routes-mirrored.js";
 import { checkLineNoDuplicateTags } from "./line/no-duplicate-tags.js";
 import { checkRouteHasMinimumStops } from "./line/route/minimum-stops.js";
@@ -40,15 +44,20 @@ export function lintConfig(
   checkStopsAllOrNoneHavePositions(issues, config.stops, options?.stops);
   checkStopsAppearInRoutes(issues, config.stops, config.lines, options?.stops);
 
-  for (const [index, stop] of config.stops.entries()) {
-    checkStopPositionsUniqueIds(issues, stop, index);
+  for (const [stopIndex, stop] of config.stops.entries()) {
+    checkStopPositionsUniqueIds(issues, stop, stopIndex);
+    checkStopNonEmptyName(issues, stop, stopIndex);
     checkStopPositionsUniqueNames(
       issues,
       stop,
-      index,
+      stopIndex,
       options?.stops?.[stop.id],
     );
-    checkStopNoDuplicateTags(issues, stop, index);
+    checkStopNoDuplicateTags(issues, stop, stopIndex);
+
+    for (const [positionIndex, position] of stop.positions.entries()) {
+      checkStopPositionNonEmptyName(issues, position, positionIndex, stopIndex);
+    }
   }
 
   checkLinesUniqueIds(issues, config.lines);
@@ -58,6 +67,7 @@ export function lintConfig(
   for (const [lineIndex, line] of config.lines.entries()) {
     checkLineHasRoutes(issues, line, lineIndex, options?.lines?.[line.id]);
     checkLineRoutesUniqueIds(issues, line, lineIndex);
+    checkLineNonEmptyName(issues, line, lineIndex);
     checkLineRoutesUniqueNames(
       issues,
       line,
@@ -90,6 +100,7 @@ export function lintConfig(
         line.name,
         config.stops,
       );
+      checkLineRouteNonEmptyName(issues, route, routeIndex, lineIndex);
     }
 
     checkLineDiagramHasEntries(
