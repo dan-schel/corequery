@@ -15,14 +15,11 @@ export function checkStopsAllOrNoneHaveLocations(
   const status = allOrNone(stopsToCheck, (stop) => stop.location !== null);
 
   if (status === "mixed") {
-    stops.forEach((stop, index) => {
-      if (
-        stop.location === null &&
-        !options?.[stop.id]?.ignoreMissingLocation
-      ) {
+    stopsToCheck.forEach((stop, index) => {
+      if (stop.location === null) {
         issues.push(
           createIssue(
-            `Stop "${stop.name}" is missing a location (all stops should have locations or none should)`,
+            `Stop "${stop.name}" is missing a location`,
             `stops[${index}].location`,
           ),
         );

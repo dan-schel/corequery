@@ -15,14 +15,11 @@ export function checkStopsAllOrNoneHavePositions(
   const status = allOrNone(stopsToCheck, (stop) => stop.positions.length > 0);
 
   if (status === "mixed") {
-    stops.forEach((stop, index) => {
-      if (
-        stop.positions.length === 0 &&
-        !options?.[stop.id]?.ignoreMissingPosition
-      ) {
+    stopsToCheck.forEach((stop, index) => {
+      if (stop.positions.length === 0) {
         issues.push(
           createIssue(
-            `Stop "${stop.name}" has no positions (all stops should have positions or none should)`,
+            `Stop "${stop.name}" has no positions`,
             `stops[${index}].positions`,
           ),
         );

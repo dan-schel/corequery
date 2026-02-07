@@ -2,6 +2,25 @@ import type { TagsConfig } from "../../tags-config.js";
 import type { LintIssue } from "../types.js";
 import { createIssue } from "../utils/helpers.js";
 
+export function checkTagsNoDuplicatesInSuccession(
+  tags: TagsConfig,
+): LintIssue[] {
+  return [
+    ...checkSuccessionNoDuplicates(
+      tags.stopTagSuccession,
+      "tags.stopTagSuccession",
+    ),
+    ...checkSuccessionNoDuplicates(
+      tags.lineTagSuccession,
+      "tags.lineTagSuccession",
+    ),
+    ...checkSuccessionNoDuplicates(
+      tags.routeTagSuccession,
+      "tags.routeTagSuccession",
+    ),
+  ];
+}
+
 function checkSuccessionNoDuplicates(
   succession: Record<number, readonly number[]>,
   path: string,
@@ -24,23 +43,4 @@ function checkSuccessionNoDuplicates(
   });
 
   return issues;
-}
-
-export function checkTagsNoDuplicatesInSuccession(
-  tags: TagsConfig,
-): LintIssue[] {
-  return [
-    ...checkSuccessionNoDuplicates(
-      tags.stopTagSuccession,
-      "tags.stopTagSuccession",
-    ),
-    ...checkSuccessionNoDuplicates(
-      tags.lineTagSuccession,
-      "tags.lineTagSuccession",
-    ),
-    ...checkSuccessionNoDuplicates(
-      tags.routeTagSuccession,
-      "tags.routeTagSuccession",
-    ),
-  ];
 }
