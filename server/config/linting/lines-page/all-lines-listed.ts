@@ -2,7 +2,7 @@ import type { LinesPageConfig } from "../../lines-page-config.js";
 import type { LineConfig } from "../../line-config.js";
 import type { TagSuccessionConfig } from "../../tags-config.js";
 import { Tags } from "../../../data/tags.js";
-import type { LinesPageLintOptions } from "../types.js";
+import type { LinesPageLineLintOptions } from "../types.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLinesPageAllLinesListed(
@@ -10,13 +10,13 @@ export function checkLinesPageAllLinesListed(
   linesPage: LinesPageConfig,
   lines: readonly LineConfig[],
   lineTagSuccession: TagSuccessionConfig,
-  options?: LinesPageLintOptions,
+  options?: Record<number, LinesPageLineLintOptions>,
 ) {
-  if (options?.ignoreUnlistedLine) {
-    return;
-  }
-
   lines.forEach((line, index) => {
+    if (options?.[line.id]?.ignoreUnlistedLine) {
+      return;
+    }
+
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const isListed = linesPage.sections.some((section) =>
       lineTags.has(section.tag),

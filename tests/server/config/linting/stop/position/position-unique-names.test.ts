@@ -33,4 +33,19 @@ describe("checkStopPositionsUniqueNames", () => {
       'Position name "A" is duplicated in stop "Stop"',
     ]);
   });
+
+  it("ignores duplicate names when configured", () => {
+    const stop = createStop({
+      positions: [
+        { stopPositionId: 1, name: "A" },
+        { stopPositionId: 2, name: "A" },
+      ],
+    });
+
+    const issues = collectIssues(checkStopPositionsUniqueNames, stop, 0, {
+      ignoreDuplicatedPositionName: true,
+    });
+
+    expectIssueMessages(issues, []);
+  });
 });

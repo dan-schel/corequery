@@ -18,4 +18,13 @@ describe("checkLineHasRoutes", () => {
 
     expectIssueMessages(issues, ['Line "Line" has no routes']);
   });
+
+  it("ignores missing routes when configured", () => {
+    const line = createLine({ routes: [] });
+    const issues = collectIssues(checkLineHasRoutes, line, 0, {
+      ignoreMissingRoutes: true,
+    });
+
+    expectIssueMessages(issues, []);
+  });
 });

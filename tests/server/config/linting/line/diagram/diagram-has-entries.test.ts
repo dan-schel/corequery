@@ -20,4 +20,13 @@ describe("checkLineDiagramHasEntries", () => {
 
     expectIssueMessages(issues, ['Line "Line" has no diagram entries']);
   });
+
+  it("ignores missing entries when configured", () => {
+    const line = createLine({ diagram: { entries: [] } });
+    const issues = collectIssues(checkLineDiagramHasEntries, line, 0, {
+      ignoreMissingDiagramEntries: true,
+    });
+
+    expectIssueMessages(issues, []);
+  });
 });

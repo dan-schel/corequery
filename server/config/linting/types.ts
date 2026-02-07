@@ -6,11 +6,12 @@ export type LintIssue = {
 export type LintOptions = {
   readonly stops?: Record<number, StopLintOptions>;
   readonly lines?: Record<number, LineLintOptions>;
-  readonly linesPage?: LinesPageLintOptions;
+  readonly linesPage?: Record<number, LinesPageLineLintOptions>;
 };
 
 export type StopLintOptions = {
   readonly ignoreDuplicatedName?: boolean;
+  readonly ignoreDuplicatedPositionName?: boolean;
   readonly ignoreMissingLocation?: boolean;
   readonly ignoreMissingPosition?: boolean;
   readonly ignoreUnusedStop?: boolean;
@@ -18,7 +19,10 @@ export type StopLintOptions = {
 
 export type LineLintOptions = {
   readonly ignoreDuplicatedName?: boolean;
+  readonly ignoreDiagramStopNotInRoute?: boolean;
+  readonly ignoreMissingDiagramEntries?: boolean;
   readonly ignoreMissingCode?: boolean;
+  readonly ignoreMissingRoutes?: boolean;
   readonly routes?: Record<number, RouteLintOptions>;
 };
 
@@ -27,7 +31,7 @@ export type RouteLintOptions = {
   readonly ignoreMissingMirrored?: boolean;
 };
 
-export type LinesPageLintOptions = {
+export type LinesPageLineLintOptions = {
   readonly ignoreUnlistedLine?: boolean;
   readonly ignoreDuplicatedLine?: boolean;
 };

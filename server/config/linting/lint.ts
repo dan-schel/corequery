@@ -42,7 +42,12 @@ export function lintConfig(
 
   config.stops.forEach((stop, index) => {
     checkStopPositionsUniqueIds(issues, stop, index);
-    checkStopPositionsUniqueNames(issues, stop, index);
+    checkStopPositionsUniqueNames(
+      issues,
+      stop,
+      index,
+      options?.stops?.[stop.id],
+    );
     checkStopNoDuplicateTags(issues, stop, index);
   });
 
@@ -51,7 +56,7 @@ export function lintConfig(
   checkLinesAllOrNoneHaveCodes(issues, config.lines, options?.lines);
 
   config.lines.forEach((line, lineIndex) => {
-    checkLineHasRoutes(issues, line, lineIndex);
+    checkLineHasRoutes(issues, line, lineIndex, options?.lines?.[line.id]);
     checkLineRoutesUniqueIds(issues, line, lineIndex);
     checkLineRoutesUniqueNames(
       issues,
@@ -87,10 +92,20 @@ export function lintConfig(
       );
     });
 
-    checkLineDiagramHasEntries(issues, line, lineIndex);
+    checkLineDiagramHasEntries(
+      issues,
+      line,
+      lineIndex,
+      options?.lines?.[line.id],
+    );
     checkLineDiagramEntriesMinimumStops(issues, line, lineIndex);
     checkLineDiagramStopsExist(issues, line, lineIndex, config.stops);
-    checkLineDiagramStopsInRoutes(issues, line, lineIndex);
+    checkLineDiagramStopsInRoutes(
+      issues,
+      line,
+      lineIndex,
+      options?.lines?.[line.id],
+    );
   });
 
   checkLinesPageAllLinesListed(

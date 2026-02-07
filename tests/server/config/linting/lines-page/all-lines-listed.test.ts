@@ -44,7 +44,7 @@ describe("checkLinesPageAllLinesListed", () => {
       linesPage,
       lines,
       {},
-      { ignoreUnlistedLine: true },
+      { 2: { ignoreUnlistedLine: true } },
     );
 
     expectIssueMessages(issues, []);

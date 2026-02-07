@@ -54,7 +54,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       linesPage,
       lines,
       {},
-      { ignoreDuplicatedLine: true },
+      { 1: { ignoreDuplicatedLine: true } },
     );
 
     expectIssueMessages(issues, []);

@@ -36,4 +36,21 @@ describe("checkLineDiagramStopsInRoutes", () => {
       'Stop ID 2 in diagram entry "Entry 0" of line "Line" does not exist in any route',
     ]);
   });
+
+  it("ignores missing route stops when configured", () => {
+    const line = createLine({
+      routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
+      diagram: {
+        entries: [
+          { name: null, color: "red", stops: [{ stopId: 2, type: "regular" }] },
+        ],
+      },
+    });
+
+    const issues = collectIssues(checkLineDiagramStopsInRoutes, line, 0, {
+      ignoreDiagramStopNotInRoute: true,
+    });
+
+    expectIssueMessages(issues, []);
+  });
 });
