@@ -20,9 +20,6 @@ describe("checkLinesUniqueIds", () => {
       createLine({ id: 1 }),
     ]);
 
-    expectIssueMessages(issues, [
-      "Line ID 1 is duplicated.",
-      "Line ID 1 is duplicated.",
-    ]);
+    expectIssueMessages(issues, ["Line ID 1 is duplicated."]);
   });
 });

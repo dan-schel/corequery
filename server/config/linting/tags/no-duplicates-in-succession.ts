@@ -1,5 +1,6 @@
 import type { TagsConfig } from "../../tags-config.js";
 import { IssueCollector } from "../utils/issue-collector.js";
+import { findDuplicates } from "../utils/helpers.js";
 
 export function checkTagsNoDuplicatesInSuccession(
   issues: IssueCollector,
@@ -28,15 +29,15 @@ function checkSuccessionNoDuplicates(
   path: string,
 ) {
   Object.entries(succession).forEach(([key, tags]) => {
-    const seen = new Set<number>();
-    tags.forEach((tag, index) => {
-      if (seen.has(tag)) {
+    const duplicates = findDuplicates(tags, (tag) => tag);
+
+    duplicates.forEach((indices, tag) => {
+      indices.forEach((index) => {
         issues.add({
           message: `Tag ${tag} is duplicated in succession for key ${key}.`,
           path: `${path}[${key}][${index}]`,
         });
-      }
-      seen.add(tag);
+      });
     });
   });
 }

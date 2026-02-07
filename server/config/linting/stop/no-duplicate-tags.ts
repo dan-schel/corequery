@@ -1,4 +1,5 @@
 import type { StopConfig } from "../../stop-config.js";
+import { findDuplicates } from "../utils/helpers.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkStopNoDuplicateTags(
@@ -6,15 +7,14 @@ export function checkStopNoDuplicateTags(
   stop: StopConfig,
   stopIndex: number,
 ) {
-  const seen = new Set<number>();
+  const duplicates = findDuplicates(stop.tags, (tag) => tag);
 
-  stop.tags.forEach((tag, tagIndex) => {
-    if (seen.has(tag)) {
+  duplicates.forEach((indices, tag) => {
+    indices.forEach((index) => {
       issues.add({
         message: `Tag ${tag} is duplicated in stop "${stop.name}".`,
-        path: `stops[${stopIndex}].tags[${tagIndex}]`,
+        path: `stops[${stopIndex}].tags[${index}]`,
       });
-    }
-    seen.add(tag);
+    });
   });
 }

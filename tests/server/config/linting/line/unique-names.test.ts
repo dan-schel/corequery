@@ -20,10 +20,7 @@ describe("checkLinesUniqueNames", () => {
       createLine({ id: 2, name: "A" }),
     ]);
 
-    expectIssueMessages(issues, [
-      'Line name "A" is duplicated.',
-      'Line name "A" is duplicated.',
-    ]);
+    expectIssueMessages(issues, ['Line name "A" is duplicated.']);
   });
 
   it("ignores duplicates when configured", () => {

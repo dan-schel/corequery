@@ -20,9 +20,6 @@ describe("checkStopsUniqueIds", () => {
       createStop({ id: 1 }),
     ]);
 
-    expectIssueMessages(issues, [
-      "Stop ID 1 is duplicated.",
-      "Stop ID 1 is duplicated.",
-    ]);
+    expectIssueMessages(issues, ["Stop ID 1 is duplicated."]);
   });
 });

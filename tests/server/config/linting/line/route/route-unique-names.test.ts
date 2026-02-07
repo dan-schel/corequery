@@ -30,7 +30,6 @@ describe("checkLineRoutesUniqueNames", () => {
 
     expectIssueMessages(issues, [
       'Route name "A" is duplicated in line "Line".',
-      'Route name "A" is duplicated in line "Line".',
     ]);
   });
 

@@ -1,4 +1,5 @@
 import type { RouteConfig } from "../../../line-config.js";
+import { findDuplicates } from "../../utils/helpers.js";
 import { IssueCollector } from "../../utils/issue-collector.js";
 
 export function checkRouteNoDuplicateTags(
@@ -8,15 +9,14 @@ export function checkRouteNoDuplicateTags(
   lineIndex: number,
   lineName: string,
 ) {
-  const seen = new Set<number>();
+  const duplicates = findDuplicates(route.tags, (tag) => tag);
 
-  route.tags.forEach((tag, tagIndex) => {
-    if (seen.has(tag)) {
+  duplicates.forEach((indices, tag) => {
+    indices.forEach((index) => {
       issues.add({
         message: `Tag ${tag} is duplicated in route "${route.name}" of line "${lineName}".`,
-        path: `lines[${lineIndex}].routes[${routeIndex}].tags[${tagIndex}]`,
+        path: `lines[${lineIndex}].routes[${routeIndex}].tags[${index}]`,
       });
-    }
-    seen.add(tag);
+    });
   });
 }

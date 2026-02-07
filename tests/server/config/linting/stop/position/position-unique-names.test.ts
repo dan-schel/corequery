@@ -30,7 +30,6 @@ describe("checkStopPositionsUniqueNames", () => {
 
     expectIssueMessages(issues, [
       'Position name "A" is duplicated in stop "Stop".',
-      'Position name "A" is duplicated in stop "Stop".',
     ]);
   });
 

@@ -1,4 +1,5 @@
 import type { LineConfig } from "../../line-config.js";
+import { findDuplicates } from "../utils/helpers.js";
 import { IssueCollector } from "../utils/issue-collector.js";
 
 export function checkLineNoDuplicateTags(
@@ -6,15 +7,14 @@ export function checkLineNoDuplicateTags(
   line: LineConfig,
   lineIndex: number,
 ) {
-  const seen = new Set<number>();
+  const duplicates = findDuplicates(line.tags, (tag) => tag);
 
-  line.tags.forEach((tag, tagIndex) => {
-    if (seen.has(tag)) {
+  duplicates.forEach((indices, tag) => {
+    indices.forEach((index) => {
       issues.add({
         message: `Tag ${tag} is duplicated in line "${line.name}".`,
-        path: `lines[${lineIndex}].tags[${tagIndex}]`,
+        path: `lines[${lineIndex}].tags[${index}]`,
       });
-    }
-    seen.add(tag);
+    });
   });
 }

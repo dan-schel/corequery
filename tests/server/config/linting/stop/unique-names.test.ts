@@ -20,10 +20,7 @@ describe("checkStopsUniqueNames", () => {
       createStop({ id: 2, name: "A" }),
     ]);
 
-    expectIssueMessages(issues, [
-      'Stop name "A" is duplicated.',
-      'Stop name "A" is duplicated.',
-    ]);
+    expectIssueMessages(issues, ['Stop name "A" is duplicated.']);
   });
 
   it("ignores duplicates when configured", () => {
