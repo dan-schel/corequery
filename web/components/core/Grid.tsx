@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { ComponentChildren } from "preact";
-import type { LayoutTag } from "./utils";
+import type { LayoutTag } from "@/web/components/core/utils";
 
 type GridProps = {
   class?: string;

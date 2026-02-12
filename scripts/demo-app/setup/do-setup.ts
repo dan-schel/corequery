@@ -1,9 +1,9 @@
-import { DEMO_APP_PATH, logInfo } from "../utils.js";
+import { DEMO_APP_PATH, logInfo } from "@/scripts/demo-app/utils.js";
 import fsp from "fs/promises";
 import { execSync } from "child_process";
-import { updatePackageJson } from "./package-json.js";
+import { updatePackageJson } from "@/scripts/demo-app/setup/package-json.js";
 import path from "path";
-import { type SetupArgs } from "./setup-args.js";
+import { type SetupArgs } from "@/scripts/demo-app/setup/setup-args.js";
 
 export async function doSetup(args: SetupArgs) {
   await prepareEmptyDemoAppFolder();

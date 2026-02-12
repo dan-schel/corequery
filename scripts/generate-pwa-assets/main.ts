@@ -1,6 +1,9 @@
 import fsp from "fs/promises";
-import { createIcon } from "./create-icon.js";
-import { whiteCircleSvg, whiteRectSvg } from "./svgs.js";
+import { createIcon } from "@/scripts/generate-pwa-assets/create-icon.js";
+import {
+  whiteCircleSvg,
+  whiteRectSvg,
+} from "@/scripts/generate-pwa-assets/svgs.js";
 
 const scriptName = "corequery-generate-pwa-assets";
 

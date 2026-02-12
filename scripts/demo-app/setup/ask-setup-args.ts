@@ -1,5 +1,8 @@
 import { createInterface } from "readline";
-import { formatSetupArgs, type SetupArgs } from "./setup-args.js";
+import {
+  formatSetupArgs,
+  type SetupArgs,
+} from "@/scripts/demo-app/setup/setup-args.js";
 import chalk from "chalk";
 
 export async function askSetupArgs(

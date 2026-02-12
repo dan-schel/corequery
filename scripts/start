@@ -1,4 +1,4 @@
 #!/bin/bash
 
 set -euo pipefail
-npx tsx scripts/demo-app/commands/start.ts
+npx tsx --tsconfig scripts/demo-app/tsconfig.json scripts/demo-app/commands/start.ts

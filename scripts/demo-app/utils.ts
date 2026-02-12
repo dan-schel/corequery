@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execSync, type ChildProcessWithoutNullStreams } from "child_process";
 import chalk from "chalk";
 
 export const DEMO_APP_PATH = "./demo-app";
@@ -9,7 +9,14 @@ export function logInfo(...message: unknown[]) {
 
 export function runDemoAppWithCommand(command: string) {
   try {
-    execSync(command, { cwd: DEMO_APP_PATH, stdio: "inherit" });
+    // This is kinda dumb, but when we set "--tsconfig" to run this script, it
+    // sets this env var. By default execSync sets env to process.env, so if the
+    // demo app ALSO uses tsx it'll think we're pointing it to the tsconfig for
+    // this script lol.
+    const env = { ...process.env };
+    delete env.TSX_TSCONFIG_PATH;
+
+    execSync(command, { cwd: DEMO_APP_PATH, stdio: "inherit", env });
   } catch (e) {
     console.log();
     if (
@@ -54,4 +61,15 @@ export function notifyOfMissingDemoAppConfiguration(script: "dev" | "start") {
   }
 }`),
   );
+}
+
+export function waitForStdout(
+  childProcess: ChildProcessWithoutNullStreams,
+  message: string,
+) {
+  return new Promise<void>((resolve) => {
+    childProcess.stdout.on("data", (data) => {
+      if (data.toString().includes(message)) resolve();
+    });
+  });
 }

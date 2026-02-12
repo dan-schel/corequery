@@ -1,8 +1,12 @@
 import eslint from "@eslint/js";
 import prettier from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
+import custom from "./scripts/eslint/index.js";
 
 const customRules = {
+  plugins: {
+    custom,
+  },
   rules: {
     // Ignore unused variables if they start with underscores.
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
@@ -15,6 +19,9 @@ const customRules = {
 
     // Warn about non-null assertions.
     "@typescript-eslint/no-non-null-assertion": "warn",
+
+    // Require imports to use the @ alias instead of relative paths.
+    "custom/enforce-import-alias": "warn",
   },
 };
 

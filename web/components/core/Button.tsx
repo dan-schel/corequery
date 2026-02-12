@@ -1,5 +1,5 @@
 import type { ComponentChildren } from "preact";
-import { Grid } from "./Grid";
+import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
 
 type ButtonProps = {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AssetPreparer } from "../../../server/web-server/asset-preparer.js";
+import { AssetPreparer } from "@/server/web-server/asset-preparer.js";
 
 describe("AssetPreparer", () => {
   it("expects the format of the currently built Vite project", async () => {

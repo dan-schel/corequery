@@ -2,5 +2,7 @@
 
 set -euo pipefail
 npx tsc -p server/tsconfig.json
+npx tsc-alias -p server/tsconfig.json
 npx tsc -p scripts/generate-pwa-assets/tsconfig.json
+npx tsc-alias -p scripts/generate-pwa-assets/tsconfig.json
 npx vite build web

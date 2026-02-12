@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ManifestPreparer } from "../../../server/web-server/manifest-preparer.js";
+import { ManifestPreparer } from "@/server/web-server/manifest-preparer.js";
 
 describe("ManifestPreparer", () => {
   it("correctly replaces the content", async () => {

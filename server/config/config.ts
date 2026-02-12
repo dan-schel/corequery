@@ -1,12 +1,14 @@
-import type { AboutPageConfig } from "./about-page-config.js";
-import type { AssetConfig } from "./asset-config.js";
-import type { FooterConfig } from "./footer-config.js";
-import type { LandingPageConfig } from "./landing-page-config.js";
-import type { LineConfig } from "./line-config.js";
-import type { LinesPageConfig } from "./lines-page-config.js";
-import type { StopConfig } from "./stop-config.js";
-import type { TagsConfig } from "./tags-config.js";
-import type { TerminologyConfig } from "./terminology-config.js";
+import type {
+  AboutPageConfig,
+  AssetConfig,
+  FooterConfig,
+  LandingPageConfig,
+  LineConfig,
+  LinesPageConfig,
+  StopConfig,
+  TagsConfig,
+  TerminologyConfig,
+} from "@/server/config/types/index.js";
 
 export type CorequeryConfig = {
   readonly port: number;

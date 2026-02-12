@@ -10,8 +10,10 @@ export type StopConfig = {
   } | null;
 
   /** Positions within in stop, i.e. platforms, bays, wharfs, etc. */
-  readonly positions: readonly {
-    readonly stopPositionId: number;
-    readonly name: string;
-  }[];
+  readonly positions: readonly PositionConfig[];
+};
+
+export type PositionConfig = {
+  readonly stopPositionId: number;
+  readonly name: string;
 };

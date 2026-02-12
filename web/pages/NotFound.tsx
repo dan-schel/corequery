@@ -1,7 +1,7 @@
-import { Column } from "../components/core/Column";
-import { TextBlock } from "../components/core/TextBlock";
-import { Nav } from "../components/Nav";
-import { useStaticData } from "../data/static-data";
+import { Column } from "@/web/components/core/Column";
+import { TextBlock } from "@/web/components/core/TextBlock";
+import { Nav } from "@/web/components/Nav";
+import { useStaticData } from "@/web/data/static-data";
 
 export default function NotFound() {
   const { appName } = useStaticData();

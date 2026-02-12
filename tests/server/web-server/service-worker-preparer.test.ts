@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { ServiceWorkerPreparer } from "../../../server/web-server/service-worker-preparer.js";
-import { AssetPreparer } from "../../../server/web-server/asset-preparer.js";
+import { ServiceWorkerPreparer } from "@/server/web-server/service-worker-preparer.js";
+import { AssetPreparer } from "@/server/web-server/asset-preparer.js";
 
 describe("ServiceWorkerPreparer", () => {
   it("correctly replaces the content", async () => {

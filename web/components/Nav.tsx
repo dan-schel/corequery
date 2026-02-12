@@ -1,6 +1,6 @@
-import { LinkText } from "./core/LinkText";
-import { Row } from "./core/Row";
-import { TextBlock } from "./core/TextBlock";
+import { LinkText } from "@/web/components/core/LinkText";
+import { Row } from "@/web/components/core/Row";
+import { TextBlock } from "@/web/components/core/TextBlock";
 
 export function Nav() {
   return (

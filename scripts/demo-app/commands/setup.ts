@@ -1,7 +1,7 @@
-import { logInfo } from "../utils.js";
-import { doSetup } from "../setup/do-setup.js";
-import { detectExistingSetupArgs } from "../setup/package-json.js";
-import { askSetupArgs } from "../setup/ask-setup-args.js";
+import { logInfo } from "@/scripts/demo-app/utils.js";
+import { doSetup } from "@/scripts/demo-app/setup/do-setup.js";
+import { detectExistingSetupArgs } from "@/scripts/demo-app/setup/package-json.js";
+import { askSetupArgs } from "@/scripts/demo-app/setup/ask-setup-args.js";
 
 async function main() {
   logInfo("Hello, let's set up the demo app!");

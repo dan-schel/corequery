@@ -17,6 +17,9 @@
     "lib": ["es2022", "dom", "dom.iterable"],
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "types": ["vite-plugin-pwa/client"]
+    "types": ["vite-plugin-pwa/client"],
+    "paths": {
+      "@/*": ["../*"]
+    }
   }
 }
