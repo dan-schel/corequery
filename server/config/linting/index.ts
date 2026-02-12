@@ -1,2 +1,2 @@
 export { lintConfig } from "./lint.js";
-export type { LintIssue, LintOptions } from "./types.js";
+export type { LintIssue, LintableConfig, LintOptions } from "./types.js";
