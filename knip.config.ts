@@ -6,6 +6,7 @@ const config: KnipConfig = {
     "server/index.ts",
     "web/index.tsx",
     "web/vite.config.ts",
+    "tests/vitest.config.ts",
     "scripts/demo-app/commands/dev.ts",
     "scripts/demo-app/commands/setup.ts",
     "scripts/demo-app/commands/start.ts",
@@ -19,7 +20,7 @@ const config: KnipConfig = {
     "scripts/start",
     "scripts/test",
   ],
-  ignoreDependencies: ["@vitest/coverage-v8"],
+  ignoreDependencies: ["@vitest/coverage-v8", "tsc-alias"],
 };
 
 export default config;
