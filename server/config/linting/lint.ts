@@ -1,5 +1,8 @@
-import type { CorequeryConfig } from "@/server/config/config.js";
-import type { LintIssue, LintOptions } from "@/server/config/linting/types.js";
+import type {
+  LintableConfig,
+  LintIssue,
+  LintOptions,
+} from "@/server/config/linting/types.js";
 import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 import { checkStopsUniqueIds } from "@/server/config/linting/stop/unique-ids.js";
 import { checkStopsUniqueNames } from "@/server/config/linting/stop/unique-names.js";
@@ -33,7 +36,7 @@ import { checkLinesPageNoDuplicateLines } from "@/server/config/linting/lines-pa
 import { checkTagsNoDuplicatesInSuccession } from "@/server/config/linting/tags/no-duplicates-in-succession.js";
 
 export function lintConfig(
-  config: CorequeryConfig,
+  config: LintableConfig,
   options?: LintOptions,
 ): LintIssue[] {
   const issues = new IssueCollector();

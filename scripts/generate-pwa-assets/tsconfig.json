@@ -18,7 +18,17 @@
     "declaration": true,
     "lib": ["es2022"],
     "paths": {
-      "@/*": ["../../*"]
+      // For tsc-alias to work, this appears to need to follow the structure of
+      // the `scripts/generate-pwa-assets/dist` folder, which is why I can't use
+      // a broader `@/*` alias, as the dist folder only contains stuff inside
+      // `scripts/generate-pwa-assets`, due to how `include` is configured.
+      //
+      // The tsconfig for server, for example, doesn't have this problem because
+      // it includes the `server` and `shared` folders, and that structure is
+      // replicated in `server/dist`, and none of the other tsconfigs need to
+      // worry about this because they don't use tsc-alias (vite and tsx are
+      // smarter, presumably).
+      "@/scripts/generate-pwa-assets/*": ["./*"]
     }
   }
 }
