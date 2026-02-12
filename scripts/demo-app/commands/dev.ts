@@ -4,6 +4,7 @@ import {
   logInfo,
   notifyOfMissingDemoAppConfiguration,
   runDemoAppWithCommand,
+  waitForStdout,
 } from "@/scripts/demo-app/utils.js";
 
 logInfo("Running demo app (with hot-reloading)...");
@@ -26,17 +27,18 @@ if (devScriptName != null) {
   //   changes to its code or the code within its inner
   //   `node_modules/corequery/server/dist` folder.
 
-  const tsc = spawn("npx", ["tsc", "-p", "server/tsconfig.json", "--watch"]);
+  const tsconfigPath = "server/tsconfig.json";
+  const tsc = spawn("npx", ["tsc", "-p", tsconfigPath, "--watch"]);
+  const tscAlias = spawn("npx", ["tsc-alias", "-p", tsconfigPath, "--watch"]);
 
   console.log("");
   console.log("Waiting for initial server build to complete...");
 
   // Wait until we see "Watching for file changes." in the output from tsc.
-  await new Promise<void>((resolve) => {
-    tsc.stdout.on("data", (data) => {
-      if (data.toString().includes("Watching for file changes.")) resolve();
-    });
-  });
+  await Promise.all([
+    waitForStdout(tsc, "Watching for file changes."),
+    waitForStdout(tscAlias, "Watching for file changes..."),
+  ]);
 
   console.log("");
   console.log("Ok, done. Triggering demo app dev script...");

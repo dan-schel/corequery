@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execSync, type ChildProcessWithoutNullStreams } from "child_process";
 import chalk from "chalk";
 
 export const DEMO_APP_PATH = "./demo-app";
@@ -54,4 +54,15 @@ export function notifyOfMissingDemoAppConfiguration(script: "dev" | "start") {
   }
 }`),
   );
+}
+
+export function waitForStdout(
+  childProcess: ChildProcessWithoutNullStreams,
+  message: string,
+) {
+  return new Promise<void>((resolve) => {
+    childProcess.stdout.on("data", (data) => {
+      if (data.toString().includes(message)) resolve();
+    });
+  });
 }
