@@ -5,6 +5,10 @@ export type LintIssue = {
   readonly path?: string;
 };
 
+/**
+ * A subset of `CorequeryConfig` which can be constant, i.e. it doesn't require
+ * a reference to `Corequery` to build.
+ */
 export type LintableConfig = {
   readonly stops: CorequeryConfig["stops"];
   readonly lines: CorequeryConfig["lines"];
