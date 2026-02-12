@@ -9,7 +9,14 @@ export function logInfo(...message: unknown[]) {
 
 export function runDemoAppWithCommand(command: string) {
   try {
-    execSync(command, { cwd: DEMO_APP_PATH, stdio: "inherit" });
+    // This is kinda dumb, but when we set "--tsconfig" to run this script, it
+    // sets this env var. By default execSync sets env to process.env, so if the
+    // demo app ALSO uses tsx it'll think we're pointing it to the tsconfig for
+    // this script lol.
+    const env = { ...process.env };
+    delete env.TSX_TSCONFIG_PATH;
+
+    execSync(command, { cwd: DEMO_APP_PATH, stdio: "inherit", env });
   } catch (e) {
     console.log();
     if (
