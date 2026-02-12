@@ -1,6 +1,19 @@
+import type { CorequeryConfig } from "@/server/config/config.js";
+
 export type LintIssue = {
   readonly message: string;
   readonly path?: string;
+};
+
+export type LintableConfig = {
+  readonly stops: CorequeryConfig["stops"];
+  readonly lines: CorequeryConfig["lines"];
+  readonly terminology: CorequeryConfig["terminology"];
+  readonly landingPage: CorequeryConfig["landingPage"];
+  readonly footer: CorequeryConfig["footer"];
+  readonly aboutPage: CorequeryConfig["aboutPage"];
+  readonly linesPage: CorequeryConfig["linesPage"];
+  readonly tags: CorequeryConfig["tags"];
 };
 
 export type LintOptions = {
