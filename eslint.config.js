@@ -22,6 +22,21 @@ const customRules = {
 
     // Require imports to use the @ alias instead of relative paths.
     "custom/enforce-import-alias": "warn",
+
+    // Warn about relying on truthy/falsy values.
+    "@typescript-eslint/strict-boolean-expressions": [
+      "warn",
+      { allowString: false, allowNumber: false, allowNullableObject: false },
+    ],
+
+    // These errors are often just symptoms of another error, and obscure the
+    // actual error, so downngrade them to warnings.
+    // TODO: Re-enable these as warnings.
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
   },
 };
 
@@ -38,7 +53,14 @@ export default tseslint.config(
     ],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   prettier,
   customRules,
+  {
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.eslint.json",
+      },
+    },
+  },
 );
