@@ -41,7 +41,6 @@ export class ManifestPreparer {
 
   private async _readManifestJson() {
     const manifestStr = await fsp.readFile(this._fullFilePath(), "utf-8");
-    const manifestJson = JSON.parse(manifestStr);
 
     const schema = z.object({
       name: z.string(),
@@ -49,7 +48,7 @@ export class ManifestPreparer {
       description: z.string(),
     });
 
-    return schema.parse(manifestJson);
+    return schema.parse(JSON.parse(manifestStr));
   }
 
   private _fullFilePath() {

@@ -9,11 +9,25 @@ import {
 
 const PACKAGE_JSON_PATH = path.join(DEMO_APP_PATH, "package.json");
 
+const packageJsonSchema = z.looseObject({
+  dependencies: z.looseObject({}).optional(),
+  corequeryDemoApp: z
+    .looseObject({
+      scripts: z
+        .looseObject({
+          dev: z.string().optional(),
+          start: z.string().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+});
+
 export async function tryReadPackageJson() {
   try {
     const packageJsonPath = path.join(DEMO_APP_PATH, "package.json");
     const str = await fsp.readFile(packageJsonPath, "utf-8");
-    return JSON.parse(str);
+    return packageJsonSchema.parse(JSON.parse(str));
   } catch {
     return null;
   }

@@ -30,8 +30,8 @@ function StatusMessageAndReloadPrompt() {
     });
   }, []);
 
-  async function handleUpdateClick() {
-    await update();
+  function handleUpdateClick() {
+    void update();
   }
 
   if (updateAvailable) {

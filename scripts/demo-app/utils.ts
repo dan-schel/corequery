@@ -69,8 +69,8 @@ export function waitForStdout(
 ) {
   return new Promise<void>((resolve) => {
     childProcess.stdout.on("data", (data) => {
-      const text: string = data.toString();
-      if (text.includes(message)) resolve();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      if ((data.toString() as string).includes(message)) resolve();
     });
   });
 }
