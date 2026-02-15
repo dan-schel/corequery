@@ -8,7 +8,7 @@ export function checkLineHasRoutes(
   lineIndex: number,
   options?: LineLintOptions,
 ) {
-  if (options?.ignoreMissingRoutes) return;
+  if (options?.ignoreMissingRoutes ?? false) return;
 
   if (line.routes.length === 0) {
     issues.add({

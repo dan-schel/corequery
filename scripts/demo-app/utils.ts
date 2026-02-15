@@ -69,7 +69,8 @@ export function waitForStdout(
 ) {
   return new Promise<void>((resolve) => {
     childProcess.stdout.on("data", (data) => {
-      if (data.toString().includes(message)) resolve();
+      const text: string = data.toString();
+      if (text.includes(message)) resolve();
     });
   });
 }

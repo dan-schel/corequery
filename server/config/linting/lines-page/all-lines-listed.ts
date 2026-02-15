@@ -13,7 +13,7 @@ export function checkLinesPageAllLinesListed(
   options?: Record<number, LinesPageLineLintOptions>,
 ) {
   for (const [index, line] of lines.entries()) {
-    if (options?.[line.id]?.ignoreUnlistedLine) continue;
+    if (options?.[line.id]?.ignoreUnlistedLine ?? false) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const isListed = linesPage.sections.some((section) =>

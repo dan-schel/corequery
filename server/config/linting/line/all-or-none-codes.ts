@@ -9,7 +9,7 @@ export function checkLinesAllOrNoneHaveCodes(
   options?: Record<number, LineLintOptions>,
 ) {
   const linesToCheck = lines.filter(
-    (line) => !options?.[line.id]?.ignoreMissingCode,
+    (line) => !(options?.[line.id]?.ignoreMissingCode ?? false),
   );
 
   const missingCodes = findAllOrNoneViolations(

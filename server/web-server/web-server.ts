@@ -52,7 +52,7 @@ export class WebServer {
 
     server.use(express.static(this._getWebFolderPath("dist")));
 
-    server.use("*all", async (_req, res) => {
+    server.use("*all", (_req, res) => {
       res.status(200).set({ "Content-Type": "text/html" }).end(indexHtml);
     });
   }

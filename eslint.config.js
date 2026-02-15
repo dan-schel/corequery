@@ -49,6 +49,7 @@ export default tseslint.config(
       "web/dist",
       "demo-app",
       "scripts/generate-pwa-assets/dist",
+      "scripts/eslint",
       "coverage",
     ],
   },
