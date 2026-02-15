@@ -8,7 +8,7 @@ export function findDuplicates<T>(
   for (const [index, item] of items.entries()) {
     const id = getId(item);
     if (seen.has(id)) {
-      const indices = duplicates.get(id) || [];
+      const indices = duplicates.get(id) ?? [];
       indices.push(index);
       duplicates.set(id, indices);
       continue;

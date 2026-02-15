@@ -9,7 +9,7 @@ export function checkStopPositionsUniqueNames(
   stopIndex: number,
   options?: StopLintOptions,
 ) {
-  if (options?.ignoreDuplicatedPositionName) return;
+  if (options?.ignoreDuplicatedPositionName ?? false) return;
 
   const duplicates = findDuplicates(
     stop.positions,

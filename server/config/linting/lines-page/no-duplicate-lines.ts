@@ -13,7 +13,7 @@ export function checkLinesPageNoDuplicateLines(
   options?: Record<number, LinesPageLineLintOptions>,
 ) {
   for (const line of lines) {
-    if (options?.[line.id]?.ignoreDuplicatedLine) continue;
+    if (options?.[line.id]?.ignoreDuplicatedLine ?? false) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const sectionNames = linesPage.sections

@@ -19,7 +19,7 @@ export function checkStopsAppearInRoutes(
   }
 
   for (const [index, stop] of stops.entries()) {
-    if (options?.[stop.id]?.ignoreUnusedStop) continue;
+    if (options?.[stop.id]?.ignoreUnusedStop ?? false) continue;
 
     if (!stopIdsInRoutes.has(stop.id)) {
       issues.add({

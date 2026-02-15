@@ -19,7 +19,7 @@ export function Button(props: ButtonProps) {
         {props.children}
       </button>
     );
-  } else if (props.href != null && !props.disabled) {
+  } else if (props.href != null && !(props.disabled ?? false)) {
     return (
       <a class={_class} href={props.href}>
         {props.children}

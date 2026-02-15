@@ -24,7 +24,7 @@ async function loadCodeIntoFolder(args: SetupArgs) {
   if (args.source === "git") {
     await loadCodeFromGit(args.gitRepoUrl, args.branch);
   } else {
-    throw new Error(`Unknown setup source: ${args.source}`);
+    throw new Error(`Unknown setup source: ${args.source as string}`);
   }
 }
 
@@ -32,7 +32,7 @@ async function loadCodeFromGit(gitRepoUrl: string, branch: string | null) {
   logInfo("Cloning repository...");
   console.log();
 
-  const branchArg = branch ? ` -b ${branch}` : ``;
+  const branchArg = branch != null ? ` -b ${branch}` : ``;
   execSync(`git clone${branchArg} ${gitRepoUrl} ${DEMO_APP_PATH}`, {
     stdio: "inherit",
   });

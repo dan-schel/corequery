@@ -9,7 +9,7 @@ export function checkStopsAllOrNoneHavePositions(
   options?: Record<number, StopLintOptions>,
 ) {
   const stopsToCheck = stops.filter(
-    (stop) => !options?.[stop.id]?.ignoreMissingPosition,
+    (stop) => !(options?.[stop.id]?.ignoreMissingPosition ?? false),
   );
 
   const missingPositions = findAllOrNoneViolations(
