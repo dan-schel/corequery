@@ -27,13 +27,10 @@ import { checkLineNoDuplicateTags } from "@/server/config/linting/line/no-duplic
 import { checkRouteHasMinimumStops } from "@/server/config/linting/line/route/minimum-stops.js";
 import { checkRouteNoDuplicateTags } from "@/server/config/linting/line/route/no-duplicate-tags.js";
 import { checkRouteStopsExist } from "@/server/config/linting/line/route/stops-exist.js";
-import { checkLineDiagramHasEntries } from "@/server/config/linting/line/diagram/has-entries.js";
-import { checkLineDiagramEntriesMinimumStops } from "@/server/config/linting/line/diagram/entry-minimum-stops.js";
-import { checkLineDiagramStopsExist } from "@/server/config/linting/line/diagram/stops-exist.js";
-import { checkLineDiagramStopsInRoutes } from "@/server/config/linting/line/diagram/stops-in-routes.js";
 import { checkLinesPageAllLinesListed } from "@/server/config/linting/lines-page/all-lines-listed.js";
 import { checkLinesPageNoDuplicateLines } from "@/server/config/linting/lines-page/no-duplicate-lines.js";
 import { checkTagsNoDuplicatesInSuccession } from "@/server/config/linting/tags/no-duplicates-in-succession.js";
+import { lintLineDiagramConfig } from "@/server/config/linting/line/diagram/index.js";
 
 export function lintConfig(
   config: LintableConfig,
@@ -42,10 +39,15 @@ export function lintConfig(
   const issues = new IssueCollector();
 
   checkStopsUniqueIds(issues, config.stops);
-  checkStopsUniqueNames(issues, config.stops, options?.stops);
-  checkStopsAllOrNoneHaveLocations(issues, config.stops, options?.stops);
-  checkStopsAllOrNoneHavePositions(issues, config.stops, options?.stops);
-  checkStopsAppearInRoutes(issues, config.stops, config.lines, options?.stops);
+  checkStopsUniqueNames(issues, config.stops, options?.stops ?? {});
+  checkStopsAllOrNoneHaveLocations(issues, config.stops, options?.stops ?? {});
+  checkStopsAllOrNoneHavePositions(issues, config.stops, options?.stops ?? {});
+  checkStopsAppearInRoutes(
+    issues,
+    config.stops,
+    config.lines,
+    options?.stops ?? {},
+  );
 
   for (const [stopIndex, stop] of config.stops.entries()) {
     checkStopPositionsUniqueIds(issues, stop, stopIndex);
@@ -54,7 +56,7 @@ export function lintConfig(
       issues,
       stop,
       stopIndex,
-      options?.stops?.[stop.id],
+      options?.stops?.[stop.id] ?? {},
     );
     checkStopNoDuplicateTags(issues, stop, stopIndex);
 
@@ -64,20 +66,30 @@ export function lintConfig(
   }
 
   checkLinesUniqueIds(issues, config.lines);
-  checkLinesUniqueNames(issues, config.lines, options?.lines);
-  checkLinesAllOrNoneHaveCodes(issues, config.lines, options?.lines);
+  checkLinesUniqueNames(issues, config.lines, options?.lines ?? {});
+  checkLinesAllOrNoneHaveCodes(issues, config.lines, options?.lines ?? {});
 
   for (const [lineIndex, line] of config.lines.entries()) {
-    checkLineHasRoutes(issues, line, lineIndex, options?.lines?.[line.id]);
+    checkLineHasRoutes(
+      issues,
+      line,
+      lineIndex,
+      options?.lines?.[line.id] ?? {},
+    );
     checkLineRoutesUniqueIds(issues, line, lineIndex);
     checkLineNonEmptyName(issues, line, lineIndex);
     checkLineRoutesUniqueNames(
       issues,
       line,
       lineIndex,
-      options?.lines?.[line.id],
+      options?.lines?.[line.id] ?? {},
     );
-    checkLineRoutesMirrored(issues, line, lineIndex, options?.lines?.[line.id]);
+    checkLineRoutesMirrored(
+      issues,
+      line,
+      lineIndex,
+      options?.lines?.[line.id] ?? {},
+    );
     checkLineNoDuplicateTags(issues, line, lineIndex);
 
     for (const [routeIndex, route] of line.routes.entries()) {
@@ -106,19 +118,12 @@ export function lintConfig(
       checkLineRouteNonEmptyName(issues, route, routeIndex, lineIndex);
     }
 
-    checkLineDiagramHasEntries(
+    lintLineDiagramConfig(
       issues,
       line,
       lineIndex,
-      options?.lines?.[line.id],
-    );
-    checkLineDiagramEntriesMinimumStops(issues, line, lineIndex);
-    checkLineDiagramStopsExist(issues, line, lineIndex, config.stops);
-    checkLineDiagramStopsInRoutes(
-      issues,
-      line,
-      lineIndex,
-      options?.lines?.[line.id],
+      config.stops,
+      options?.lines?.[line.id] ?? {},
     );
   }
 
@@ -127,14 +132,14 @@ export function lintConfig(
     config.linesPage,
     config.lines,
     config.tags.lineTagSuccession,
-    options?.linesPage,
+    options?.linesPage ?? {},
   );
   checkLinesPageNoDuplicateLines(
     issues,
     config.linesPage,
     config.lines,
     config.tags.lineTagSuccession,
-    options?.linesPage,
+    options?.linesPage ?? {},
   );
 
   checkTagsNoDuplicatesInSuccession(issues, config.tags);

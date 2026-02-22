@@ -7,14 +7,14 @@ import { itsOk } from "@dan-schel/js-utils";
 export function checkStopsUniqueNames(
   issues: IssueCollector,
   stops: readonly StopConfig[],
-  options?: Record<number, StopLintOptions>,
+  options: Record<number, StopLintOptions>,
 ) {
   const duplicates = findDuplicates(stops, (stop) => stop.name);
 
   for (const [name, indices] of duplicates) {
     for (const index of indices) {
       const stop = itsOk(stops[index]);
-      if (options?.[stop.id]?.ignoreDuplicatedName ?? false) continue;
+      if (options[stop.id]?.ignoreDuplicatedName ?? false) continue;
 
       issues.add({
         message: `Stop name "${name}" is duplicated.`,

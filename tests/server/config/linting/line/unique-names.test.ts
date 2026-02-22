@@ -6,19 +6,21 @@ import { createLine } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLinesUniqueNames", () => {
   it("returns no issues when names are unique", () => {
-    const issues = collectIssues(checkLinesUniqueNames, [
-      createLine({ id: 1, name: "A" }),
-      createLine({ id: 2, name: "B" }),
-    ]);
+    const issues = collectIssues(
+      checkLinesUniqueNames,
+      [createLine({ id: 1, name: "A" }), createLine({ id: 2, name: "B" })],
+      {},
+    );
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate names", () => {
-    const issues = collectIssues(checkLinesUniqueNames, [
-      createLine({ id: 1, name: "A" }),
-      createLine({ id: 2, name: "A" }),
-    ]);
+    const issues = collectIssues(
+      checkLinesUniqueNames,
+      [createLine({ id: 1, name: "A" }), createLine({ id: 2, name: "A" })],
+      {},
+    );
 
     expectIssueMessages(issues, ['Line name "A" is duplicated.']);
   });

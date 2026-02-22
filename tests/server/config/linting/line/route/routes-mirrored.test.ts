@@ -28,14 +28,14 @@ describe("checkLineRoutesMirrored", () => {
       ],
     });
 
-    const issues = collectIssues(checkLineRoutesMirrored, line, 0);
+    const issues = collectIssues(checkLineRoutesMirrored, line, 0, {});
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues when no mirror exists", () => {
     const line = createLine({ routes: [createRoute({ id: 1 })] });
-    const issues = collectIssues(checkLineRoutesMirrored, line, 0);
+    const issues = collectIssues(checkLineRoutesMirrored, line, 0, {});
 
     expectIssueMessages(issues, [
       'Route "Route" in line "Line" does not have a mirrored route.',

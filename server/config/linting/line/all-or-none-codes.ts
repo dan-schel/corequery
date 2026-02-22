@@ -6,10 +6,10 @@ import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js
 export function checkLinesAllOrNoneHaveCodes(
   issues: IssueCollector,
   lines: readonly LineConfig[],
-  options?: Record<number, LineLintOptions>,
+  options: Record<number, LineLintOptions>,
 ) {
   const linesToCheck = lines.filter(
-    (line) => !(options?.[line.id]?.ignoreMissingCode ?? false),
+    (line) => !(options[line.id]?.ignoreMissingCode ?? false),
   );
 
   const missingCodes = findAllOrNoneViolations(

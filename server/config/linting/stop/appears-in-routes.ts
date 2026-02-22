@@ -7,7 +7,7 @@ export function checkStopsAppearInRoutes(
   issues: IssueCollector,
   stops: readonly StopConfig[],
   lines: readonly LineConfig[],
-  options?: Record<number, StopLintOptions>,
+  options: Record<number, StopLintOptions>,
 ) {
   const stopIdsInRoutes = new Set<number>();
   for (const line of lines) {
@@ -19,7 +19,7 @@ export function checkStopsAppearInRoutes(
   }
 
   for (const [index, stop] of stops.entries()) {
-    if (options?.[stop.id]?.ignoreUnusedStop ?? false) continue;
+    if (options[stop.id]?.ignoreUnusedStop ?? false) continue;
 
     if (!stopIdsInRoutes.has(stop.id)) {
       issues.add({

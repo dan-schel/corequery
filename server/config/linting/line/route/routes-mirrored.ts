@@ -10,10 +10,10 @@ export function checkLineRoutesMirrored(
   issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-  options?: LineLintOptions,
+  options: LineLintOptions,
 ) {
   for (const [routeIndex, route] of line.routes.entries()) {
-    if (options?.routes?.[route.id]?.ignoreMissingMirrored ?? false) continue;
+    if (options.routes?.[route.id]?.ignoreMissingMirrored ?? false) continue;
 
     const hasMirror = line.routes.some(
       (otherRoute, otherIndex) =>

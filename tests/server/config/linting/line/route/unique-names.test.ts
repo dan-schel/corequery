@@ -16,7 +16,7 @@ describe("checkLineRoutesUniqueNames", () => {
       ],
     });
 
-    const issues = collectIssues(checkLineRoutesUniqueNames, line, 0);
+    const issues = collectIssues(checkLineRoutesUniqueNames, line, 0, {});
 
     expectIssueMessages(issues, []);
   });
@@ -29,7 +29,7 @@ describe("checkLineRoutesUniqueNames", () => {
       ],
     });
 
-    const issues = collectIssues(checkLineRoutesUniqueNames, line, 0);
+    const issues = collectIssues(checkLineRoutesUniqueNames, line, 0, {});
 
     expectIssueMessages(issues, [
       'Route name "A" is duplicated in line "Line".',

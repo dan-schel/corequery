@@ -17,6 +17,7 @@ describe("checkLinesPageAllLinesListed", () => {
       linesPage,
       lines,
       { 1: [10] },
+      {},
     );
 
     expectIssueMessages(issues, []);
@@ -30,6 +31,7 @@ describe("checkLinesPageAllLinesListed", () => {
       checkLinesPageAllLinesListed,
       linesPage,
       lines,
+      {},
       {},
     );
 

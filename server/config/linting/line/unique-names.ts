@@ -7,14 +7,14 @@ import { itsOk } from "@dan-schel/js-utils";
 export function checkLinesUniqueNames(
   issues: IssueCollector,
   lines: readonly LineConfig[],
-  options?: Record<number, LineLintOptions>,
+  options: Record<number, LineLintOptions>,
 ) {
   const duplicates = findDuplicates(lines, (line) => line.name);
 
   for (const [name, indices] of duplicates) {
     for (const index of indices) {
       const line = itsOk(lines[index]);
-      if (options?.[line.id]?.ignoreDuplicatedName ?? false) continue;
+      if (options[line.id]?.ignoreDuplicatedName ?? false) continue;
 
       issues.add({
         message: `Line name "${name}" is duplicated.`,

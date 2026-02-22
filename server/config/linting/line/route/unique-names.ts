@@ -8,14 +8,14 @@ export function checkLineRoutesUniqueNames(
   issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-  options?: LineLintOptions,
+  options: LineLintOptions,
 ) {
   const duplicates = findDuplicates(line.routes, (route) => route.name);
 
   for (const [name, indices] of duplicates) {
     for (const index of indices) {
       const route = itsOk(line.routes[index]);
-      if (options?.routes?.[route.id]?.ignoreDuplicatedName ?? false) continue;
+      if (options.routes?.[route.id]?.ignoreDuplicatedName ?? false) continue;
 
       issues.add({
         message: `Route name "${name}" is duplicated in line "${line.name}".`,

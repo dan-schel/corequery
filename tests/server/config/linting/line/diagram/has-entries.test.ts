@@ -9,14 +9,14 @@ describe("checkLineDiagramHasEntries", () => {
     const line = createLine({
       diagram: { entries: [{ name: null, color: "red", stops: [] }] },
     });
-    const issues = collectIssues(checkLineDiagramHasEntries, line, 0);
+    const issues = collectIssues(checkLineDiagramHasEntries, line, 0, {});
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues when no entries exist", () => {
     const line = createLine({ diagram: { entries: [] } });
-    const issues = collectIssues(checkLineDiagramHasEntries, line, 0);
+    const issues = collectIssues(checkLineDiagramHasEntries, line, 0, {});
 
     expectIssueMessages(issues, ['Line "Line" has no diagram entries.']);
   });

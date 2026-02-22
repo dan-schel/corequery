@@ -6,19 +6,27 @@ import { createStop } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkStopsAllOrNoneHaveLocations", () => {
   it("returns no issues when all are missing locations", () => {
-    const issues = collectIssues(checkStopsAllOrNoneHaveLocations, [
-      createStop({ id: 1, location: null }),
-      createStop({ id: 2, location: null }),
-    ]);
+    const issues = collectIssues(
+      checkStopsAllOrNoneHaveLocations,
+      [
+        createStop({ id: 1, location: null }),
+        createStop({ id: 2, location: null }),
+      ],
+      {},
+    );
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues when locations are mixed", () => {
-    const issues = collectIssues(checkStopsAllOrNoneHaveLocations, [
-      createStop({ id: 1, location: { latitude: 1, longitude: 2 } }),
-      createStop({ id: 2, location: null }),
-    ]);
+    const issues = collectIssues(
+      checkStopsAllOrNoneHaveLocations,
+      [
+        createStop({ id: 1, location: { latitude: 1, longitude: 2 } }),
+        createStop({ id: 2, location: null }),
+      ],
+      {},
+    );
 
     expectIssueMessages(issues, ['Stop "Stop" is missing a location.']);
   });

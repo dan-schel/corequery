@@ -6,9 +6,9 @@ export function checkLineHasRoutes(
   issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-  options?: LineLintOptions,
+  options: LineLintOptions,
 ) {
-  if (options?.ignoreMissingRoutes ?? false) return;
+  if (options.ignoreMissingRoutes ?? false) return;
 
   if (line.routes.length === 0) {
     issues.add({
