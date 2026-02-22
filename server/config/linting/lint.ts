@@ -4,10 +4,10 @@ import type {
   LintOptions,
 } from "@/server/config/linting/types.js";
 import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
-import { checkTagsNoDuplicatesInSuccession } from "@/server/config/linting/tags/no-duplicates-in-succession.js";
 import { lintLineConfig } from "@/server/config/linting/line/index.js";
 import { lintLinesPageConfig } from "@/server/config/linting/lines-page/index.js";
 import { lintStopConfig } from "@/server/config/linting/stop/index.js";
+import { lintTagsConfig } from "@/server/config/linting/tags/index.js";
 
 export function lintConfig(
   config: LintableConfig,
@@ -27,7 +27,7 @@ export function lintConfig(
     options?.linesPage ?? {},
   );
 
-  checkTagsNoDuplicatesInSuccession(issues, config.tags);
+  lintTagsConfig(issues, config.tags);
 
   return issues.getIssues();
 }
