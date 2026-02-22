@@ -25,11 +25,11 @@
     "bump-check": "bump-check --ignore \"^renovate\\/\""
   },
   "dependencies": {
-    "@dan-schel/js-utils": "4.9.0",
-    "express": "5.2.1",
-    "node-html-parser": "7.0.2",
-    "sharp": "0.34.5",
-    "zod": "4.3.6"
+    "@dan-schel/js-utils": "^4.9.0",
+    "express": "^5.2.1",
+    "node-html-parser": "^7.0.2",
+    "sharp": "^0.34.5",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",
