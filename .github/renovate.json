@@ -5,7 +5,7 @@
   "prHourlyLimit": 10,
   "prConcurrentLimit": 500,
   "lockFileMaintenance": { "enabled": true },
-  "rangeStrategy": "pin",
+  "rangeStrategy": "bump",
   "packageRules": [
     {
       "matchCurrentVersion": ">=1.0.0",
@@ -15,6 +15,10 @@
     {
       "matchDepTypes": ["!devDependencies"],
       "bumpVersion": "patch"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "rangeStrategy": "pin"
     }
   ]
 }
