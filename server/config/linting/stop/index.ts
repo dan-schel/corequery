@@ -9,6 +9,7 @@ import { checkStopNoDuplicateTags } from "@/server/config/linting/stop/no-duplic
 import { checkStopNonEmptyName } from "@/server/config/linting/stop/non-empty-name.js";
 import { lintStopPositionConfig } from "@/server/config/linting/stop/position/index.js";
 import { checkStopsUniqueIds } from "@/server/config/linting/stop/unique-ids.js";
+import { checkStopsUniqueUrlPaths } from "@/server/config/linting/stop/unique-url-paths.js";
 import { checkStopsUniqueNames } from "@/server/config/linting/stop/unique-names.js";
 
 export function lintStopConfig(
@@ -18,6 +19,7 @@ export function lintStopConfig(
   options: Record<number, StopLintOptions>,
 ): void {
   checkStopsUniqueIds(issues, stops);
+  checkStopsUniqueUrlPaths(issues, stops);
   checkStopsUniqueNames(issues, stops, options);
   checkStopsAllOrNoneHaveLocations(issues, stops, options);
   checkStopsAllOrNoneHavePositions(issues, stops, options);

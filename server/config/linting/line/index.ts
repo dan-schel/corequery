@@ -8,6 +8,7 @@ import { checkLineNoDuplicateTags } from "@/server/config/linting/line/no-duplic
 import { checkLineNonEmptyName } from "@/server/config/linting/line/non-empty-name.js";
 import { lintLineRouteConfig } from "@/server/config/linting/line/route/index.js";
 import { checkLinesUniqueIds } from "@/server/config/linting/line/unique-ids.js";
+import { checkLinesUniqueUrlPaths } from "@/server/config/linting/line/unique-url-paths.js";
 import { checkLinesUniqueNames } from "@/server/config/linting/line/unique-names.js";
 import type { StopConfig } from "@/server/config/types/stop-config.js";
 
@@ -18,6 +19,7 @@ export function lintLineConfig(
   options: Record<number, LineLintOptions>,
 ) {
   checkLinesUniqueIds(issues, lines);
+  checkLinesUniqueUrlPaths(issues, lines);
   checkLinesUniqueNames(issues, lines, options);
   checkLinesAllOrNoneHaveCodes(issues, lines, options);
 
