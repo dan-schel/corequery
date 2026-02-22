@@ -10,6 +10,7 @@ import { checkLineNonEmptyName } from "@/server/config/linting/line/non-empty-na
 import { checkLineNonEmptyUrlPath } from "@/server/config/linting/line/non-empty-url-path.js";
 import { lintLineRouteConfig } from "@/server/config/linting/line/route/index.js";
 import { checkLinesUniqueIds } from "@/server/config/linting/line/unique-ids.js";
+import { checkLinesUniqueCodes } from "@/server/config/linting/line/unique-codes.js";
 import { checkLinesUniqueUrlPaths } from "@/server/config/linting/line/unique-url-paths.js";
 import { checkLinesUniqueNames } from "@/server/config/linting/line/unique-names.js";
 import type { StopConfig } from "@/server/config/types/stop-config.js";
@@ -21,6 +22,7 @@ export function lintLineConfig(
   options: Record<number, LineLintOptions>,
 ) {
   checkLinesUniqueIds(issues, lines);
+  checkLinesUniqueCodes(issues, lines, options);
   checkLinesUniqueUrlPaths(issues, lines);
   checkLinesUniqueNames(issues, lines, options);
   checkLinesAllOrNoneHaveCodes(issues, lines, options);

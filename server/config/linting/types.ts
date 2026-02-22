@@ -49,6 +49,9 @@ export type StopLintOptions = {
 };
 
 export type LineLintOptions = {
+  /** Ignore this line sharing the same code as another line. */
+  readonly ignoreDuplicatedCode?: boolean;
+
   /** Ignore this line sharing the same name as another line. */
   readonly ignoreDuplicatedName?: boolean;
 
