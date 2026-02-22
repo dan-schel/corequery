@@ -7,6 +7,7 @@ import { checkStopsAllOrNoneHavePositions } from "@/server/config/linting/stop/a
 import { checkStopsAppearInRoutes } from "@/server/config/linting/stop/appears-in-routes.js";
 import { checkStopNoDuplicateTags } from "@/server/config/linting/stop/no-duplicate-tags.js";
 import { checkStopNonEmptyName } from "@/server/config/linting/stop/non-empty-name.js";
+import { checkStopNonEmptyUrlPath } from "@/server/config/linting/stop/non-empty-url-path.js";
 import { lintStopPositionConfig } from "@/server/config/linting/stop/position/index.js";
 import { checkStopsUniqueIds } from "@/server/config/linting/stop/unique-ids.js";
 import { checkStopsUniqueUrlPaths } from "@/server/config/linting/stop/unique-url-paths.js";
@@ -27,6 +28,7 @@ export function lintStopConfig(
 
   for (const [stopIndex, stop] of stops.entries()) {
     checkStopNonEmptyName(issues, stop, stopIndex);
+    checkStopNonEmptyUrlPath(issues, stop, stopIndex);
     checkStopNoDuplicateTags(issues, stop, stopIndex);
 
     lintStopPositionConfig(issues, stop, stopIndex, options[stop.id] ?? {});

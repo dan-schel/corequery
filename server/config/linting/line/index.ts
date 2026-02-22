@@ -6,6 +6,7 @@ import { lintLineDiagramConfig } from "@/server/config/linting/line/diagram/inde
 import { checkLineHasRoutes } from "@/server/config/linting/line/has-routes.js";
 import { checkLineNoDuplicateTags } from "@/server/config/linting/line/no-duplicate-tags.js";
 import { checkLineNonEmptyName } from "@/server/config/linting/line/non-empty-name.js";
+import { checkLineNonEmptyUrlPath } from "@/server/config/linting/line/non-empty-url-path.js";
 import { lintLineRouteConfig } from "@/server/config/linting/line/route/index.js";
 import { checkLinesUniqueIds } from "@/server/config/linting/line/unique-ids.js";
 import { checkLinesUniqueUrlPaths } from "@/server/config/linting/line/unique-url-paths.js";
@@ -26,6 +27,7 @@ export function lintLineConfig(
   for (const [lineIndex, line] of lines.entries()) {
     checkLineHasRoutes(issues, line, lineIndex, options[line.id] ?? {});
     checkLineNonEmptyName(issues, line, lineIndex);
+    checkLineNonEmptyUrlPath(issues, line, lineIndex);
     checkLineNoDuplicateTags(issues, line, lineIndex);
 
     lintLineRouteConfig(issues, line, lineIndex, stops, options[line.id] ?? {});
