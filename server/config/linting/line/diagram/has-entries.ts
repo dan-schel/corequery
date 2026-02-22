@@ -6,9 +6,9 @@ export function checkLineDiagramHasEntries(
   issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-  options?: LineLintOptions,
+  options: LineLintOptions,
 ) {
-  if (options?.ignoreMissingDiagramEntries ?? false) return;
+  if (options.ignoreMissingDiagramEntries ?? false) return;
 
   if (line.diagram.entries.length === 0) {
     issues.add({

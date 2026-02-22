@@ -17,6 +17,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       linesPage,
       lines,
       {},
+      {},
     );
 
     expectIssueMessages(issues, []);
@@ -36,6 +37,7 @@ describe("checkLinesPageNoDuplicateLines", () => {
       linesPage,
       lines,
       { 10: [11] },
+      {},
     );
 
     expectIssueMessages(issues, [

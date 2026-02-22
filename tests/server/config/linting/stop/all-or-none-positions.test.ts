@@ -6,19 +6,27 @@ import { createStop } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkStopsAllOrNoneHavePositions", () => {
   it("returns no issues when all are missing positions", () => {
-    const issues = collectIssues(checkStopsAllOrNoneHavePositions, [
-      createStop({ id: 1, positions: [] }),
-      createStop({ id: 2, positions: [] }),
-    ]);
+    const issues = collectIssues(
+      checkStopsAllOrNoneHavePositions,
+      [
+        createStop({ id: 1, positions: [] }),
+        createStop({ id: 2, positions: [] }),
+      ],
+      {},
+    );
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues when positions are mixed", () => {
-    const issues = collectIssues(checkStopsAllOrNoneHavePositions, [
-      createStop({ id: 1, positions: [{ stopPositionId: 1, name: "P1" }] }),
-      createStop({ id: 2, positions: [] }),
-    ]);
+    const issues = collectIssues(
+      checkStopsAllOrNoneHavePositions,
+      [
+        createStop({ id: 1, positions: [{ stopPositionId: 1, name: "P1" }] }),
+        createStop({ id: 2, positions: [] }),
+      ],
+      {},
+    );
 
     expectIssueMessages(issues, ['Stop "Stop" has no positions.']);
   });

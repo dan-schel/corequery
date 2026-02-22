@@ -6,19 +6,21 @@ import { createStop } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkStopsUniqueNames", () => {
   it("returns no issues when names are unique", () => {
-    const issues = collectIssues(checkStopsUniqueNames, [
-      createStop({ id: 1, name: "A" }),
-      createStop({ id: 2, name: "B" }),
-    ]);
+    const issues = collectIssues(
+      checkStopsUniqueNames,
+      [createStop({ id: 1, name: "A" }), createStop({ id: 2, name: "B" })],
+      {},
+    );
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues for duplicate names", () => {
-    const issues = collectIssues(checkStopsUniqueNames, [
-      createStop({ id: 1, name: "A" }),
-      createStop({ id: 2, name: "A" }),
-    ]);
+    const issues = collectIssues(
+      checkStopsUniqueNames,
+      [createStop({ id: 1, name: "A" }), createStop({ id: 2, name: "A" })],
+      {},
+    );
 
     expectIssueMessages(issues, ['Stop name "A" is duplicated.']);
   });

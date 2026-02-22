@@ -10,10 +10,10 @@ export function checkLinesPageNoDuplicateLines(
   linesPage: LinesPageConfig,
   lines: readonly LineConfig[],
   lineTagSuccession: TagSuccessionConfig,
-  options?: Record<number, LinesPageLineLintOptions>,
+  options: Record<number, LinesPageLineLintOptions>,
 ) {
   for (const line of lines) {
-    if (options?.[line.id]?.ignoreDuplicatedLine ?? false) continue;
+    if (options[line.id]?.ignoreDuplicatedLine ?? false) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const sectionNames = linesPage.sections

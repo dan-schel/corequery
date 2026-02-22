@@ -7,9 +7,9 @@ export function checkLineDiagramStopsInRoutes(
   issues: IssueCollector,
   line: LineConfig,
   lineIndex: number,
-  options?: LineLintOptions,
+  options: LineLintOptions,
 ) {
-  if (options?.ignoreDiagramStopNotInRoute ?? false) return;
+  if (options.ignoreDiagramStopNotInRoute ?? false) return;
 
   const routeStopIds = new Set<number>();
   for (const route of line.routes) {

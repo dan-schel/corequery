@@ -10,10 +10,10 @@ export function checkLinesPageAllLinesListed(
   linesPage: LinesPageConfig,
   lines: readonly LineConfig[],
   lineTagSuccession: TagSuccessionConfig,
-  options?: Record<number, LinesPageLineLintOptions>,
+  options: Record<number, LinesPageLineLintOptions>,
 ) {
   for (const [index, line] of lines.entries()) {
-    if (options?.[line.id]?.ignoreUnlistedLine ?? false) continue;
+    if (options[line.id]?.ignoreUnlistedLine ?? false) continue;
 
     const lineTags = Tags.build(line.tags, lineTagSuccession);
     const isListed = linesPage.sections.some((section) =>

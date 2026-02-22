@@ -31,7 +31,7 @@ describe("checkStopsAppearInRoutes", () => {
       }),
     ];
 
-    const issues = collectIssues(checkStopsAppearInRoutes, stops, lines);
+    const issues = collectIssues(checkStopsAppearInRoutes, stops, lines, {});
 
     expectIssueMessages(issues, []);
   });
@@ -52,7 +52,7 @@ describe("checkStopsAppearInRoutes", () => {
       }),
     ];
 
-    const issues = collectIssues(checkStopsAppearInRoutes, stops, lines);
+    const issues = collectIssues(checkStopsAppearInRoutes, stops, lines, {});
 
     expectIssueMessages(issues, ['Stop "Stop" does not appear in any route.']);
   });

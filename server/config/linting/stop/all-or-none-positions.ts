@@ -6,10 +6,10 @@ import { IssueCollector } from "@/server/config/linting/utils/issue-collector.js
 export function checkStopsAllOrNoneHavePositions(
   issues: IssueCollector,
   stops: readonly StopConfig[],
-  options?: Record<number, StopLintOptions>,
+  options: Record<number, StopLintOptions>,
 ) {
   const stopsToCheck = stops.filter(
-    (stop) => !(options?.[stop.id]?.ignoreMissingPosition ?? false),
+    (stop) => !(options[stop.id]?.ignoreMissingPosition ?? false),
   );
 
   const missingPositions = findAllOrNoneViolations(

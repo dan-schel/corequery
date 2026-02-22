@@ -7,9 +7,9 @@ export function checkStopPositionsUniqueNames(
   issues: IssueCollector,
   stop: StopConfig,
   stopIndex: number,
-  options?: StopLintOptions,
+  options: StopLintOptions,
 ) {
-  if (options?.ignoreDuplicatedPositionName ?? false) return;
+  if (options.ignoreDuplicatedPositionName ?? false) return;
 
   const duplicates = findDuplicates(
     stop.positions,

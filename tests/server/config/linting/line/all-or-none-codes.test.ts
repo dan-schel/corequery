@@ -6,19 +6,21 @@ import { createLine } from "@/tests/server/config/linting/support/factories.js";
 
 describe("checkLinesAllOrNoneHaveCodes", () => {
   it("returns no issues when all codes are missing", () => {
-    const issues = collectIssues(checkLinesAllOrNoneHaveCodes, [
-      createLine({ id: 1, code: null }),
-      createLine({ id: 2, code: null }),
-    ]);
+    const issues = collectIssues(
+      checkLinesAllOrNoneHaveCodes,
+      [createLine({ id: 1, code: null }), createLine({ id: 2, code: null })],
+      {},
+    );
 
     expectIssueMessages(issues, []);
   });
 
   it("returns issues when codes are mixed", () => {
-    const issues = collectIssues(checkLinesAllOrNoneHaveCodes, [
-      createLine({ id: 1, code: "A" }),
-      createLine({ id: 2, code: null }),
-    ]);
+    const issues = collectIssues(
+      checkLinesAllOrNoneHaveCodes,
+      [createLine({ id: 1, code: "A" }), createLine({ id: 2, code: null })],
+      {},
+    );
 
     expectIssueMessages(issues, ['Line "Line" is missing a code.']);
   });
