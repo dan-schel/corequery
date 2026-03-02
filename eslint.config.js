@@ -46,20 +46,21 @@ const customRules = [
     },
   },
   {
-    ignores: ["server/**", "shared/**", "scripts/**"],
-    rules: {
-      // Outside of /server and /shared files, only allow console.warn.
-      "no-console": ["warn", { allow: ["warn"] }],
-    },
-  },
-  {
     files: [
       "server/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}",
       "shared/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}",
+      "tests/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}",
     ],
     rules: {
-      // Within /server and /shared files, don't allow any console use.
+      // Prevent use of console.log, etc. in /server, /shared, and /tests.
       "no-console": "warn",
+    },
+  },
+  {
+    files: ["web/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    rules: {
+      // In /web, only allow console.warn.
+      "no-console": ["warn", { allow: ["warn"] }],
     },
   },
 ];
