@@ -9,6 +9,10 @@ type FoundationalDataFields = {
   readonly lines: readonly Line[];
 };
 
+// TODO: I think we'll rename this. FoundationalData is a frontend concept, as
+// it's more a description of the data distribution method. What to call it
+// then! NetworkData? Remove the class entirely and put stops and lines directly
+// in the Corequery class?
 export class FoundationalData {
   readonly stops: StopCollection;
   readonly lines: LineCollection;

@@ -3,13 +3,11 @@ import { PwaStatus } from "@/web/components/PwaStatus";
 import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
-import { useQuery } from "@/web/utils/api";
-import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
+import { useFoundationalData } from "@/web/data/foundational-data/context";
 
 export default function Home() {
   const { appName } = useStaticData();
-
-  const { data } = useQuery(FOUNDATIONAL_DATA_V1, {});
+  const foda = useFoundationalData();
 
   return (
     <Column class="px-4 py-8 gap-8">
@@ -19,7 +17,7 @@ export default function Home() {
         </TextBlock>
         <Nav />
       </Column>
-      <TextBlock as="pre">{JSON.stringify(data, null, 2)}</TextBlock>
+      <TextBlock>Foundational data hash: {foda.hash}</TextBlock>
       <PwaStatus />
     </Column>
   );

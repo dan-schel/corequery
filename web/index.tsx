@@ -8,6 +8,7 @@ import {
 import { render } from "preact";
 import "@/web/index.css";
 import { StaticDataProvider } from "@/web/components/StaticDataProvider";
+import { FoundationalDataProvider } from "@/web/components/FoundationalDataProvider.js";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));
@@ -16,15 +17,17 @@ const NotFound = lazy(() => import("./pages/NotFound.js"));
 function App() {
   return (
     <StaticDataProvider>
-      <LocationProvider>
-        <ErrorBoundary>
-          <Router>
-            <Route path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route default component={NotFound} />
-          </Router>
-        </ErrorBoundary>
-      </LocationProvider>
+      <FoundationalDataProvider>
+        <LocationProvider>
+          <ErrorBoundary>
+            <Router>
+              <Route path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route default component={NotFound} />
+            </Router>
+          </ErrorBoundary>
+        </LocationProvider>
+      </FoundationalDataProvider>
     </StaticDataProvider>
   );
 }

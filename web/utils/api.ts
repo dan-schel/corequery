@@ -1,18 +1,27 @@
 import type { Api } from "@/shared/apis/types";
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import type { z, ZodType } from "zod";
+import { useDeepCompareEffect } from "@/web/utils/use-deep-compare-effect";
+
+type FetchOptions = {
+  timeout?: number | null;
+};
 
 /** @knipignore */
 export async function callApi<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
   args: z.input<Args>,
+  options: FetchOptions = {},
 ): Promise<z.infer<Result>> {
+  const { timeout } = options;
+
   const res = await fetch(`/api${api.path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(args),
+    signal: timeout != null ? AbortSignal.timeout(timeout) : undefined,
   });
 
   if (!res.ok) {
@@ -26,12 +35,13 @@ export async function callApi<Args extends ZodType, Result extends ZodType>(
 export function useQuery<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
   args: z.input<Args>,
+  options: FetchOptions = {},
 ) {
   const [data, setData] = useState<z.infer<Result> | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     let cancelled = false;
 
     async function fetchData() {
@@ -39,7 +49,7 @@ export function useQuery<Args extends ZodType, Result extends ZodType>(
         setLoading(true);
         setError(null);
 
-        const result = await callApi(api, args);
+        const result = await callApi(api, args, options);
         if (!cancelled) setData(result);
       } catch (e) {
         if (!cancelled) setError(e);
@@ -53,7 +63,7 @@ export function useQuery<Args extends ZodType, Result extends ZodType>(
     return () => {
       cancelled = true;
     };
-  }, [api, args]);
+  }, [api, args, options]);
 
   return { data, loading, error };
 }
