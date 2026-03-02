@@ -23,8 +23,8 @@ function StatusMessageAndReloadPrompt() {
 
   const update = useMemo(() => {
     return registerSW({
-      onRegisteredSW: () => console.log("Service worker registered."),
-      onRegisterError: (e) => console.error("Service worker error:", e),
+      onRegisteredSW: () => {},
+      onRegisterError: (e) => console.warn("Service worker error:", e),
       onNeedRefresh: () => setUpdateAvailable(true),
       onOfflineReady: () => setOfflineReady(true),
     });

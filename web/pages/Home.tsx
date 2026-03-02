@@ -1,6 +1,4 @@
-import { useEffect } from "preact/hooks";
 import { Nav } from "@/web/components/Nav";
-import { runSharedCode } from "@/shared/example";
 import { PwaStatus } from "@/web/components/PwaStatus";
 import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
@@ -12,10 +10,6 @@ export default function Home() {
   const { appName } = useStaticData();
 
   const { data } = useQuery(FOUNDATIONAL_DATA_V1, {});
-
-  useEffect(() => {
-    runSharedCode();
-  }, []);
 
   return (
     <Column class="px-4 py-8 gap-8">

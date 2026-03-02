@@ -41,6 +41,8 @@ export class WebServer {
     }
 
     server.listen(this._port, () => {
+      // TODO: Use proper logger.
+      // eslint-disable-next-line no-console
       console.log(`Server ready (http://localhost:${this._port})!`);
     });
   }
@@ -57,6 +59,8 @@ export class WebServer {
   }
 
   private async _serveFrontendUsingViteMiddleware(server: express.Express) {
+    // TODO: Use proper logger.
+    // eslint-disable-next-line no-console
     console.log("Running with Vite middleware for hot-reloading...");
 
     // Dynamic import, as it'll only be available when developing CoreQuery

@@ -1,4 +1,3 @@
-import { runSharedCode } from "@/shared/example.js";
 import type { CorequeryConfig } from "@/server/config/config.js";
 import { FoundationalData } from "@/server/data/foundational-data.js";
 import { serverFolderPath } from "@/server/dirname.js";
@@ -27,8 +26,6 @@ export class Corequery {
   }
 
   async start() {
-    runSharedCode();
-
     await this._webServer.prepareAssets();
     await this._webServer.start();
   }
