@@ -4,6 +4,7 @@ import path from "path";
 import type { Corequery } from "@/server/corequery.js";
 import { AssetPreparer } from "@/server/web-server/asset-preparer.js";
 import type { AssetConfig } from "@/server/config/types/asset-config.js";
+import { createApiRouter } from "@/server/api/create-api-router.js";
 
 type ClientMode = "dist-folder" | "vite-middleware";
 
@@ -30,9 +31,7 @@ export class WebServer {
 
   async start() {
     const server = express();
-
-    // TODO: Implement APIs
-    // server.use("/api", express.json(), createApiRouter(this._app));
+    server.use("/api", express.json(), createApiRouter(this._app));
 
     if (this._clientMode === "dist-folder") {
       await this._serveFrontendFromDistFolder(server);
