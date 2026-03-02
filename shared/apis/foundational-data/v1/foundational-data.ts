@@ -37,12 +37,11 @@ export const stopSchema = z.object({
     })
     .nullable(),
 
-  // At the time of writing, my current thinking is that things like the list
-  // of supported filters and default departure feeds would go in a
-  // `/stop-page/v1` API (which would also return the departures themselves,
-  // even though subsequent refreshes would still use a `/departures/v1` API),
-  // because it seems a little heavy to include them all in the foundational
-  // data.
+  // Considering whether things like the list of supported filters and default
+  // departure feeds would go in a `/stop-page/v1` API (which would also return
+  // the departures themselves, even though subsequent refreshes would still use
+  // a `/departures/v1` API). I suppose it seems a little heavy to include them
+  // all in the foundational data. How many MB is this gonna add up to?
   //
   // That said, since foundational data only needs to be fully refetched when
   // the hash changes (which would only be due to a commit, as I don't think
@@ -71,48 +70,68 @@ export const lineSchema = z.object({
   // line page) isn't blocked by an API call.
 });
 
-export const terminologySchema = z.object({
-  // Needed for navigation.
-  stop: z.enum(["stop", "station"]),
-  line: z.enum(["line", "route"]),
+// Omitting for now, see comments below for each field's reasoning.
+//
+// export const terminologySchema = z.object({
+//   // Needed for navigation, probably? Are we gonna try constructing URLs
+//   // dynamically based on these (e.g. /stop/flindersstreet or
+//   // /station/flindersstreet)? Does the router support it? I suppose the router
+//   // is gonna live within the foundational data provider's scope, so it should
+//   // be available from its first render. We could also just register every
+//   // option, but use this to decide the canonical one we actually create links
+//   // to. Is this all a bit crazy? End users probably don't care about the URL
+//   // lol, and for platforms, the slugs used in filtering... I mean, surely we're
+//   // not gonna try to deal with that, right?
+//   //
+//   // Anyway, even if we don't do crazy URL things as above, these will probably
+//   // still be needed for little UI things here and there. Gonna omit them for
+//   // now, until I'm sure, then I don't have to make a breaking change.
+//   //
+//   // stop: z.enum(["stop", "station"]),
+//   // line: z.enum(["line", "route"]),
+//   // Not sure if this is really needed yet. It will be if stop filters are
+//   // included in the foundational data, as they're not pre-formatted by the
+//   // server (i.e. sent over as `position: 1` and expect the frontend to format
+//   // that to "Platform 1").
+//   //
+//   // Pre-formatting could make sense if we want to support customly named
+//   // filters for maximum flexibility, but NOT pre-formatting allows us to
+//   // smartly combine multiple filters together, e.g. "Citybound Frankston trains
+//   // on Platform 6". I think we'll end up pre-formatting the filters, due to how
+//   // Southern Cross has platforms 16a, 16b, and 16, and we just want a single
+//   // "Platform 16" filter to cover all three.
+//   //
+//   // This could also be needed for showing the little "Platform XYZ" badges on
+//   // each departure. It probably makes more sense to send it over as part of the
+//   // foundational data rather than each departures/service API response.
+//   //
+//   // Gonna omit it for now, until I'm sure, then I don't have to make a breaking
+//   // change.
+//   //
+//   // stopPosition: z.enum([
+//   //   "platform",
+//   //   "track",
+//   //   "bay",
+//   //   "wharf",
+//   //   "wharf-and-side",
+//   //   "stand",
+//   // ]),
+// });
 
-  // Not sure if this is really needed yet. It will be if stop filters are
-  // included in the foundational data, as they're not pre-formatted by the
-  // server (i.e. sent over as `position: 1` and expect the frontend to format
-  // that to "Platform 1").
-  //
-  // Pre-formatting could make sense if we want to support customly named
-  // filters for maximum flexibility, but NOT pre-formatting allows us to
-  // smartly combine multiple filters together, e.g. "Citybound Frankston trains
-  // on Platform 6".
-  //
-  // I know we want to be super flexible in allowing custom filters to be
-  // configured per stop, but I don't remember if there's any need to support
-  // custom names, or if a naming algorithm similar to what TrainQuery v3 had
-  // would work just fine in all cases.
-  //
-  // Just be aware that obviously removing it later is a breaking change, which
-  // is best avoided!
-  stopPosition: z.enum([
-    "platform",
-    "track",
-    "bay",
-    "wharf",
-    "wharf-and-side",
-    "stand",
-  ]),
-});
-
-export const aboutPageSchema = z.object({
-  // I'm torn on this. I don't think the about page serves any real navigational
-  // purpose, so there's little harm in fetching it from an API when the user
-  // wants it. Also, unlike the two examples below for the landing page and
-  // footer, this markdown isn't just a little snippet, it's essentially the
-  // entire content of the page, which is traditionally exactly what you'd be
-  // fetching from a server. The main argument to include it in the foundational
-  // data is really just consistency with the other markdown bits below.
-  primaryMarkdown: z.string(),
-});
+// I'm torn on this. I don't think the about page serves any real navigational
+// purpose, so there's little harm in fetching it from an API when the user
+// wants it. Also, unlike the two examples below for the landing page and
+// footer, this markdown isn't just a little snippet, it's essentially the
+// entire content of the page, which is traditionally exactly what you'd be
+// fetching from a server. The main argument to include it in the foundational
+// data is really just consistency with the other markdown bits below.
+//
+// Gonna omit it for now, until I'm sure, then I don't have to make a breaking
+// change.
+//
+// export const aboutPageSchema = z.object({
+//   primaryMarkdown: z.string(),
+// });
 
 export const landingPageSchema = z.object({
   // Would feel weird needing to load copy from an API while the rest of the
@@ -131,8 +150,11 @@ export const foundationalDataSchema = z.object({
   hash: z.string(),
   stops: stopSchema.array(),
   lines: lineSchema.array(),
-  terminology: terminologySchema,
-  aboutPage: aboutPageSchema,
+
+  // Omitting for now, see comments above.
+  // terminology: terminologySchema,
+  // aboutPage: aboutPageSchema,
+
   landingPage: landingPageSchema,
   footer: footerSchema,
 });
