@@ -2,4 +2,4 @@
 // be on the latest version of the PWA, and we might need to make breaking
 // changes sometimes.
 
-export { api as FOUNDATIONAL_DATA_V1 } from "./foundational-data/v1";
+export { api as FOUNDATIONAL_DATA_V1 } from "./foundational-data/v1/index.js";
