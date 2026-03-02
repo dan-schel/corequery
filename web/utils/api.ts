@@ -2,6 +2,7 @@ import type { Api } from "@/shared/apis/types";
 import { useEffect, useState } from "preact/hooks";
 import type { z, ZodType } from "zod";
 
+/** @knipignore */
 export async function callApi<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
   args: z.input<Args>,
@@ -22,7 +23,6 @@ export async function callApi<Args extends ZodType, Result extends ZodType>(
   return api.resultSchema.parse(await res.json());
 }
 
-/** @knipignore */
 export function useQuery<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
   args: z.input<Args>,
@@ -58,6 +58,7 @@ export function useQuery<Args extends ZodType, Result extends ZodType>(
   return { data, loading, error };
 }
 
+/** @knipignore */
 export function useMutation<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
 ) {
