@@ -19,8 +19,12 @@ export class AssetPreparer {
   constructor(
     private readonly _distFolderPath: string,
     private readonly _config: AssetConfig,
+    private readonly _version: string,
   ) {
-    this._indexHtml = new IndexHtmlPreparer(this._distFolderPath, this._config);
+    this._indexHtml = new IndexHtmlPreparer(this._distFolderPath, {
+      ...this._config,
+      version: this._version,
+    });
     this._manifest = new ManifestPreparer(this._distFolderPath, this._config);
     this._icons = new IconsPreparer(this._distFolderPath, this._config);
     this._serviceWorker = new ServiceWorkerPreparer(this._distFolderPath, {

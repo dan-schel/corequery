@@ -12,6 +12,7 @@ export class WebServer {
   constructor(
     private readonly _app: Corequery,
     private readonly _port: number,
+    private readonly _version: string,
     private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string,
@@ -20,7 +21,12 @@ export class WebServer {
   async prepareAssets() {
     if (this._clientMode === "dist-folder") {
       const distFolderPath = this._getWebFolderPath("dist");
-      await new AssetPreparer(distFolderPath, this._assetConfig).run();
+
+      await new AssetPreparer(
+        distFolderPath,
+        this._assetConfig,
+        this._version,
+      ).run();
     }
 
     // It's hard to think of a way to reasonably replace the assets in

@@ -19,6 +19,7 @@ export class Corequery {
     this._webServer = new WebServer(
       this,
       this._config.port,
+      this._config.version,
       this._config.assets,
       env.COREQUERY_HOT_RELOAD ? "vite-middleware" : "dist-folder",
       serverFolderPath,

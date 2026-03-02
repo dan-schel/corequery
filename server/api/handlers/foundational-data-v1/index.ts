@@ -9,7 +9,10 @@ export async function handle(
 ): Promise<ResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   return {
     // TODO: Real data.
-    hash: "abc123",
+    metadata: {
+      hash: "abc123",
+      serverVersion: "hello",
+    },
     stops: [],
     lines: [],
     landingPage: {

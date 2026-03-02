@@ -147,7 +147,11 @@ export const footerSchema = z.object({
 });
 
 export const foundationalDataSchema = z.object({
-  hash: z.string(),
+  metadata: z.object({
+    hash: z.string(),
+    serverVersion: z.string(),
+  }),
+
   stops: stopSchema.array(),
   lines: lineSchema.array(),
 
