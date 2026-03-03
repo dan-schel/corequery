@@ -1,21 +1,16 @@
-import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
-import type { ResultOf } from "@/shared/apis/types";
+import { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import type z from "zod";
 
-const currentApiVersion = FOUNDATIONAL_DATA_V1;
-
 export class FoundationalData {
-  constructor(private readonly _raw: ResultOf<typeof currentApiVersion>) {}
+  constructor(private readonly _raw: z.infer<typeof fodaSchema>) {}
 
   get hash() {
     return this._raw.metadata.hash;
   }
 
-  static readonly json = currentApiVersion.resultSchema.transform(
-    (x) => new FoundationalData(x),
-  );
+  static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
-  toJson(): z.input<typeof currentApiVersion.resultSchema> {
+  toJson(): z.input<typeof fodaSchema> {
     return this._raw;
   }
 }

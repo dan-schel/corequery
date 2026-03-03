@@ -7,12 +7,12 @@ import { FoundationalData } from "@/web/data/foundational-data";
 import { useLocalStorage } from "@/web/utils/use-local-storage";
 import { TextBlock } from "@/web/components/core/TextBlock";
 
+const cacheKey = "corequery-foundational-data";
+const cacheFallbackTimeoutMs = 1000;
+
 type FoundationalDataProviderProps = {
   children: ComponentChildren;
 };
-
-const cacheKey = "corequery-foundational-data";
-const cacheFallbackTimeoutMs = 1000;
 
 export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const { Provider } = foundationalDataContext;

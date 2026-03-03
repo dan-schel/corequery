@@ -23,7 +23,12 @@ import z from "zod";
 // doesn't need to be backwards compatible (we won't be running an old version
 // of the SERVER)!
 
-export const stopSchema = z.object({
+export const locationFodaSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+});
+
+export const stopFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
@@ -60,7 +65,7 @@ export const stopSchema = z.object({
   // available, it's fast anyway!
 });
 
-export const lineSchema = z.object({
+export const lineFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
@@ -133,32 +138,32 @@ export const lineSchema = z.object({
 //   primaryMarkdown: z.string(),
 // });
 
-export const landingPageSchema = z.object({
+export const landingPageFodaSchema = z.object({
   // Would feel weird needing to load copy from an API while the rest of the
   // HTML for the landing page (search box, JS handling widgets, etc.) is
   // precached lol.
   primaryMarkdown: z.string(),
 });
 
-export const footerSchema = z.object({
+export const footerFodaSchema = z.object({
   // This is structural to enough pages that loading it in via an API each time
   // would be insane.
   primaryMarkdown: z.string(),
 });
 
-export const foundationalDataSchema = z.object({
+export const fodaSchema = z.object({
   metadata: z.object({
     hash: z.string(),
     serverVersion: z.string(),
   }),
 
-  stops: stopSchema.array(),
-  lines: lineSchema.array(),
+  stops: stopFodaSchema.array(),
+  lines: lineFodaSchema.array(),
 
   // Omitting for now, see comments above.
   // terminology: terminologySchema,
   // aboutPage: aboutPageSchema,
 
-  landingPage: landingPageSchema,
-  footer: footerSchema,
+  landingPage: landingPageFodaSchema,
+  footer: footerFodaSchema,
 });
