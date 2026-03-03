@@ -4,6 +4,7 @@ import path from "path";
 import type { Corequery } from "@/server/corequery.js";
 import { AssetPreparer } from "@/server/web-server/asset-preparer.js";
 import type { AssetConfig } from "@/server/config/types/asset-config.js";
+import { createApiRouter } from "@/server/api/create-api-router.js";
 
 type ClientMode = "dist-folder" | "vite-middleware";
 
@@ -19,7 +20,12 @@ export class WebServer {
   async prepareAssets() {
     if (this._clientMode === "dist-folder") {
       const distFolderPath = this._getWebFolderPath("dist");
-      await new AssetPreparer(distFolderPath, this._assetConfig).run();
+
+      await new AssetPreparer(
+        distFolderPath,
+        this._assetConfig,
+        this._app.version,
+      ).run();
     }
 
     // It's hard to think of a way to reasonably replace the assets in
@@ -30,9 +36,7 @@ export class WebServer {
 
   async start() {
     const server = express();
-
-    // TODO: Implement APIs
-    // server.use("/api", express.json(), createApiRouter(this._app));
+    server.use("/api", express.json(), createApiRouter(this._app));
 
     if (this._clientMode === "dist-folder") {
       await this._serveFrontendFromDistFolder(server);
@@ -42,6 +46,8 @@ export class WebServer {
     }
 
     server.listen(this._port, () => {
+      // TODO: Use proper logger.
+      // eslint-disable-next-line no-console
       console.log(`Server ready (http://localhost:${this._port})!`);
     });
   }
@@ -58,6 +64,8 @@ export class WebServer {
   }
 
   private async _serveFrontendUsingViteMiddleware(server: express.Express) {
+    // TODO: Use proper logger.
+    // eslint-disable-next-line no-console
     console.log("Running with Vite middleware for hot-reloading...");
 
     // Dynamic import, as it'll only be available when developing CoreQuery

@@ -1,9 +1,19 @@
 import { Collection } from "@/server/data/collection.js";
-import type { Line } from "@/server/data/line.js";
+import { Line } from "@/server/data/line.js";
+import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 
 export class LineCollection extends Collection<number, Line> {
   constructor(data: readonly Line[]) {
     super(data);
+  }
+
+  static build(
+    stops: readonly LineConfig[],
+    lineTagSuccession: TagSuccessionConfig,
+  ) {
+    return new LineCollection(
+      stops.map((s) => Line.build(s, lineTagSuccession)),
+    );
   }
 
   protected _getID(item: Line): number {

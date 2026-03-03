@@ -2,13 +2,23 @@ import type { ComponentChildren } from "preact";
 import clsx from "clsx";
 import { TextBoxTrim } from "@/web/components/core/TextBoxTrim";
 
-type TextBlockTag = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type TextBlockTag =
+  | "span"
+  | "p"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "pre";
 
 const styles = {
   regular: "text-md text-fg",
   strong: "text-md font-bold text-fg-strong",
   subtitle: "text-lg font-bold text-fg-strong",
   title: "text-xl font-bold text-fg-strong",
+  contentColor: "text-md text-(--content-color)",
 };
 
 const alignments = {

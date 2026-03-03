@@ -3,7 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
-import { Button } from "@/web/components/core/Button";
+import { Clickable } from "@/web/components/core/Clickable";
 
 export function PwaStatus() {
   const { frontendVersion } = useStaticData();
@@ -23,8 +23,8 @@ function StatusMessageAndReloadPrompt() {
 
   const update = useMemo(() => {
     return registerSW({
-      onRegisteredSW: () => console.log("Service worker registered."),
-      onRegisterError: (e) => console.error("Service worker error:", e),
+      onRegisteredSW: () => {},
+      onRegisterError: (e) => console.warn("Service worker error:", e),
       onNeedRefresh: () => setUpdateAvailable(true),
       onOfflineReady: () => setOfflineReady(true),
     });
@@ -38,7 +38,7 @@ function StatusMessageAndReloadPrompt() {
     return (
       <>
         <TextBlock>Update available</TextBlock>
-        <Button onClick={handleUpdateClick}>Update</Button>
+        <Clickable onClick={handleUpdateClick}>Update</Clickable>
       </>
     );
   }

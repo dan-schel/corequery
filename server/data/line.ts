@@ -1,5 +1,7 @@
 import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
+import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
+import type z from "zod";
 
 type LineFields = {
   readonly id: number;
@@ -31,6 +33,14 @@ export class Line {
       tags: Tags.build(lineConfig.tags, lineTagSuccession),
       urlPath: lineConfig.urlPath,
     });
+  }
+
+  toFoda(): z.input<typeof lineFodaSchema> {
+    return {
+      id: this.id,
+      name: this.name,
+      urlPath: this.urlPath,
+    };
   }
 
   with(newValues: Partial<LineFields>): Line {

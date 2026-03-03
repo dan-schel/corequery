@@ -1,17 +1,13 @@
-import { useEffect } from "preact/hooks";
 import { Nav } from "@/web/components/Nav";
-import { runSharedCode } from "@/shared/example";
 import { PwaStatus } from "@/web/components/PwaStatus";
 import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
+import { useFoundationalData } from "@/web/data/foundational-data/context";
 
 export default function Home() {
   const { appName } = useStaticData();
-
-  useEffect(() => {
-    runSharedCode();
-  }, []);
+  const foda = useFoundationalData();
 
   return (
     <Column class="px-4 py-8 gap-8">
@@ -21,6 +17,7 @@ export default function Home() {
         </TextBlock>
         <Nav />
       </Column>
+      <TextBlock>Foundational data hash: {foda.hash}</TextBlock>
       <PwaStatus />
     </Column>
   );

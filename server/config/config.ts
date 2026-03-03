@@ -12,6 +12,7 @@ import type {
 
 export type CorequeryConfig = {
   readonly port: number;
+  readonly version: string;
   readonly assets: AssetConfig;
   readonly stops: readonly StopConfig[];
   readonly lines: readonly LineConfig[];
