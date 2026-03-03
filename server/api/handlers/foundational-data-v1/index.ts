@@ -1,7 +1,7 @@
 import type { FOUNDATIONAL_DATA_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
 import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
-import { uuid } from "@dan-schel/js-utils";
+import { FoundationalDataV1Builder } from "@/server/api/handlers/foundational-data-v1/builder.js";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function handle(
@@ -10,19 +10,5 @@ export async function handle(
 ): Promise<ResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   // await new Promise((resolve) => setTimeout(resolve, 500));
 
-  return {
-    // TODO: Real data.
-    metadata: {
-      hash: uuid(),
-      serverVersion: "hello",
-    },
-    stops: ctx.app.stops.map((s) => s.toFoda()),
-    lines: ctx.app.lines.map((l) => l.toFoda()),
-    landingPage: {
-      primaryMarkdown: "",
-    },
-    footer: {
-      primaryMarkdown: "",
-    },
-  };
+  return new FoundationalDataV1Builder(ctx.app).build();
 }

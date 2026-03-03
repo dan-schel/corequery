@@ -74,7 +74,8 @@ async function loadData({
         { timeout: cacheFallbackTimeoutMs },
       );
       onDataReady(new FoundationalData(data), true);
-    } catch {
+    } catch (err) {
+      console.warn("Foundational data refresh failed - using cache.", err);
       onDataReady(cachedData, false);
     }
   } else {

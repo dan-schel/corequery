@@ -12,7 +12,6 @@ export class WebServer {
   constructor(
     private readonly _app: Corequery,
     private readonly _port: number,
-    private readonly _version: string,
     private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,
     private readonly _serverFolderPath: string,
@@ -25,7 +24,7 @@ export class WebServer {
       await new AssetPreparer(
         distFolderPath,
         this._assetConfig,
-        this._version,
+        this._app.version,
       ).run();
     }
 
