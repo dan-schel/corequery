@@ -138,14 +138,14 @@ export const lineFodaSchema = z.object({
 //   primaryMarkdown: z.string(),
 // });
 
-export const landingPageFodaSchema = z.object({
+const landingPageFodaSchema = z.object({
   // Would feel weird needing to load copy from an API while the rest of the
   // HTML for the landing page (search box, JS handling widgets, etc.) is
   // precached lol.
   primaryMarkdown: z.string(),
 });
 
-export const footerFodaSchema = z.object({
+const footerFodaSchema = z.object({
   // This is structural to enough pages that loading it in via an API each time
   // would be insane.
   primaryMarkdown: z.string(),

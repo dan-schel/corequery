@@ -6,9 +6,13 @@ import { FoundationalDataV1Builder } from "@/server/api/handlers/foundational-da
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function handle(
   ctx: ApiContext,
-  _args: ArgsOf<typeof FOUNDATIONAL_DATA_V1>,
+  args: ArgsOf<typeof FOUNDATIONAL_DATA_V1>,
 ): Promise<ResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   // await new Promise((resolve) => setTimeout(resolve, 500));
 
-  return new FoundationalDataV1Builder(ctx.app).build();
+  const foda = new FoundationalDataV1Builder(ctx.app).build();
+
+  if (args.hash === foda.metadata.hash) return { result: "up-to-date" };
+
+  return { result: "outdated", foundationalData: foda };
 }

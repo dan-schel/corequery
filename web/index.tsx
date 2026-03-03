@@ -8,7 +8,7 @@ import {
 import { render } from "preact";
 import "@/web/index.css";
 import { StaticDataProvider } from "@/web/components/StaticDataProvider";
-import { FoundationalDataProvider } from "@/web/components/FoundationalDataProvider.js";
+import { FoundationalDataProvider } from "@/web/components/FoundationalDataProvider";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));

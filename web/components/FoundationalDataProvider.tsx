@@ -64,24 +64,27 @@ async function loadData({
 }) {
   if (cachedData != null) {
     try {
-      const data = await callApi(
+      const response = await callApi(
         FOUNDATIONAL_DATA_V1,
-
-        // TODO: Pass along the current hash, and then the server can skip
-        // sending the whole payload every time when the data hasn't changed.
-        {},
-
+        { hash: cachedData.hash },
         { timeout: cacheFallbackTimeoutMs },
       );
-      onDataReady(new FoundationalData(data), true);
+
+      if (response.result === "up-to-date") {
+        onDataReady(cachedData, false);
+      } else {
+        onDataReady(new FoundationalData(response.foundationalData), true);
+      }
     } catch (err) {
       console.warn("Foundational data refresh failed - using cache.", err);
       onDataReady(cachedData, false);
     }
   } else {
     try {
-      const data = await callApi(FOUNDATIONAL_DATA_V1, {});
-      onDataReady(new FoundationalData(data), true);
+      const response = await callApi(FOUNDATIONAL_DATA_V1, { hash: null });
+      if (response.result === "up-to-date") throw new Error("Huh?");
+
+      onDataReady(new FoundationalData(response.foundationalData), true);
     } catch {
       onFailure();
     }
