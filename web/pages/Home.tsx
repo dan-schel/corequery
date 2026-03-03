@@ -17,7 +17,7 @@ export default function Home() {
         </TextBlock>
         <Nav />
       </Column>
-      <TextBlock>Foundational data hash: {foda.hash}</TextBlock>
+      <TextBlock>Foundational data hash: {foda.hash.slice(0, 8)}...</TextBlock>
       <PwaStatus />
     </Column>
   );

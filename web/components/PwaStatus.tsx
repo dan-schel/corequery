@@ -3,7 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
-import { Clickable } from "@/web/components/core/Clickable";
+import { Button } from "@/web/components/button/Button";
 
 export function PwaStatus() {
   const { frontendVersion } = useStaticData();
@@ -11,7 +11,7 @@ export function PwaStatus() {
   return (
     <Column class="gap-4">
       <TextBlock style="strong">PWA Status</TextBlock>
-      <TextBlock>Version: {frontendVersion}</TextBlock>
+      <TextBlock>Version: {frontendVersion.slice(0, 7)}...</TextBlock>
       <StatusMessageAndReloadPrompt />
     </Column>
   );
@@ -38,7 +38,7 @@ function StatusMessageAndReloadPrompt() {
     return (
       <>
         <TextBlock>Update available</TextBlock>
-        <Clickable onClick={handleUpdateClick}>Update</Clickable>
+        <Button onClick={handleUpdateClick} text="Update" />
       </>
     );
   }
