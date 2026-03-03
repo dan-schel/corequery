@@ -18,6 +18,7 @@ const styles = {
   strong: "text-md font-bold text-fg-strong",
   subtitle: "text-lg font-bold text-fg-strong",
   title: "text-xl font-bold text-fg-strong",
+  contentColor: "text-md text-(--content-color)",
 };
 
 const alignments = {

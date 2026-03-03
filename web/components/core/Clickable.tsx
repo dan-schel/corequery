@@ -10,8 +10,11 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export function Button(props: ButtonProps) {
-  const _class = clsx("grid", props.class);
+export function Clickable(props: ButtonProps) {
+  const _class = clsx(
+    "grid not-disabled:cursor-pointer select-none",
+    props.class,
+  );
 
   if (props.onClick != null) {
     return (

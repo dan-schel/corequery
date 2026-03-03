@@ -1,0 +1,57 @@
+import type { ComponentChildren } from "preact";
+import { Clickable } from "@/web/components/core/Clickable";
+import clsx from "clsx";
+import { Grid } from "@/web/components/core/Grid";
+
+type AccentButtonHousingProps = {
+  class?: string;
+  children?: ComponentChildren;
+  onClick?: () => void;
+  href?: string;
+  disabled?: boolean;
+  loading?: boolean;
+};
+
+const parentStylesArr = [
+  "relative",
+  "group",
+
+  "not-disabled:[--content-color:var(--color-on-accent)]",
+  "disabled:[--content-color:var(--color-fg-weak)]",
+];
+const parentStyles = clsx(parentStylesArr);
+
+const backgroundStylesArr = [
+  "absolute",
+
+  "z-0",
+  "top-0",
+  "bottom-0",
+  "left-0",
+  "right-0",
+
+  "rounded-sm",
+
+  "group-not-disabled:bg-accent",
+  "group-not-disabled:group-hover:bg-accent-hover",
+  "group-not-disabled:group-active:bg-accent-active",
+
+  "border",
+  "group-not-disabled:border-transparent",
+  "group-disabled:border-soft-border",
+];
+const backgroundStyles = clsx(backgroundStylesArr);
+
+export function AccentButtonHousing(props: AccentButtonHousingProps) {
+  return (
+    <Clickable
+      class={clsx(props.class, parentStyles)}
+      onClick={props.onClick}
+      href={props.href}
+      disabled={(props.disabled ?? false) || (props.loading ?? false)}
+    >
+      <div class={backgroundStyles} />
+      <Grid class="z-1">{props.children}</Grid>
+    </Clickable>
+  );
+}

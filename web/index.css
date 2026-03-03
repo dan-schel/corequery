@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./css/loading-spinner.css" layer(base);
 
 /* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
 @theme {
@@ -8,11 +9,15 @@
   --spacing: 0.25rem;
 
   --text-md: 0.9rem;
+  --text-md-icon: 1rem;
   --text-lg: 1.25rem;
   --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 
   --font-weight-normal: 400;
   --font-weight-bold: 700;
+
+  --radius-sm: 0.25rem;
 
   /* Light theme */
   /* --color-bg: hsl(220, 30%, 93.5%);

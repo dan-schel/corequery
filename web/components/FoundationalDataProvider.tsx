@@ -2,10 +2,10 @@ import { type ComponentChildren } from "preact";
 import { foundationalDataContext } from "@/web/data/foundational-data/context";
 import { callApi } from "@/web/utils/api";
 import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { FoundationalData } from "@/web/data/foundational-data";
 import { useLocalStorage } from "@/web/utils/use-local-storage";
-import { TextBlock } from "@/web/components/core/TextBlock";
+import { SplashScreen } from "@/web/components/SplashScreen";
 
 const cacheKey = "corequery-foundational-data";
 const cacheFallbackTimeoutMs = 1000;
@@ -23,7 +23,8 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const [foda, setFoda] = useState<FoundationalData | null>(null);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const triggerLoadData = useCallback(() => {
+    setError(false);
     void loadData({
       cachedData,
 
@@ -41,13 +42,12 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     });
   }, [cache, cachedData]);
 
+  useEffect(() => {
+    triggerLoadData();
+  }, [triggerLoadData]);
+
   if (foda == null) {
-    // TODO: Make a splash screen!
-    if (error) {
-      return <TextBlock>Failed to load data.</TextBlock>;
-    } else {
-      return <TextBlock>Loading...</TextBlock>;
-    }
+    return <SplashScreen error={error} onRetry={triggerLoadData} />;
   }
 
   return <Provider value={foda}>{props.children}</Provider>;

@@ -1,0 +1,43 @@
+svg._loading-spinner {
+  animation: loading-spinner-flip 1s ease-out 0s infinite;
+}
+._loading-spinner circle:nth-child(2) {
+  animation: loading-spinner-pulse 1s linear 0s infinite;
+  transform-origin: 33% 33%;
+}
+._loading-spinner circle:nth-child(3) {
+  animation: loading-spinner-pulse 1s linear 0.1s infinite;
+  transform-origin: 67% 33%;
+}
+._loading-spinner circle:nth-child(4) {
+  animation: loading-spinner-pulse 1s linear 0.2s infinite;
+  transform-origin: 67% 67%;
+}
+._loading-spinner circle:nth-child(5) {
+  animation: loading-spinner-pulse 1s linear 0.3s infinite;
+  transform-origin: 33% 67%;
+}
+
+@keyframes loading-spinner-pulse {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(2);
+  }
+  30% {
+    transform: scale(1);
+  }
+}
+
+@keyframes loading-spinner-flip {
+  0% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
