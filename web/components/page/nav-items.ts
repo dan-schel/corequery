@@ -32,18 +32,18 @@ export const navItems: readonly NavItem[] = [
     isActive: (url) => url === "/",
   },
   {
-    name: "Nearby",
-    href: "/nearby",
-    regularIcon: MingcuteMapPinLine,
-    activeIcon: MingcuteMapPinFill,
-    isActive: (url) => url === "/nearby",
-  },
-  {
     name: "Status",
     href: "/status",
     regularIcon: MingcuteAlertDiamondLine,
     activeIcon: MingcuteAlertDiamondFill,
     isActive: (url) => url === "/status",
+  },
+  {
+    name: "Nearby",
+    href: "/nearby",
+    regularIcon: MingcuteMapPinLine,
+    activeIcon: MingcuteMapPinFill,
+    isActive: (url) => url === "/nearby",
   },
   {
     name: "More",
