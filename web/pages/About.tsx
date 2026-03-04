@@ -53,6 +53,72 @@ export default function About() {
         <Button text="Hello" icon={UilRedo} disabled />
         <Button icon={UilRedo} disabled />
       </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 max-w-120">
+        <Button theme="accent" text="Hello" />
+        <Button theme="accent" text="Hello" icon={UilRedo} />
+        <Button theme="accent" icon={UilRedo} />
+        <Button theme="accent" text="Hello" loading />
+        <Button theme="accent" text="Hello" icon={UilRedo} loading />
+        <Button theme="accent" icon={UilRedo} loading />
+        <Button theme="accent" text="Hello" disabled />
+        <Button theme="accent" text="Hello" icon={UilRedo} disabled />
+        <Button theme="accent" icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 self-start">
+        <Button theme="accent" text="Hello" />
+        <Button theme="accent" text="Hello" icon={UilRedo} />
+        <Button theme="accent" icon={UilRedo} />
+        <Button theme="accent" text="Hello" loading />
+        <Button theme="accent" text="Hello" icon={UilRedo} loading />
+        <Button theme="accent" icon={UilRedo} loading />
+        <Button theme="accent" text="Hello" disabled />
+        <Button theme="accent" text="Hello" icon={UilRedo} disabled />
+        <Button theme="accent" icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 max-w-120">
+        <Button theme="outlined" text="Hello" />
+        <Button theme="outlined" text="Hello" icon={UilRedo} />
+        <Button theme="outlined" icon={UilRedo} />
+        <Button theme="outlined" text="Hello" loading />
+        <Button theme="outlined" text="Hello" icon={UilRedo} loading />
+        <Button theme="outlined" icon={UilRedo} loading />
+        <Button theme="outlined" text="Hello" disabled />
+        <Button theme="outlined" text="Hello" icon={UilRedo} disabled />
+        <Button theme="outlined" icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 self-start">
+        <Button theme="outlined" text="Hello" />
+        <Button theme="outlined" text="Hello" icon={UilRedo} />
+        <Button theme="outlined" icon={UilRedo} />
+        <Button theme="outlined" text="Hello" loading />
+        <Button theme="outlined" text="Hello" icon={UilRedo} loading />
+        <Button theme="outlined" icon={UilRedo} loading />
+        <Button theme="outlined" text="Hello" disabled />
+        <Button theme="outlined" text="Hello" icon={UilRedo} disabled />
+        <Button theme="outlined" icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 max-w-120">
+        <Button theme="hover" text="Hello" />
+        <Button theme="hover" text="Hello" icon={UilRedo} />
+        <Button theme="hover" icon={UilRedo} />
+        <Button theme="hover" text="Hello" loading />
+        <Button theme="hover" text="Hello" icon={UilRedo} loading />
+        <Button theme="hover" icon={UilRedo} loading />
+        <Button theme="hover" text="Hello" disabled />
+        <Button theme="hover" text="Hello" icon={UilRedo} disabled />
+        <Button theme="hover" icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 self-start">
+        <Button theme="hover" text="Hello" />
+        <Button theme="hover" text="Hello" icon={UilRedo} />
+        <Button theme="hover" icon={UilRedo} />
+        <Button theme="hover" text="Hello" loading />
+        <Button theme="hover" text="Hello" icon={UilRedo} loading />
+        <Button theme="hover" icon={UilRedo} loading />
+        <Button theme="hover" text="Hello" disabled />
+        <Button theme="hover" text="Hello" icon={UilRedo} disabled />
+        <Button theme="hover" icon={UilRedo} disabled />
+      </Grid>
     </Column>
   );
 }
