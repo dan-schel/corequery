@@ -8,7 +8,7 @@ export function MobileNavMoreMenu(props: MobileNavMoreMenuProps) {
   // ------------------------------------
   //  🔍 Search stops, lines, pages
   // ------------------------------------
-  //  Recent pages
+  //  Recent pages                    ↕️
   //  - 12:10 Southern Cross train    ⭐
   //  - 12:50 Southern Cross train    ⚫
   //  - Berwick station               ⚫
