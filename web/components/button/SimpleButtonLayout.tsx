@@ -20,9 +20,11 @@ export function SimpleButtonLayout(props: SimpleButtonLayoutProps) {
       yAlign="center"
       xAlign="center"
     >
-      {props.icon?.({ class: "text-(--content-color) text-md-icon" })}
+      {props.icon != null && (
+        <props.icon class="text-(--content-color) text-md-icon" />
+      )}
       {props.text != null && (
-        <TextBlock style="contentColor">{props.text}</TextBlock>
+        <TextBlock style="content-color">{props.text}</TextBlock>
       )}
     </Row>
   );

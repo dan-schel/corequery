@@ -2,6 +2,7 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Nav } from "@/web/components/Nav";
 import { useStaticData } from "@/web/data/static-data";
+import { MobileNav } from "@/web/components/page/MobileNav";
 
 export default function NotFound() {
   const { appName } = useStaticData();
@@ -15,6 +16,7 @@ export default function NotFound() {
         <Nav />
       </Column>
       <TextBlock>This page was not found.</TextBlock>
+      <MobileNav />
     </Column>
   );
 }

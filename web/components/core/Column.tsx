@@ -10,9 +10,9 @@ const xAlignments = {
 };
 
 const yAlignments = {
-  top: "justify-start",
-  center: "justify-center",
-  bottom: "justify-end",
+  "top": "justify-start",
+  "center": "justify-center",
+  "bottom": "justify-end",
   "space-between": "justify-between",
 };
 

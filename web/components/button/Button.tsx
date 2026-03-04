@@ -18,7 +18,6 @@ const layouts = {
 
 type ButtonProps = {
   class?: string;
-  children?: ComponentChildren;
   onClick?: () => void;
   href?: string;
   disabled?: boolean;
