@@ -35,7 +35,7 @@ export function Button(props: ButtonProps) {
       disabled={props.disabled}
       loading={props.loading}
     >
-      <Layout icon={props.icon} text={props.text} loading={props.loading} />
+      <Layout icon={props.icon} text={props.text} />
     </Theme>
   );
 }

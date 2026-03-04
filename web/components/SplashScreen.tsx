@@ -4,7 +4,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Strong } from "@/web/components/core/Strong";
-import { TablerRefresh } from "@/web/components/icons/TablerRefresh";
+import { UilRedo } from "@/web/components/icons/UilRedo";
 import { Button } from "@/web/components/button/Button";
 
 type SplashScreenProps = {
@@ -27,7 +27,7 @@ export function SplashScreen(props: SplashScreenProps) {
             <TextBlock>
               Failed to load data. <Strong>😭</Strong>
             </TextBlock>
-            <Button text="Retry" icon={TablerRefresh} onClick={props.onRetry} />
+            <Button text="Retry" icon={UilRedo} onClick={props.onRetry} />
           </Column>
         ) : (
           <LoadingSpinner style="large" />

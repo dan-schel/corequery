@@ -1,6 +1,6 @@
 import type { SVGAttributes } from "preact";
 
-export function TablerRefresh(props: SVGAttributes<SVGSVGElement>) {
+export function UilRedo(props: SVGAttributes<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

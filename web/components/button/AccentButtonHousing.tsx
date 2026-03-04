@@ -1,7 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { Clickable } from "@/web/components/core/Clickable";
 import clsx from "clsx";
-import { Grid } from "@/web/components/core/Grid";
+import { ContentOrSpinner } from "@/web/components/button/ContentOrSpinner";
 
 type AccentButtonHousingProps = {
   class?: string;
@@ -51,7 +51,9 @@ export function AccentButtonHousing(props: AccentButtonHousingProps) {
       disabled={(props.disabled ?? false) || (props.loading ?? false)}
     >
       <div class={backgroundStyles} />
-      <Grid class="z-1">{props.children}</Grid>
+      <ContentOrSpinner class="z-1" loading={props.loading ?? false}>
+        {props.children}
+      </ContentOrSpinner>
     </Clickable>
   );
 }

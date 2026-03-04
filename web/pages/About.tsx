@@ -2,6 +2,9 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Nav } from "@/web/components/Nav";
 import { useStaticData } from "@/web/data/static-data";
+import { Grid } from "@/web/components/core/Grid";
+import { Button } from "@/web/components/button/Button";
+import { UilRedo } from "@/web/components/icons/UilRedo";
 
 export default function About() {
   const { appName } = useStaticData();
@@ -28,6 +31,28 @@ export default function About() {
         Perspiciatis dignissimos non placeat veniam repudiandae dolore fuga
         facere! Ullam, quidem dolore!
       </TextBlock>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 max-w-120">
+        <Button text="Hello" />
+        <Button text="Hello" icon={UilRedo} />
+        <Button icon={UilRedo} />
+        <Button text="Hello" loading />
+        <Button text="Hello" icon={UilRedo} loading />
+        <Button icon={UilRedo} loading />
+        <Button text="Hello" disabled />
+        <Button text="Hello" icon={UilRedo} disabled />
+        <Button icon={UilRedo} disabled />
+      </Grid>
+      <Grid class="grid-cols-[auto_auto_auto] gap-4 self-start">
+        <Button text="Hello" />
+        <Button text="Hello" icon={UilRedo} />
+        <Button icon={UilRedo} />
+        <Button text="Hello" loading />
+        <Button text="Hello" icon={UilRedo} loading />
+        <Button icon={UilRedo} loading />
+        <Button text="Hello" disabled />
+        <Button text="Hello" icon={UilRedo} disabled />
+        <Button icon={UilRedo} disabled />
+      </Grid>
     </Column>
   );
 }
