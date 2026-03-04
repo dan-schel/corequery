@@ -51,9 +51,9 @@ export const navItems: readonly NavItem[] = [
     subitems: [
       { name: "About", href: "/about" },
       { name: "Settings", href: "/settings" },
-      { name: "Developer Info", href: "/debug" },
-      { name: "Admin Controls", href: "/admin" },
-      { name: "Zen Mode", href: "/zen" },
+      { name: "Developer info", href: "/debug" },
+      { name: "Admin controls", href: "/admin" },
+      { name: "Zen mode", href: "/zen" },
     ],
   },
 ];
