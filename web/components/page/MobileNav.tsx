@@ -15,7 +15,7 @@ export function MobileNav(props: MobileNavProps) {
     <Grid
       class={clsx(
         props.class,
-        "fixed bottom-0 left-0 right-0 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border",
+        "fixed bottom-0 left-0 right-0 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2",
       )}
     >
       {navItems.map((item) => (

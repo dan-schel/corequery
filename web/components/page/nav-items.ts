@@ -6,8 +6,6 @@ import { MingcuteMapPinFill } from "@/web/components/icons/MingcuteMapPinFill";
 import { MingcuteMapPinLine } from "@/web/components/icons/MingcuteMapPinLine";
 import { MingcuteMenuLine } from "@/web/components/icons/MingcuteMenuLine";
 import type { Icon } from "@/web/components/icons/type";
-import { MingcuteToolLine } from "@/web/components/icons/MingcuteToolLine";
-import { MingcuteToolFill } from "@/web/components/icons/MingcuteToolFill";
 
 type NavItem = RegularNavItem | MenuNavItem;
 
@@ -46,13 +44,6 @@ export const navItems: readonly NavItem[] = [
     regularIcon: MingcuteAlertDiamondLine,
     activeIcon: MingcuteAlertDiamondFill,
     isActive: (url) => url === "/status",
-  },
-  {
-    name: "Admin",
-    href: "/admin",
-    regularIcon: MingcuteToolLine,
-    activeIcon: MingcuteToolFill,
-    isActive: (url) => url === "/admin",
   },
   {
     name: "More",
