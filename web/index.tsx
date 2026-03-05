@@ -9,7 +9,7 @@ import { render } from "preact";
 import "@/web/index.css";
 import { StaticDataProvider } from "@/web/components/StaticDataProvider";
 import { FoundationalDataProvider } from "@/web/components/FoundationalDataProvider";
-import { PageContainer } from "@/web/components/page/PageContainer.js";
+import { PageContainer } from "@/web/components/page/PageContainer";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));

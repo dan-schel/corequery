@@ -3,6 +3,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { useStaticData } from "@/web/data/static-data";
 import { Page } from "@/web/components/page/Page";
 import { SimpleMobileHeader } from "@/web/components/page/SimpleMobileHeader";
+import { LinkText } from "@/web/components/core/LinkText";
 
 export default function About() {
   const { appName } = useStaticData();
@@ -16,12 +17,15 @@ export default function About() {
             This is text so long that it needs to wrap. Lorem ipsum dolor sit
             amet consectetur adipisicing elit. Earum corporis, autem expedita,
             minus voluptatem ex voluptatum quis illum, quae dicta eius amet
-            soluta consequatur beatae deleniti repellendus? Eos impedit adipisci
-            molestiae similique quae corporis accusantium voluptates? Quod odit
-            est ea id nihil in saepe minus quia tempore illum, dolorum, atque
-            facilis natus delectus ratione omnis mollitia! Eveniet aliquam nam
-            temporibus velit quae iusto facere, earum rerum, voluptate saepe
-            officiis accusamus laboriosam maiores porro.
+            soluta consequatur beatae{" "}
+            <LinkText href="/deleniti-repellendus">
+              deleniti repellendus
+            </LinkText>
+            ? Eos impedit adipisci molestiae similique quae corporis accusantium
+            voluptates? Quod odit est ea id nihil in saepe minus quia tempore
+            illum, dolorum, atque facilis natus delectus ratione omnis mollitia!
+            Eveniet aliquam nam temporibus velit quae iusto facere, earum rerum,
+            voluptate saepe officiis accusamus laboriosam maiores porro.
           </TextBlock>
           <TextBlock>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
