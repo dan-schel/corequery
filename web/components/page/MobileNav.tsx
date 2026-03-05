@@ -1,5 +1,5 @@
 import { MobileNavButton } from "@/web/components/page/MobileNavButton";
-import { navItems, type NavItem } from "@/web/components/page/nav-items";
+import { useNavItems, type NavItem } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
@@ -13,6 +13,7 @@ type MobileNavProps = {
 export function MobileNav(props: MobileNavProps) {
   const { url, route } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navItems = useNavItems();
 
   function handleNavButtonClicked(item: NavItem) {
     if ("opensMenu" in item) {

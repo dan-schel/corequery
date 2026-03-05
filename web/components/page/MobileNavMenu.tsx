@@ -1,9 +1,9 @@
 import { Column } from "@/web/components/core/Column";
 import clsx from "clsx";
 import { Button } from "@/web/components/button/Button";
-import { menuItems } from "@/web/components/page/nav-items";
 import { useLocation } from "preact-iso";
 import { useCallback } from "preact/hooks";
+import { useMenuItems } from "@/web/components/page/nav-items";
 
 type MobileNavMenuProps = {
   class?: string;
@@ -14,6 +14,7 @@ type MobileNavMenuProps = {
 export function MobileNavMenu(props: MobileNavMenuProps) {
   const { route } = useLocation();
   const onClose = props.onClose;
+  const menuItems = useMenuItems();
 
   const handleNavigation = useCallback(
     (href: string) => {

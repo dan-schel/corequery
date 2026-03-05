@@ -17,8 +17,8 @@ export default defineConfig({
         // When running in production, before the server starts it replaces the
         // manifest.webmanifest file to overwrite these values. These values are
         // only seen when a demo app is running within this repo, in dev mode.
-        name: "CoreQuery Demo App",
-        short_name: "CoreQuery",
+        name: "Demo App",
+        short_name: "Demo App",
         description: "This is a CoreQuery demo app.",
 
         // The values below remain as they are, although the images at the
