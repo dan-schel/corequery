@@ -2,7 +2,6 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Nav } from "@/web/components/Nav";
 import { useStaticData } from "@/web/data/static-data";
-import { MobileNav } from "@/web/components/page/MobileNav";
 
 export default function About() {
   const { appName } = useStaticData();
@@ -29,7 +28,6 @@ export default function About() {
         Perspiciatis dignissimos non placeat veniam repudiandae dolore fuga
         facere! Ullam, quidem dolore!
       </TextBlock>
-      <MobileNav />
     </Column>
   );
 }

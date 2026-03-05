@@ -4,7 +4,6 @@ import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { useFoundationalData } from "@/web/data/foundational-data/context";
-import { MobileNav } from "@/web/components/page/MobileNav";
 
 export default function Home() {
   const { appName } = useStaticData();
@@ -20,7 +19,6 @@ export default function Home() {
       </Column>
       <TextBlock>Foundational data hash: {foda.hash.slice(0, 8)}...</TextBlock>
       <PwaStatus />
-      <MobileNav />
     </Column>
   );
 }
