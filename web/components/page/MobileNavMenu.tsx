@@ -1,5 +1,4 @@
 import { Column } from "@/web/components/core/Column";
-import { TextBlock } from "@/web/components/core/TextBlock";
 import clsx from "clsx";
 import { Button } from "@/web/components/button/Button";
 import { menuItems } from "@/web/components/page/nav-items";
