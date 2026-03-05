@@ -14,11 +14,13 @@ type TextBlockTag =
   | "pre";
 
 const styles = {
-  regular: "text-md text-fg",
-  strong: "text-md font-bold text-fg-strong",
-  subtitle: "text-lg font-bold text-fg-strong",
-  title: "text-xl font-bold text-fg-strong",
-  contentColor: "text-md text-(--content-color)",
+  "small": "text-sm text-fg",
+  "small-accent": "text-sm text-accent-text font-bold",
+  "regular": "text-md text-fg",
+  "strong": "text-md font-bold text-fg-strong",
+  "subtitle": "text-lg font-bold text-fg-strong",
+  "title": "text-xl font-bold text-fg-strong",
+  "content-color": "text-md text-(--content-color)",
 };
 
 const alignments = {

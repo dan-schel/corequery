@@ -8,7 +8,7 @@ import { useLocalStorage } from "@/web/utils/use-local-storage";
 import { SplashScreen } from "@/web/components/SplashScreen";
 
 const cacheKey = "corequery-foundational-data";
-const cacheFallbackTimeoutMs = 1000;
+const cacheFallbackTimeoutMs = 2000;
 
 type FoundationalDataProviderProps = {
   children: ComponentChildren;

@@ -9,7 +9,7 @@ type LinkTextProps = {
 };
 
 export function LinkText(props: LinkTextProps) {
-  const _class = clsx("text-accent inline underline", props.class);
+  const _class = clsx("text-accent-text inline underline", props.class);
 
   if (props.onClick != null) {
     return (

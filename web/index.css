@@ -8,6 +8,7 @@
 
   --spacing: 0.25rem;
 
+  --text-sm: 0.7rem;
   --text-md: 0.9rem;
   --text-md-icon: 1rem;
   --text-lg: 1.25rem;
@@ -30,6 +31,8 @@
   --color-accent: hsl(210, 100%, 45%);
   --color-accent-hover: hsl(210, 100%, 50%);
   --color-accent-active: hsl(210, 100%, 40%);
+  --color-accent-text: hsl(210, 100%, 40%);
+  --color-soft-accent: hsl(210, 100%, 45%, 15%);
   --color-on-accent: #ffffff;
   --color-soft: hsla(220, 100%, 17.6%, 12%);
   --color-soft-hover: hsla(220, 100%, 18.4%, 8%);
@@ -51,6 +54,8 @@
   --color-accent: hsl(210, 100%, 65%);
   --color-accent-hover: hsl(210, 100%, 70%);
   --color-accent-active: hsl(210, 100%, 60%);
+  --color-accent-text: hsl(210, 100%, 75%);
+  --color-soft-accent: hsl(210, 100%, 65%, 20%);
   --color-on-accent: #000000;
   --color-soft: hsla(220, 100%, 82.4%, 12%);
   --color-soft-hover: hsla(220, 100%, 83.2%, 16%);
@@ -63,7 +68,7 @@
 }
 
 :root {
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-navbar);
   flex-shrink: 0;
 }
 

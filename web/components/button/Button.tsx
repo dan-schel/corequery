@@ -1,18 +1,27 @@
 import type { ComponentChildren } from "preact";
 import type { Icon } from "@/web/components/icons/type";
-import { AccentButtonHousing } from "@/web/components/button/AccentButtonHousing";
-import { SimpleButtonLayout } from "@/web/components/button/SimpleButtonLayout";
+import { AccentButtonHousing } from "@/web/components/button/housings/AccentButtonHousing";
+import { SimpleButtonLayout } from "@/web/components/button/layouts/SimpleButtonLayout";
+import { DefaultButtonHousing } from "@/web/components/button/housings/DefaultButtonHousing";
+import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
+import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
+import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
+import { MenuItemButtonLayout } from "@/web/components/button/layouts/MenuItemButtonLayout";
 
 const themes = {
-  accent: AccentButtonHousing,
+  "default": DefaultButtonHousing,
+  "accent": AccentButtonHousing,
+  "outlined": OutlinedButtonHousing,
+  "hover": HoverButtonHousing,
+  "hover-square": HoverSquareButtonHousing,
 };
 const layouts = {
-  simple: SimpleButtonLayout,
+  "simple": SimpleButtonLayout,
+  "menu-item": MenuItemButtonLayout,
 };
 
 type ButtonProps = {
   class?: string;
-  children?: ComponentChildren;
   onClick?: () => void;
   href?: string;
   disabled?: boolean;
@@ -24,7 +33,7 @@ type ButtonProps = {
 };
 
 export function Button(props: ButtonProps) {
-  const Theme = themes[props.theme ?? "accent"];
+  const Theme = themes[props.theme ?? "default"];
   const Layout = layouts[props.layout ?? "simple"];
 
   return (
@@ -35,7 +44,7 @@ export function Button(props: ButtonProps) {
       disabled={props.disabled}
       loading={props.loading}
     >
-      <Layout icon={props.icon} text={props.text} loading={props.loading} />
+      <Layout icon={props.icon} text={props.text} />
     </Theme>
   );
 }

@@ -3,9 +3,9 @@ import type { ComponentChildren } from "preact";
 import type { LayoutTag } from "@/web/components/core/utils";
 
 const xAlignments = {
-  left: "justify-start",
-  center: "justify-center",
-  right: "justify-end",
+  "left": "justify-start",
+  "center": "justify-center",
+  "right": "justify-end",
   "space-between": "justify-between",
 };
 

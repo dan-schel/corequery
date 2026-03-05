@@ -19,7 +19,7 @@ const customRules = [
       ],
 
       // Require === and !==, except when comparing to null.
-      eqeqeq: ["warn", "always", { null: "ignore" }],
+      "eqeqeq": ["warn", "always", { null: "ignore" }],
 
       // Warn about prettier violations.
       "prettier/prettier": "warn",

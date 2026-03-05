@@ -1,9 +1,9 @@
 import type { ComponentChildren } from "preact";
 import { Clickable } from "@/web/components/core/Clickable";
 import clsx from "clsx";
-import { Grid } from "@/web/components/core/Grid";
+import { ContentOrSpinner } from "@/web/components/button/ContentOrSpinner";
 
-type AccentButtonHousingProps = {
+type OutlinedButtonHousingProps = {
   class?: string;
   children?: ComponentChildren;
   onClick?: () => void;
@@ -16,7 +16,7 @@ const parentStylesArr = [
   "relative",
   "group",
 
-  "not-disabled:[--content-color:var(--color-on-accent)]",
+  "not-disabled:[--content-color:var(--color-fg)]",
   "disabled:[--content-color:var(--color-fg-weak)]",
 ];
 const parentStyles = clsx(parentStylesArr);
@@ -32,17 +32,17 @@ const backgroundStylesArr = [
 
   "rounded-sm",
 
-  "group-not-disabled:bg-accent",
-  "group-not-disabled:group-hover:bg-accent-hover",
-  "group-not-disabled:group-active:bg-accent-active",
+  "group-not-disabled:bg-transparent",
+  "group-not-disabled:group-hover:bg-soft-hover",
+  "group-not-disabled:group-active:bg-soft-active",
 
   "border",
-  "group-not-disabled:border-transparent",
-  "group-disabled:border-soft-border",
+  "group-not-disabled:border-soft-border",
+  "group-disabled:border-soft-border-disabled",
 ];
 const backgroundStyles = clsx(backgroundStylesArr);
 
-export function AccentButtonHousing(props: AccentButtonHousingProps) {
+export function OutlinedButtonHousing(props: OutlinedButtonHousingProps) {
   return (
     <Clickable
       class={clsx(props.class, parentStyles)}
@@ -51,7 +51,9 @@ export function AccentButtonHousing(props: AccentButtonHousingProps) {
       disabled={(props.disabled ?? false) || (props.loading ?? false)}
     >
       <div class={backgroundStyles} />
-      <Grid class="z-1">{props.children}</Grid>
+      <ContentOrSpinner class="z-1" loading={props.loading ?? false}>
+        {props.children}
+      </ContentOrSpinner>
     </Clickable>
   );
 }
