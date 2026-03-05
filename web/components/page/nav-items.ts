@@ -7,20 +7,26 @@ import { MingcuteMapPinLine } from "@/web/components/icons/MingcuteMapPinLine";
 import { MingcuteMenuLine } from "@/web/components/icons/MingcuteMenuLine";
 import type { Icon } from "@/web/components/icons/type";
 
-type NavItem = RegularNavItem | MenuNavItem;
+export type NavItem = RegularNavItem | MenuNavItem;
 
 type RegularNavItem = {
-  name: string;
-  href: string;
-  regularIcon: Icon;
-  activeIcon: Icon;
-  isActive: (url: string) => boolean;
+  readonly name: string;
+  readonly href: string;
+  readonly regularIcon: Icon;
+  readonly activeIcon: Icon;
+  readonly isActive: (url: string) => boolean;
 };
 
 type MenuNavItem = {
-  name: string;
-  icon: Icon;
-  subitems: { name: string; href: string }[];
+  readonly name: string;
+  readonly icon: Icon;
+  readonly opensMenu: true;
+};
+
+export type MenuItem = {
+  readonly name: string;
+  readonly href: string;
+  readonly icon: Icon;
 };
 
 export const navItems: readonly NavItem[] = [
@@ -48,12 +54,14 @@ export const navItems: readonly NavItem[] = [
   {
     name: "More",
     icon: MingcuteMenuLine,
-    subitems: [
-      { name: "About", href: "/about" },
-      { name: "Settings", href: "/settings" },
-      { name: "Developer info", href: "/debug" },
-      { name: "Admin controls", href: "/admin" },
-      { name: "Zen mode", href: "/zen" },
-    ],
+    opensMenu: true,
   },
+];
+
+export const menuItems: readonly MenuItem[] = [
+  { name: "About", href: "/about", icon: MingcuteAlertDiamondLine },
+  { name: "Settings", href: "/settings", icon: MingcuteAlertDiamondLine },
+  { name: "Developer info", href: "/debug", icon: MingcuteAlertDiamondLine },
+  { name: "Admin controls", href: "/admin", icon: MingcuteAlertDiamondLine },
+  { name: "Zen mode", href: "/zen", icon: MingcuteAlertDiamondLine },
 ];

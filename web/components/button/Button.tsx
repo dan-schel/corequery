@@ -1,19 +1,23 @@
 import type { ComponentChildren } from "preact";
 import type { Icon } from "@/web/components/icons/type";
-import { AccentButtonHousing } from "@/web/components/button/AccentButtonHousing";
-import { SimpleButtonLayout } from "@/web/components/button/SimpleButtonLayout";
-import { DefaultButtonHousing } from "@/web/components/button/DefaultButtonHousing";
-import { OutlinedButtonHousing } from "@/web/components/button/OutlinedButtonHousing";
-import { HoverButtonHousing } from "@/web/components/button/HoverButtonHousing";
+import { AccentButtonHousing } from "@/web/components/button/housings/AccentButtonHousing";
+import { SimpleButtonLayout } from "@/web/components/button/layouts/SimpleButtonLayout";
+import { DefaultButtonHousing } from "@/web/components/button/housings/DefaultButtonHousing";
+import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
+import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
+import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
+import { MenuItemButtonLayout } from "@/web/components/button/layouts/MenuItemButtonLayout";
 
 const themes = {
-  default: DefaultButtonHousing,
-  accent: AccentButtonHousing,
-  outlined: OutlinedButtonHousing,
-  hover: HoverButtonHousing,
+  "default": DefaultButtonHousing,
+  "accent": AccentButtonHousing,
+  "outlined": OutlinedButtonHousing,
+  "hover": HoverButtonHousing,
+  "hover-square": HoverSquareButtonHousing,
 };
 const layouts = {
-  simple: SimpleButtonLayout,
+  "simple": SimpleButtonLayout,
+  "menu-item": MenuItemButtonLayout,
 };
 
 type ButtonProps = {
