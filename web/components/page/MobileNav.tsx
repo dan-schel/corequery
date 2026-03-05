@@ -33,7 +33,7 @@ export function MobileNav(props: MobileNavProps) {
       class={clsx(
         props.class,
         "fixed bottom-0 left-0 right-0 grid-rows-[1fr_auto_auto]",
-        { "top-0": menuOpen },
+        { "top-0": menuOpen, "pointer-events-none": !menuOpen },
       )}
     >
       <div class="relative z-0" onClick={handleMenuCloseRequested} />
@@ -50,7 +50,7 @@ export function MobileNav(props: MobileNavProps) {
       >
         {navItems.map((item) => (
           <MobileNavButton
-            class="grow"
+            class="grow pointer-events-auto"
             text={item.name}
             regularIcon={"icon" in item ? item.icon : item.regularIcon}
             activeIcon={"icon" in item ? item.icon : item.activeIcon}

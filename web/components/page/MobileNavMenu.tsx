@@ -52,7 +52,7 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
         },
       )}
     >
-      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised border-t border-soft-border opacity-90" />
+      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised border-t border-soft-border opacity-95" />
       <Column class="relative z-1 py-2">
         {menuItems.map((item) => (
           <Button
