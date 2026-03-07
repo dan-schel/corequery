@@ -6,7 +6,7 @@ import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 
 export default function NotFound() {
   return (
-    <Page mobileHeaderContent={null}>
+    <Page mobileHeader={null} desktopHeader={null}>
       <Column class="px-4 py-8 gap-8">
         <TextBlock style="title">Not Found</TextBlock>
         <TextBlock>This page was not found.</TextBlock>

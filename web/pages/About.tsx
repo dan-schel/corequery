@@ -2,14 +2,14 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useStaticData } from "@/web/data/static-data";
 import { Page } from "@/web/components/page/Page";
-import { SimpleMobileHeader } from "@/web/components/page/SimpleMobileHeader";
+import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { LinkText } from "@/web/components/core/LinkText";
 
 export default function About() {
   const { appName } = useStaticData();
 
   return (
-    <Page mobileHeaderContent={<SimpleMobileHeader title="About" />}>
+    <Page {...useSimpleHeaders({ title: "About" })}>
       <Column class="px-4 py-8 gap-12">
         <Column class="gap-8">
           <TextBlock style="title">About {appName}</TextBlock>

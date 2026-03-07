@@ -12,7 +12,7 @@ export function MobileHeader(props: MobileHeaderProps) {
     <Grid
       class={clsx(
         props.class,
-        "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border",
+        "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border desktop:hidden",
       )}
     >
       {props.children}

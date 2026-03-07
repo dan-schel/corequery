@@ -25,7 +25,7 @@ export function MobileNavButton(props: MobileNavButtonProps) {
       onClick={props.onClick}
       href={props.href}
     >
-      <Column class="gap-1 h-18 pb-1.5" xAlign="center" yAlign="center">
+      <Column class="gap-1 pb-1.5" xAlign="center" yAlign="center">
         <Grid
           class={clsx("px-3 py-1 rounded-full", {
             "bg-soft-accent": active,
@@ -39,7 +39,7 @@ export function MobileNavButton(props: MobileNavButtonProps) {
             <props.regularIcon class="text-fg text-xl" />
           )}
         </Grid>
-        <TextBlock style={active ? "small-accent" : "small"}>
+        <TextBlock style={active ? "small-strong-accent" : "small"}>
           {props.text}
         </TextBlock>
       </Column>

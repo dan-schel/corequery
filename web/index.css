@@ -10,7 +10,7 @@
 
   --text-sm: 0.7rem;
   --text-md: 0.9rem;
-  --text-md-icon: 1rem;
+  --text-mdlg: 1rem;
   --text-lg: 1.25rem;
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
@@ -19,6 +19,9 @@
   --font-weight-bold: 700;
 
   --radius-sm: 0.25rem;
+
+  --breakpoint-desktop: 48rem;
+  --breakpoint-widescreen: 64rem;
 
   /* Light theme */
   /* --color-bg: hsl(220, 30%, 93.5%);
