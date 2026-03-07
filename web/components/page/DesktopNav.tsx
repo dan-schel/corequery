@@ -2,7 +2,7 @@ import { useNavItems } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
-import { NavMenu } from "./NavMenu";
+import { NavMenu } from "@/web/components/page/NavMenu";
 import { useEffect, useState } from "preact/hooks";
 import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
