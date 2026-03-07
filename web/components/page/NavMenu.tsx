@@ -33,16 +33,16 @@ export function NavMenu(props: NavMenuProps) {
     <div
       class={clsx(
         props.class,
-        "relative transition-[opacity,visibility,translate] duration-200",
+        "relative transition-[opacity,visibility,translate] duration-100",
         {
           "invisible": !props.open,
           "opacity-0": !props.open,
-          "not-desktop:translate-y-2": !props.open,
-          "desktop:-translate-y-2": !props.open,
+          "not-desktop:translate-y-4": !props.open,
+          "desktop:-translate-y-4": !props.open,
         },
       )}
     >
-      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised border-t border-soft-border opacity-95" />
+      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-95" />
       <PageCenterer>
         <Column class="relative z-1 py-2">
           {menuItems.map((item) => (
