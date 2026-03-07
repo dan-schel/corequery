@@ -35,7 +35,7 @@ export function DesktopNav(props: DesktopNavProps) {
       class={clsx(
         props.class,
         "fixed top-0 left-0 right-0 grid-rows-[auto_auto_1fr] hidden desktop:block",
-        { "top-0": menuOpen, "pointer-events-none": !menuOpen },
+        { "bottom-0": menuOpen, "pointer-events-none": !menuOpen },
       )}
     >
       <PageCenterer class="h-12 bg-bg-navbar border-b border-soft-border relative z-2">
@@ -60,7 +60,7 @@ export function DesktopNav(props: DesktopNavProps) {
         open={menuOpen}
         onClose={handleCloseMenuRequested}
       />
-      <div class="relative z-0" onClick={handleCloseMenuRequested} />
+      <div class="relative z-0 h-full" onClick={handleCloseMenuRequested} />
     </Grid>
   );
 }
