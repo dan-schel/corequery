@@ -24,6 +24,7 @@ type ButtonProps = {
   class?: string;
   onClick?: () => void;
   href?: string;
+  onHrefClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
   icon?: Icon;
@@ -41,6 +42,7 @@ export function Button(props: ButtonProps) {
       class={props.class}
       onClick={props.onClick}
       href={props.href}
+      onHrefClick={props.onHrefClick}
       disabled={props.disabled}
       loading={props.loading}
     >

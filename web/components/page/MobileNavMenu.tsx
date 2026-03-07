@@ -1,8 +1,6 @@
 import { Column } from "@/web/components/core/Column";
 import clsx from "clsx";
 import { Button } from "@/web/components/button/Button";
-import { useLocation } from "preact-iso";
-import { useCallback } from "preact/hooks";
 import { useMenuItems } from "@/web/components/page/nav-items";
 
 type MobileNavMenuProps = {
@@ -12,17 +10,7 @@ type MobileNavMenuProps = {
 };
 
 export function MobileNavMenu(props: MobileNavMenuProps) {
-  const { route } = useLocation();
-  const onClose = props.onClose;
   const menuItems = useMenuItems();
-
-  const handleNavigation = useCallback(
-    (href: string) => {
-      onClose();
-      route(href);
-    },
-    [onClose, route],
-  );
 
   // ------------------------------------
   //  🔍 Search stops, lines, pages
@@ -58,7 +46,8 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
           <Button
             icon={item.icon}
             text={item.name}
-            onClick={() => handleNavigation(item.href)}
+            href={item.href}
+            onHrefClick={props.onClose}
             theme="hover-square"
             layout="menu-item"
           />

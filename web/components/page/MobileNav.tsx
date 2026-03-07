@@ -1,32 +1,32 @@
 import { MobileNavButton } from "@/web/components/page/MobileNavButton";
-import { useNavItems, type NavItem } from "@/web/components/page/nav-items";
+import { useNavItems } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
 import { MobileNavMenu } from "@/web/components/page/MobileNavMenu";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 type MobileNavProps = {
   class?: string;
 };
 
 export function MobileNav(props: MobileNavProps) {
-  const { url, route } = useLocation();
+  const { url } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const navItems = useNavItems();
 
-  function handleNavButtonClicked(item: NavItem) {
-    if ("opensMenu" in item) {
-      setMenuOpen((open) => !open);
-    } else {
-      setMenuOpen(false);
-      route(item.href);
-    }
+  function handleMenuButtonClicked() {
+    setMenuOpen((open) => !open);
   }
 
-  function handleMenuCloseRequested() {
+  function handleCloseMenuRequested() {
     setMenuOpen(false);
   }
+
+  // Close the menu if the URL changes.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [url]);
 
   return (
     <Grid
@@ -36,11 +36,11 @@ export function MobileNav(props: MobileNavProps) {
         { "top-0": menuOpen, "pointer-events-none": !menuOpen },
       )}
     >
-      <div class="relative z-0" onClick={handleMenuCloseRequested} />
+      <div class="relative z-0" onClick={handleCloseMenuRequested} />
       <MobileNavMenu
         class="relative z-1"
         open={menuOpen}
-        onClose={handleMenuCloseRequested}
+        onClose={handleCloseMenuRequested}
       />
       <Grid
         class={clsx(
@@ -55,7 +55,8 @@ export function MobileNav(props: MobileNavProps) {
             regularIcon={"icon" in item ? item.icon : item.regularIcon}
             activeIcon={"icon" in item ? item.icon : item.activeIcon}
             active={"isActive" in item ? item.isActive(url) : false}
-            onClick={() => handleNavButtonClicked(item)}
+            href={"href" in item ? item.href : undefined}
+            onClick={"opensMenu" in item ? handleMenuButtonClicked : undefined}
           />
         ))}
       </Grid>

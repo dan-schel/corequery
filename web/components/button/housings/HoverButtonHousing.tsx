@@ -8,6 +8,7 @@ type HoverButtonHousingProps = {
   children?: ComponentChildren;
   onClick?: () => void;
   href?: string;
+  onHrefClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
 };
@@ -44,6 +45,7 @@ export function HoverButtonHousing(props: HoverButtonHousingProps) {
       class={clsx(props.class, parentStyles)}
       onClick={props.onClick}
       href={props.href}
+      onHrefClick={props.onHrefClick}
       disabled={(props.disabled ?? false) || (props.loading ?? false)}
     >
       <div class={backgroundStyles} />
