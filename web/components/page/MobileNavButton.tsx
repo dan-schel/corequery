@@ -39,7 +39,7 @@ export function MobileNavButton(props: MobileNavButtonProps) {
             <props.regularIcon class="text-fg text-xl" />
           )}
         </Grid>
-        <TextBlock style={active ? "small-accent" : "small"}>
+        <TextBlock style={active ? "small-strong-accent" : "small"}>
           {props.text}
         </TextBlock>
       </Column>

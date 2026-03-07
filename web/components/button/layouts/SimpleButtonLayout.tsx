@@ -21,7 +21,7 @@ export function SimpleButtonLayout(props: SimpleButtonLayoutProps) {
       xAlign="center"
     >
       {props.icon != null && (
-        <props.icon class="text-(--content-color) text-md-icon" />
+        <props.icon class="text-(--content-color) text-lg" />
       )}
       {props.text != null && (
         <TextBlock style="content-color">{props.text}</TextBlock>

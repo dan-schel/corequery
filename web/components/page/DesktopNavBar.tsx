@@ -4,6 +4,10 @@ import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import clsx from "clsx";
+import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
+import { Favicon } from "@/web/components/icons/Favicon";
+import { useStaticData } from "@/web/data/static-data";
+import { TextBlock } from "@/web/components/core/TextBlock";
 
 type DesktopNavBarProps = {
   class?: string;
@@ -11,6 +15,7 @@ type DesktopNavBarProps = {
 };
 
 export function DesktopNavBar(props: DesktopNavBarProps) {
+  const { appName } = useStaticData();
   const { url } = useLocation();
   const navItems = useNavItems();
 
@@ -18,7 +23,13 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
     <PageCenterer
       class={clsx(props.class, "h-12 bg-bg-navbar border-b border-soft-border")}
     >
-      <Row yAlign="center">
+      <Row>
+        <HoverSquareButtonHousing href="/">
+          <Row class="px-4 gap-2" xAlign="center" yAlign="center">
+            <Favicon class="text-mdlg" />
+            <TextBlock style="wordmark">{appName}</TextBlock>
+          </Row>
+        </HoverSquareButtonHousing>
         {navItems.map((item) => (
           <DesktopNavButton
             text={item.name}
