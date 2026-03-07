@@ -20,6 +20,8 @@
 
   --radius-sm: 0.25rem;
 
+  --breakpoint-desktop: 48rem;
+
   /* Light theme */
   /* --color-bg: hsl(220, 30%, 93.5%);
   --color-bg-raised: hsl(220, 35%, 97%);

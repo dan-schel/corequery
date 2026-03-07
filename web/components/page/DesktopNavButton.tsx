@@ -1,12 +1,12 @@
 import type { ComponentChildren } from "preact";
 import type { Icon } from "@/web/components/icons/type";
 import { Clickable } from "@/web/components/core/Clickable";
-import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
+import { Row } from "@/web/components/core/Row";
+import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
 
-type MobileNavButtonProps = {
+type DesktopNavButtonProps = {
   class?: string;
   onClick?: () => void;
   href?: string;
@@ -16,7 +16,7 @@ type MobileNavButtonProps = {
   active?: boolean;
 };
 
-export function MobileNavButton(props: MobileNavButtonProps) {
+export function DesktopNavButton(props: DesktopNavButtonProps) {
   const active = props.active ?? false;
 
   return (
@@ -25,24 +25,18 @@ export function MobileNavButton(props: MobileNavButtonProps) {
       onClick={props.onClick}
       href={props.href}
     >
-      <Column class="gap-1 pb-1.5" xAlign="center" yAlign="center">
-        <Grid
-          class={clsx("px-3 py-1 rounded-full", {
-            "bg-soft-accent": active,
-            "group-hover:bg-soft": !active,
-            "group-active:bg-soft-active": !active,
-          })}
-        >
+      <HoverButtonHousing>
+        <Row class="gap-1" xAlign="center" yAlign="center">
           {active === true ? (
             <props.activeIcon class="text-accent-text text-xl" />
           ) : (
             <props.regularIcon class="text-fg text-xl" />
           )}
-        </Grid>
-        <TextBlock style={active ? "small-accent" : "small"}>
-          {props.text}
-        </TextBlock>
-      </Column>
+          <TextBlock style={active ? "small-accent" : "small"}>
+            {props.text}
+          </TextBlock>
+        </Row>
+      </HoverButtonHousing>
     </Clickable>
   );
 }

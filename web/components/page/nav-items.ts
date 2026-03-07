@@ -15,7 +15,7 @@ import { useStaticData } from "@/web/data/static-data";
 
 export type NavItem = RegularNavItem | MenuNavItem;
 
-type RegularNavItem = {
+export type RegularNavItem = {
   readonly name: string;
   readonly href: string;
   readonly regularIcon: Icon;

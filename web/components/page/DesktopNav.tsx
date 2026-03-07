@@ -1,16 +1,17 @@
-import { MobileNavButton } from "@/web/components/page/MobileNavButton";
 import { useNavItems } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
 import { MobileNavMenu } from "@/web/components/page/MobileNavMenu";
 import { useEffect, useState } from "preact/hooks";
+import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
+import { Row } from "@/web/components/core/Row";
 
-type MobileNavProps = {
+type DesktopNavProps = {
   class?: string;
 };
 
-export function MobileNav(props: MobileNavProps) {
+export function DesktopNav(props: DesktopNavProps) {
   const { url } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const navItems = useNavItems();
@@ -32,24 +33,19 @@ export function MobileNav(props: MobileNavProps) {
     <Grid
       class={clsx(
         props.class,
-        "fixed bottom-0 left-0 right-0 grid-rows-[1fr_auto_auto] desktop:hidden",
+        "fixed top-0 left-0 right-0 grid-rows-[auto_auto_1fr] hidden desktop:block",
         { "top-0": menuOpen, "pointer-events-none": !menuOpen },
       )}
     >
-      <div class="relative z-0" onClick={handleCloseMenuRequested} />
-      <MobileNavMenu
-        class="relative z-1"
-        open={menuOpen}
-        onClose={handleCloseMenuRequested}
-      />
-      <Grid
+      <Row
         class={clsx(
           props.class,
-          "h-18 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2 relative z-2",
+          "h-12 bg-bg-navbar border-b border-soft-border relative z-2",
         )}
+        yAlign="center"
       >
         {navItems.map((item) => (
-          <MobileNavButton
+          <DesktopNavButton
             class="pointer-events-auto"
             text={item.name}
             regularIcon={"icon" in item ? item.icon : item.regularIcon}
@@ -59,7 +55,13 @@ export function MobileNav(props: MobileNavProps) {
             onClick={"opensMenu" in item ? handleMenuButtonClicked : undefined}
           />
         ))}
-      </Grid>
+      </Row>
+      <MobileNavMenu
+        class="relative z-1"
+        open={menuOpen}
+        onClose={handleCloseMenuRequested}
+      />
+      <div class="relative z-0" onClick={handleCloseMenuRequested} />
     </Grid>
   );
 }

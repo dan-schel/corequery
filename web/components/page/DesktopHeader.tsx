@@ -2,17 +2,18 @@ import { type ComponentChildren } from "preact";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 
-type MobileHeaderProps = {
+type DesktopHeaderProps = {
   class?: string;
   children?: ComponentChildren;
 };
 
-export function MobileHeader(props: MobileHeaderProps) {
+// The (page) header, not be confused with the nav bar, <DesktopNav>.
+export function DesktopHeader(props: DesktopHeaderProps) {
   return (
     <Grid
       class={clsx(
         props.class,
-        "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border desktop:hidden",
+        "border-b border-soft-border hidden desktop:block",
       )}
     >
       {props.children}
