@@ -13,9 +13,9 @@ import { MingcuteToolLine } from "@/web/components/icons/MingcuteToolLine";
 import { MingcuteTv1Line } from "@/web/components/icons/MingcuteTv1Line";
 import { useStaticData } from "@/web/data/static-data";
 
-export type NavItem = RegularNavItem | MenuNavItem;
+type NavItem = RegularNavItem | MenuNavItem;
 
-export type RegularNavItem = {
+type RegularNavItem = {
   readonly name: string;
   readonly href: string;
   readonly regularIcon: Icon;
