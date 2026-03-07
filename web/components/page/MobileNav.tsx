@@ -3,7 +3,7 @@ import { useNavItems } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
-import { MobileNavMenu } from "@/web/components/page/MobileNavMenu";
+import { NavMenu } from "./NavMenu";
 import { useEffect, useState } from "preact/hooks";
 
 type MobileNavProps = {
@@ -37,17 +37,12 @@ export function MobileNav(props: MobileNavProps) {
       )}
     >
       <div class="relative z-0" onClick={handleCloseMenuRequested} />
-      <MobileNavMenu
+      <NavMenu
         class="relative z-1"
         open={menuOpen}
         onClose={handleCloseMenuRequested}
       />
-      <Grid
-        class={clsx(
-          props.class,
-          "h-18 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2 relative z-2",
-        )}
-      >
+      <Grid class="h-18 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2 relative z-2">
         {navItems.map((item) => (
           <MobileNavButton
             class="pointer-events-auto"

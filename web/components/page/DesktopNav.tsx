@@ -2,10 +2,11 @@ import { useNavItems } from "@/web/components/page/nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
-import { MobileNavMenu } from "@/web/components/page/MobileNavMenu";
+import { NavMenu } from "./NavMenu";
 import { useEffect, useState } from "preact/hooks";
 import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
+import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type DesktopNavProps = {
   class?: string;
@@ -37,26 +38,24 @@ export function DesktopNav(props: DesktopNavProps) {
         { "top-0": menuOpen, "pointer-events-none": !menuOpen },
       )}
     >
-      <Row
-        class={clsx(
-          props.class,
-          "h-12 bg-bg-navbar border-b border-soft-border relative z-2",
-        )}
-        yAlign="center"
-      >
-        {navItems.map((item) => (
-          <DesktopNavButton
-            class="pointer-events-auto"
-            text={item.name}
-            regularIcon={"icon" in item ? item.icon : item.regularIcon}
-            activeIcon={"icon" in item ? item.icon : item.activeIcon}
-            active={"isActive" in item ? item.isActive(url) : false}
-            href={"href" in item ? item.href : undefined}
-            onClick={"opensMenu" in item ? handleMenuButtonClicked : undefined}
-          />
-        ))}
-      </Row>
-      <MobileNavMenu
+      <PageCenterer class="h-12 bg-bg-navbar border-b border-soft-border relative z-2">
+        <Row yAlign="center">
+          {navItems.map((item) => (
+            <DesktopNavButton
+              class="pointer-events-auto"
+              text={item.name}
+              regularIcon={"icon" in item ? item.icon : item.regularIcon}
+              activeIcon={"icon" in item ? item.icon : item.activeIcon}
+              active={"isActive" in item ? item.isActive(url) : false}
+              href={"href" in item ? item.href : undefined}
+              onClick={
+                "opensMenu" in item ? handleMenuButtonClicked : undefined
+              }
+            />
+          ))}
+        </Row>
+      </PageCenterer>
+      <NavMenu
         class="relative z-1"
         open={menuOpen}
         onClose={handleCloseMenuRequested}

@@ -21,6 +21,7 @@
   --radius-sm: 0.25rem;
 
   --breakpoint-desktop: 48rem;
+  --breakpoint-widescreen: 64rem;
 
   /* Light theme */
   /* --color-bg: hsl(220, 30%, 93.5%);

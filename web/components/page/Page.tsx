@@ -4,6 +4,7 @@ import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
 import { MobileHeader } from "@/web/components/page/MobileHeader";
 import { DesktopHeader } from "@/web/components/page/DesktopHeader";
+import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type PageProps = {
   class?: string;
@@ -16,10 +17,13 @@ type PageProps = {
   // have.
   mobileHeader: ComponentChildren | null;
   desktopHeader: ComponentChildren | null;
+
+  centered?: boolean;
 };
 
 export function Page(props: PageProps) {
   const { showMobileNav } = useNavExemptions();
+  const centered = props.centered ?? true;
 
   return (
     <Grid
@@ -52,7 +56,11 @@ export function Page(props: PageProps) {
         // tall as it wants).
         <DesktopHeader>{props.desktopHeader}</DesktopHeader>
       )}
-      {props.children}
+      {centered ? (
+        <PageCenterer>{props.children}</PageCenterer>
+      ) : (
+        props.children
+      )}
     </Grid>
   );
 }
