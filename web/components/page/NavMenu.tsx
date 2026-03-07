@@ -37,7 +37,7 @@ export function NavMenu(props: NavMenuProps) {
         {
           "invisible": !props.open,
           "opacity-0": !props.open,
-          "translate-y-2": !props.open,
+          "not-desktop:translate-y-2": !props.open,
           "desktop:-translate-y-2": !props.open,
         },
       )}

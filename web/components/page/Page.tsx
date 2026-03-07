@@ -32,10 +32,8 @@ export function Page(props: PageProps) {
         {
           "pt-12": props.mobileHeader != null,
 
-          // Matches the height of the <MobileNav>. Only applies for mobile
-          // layout, so cancel it out on desktop.
-          "pb-18": showMobileNav,
-          "desktop:pb-0": showMobileNav,
+          // Matches the height of the <MobileNav>.
+          "not-desktop:pb-18": showMobileNav,
 
           // If we're mounting a desktop header, we'll need to make a row for it.
           "desktop:grid-rows-[auto_1fr]": props.desktopHeader != null,
