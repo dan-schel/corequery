@@ -35,11 +35,11 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.version === frontendVersion ? (
-              <TrafficLight>
+              <TrafficLight color="green">
                 <TextBlock>Up to date</TextBlock>
               </TrafficLight>
             ) : (
-              <TrafficLight>
+              <TrafficLight color="red">
                 <TextBlock>Outdated</TextBlock>
               </TrafficLight>
             ))}
@@ -56,11 +56,11 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.foundationalDataHash === foda.hash ? (
-              <TrafficLight>
+              <TrafficLight color="green">
                 <TextBlock>Up to date</TextBlock>
               </TrafficLight>
             ) : (
-              <TrafficLight>
+              <TrafficLight color="red">
                 <TextBlock>Outdated</TextBlock>
               </TrafficLight>
             ))}

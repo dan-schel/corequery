@@ -24,7 +24,7 @@
   --breakpoint-widescreen: 64rem;
 
   /* Light theme */
-  /* --color-bg: hsl(220, 30%, 93.5%);
+  --color-bg: hsl(220, 30%, 93.5%);
   --color-bg-raised: hsl(220, 35%, 97%);
   --color-bg-navbar: hsl(220, 40%, 100%);
   --color-bg-dialog: hsl(220, 40%, 100%);
@@ -45,7 +45,10 @@
   --color-placeholder: hsla(220, 100%, 14%, 30%);
   --color-field-border: hsla(220, 100%, 10%, 50%);
   --color-shadow: rgba(0, 0, 0, 40%);
-  --color-shadow-weak: rgba(0, 0, 0, 10%); */
+  --color-shadow-weak: rgba(0, 0, 0, 10%);
+  --color-status-green: hsl(130, 60%, 40%);
+  --color-status-yellow: hsl(40, 100%, 40%);
+  --color-status-red: hsl(0, 100%, 45%);
 
   /* Dark theme */
   --color-bg: hsl(220, 16%, 7%);
@@ -70,6 +73,9 @@
   --color-field-border: hsla(220, 100%, 90%, 50%);
   --color-shadow: rgba(0, 0, 0, 60%);
   --color-shadow-weak: rgba(0, 0, 0, 20%);
+  --color-status-green: hsl(130, 60%, 60%);
+  --color-status-yellow: hsl(40, 100%, 60%);
+  --color-status-red: hsl(0, 100%, 70%);
 
   --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
   @keyframes placeholder-pulse {
