@@ -9,6 +9,7 @@ import { Divider } from "@/web/components/core/Divider";
 import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Strong } from "@/web/components/core/Strong";
+import { TrafficLight } from "@/web/components/TrafficLight";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -34,9 +35,13 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.version === frontendVersion ? (
-              <TextBlock>Up to date</TextBlock>
+              <TrafficLight>
+                <TextBlock>Up to date</TextBlock>
+              </TrafficLight>
             ) : (
-              <TextBlock>Outdated</TextBlock>
+              <TrafficLight>
+                <TextBlock>Outdated</TextBlock>
+              </TrafficLight>
             ))}
           <TextBlock>Current version: {frontendVersion}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
@@ -51,9 +56,13 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.foundationalDataHash === foda.hash ? (
-              <TextBlock>Up to date</TextBlock>
+              <TrafficLight>
+                <TextBlock>Up to date</TextBlock>
+              </TrafficLight>
             ) : (
-              <TextBlock>Outdated</TextBlock>
+              <TrafficLight>
+                <TextBlock>Outdated</TextBlock>
+              </TrafficLight>
             ))}
           <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
