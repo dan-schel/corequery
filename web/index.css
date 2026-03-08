@@ -72,6 +72,9 @@
 
 :root {
   background-color: var(--color-bg-navbar);
+}
+
+* {
   flex-shrink: 0;
 }
 
