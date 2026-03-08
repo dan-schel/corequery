@@ -13,6 +13,8 @@ import { PageContainer } from "@/web/components/page/PageContainer";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));
+const Debug = lazy(() => import("./pages/Debug.js"));
+
 const NotFound = lazy(() => import("./pages/NotFound.js"));
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
               <Router>
                 <Route path="/" component={Home} />
                 <Route path="/about" component={About} />
+                <Route path="/debug" component={Debug} />
                 <Route default component={NotFound} />
               </Router>
             </ErrorBoundary>

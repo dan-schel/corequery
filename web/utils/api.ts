@@ -5,6 +5,8 @@ import { useDeepCompareEffect } from "@/web/utils/use-deep-compare-effect";
 
 type FetchOptions = {
   timeout?: number | null;
+  debugDelay?: number;
+  debugError?: boolean;
 };
 
 export async function callApi<Args extends ZodType, Result extends ZodType>(
@@ -12,7 +14,14 @@ export async function callApi<Args extends ZodType, Result extends ZodType>(
   args: z.input<Args>,
   options: FetchOptions = {},
 ): Promise<z.infer<Result>> {
-  const { timeout } = options;
+  const { timeout, debugDelay, debugError } = options;
+
+  if (debugDelay != null) {
+    await new Promise((resolve) => setTimeout(resolve, debugDelay));
+  }
+  if (debugError ?? false) {
+    throw new Error("Simulated API error");
+  }
 
   const res = await fetch(`/api${api.path}`, {
     method: "POST",

@@ -42,6 +42,7 @@
   --color-soft-active: hsla(220, 100%, 16.8%, 16%);
   --color-soft-border: hsla(220, 100%, 16%, 20%);
   --color-soft-border-disabled: hsla(220, 100%, 17.6%, 12%);
+  --color-placeholder: hsla(220, 100%, 14%, 30%);
   --color-field-border: hsla(220, 100%, 10%, 50%);
   --color-shadow: rgba(0, 0, 0, 40%);
   --color-shadow-weak: rgba(0, 0, 0, 10%); */
@@ -65,9 +66,21 @@
   --color-soft-active: hsla(220, 100%, 81.6%, 8%);
   --color-soft-border: hsla(220, 100%, 84%, 20%);
   --color-soft-border-disabled: hsla(220, 100%, 82.4%, 12%);
+  --color-placeholder: hsla(220, 100%, 86%, 30%);
   --color-field-border: hsla(220, 100%, 90%, 50%);
   --color-shadow: rgba(0, 0, 0, 60%);
   --color-shadow-weak: rgba(0, 0, 0, 20%);
+
+  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
+  @keyframes placeholder-pulse {
+    0%,
+    100% {
+      opacity: 50%;
+    }
+    50% {
+      opacity: 100%;
+    }
+  }
 }
 
 :root {
