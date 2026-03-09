@@ -8,6 +8,7 @@
 
   --spacing: 0.25rem;
 
+  /* If changing, update `textSizes` in web/components/core/TextBoxTrim.tsx. */
   --text-sm: 0.7rem;
   --text-md: 0.9rem;
   --text-mdlg: 1rem;

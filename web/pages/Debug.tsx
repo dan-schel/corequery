@@ -10,6 +10,7 @@ import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Strong } from "@/web/components/core/Strong";
 import { TrafficLight } from "@/web/components/TrafficLight";
+import { Alert } from "@/web/components/Alert";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -17,17 +18,19 @@ export default function Debug() {
   const { data, loading, error } = useQuery(
     VERSIONS_V1,
     {},
-    { debugDelay: 2000 },
+    { debugDelay: 2000, debugError: true },
   );
 
   return (
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
       <Column class="px-4 py-8 gap-8 min-w-0">
         {error != null && (
-          <TextBlock>
-            An error occurred while fetching the latest version info from the
-            server. <Strong>😢</Strong>
-          </TextBlock>
+          <Alert type="error">
+            <TextBlock>
+              An error occurred while fetching the latest version info from the
+              server. <Strong>😢</Strong>
+            </TextBlock>
+          </Alert>
         )}
         <Column class="gap-4">
           <TextBlock style="strong">App version</TextBlock>
