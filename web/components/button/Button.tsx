@@ -7,6 +7,9 @@ import { OutlinedButtonHousing } from "@/web/components/button/housings/Outlined
 import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
 import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
 import { MenuItemButtonLayout } from "@/web/components/button/layouts/MenuItemButtonLayout";
+import { ErrorButtonHousing } from "@/web/components/button/housings/ErrorButtonHousing";
+import { WarningButtonHousing } from "@/web/components/button/housings/WarningButtonHousing";
+import { SuccessButtonHousing } from "@/web/components/button/housings/SuccessButtonHousing";
 
 const themes = {
   "default": DefaultButtonHousing,
@@ -14,6 +17,9 @@ const themes = {
   "outlined": OutlinedButtonHousing,
   "hover": HoverButtonHousing,
   "hover-square": HoverSquareButtonHousing,
+  "error": ErrorButtonHousing,
+  "warning": WarningButtonHousing,
+  "success": SuccessButtonHousing,
 };
 const layouts = {
   "simple": SimpleButtonLayout,

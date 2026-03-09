@@ -3,7 +3,7 @@ import { Clickable } from "@/web/components/core/Clickable";
 import clsx from "clsx";
 import { ContentOrSpinner } from "@/web/components/button/ContentOrSpinner";
 
-type OutlinedButtonHousingProps = {
+type SuccessButtonHousingProps = {
   class?: string;
   children?: ComponentChildren;
   onClick?: () => void;
@@ -17,6 +17,9 @@ const parentStylesArr = [
   "relative",
   "group",
 
+  "not-disabled:[--color-fg:var(--color-on-success)]",
+  "not-disabled:[--color-fg-strong:var(--color-on-success)]",
+  "not-disabled:[--color-fg-weak:var(--color-on-success)]",
   "disabled:[--color-fg:var(--color-fg-weak)]",
   "disabled:[--color-fg-strong:var(--color-fg-weak)]",
 ];
@@ -33,17 +36,17 @@ const backgroundStylesArr = [
 
   "rounded-sm",
 
-  "group-not-disabled:bg-transparent",
-  "group-not-disabled:group-hover:bg-soft-hover",
-  "group-not-disabled:group-active:bg-soft-active",
+  "group-not-disabled:bg-success",
+  "group-not-disabled:group-hover:bg-success-hover",
+  "group-not-disabled:group-active:bg-success-active",
 
   "border",
-  "group-not-disabled:border-soft-border",
+  "group-not-disabled:border-transparent",
   "group-disabled:border-soft-border-disabled",
 ];
 const backgroundStyles = clsx(backgroundStylesArr);
 
-export function OutlinedButtonHousing(props: OutlinedButtonHousingProps) {
+export function SuccessButtonHousing(props: SuccessButtonHousingProps) {
   return (
     <Clickable
       class={clsx(props.class, parentStyles)}

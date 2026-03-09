@@ -19,12 +19,8 @@ export function MenuItemButtonLayout(props: MenuItemButtonLayoutProps) {
       })}
       yAlign="center"
     >
-      {props.icon != null && (
-        <props.icon class="text-(--content-color) text-lg" />
-      )}
-      {props.text != null && (
-        <TextBlock style="content-color">{props.text}</TextBlock>
-      )}
+      {props.icon != null && <props.icon class="text-fg text-lg" />}
+      {props.text != null && <TextBlock>{props.text}</TextBlock>}
     </Row>
   );
 }

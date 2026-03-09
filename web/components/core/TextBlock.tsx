@@ -22,7 +22,6 @@ const styles = {
   "wordmark": "text-mdlg font-bold text-fg-strong",
   "subtitle": "text-lg font-bold text-fg-strong",
   "title": "text-xl font-bold text-fg-strong",
-  "content-color": "text-md text-(--content-color)",
 };
 
 const alignments = {

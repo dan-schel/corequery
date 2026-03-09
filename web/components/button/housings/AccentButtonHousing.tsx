@@ -17,8 +17,11 @@ const parentStylesArr = [
   "relative",
   "group",
 
-  "not-disabled:[--content-color:var(--color-on-accent)]",
-  "disabled:[--content-color:var(--color-fg-weak)]",
+  "not-disabled:[--color-fg:var(--color-on-accent)]",
+  "not-disabled:[--color-fg-strong:var(--color-on-accent)]",
+  "not-disabled:[--color-fg-weak:var(--color-on-accent)]",
+  "disabled:[--color-fg:var(--color-fg-weak)]",
+  "disabled:[--color-fg-strong:var(--color-fg-weak)]",
 ];
 const parentStyles = clsx(parentStylesArr);
 

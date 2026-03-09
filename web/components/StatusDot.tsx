@@ -2,18 +2,18 @@ import type { ComponentChildren } from "preact";
 import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
 
-type TrafficLightProps = {
+type StatusDotProps = {
   class?: string;
   children?: ComponentChildren;
-  color: "red" | "yellow" | "green";
+  value: "error" | "warning" | "success";
 };
 
-export function TrafficLight(props: TrafficLightProps) {
+export function StatusDot(props: StatusDotProps) {
   const colorClass = {
-    green: "bg-status-green",
-    yellow: "bg-status-yellow",
-    red: "bg-status-red",
-  }[props.color];
+    success: "bg-success-text",
+    warning: "bg-warning-text",
+    error: "bg-error-text",
+  }[props.value];
 
   return (
     <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-2 items-center")}>

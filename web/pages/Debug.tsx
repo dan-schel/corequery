@@ -9,8 +9,9 @@ import { Divider } from "@/web/components/core/Divider";
 import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Strong } from "@/web/components/core/Strong";
-import { TrafficLight } from "@/web/components/TrafficLight";
+import { StatusDot } from "../components/StatusDot";
 import { Alert } from "@/web/components/Alert";
+import { Button } from "../components/button/Button";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -25,12 +26,44 @@ export default function Debug() {
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
       <Column class="px-4 py-8 gap-8 min-w-0">
         {error != null && (
-          <Alert type="error">
-            <TextBlock>
-              An error occurred while fetching the latest version info from the
-              server. <Strong>😢</Strong>
-            </TextBlock>
-          </Alert>
+          <>
+            <Alert type="success">
+              <Column xAlign="left" class="gap-4">
+                <TextBlock>
+                  An error occurred while fetching the latest version info from
+                  the server. <Strong>😢</Strong>
+                </TextBlock>
+                <Button text="Ok" theme="success" />
+              </Column>
+            </Alert>
+            <Alert type="warning">
+              <Column xAlign="left" class="gap-4">
+                <TextBlock>
+                  An error occurred while fetching the latest version info from
+                  the server. <Strong>😢</Strong>
+                </TextBlock>
+                <Button text="Ok" theme="warning" />
+              </Column>
+            </Alert>
+            <Alert type="error">
+              <Column xAlign="left" class="gap-4">
+                <TextBlock>
+                  An error occurred while fetching the latest version info from
+                  the server. <Strong>😢</Strong>
+                </TextBlock>
+                <Button text="Ok" theme="error" />
+              </Column>
+            </Alert>
+            <Alert type="info">
+              <Column xAlign="left" class="gap-4">
+                <TextBlock>
+                  An error occurred while fetching the latest version info from
+                  the server. <Strong>😢</Strong>
+                </TextBlock>
+                <Button text="Ok" theme="accent" />
+              </Column>
+            </Alert>
+          </>
         )}
         <Column class="gap-4">
           <TextBlock style="strong">App version</TextBlock>
@@ -38,13 +71,13 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.version === frontendVersion ? (
-              <TrafficLight color="green">
+              <StatusDot value="success">
                 <TextBlock>Up to date</TextBlock>
-              </TrafficLight>
+              </StatusDot>
             ) : (
-              <TrafficLight color="red">
+              <StatusDot value="error">
                 <TextBlock>Outdated</TextBlock>
-              </TrafficLight>
+              </StatusDot>
             ))}
           <TextBlock>Current version: {frontendVersion}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
@@ -59,13 +92,13 @@ export default function Debug() {
           {!loading &&
             data != null &&
             (data.foundationalDataHash === foda.hash ? (
-              <TrafficLight color="green">
+              <StatusDot value="success">
                 <TextBlock>Up to date</TextBlock>
-              </TrafficLight>
+              </StatusDot>
             ) : (
-              <TrafficLight color="red">
+              <StatusDot value="error">
                 <TextBlock>Outdated</TextBlock>
-              </TrafficLight>
+              </StatusDot>
             ))}
           <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
