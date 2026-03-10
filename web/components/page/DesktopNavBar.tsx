@@ -8,6 +8,7 @@ import { HoverSquareButtonHousing } from "@/web/components/button/housings/Hover
 import { Favicon } from "@/web/components/icons/Favicon";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useStaticData } from "@/web/hooks/use-static-data";
+import { useServiceWorker } from "@/web/hooks/use-service-worker";
 
 type DesktopNavBarProps = {
   class?: string;
@@ -18,6 +19,7 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
   const { appName } = useStaticData();
   const { url } = useLocation();
   const navItems = useNavItems();
+  const { isUpdateAvailable } = useServiceWorker();
 
   return (
     <PageCenterer
@@ -38,6 +40,7 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
             active={"isActive" in item ? item.isActive(url) : false}
             href={"href" in item ? item.href : undefined}
             onClick={"opensMenu" in item ? props.onMenuButtonClick : undefined}
+            showBadge={isUpdateAvailable && "opensMenu" in item}
           />
         ))}
       </Row>

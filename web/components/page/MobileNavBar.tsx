@@ -3,6 +3,7 @@ import { useNavItems } from "@/web/hooks/use-nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
+import { useServiceWorker } from "@/web/hooks/use-service-worker";
 
 type MobileNavBarProps = {
   class?: string;
@@ -12,6 +13,7 @@ type MobileNavBarProps = {
 export function MobileNavBar(props: MobileNavBarProps) {
   const { url } = useLocation();
   const navItems = useNavItems();
+  const { isUpdateAvailable } = useServiceWorker();
 
   return (
     <Grid
@@ -28,6 +30,7 @@ export function MobileNavBar(props: MobileNavBarProps) {
           active={"isActive" in item ? item.isActive(url) : false}
           href={"href" in item ? item.href : undefined}
           onClick={"opensMenu" in item ? props.onMenuButtonClick : undefined}
+          showBadge={isUpdateAvailable && "opensMenu" in item}
         />
       ))}
     </Grid>
