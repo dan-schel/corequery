@@ -44,8 +44,8 @@ export function NavMenu(props: NavMenuProps) {
       )}
     >
       <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-95" />
-      <PageCenterer class="relative z-1">
-        <Column class="desktop:flex-col-reverse">
+      <Column class="relative z-1 desktop:flex-col-reverse">
+        <PageCenterer>
           <Column class="py-2">
             {menuItems.map((item) => (
               <Button
@@ -58,9 +58,9 @@ export function NavMenu(props: NavMenuProps) {
               />
             ))}
           </Column>
-          <NavMenuPwaUpdateButton menuOpen={props.open} />
-        </Column>
-      </PageCenterer>
+        </PageCenterer>
+        <NavMenuPwaUpdateButton menuOpen={props.open} />
+      </Column>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { AccentButtonHousing } from "@/web/components/button/housings/AccentButt
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { useEffect, useState } from "preact/hooks";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
+import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type NavMenuPwaUpdateButtonProps = {
   menuOpen: boolean;
@@ -12,13 +13,13 @@ type NavMenuPwaUpdateButtonProps = {
 export function NavMenuPwaUpdateButton(props: NavMenuPwaUpdateButtonProps) {
   const menuFullyClosed = useActivationDelay(!props.menuOpen, 300);
 
-  const { isUpdateAvailable } = useServiceWorker();
+  const { isUpdateAvailable, update } = useServiceWorker();
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
     // Never toggle showPrompt if the menu is already open (avoids a layout
     // shift).
-    if (menuFullyClosed) return;
+    if (!menuFullyClosed) return;
 
     setShowPrompt(isUpdateAvailable);
   }, [isUpdateAvailable, menuFullyClosed]);
@@ -26,12 +27,14 @@ export function NavMenuPwaUpdateButton(props: NavMenuPwaUpdateButtonProps) {
   if (!showPrompt) return null;
 
   return (
-    <AccentButtonHousing rounded={false}>
-      <MenuItemButtonLayout
-        icon={UilRedo}
-        text="Update available — click to refresh"
-        outerPadding
-      />
+    <AccentButtonHousing rounded={false} onClick={() => void update()}>
+      <PageCenterer>
+        <MenuItemButtonLayout
+          icon={UilRedo}
+          text="Update available — click to refresh"
+          outerPadding
+        />
+      </PageCenterer>
     </AccentButtonHousing>
   );
 }
