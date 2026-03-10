@@ -8,6 +8,10 @@ export class FoundationalData {
     return this._raw.metadata.hash;
   }
 
+  get serverVersion() {
+    return this._raw.metadata.serverVersion;
+  }
+
   static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
   toJson(): z.input<typeof fodaSchema> {

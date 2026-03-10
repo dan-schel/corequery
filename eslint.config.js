@@ -30,6 +30,9 @@ const customRules = [
       // Require imports to use the @ alias instead of relative paths.
       "custom/enforce-import-alias": "warn",
 
+      // Warn if debugDelay/debugError are used.
+      "custom/warn-debug-delay-or-error": "warn",
+
       // Warn about relying on truthy/falsy values.
       "@typescript-eslint/strict-boolean-expressions": [
         "warn",

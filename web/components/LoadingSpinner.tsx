@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
 const styles = {
-  default: "text-xl text-fg-weak",
-  large: "text-2xl text-fg-weak",
+  default: "text-lg text-fg-weak",
+  large: "text-xl text-fg-weak",
 };
 
 type LoadingSpinnerProps = {
@@ -19,16 +19,16 @@ export function LoadingSpinner(props: LoadingSpinnerProps) {
         props.class,
       )}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+      viewBox="0 0 16 16"
       width="1em"
       height="1em"
       role="img"
     >
       <title>Loading spinner</title>
-      <circle cx="8" cy="8" r="2" fill="currentColor" />
-      <circle cx="16" cy="8" r="2" fill="currentColor" />
-      <circle cx="16" cy="16" r="2" fill="currentColor" />
-      <circle cx="8" cy="16" r="2" fill="currentColor" />
+      <circle cx="4" cy="4" r="2" fill="currentColor" />
+      <circle cx="12" cy="4" r="2" fill="currentColor" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
+      <circle cx="4" cy="12" r="2" fill="currentColor" />
     </svg>
   );
 }

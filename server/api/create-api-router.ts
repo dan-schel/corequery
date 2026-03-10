@@ -43,6 +43,7 @@ export function createApiRouter(app: Corequery) {
 
   // List all APIs here.
   setup(apis.FOUNDATIONAL_DATA_V1, handlers.FOUNDATIONAL_DATA_V1);
+  setup(apis.VERSIONS_V1, handlers.VERSIONS_V1);
 
   router.use(/(.*)/, (_req, res) => {
     res.sendStatus(404);

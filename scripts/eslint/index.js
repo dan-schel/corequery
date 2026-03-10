@@ -1,4 +1,5 @@
 import enforceImportAlias from "./enforce-import-alias.js";
+import warnDebugDelayOrError from "./warn-debug-delay-or-error.js";
 
 const plugin = {
   meta: {
@@ -7,6 +8,7 @@ const plugin = {
   },
   rules: {
     "enforce-import-alias": enforceImportAlias,
+    "warn-debug-delay-or-error": warnDebugDelayOrError,
   },
 };
 

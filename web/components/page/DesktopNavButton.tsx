@@ -14,6 +14,7 @@ type DesktopNavButtonProps = {
   activeIcon: Icon;
   text: ComponentChildren;
   active?: boolean;
+  showBadge?: boolean;
 };
 
 export function DesktopNavButton(props: DesktopNavButtonProps) {
@@ -32,11 +33,16 @@ export function DesktopNavButton(props: DesktopNavButtonProps) {
         xAlign="center"
         yAlign="center"
       >
-        {active === true ? (
-          <props.activeIcon class="text-fg-strong text-lg" />
-        ) : (
-          <props.regularIcon class="text-fg text-lg" />
-        )}
+        <Grid class="relative">
+          {(props.showBadge ?? false) && (
+            <div class="h-2 w-2 absolute rounded-full bg-accent top-0 right-0" />
+          )}
+          {active === true ? (
+            <props.activeIcon class="text-fg-strong text-lg" />
+          ) : (
+            <props.regularIcon class="text-fg text-lg" />
+          )}
+        </Grid>
         <Grid class="relative">
           <TextBlock
             class={clsx("absolute left-0 right-0", {

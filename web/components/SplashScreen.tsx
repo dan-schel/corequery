@@ -1,4 +1,3 @@
-import { useStaticData } from "@/web/data/static-data";
 import { Grid } from "@/web/components/core/Grid";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
@@ -6,6 +5,7 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Strong } from "@/web/components/core/Strong";
 import { UilRedo } from "@/web/components/icons/UilRedo";
 import { Button } from "@/web/components/button/Button";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 type SplashScreenProps = {
   error: boolean;

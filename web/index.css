@@ -8,6 +8,7 @@
 
   --spacing: 0.25rem;
 
+  /* If changing, update `textSizes` in web/components/core/TextBoxTrim.tsx. */
   --text-sm: 0.7rem;
   --text-md: 0.9rem;
   --text-mdlg: 1rem;
@@ -24,27 +25,52 @@
   --breakpoint-widescreen: 64rem;
 
   /* Light theme */
-  /* --color-bg: hsl(220, 30%, 93.5%);
+  --color-bg: hsl(220, 30%, 93.5%);
   --color-bg-raised: hsl(220, 35%, 97%);
   --color-bg-navbar: hsl(220, 40%, 100%);
   --color-bg-dialog: hsl(220, 40%, 100%);
   --color-fg: hsla(220, 100%, 4%, 80%);
   --color-fg-strong: hsla(220, 100%, 0%, 100%);
   --color-fg-weak: hsla(220, 100%, 10%, 50%);
-  --color-accent: hsl(210, 100%, 45%);
-  --color-accent-hover: hsl(210, 100%, 50%);
-  --color-accent-active: hsl(210, 100%, 40%);
+
+  --color-accent: hsl(210, 80%, 45%);
+  --color-accent-hover: hsl(210, 80%, 50%);
+  --color-accent-active: hsl(210, 80%, 40%);
   --color-accent-text: hsl(210, 100%, 40%);
-  --color-soft-accent: hsl(210, 100%, 45%, 15%);
+  --color-soft-accent: hsl(210, 80%, 45%, 15%);
   --color-on-accent: #ffffff;
+
   --color-soft: hsla(220, 100%, 17.6%, 12%);
   --color-soft-hover: hsla(220, 100%, 18.4%, 8%);
   --color-soft-active: hsla(220, 100%, 16.8%, 16%);
   --color-soft-border: hsla(220, 100%, 16%, 20%);
   --color-soft-border-disabled: hsla(220, 100%, 17.6%, 12%);
+
+  --color-placeholder: hsla(220, 100%, 14%, 30%);
   --color-field-border: hsla(220, 100%, 10%, 50%);
   --color-shadow: rgba(0, 0, 0, 40%);
-  --color-shadow-weak: rgba(0, 0, 0, 10%); */
+  --color-shadow-weak: rgba(0, 0, 0, 10%);
+
+  --color-error: hsl(0, 80%, 35%);
+  --color-error-hover: hsl(0, 80%, 40%);
+  --color-error-active: hsl(0, 80%, 30%);
+  --color-error-text: hsl(0, 100%, 35%);
+  --color-soft-error: hsl(0, 100%, 35%, 15%);
+  --color-on-error: #ffffff;
+
+  --color-warning: hsl(40, 80%, 40%);
+  --color-warning-hover: hsl(40, 80%, 45%);
+  --color-warning-active: hsl(40, 80%, 35%);
+  --color-warning-text: hsl(40, 100%, 35%);
+  --color-soft-warning: hsl(40, 100%, 45%, 20%);
+  --color-on-warning: #ffffff;
+
+  --color-success: hsl(130, 60%, 30%);
+  --color-success-hover: hsl(130, 60%, 35%);
+  --color-success-active: hsl(130, 60%, 25%);
+  --color-success-text: hsl(130, 60%, 30%);
+  --color-soft-success: hsl(130, 100%, 30%, 15%);
+  --color-on-success: #ffffff;
 
   /* Dark theme */
   --color-bg: hsl(220, 16%, 7%);
@@ -54,24 +80,63 @@
   --color-fg: hsla(220, 100%, 96%, 80%);
   --color-fg-strong: hsla(220, 100%, 100%, 100%);
   --color-fg-weak: hsla(220, 100%, 90%, 50%);
-  --color-accent: hsl(210, 100%, 65%);
-  --color-accent-hover: hsl(210, 100%, 70%);
-  --color-accent-active: hsl(210, 100%, 60%);
+
+  --color-accent: hsl(210, 80%, 65%);
+  --color-accent-hover: hsl(210, 80%, 70%);
+  --color-accent-active: hsl(210, 80%, 60%);
   --color-accent-text: hsl(210, 100%, 75%);
-  --color-soft-accent: hsl(210, 100%, 65%, 20%);
+  --color-soft-accent: hsl(210, 100%, 65%, 15%);
   --color-on-accent: #000000;
+
   --color-soft: hsla(220, 100%, 82.4%, 12%);
   --color-soft-hover: hsla(220, 100%, 83.2%, 16%);
   --color-soft-active: hsla(220, 100%, 81.6%, 8%);
   --color-soft-border: hsla(220, 100%, 84%, 20%);
   --color-soft-border-disabled: hsla(220, 100%, 82.4%, 12%);
+
+  --color-placeholder: hsla(220, 100%, 86%, 30%);
   --color-field-border: hsla(220, 100%, 90%, 50%);
   --color-shadow: rgba(0, 0, 0, 60%);
   --color-shadow-weak: rgba(0, 0, 0, 20%);
+
+  --color-error: hsl(0, 70%, 65%);
+  --color-error-hover: hsl(0, 70%, 70%);
+  --color-error-active: hsl(0, 70%, 60%);
+  --color-error-text: hsl(0, 100%, 75%);
+  --color-soft-error: hsla(0, 100%, 65%, 15%);
+  --color-on-error: #000000;
+
+  --color-warning: hsl(40, 70%, 60%);
+  --color-warning-hover: hsl(40, 70%, 70%);
+  --color-warning-active: hsl(40, 70%, 55%);
+  --color-warning-text: hsl(40, 100%, 75%);
+  --color-soft-warning: hsla(40, 100%, 65%, 15%);
+  --color-on-warning: #000000;
+
+  --color-success: hsl(130, 60%, 60%);
+  --color-success-hover: hsl(130, 60%, 70%);
+  --color-success-active: hsl(130, 60%, 55%);
+  --color-success-text: hsl(130, 60%, 75%);
+  --color-soft-success: hsla(130, 100%, 60%, 10%);
+  --color-on-success: #000000;
+
+  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
+  @keyframes placeholder-pulse {
+    0%,
+    100% {
+      opacity: 50%;
+    }
+    50% {
+      opacity: 100%;
+    }
+  }
 }
 
 :root {
   background-color: var(--color-bg-navbar);
+}
+
+* {
   flex-shrink: 0;
 }
 

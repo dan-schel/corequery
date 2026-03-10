@@ -14,6 +14,7 @@ type MobileNavButtonProps = {
   activeIcon: Icon;
   text: ComponentChildren;
   active?: boolean;
+  showBadge?: boolean;
 };
 
 export function MobileNavButton(props: MobileNavButtonProps) {
@@ -27,12 +28,15 @@ export function MobileNavButton(props: MobileNavButtonProps) {
     >
       <Column class="gap-1 pb-1.5" xAlign="center" yAlign="center">
         <Grid
-          class={clsx("px-3 py-1 rounded-full", {
+          class={clsx("px-3 py-1 rounded-full relative", {
             "bg-soft-accent": active,
             "group-hover:bg-soft": !active,
             "group-active:bg-soft-active": !active,
           })}
         >
+          {(props.showBadge ?? false) && (
+            <div class="h-2 w-2 absolute rounded-full bg-accent top-1 right-3" />
+          )}
           {active === true ? (
             <props.activeIcon class="text-accent-text text-xl" />
           ) : (

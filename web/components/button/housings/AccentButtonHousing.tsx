@@ -11,14 +11,18 @@ type AccentButtonHousingProps = {
   onHrefClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
+  rounded?: boolean;
 };
 
 const parentStylesArr = [
   "relative",
   "group",
 
-  "not-disabled:[--content-color:var(--color-on-accent)]",
-  "disabled:[--content-color:var(--color-fg-weak)]",
+  "not-disabled:[--color-fg:var(--color-on-accent)]",
+  "not-disabled:[--color-fg-strong:var(--color-on-accent)]",
+  "not-disabled:[--color-fg-weak:var(--color-on-accent)]",
+  "disabled:[--color-fg:var(--color-fg-weak)]",
+  "disabled:[--color-fg-strong:var(--color-fg-weak)]",
 ];
 const parentStyles = clsx(parentStylesArr);
 
@@ -31,8 +35,6 @@ const backgroundStylesArr = [
   "left-0",
   "right-0",
 
-  "rounded-sm",
-
   "group-not-disabled:bg-accent",
   "group-not-disabled:group-hover:bg-accent-hover",
   "group-not-disabled:group-active:bg-accent-active",
@@ -44,6 +46,8 @@ const backgroundStylesArr = [
 const backgroundStyles = clsx(backgroundStylesArr);
 
 export function AccentButtonHousing(props: AccentButtonHousingProps) {
+  const rounded = props.rounded ?? true;
+
   return (
     <Clickable
       class={clsx(props.class, parentStyles)}
@@ -52,7 +56,7 @@ export function AccentButtonHousing(props: AccentButtonHousingProps) {
       onHrefClick={props.onHrefClick}
       disabled={(props.disabled ?? false) || (props.loading ?? false)}
     >
-      <div class={backgroundStyles} />
+      <div class={clsx(backgroundStyles, { "rounded-sm": rounded })} />
       <ContentOrSpinner class="z-1" loading={props.loading ?? false}>
         {props.children}
       </ContentOrSpinner>
