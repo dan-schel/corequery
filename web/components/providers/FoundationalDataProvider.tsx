@@ -17,12 +17,12 @@ type FoundationalDataProviderProps = {
 export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const { Provider } = foundationalDataContext;
 
+  const { callApi } = useApi();
   const cache = useLocalStorage(cacheKey, FoundationalData.json);
-
   const [cachedData] = useState(() => cache.get());
+
   const [foda, setFoda] = useState<FoundationalData | null>(null);
   const [error, setError] = useState(false);
-  const { callApi } = useApi();
 
   const triggerLoadData = useCallback(() => {
     setError(false);
