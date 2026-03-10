@@ -7,10 +7,10 @@ import {
 } from "preact-iso";
 import { render } from "preact";
 import "@/web/index.css";
-import { StaticDataProvider } from "@/web/components/providers/StaticDataProvider.js";
-import { FoundationalDataProvider } from "@/web/components/providers/FoundationalDataProvider.js";
+import { StaticDataProvider } from "@/web/components/providers/StaticDataProvider";
+import { FoundationalDataProvider } from "@/web/components/providers/FoundationalDataProvider";
 import { PageContainer } from "@/web/components/page/PageContainer";
-import { ServiceWorkerProvider } from "@/web/components/providers/ServiceWorkerProvider.js";
+import { ServiceWorkerProvider } from "@/web/components/providers/ServiceWorkerProvider";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));

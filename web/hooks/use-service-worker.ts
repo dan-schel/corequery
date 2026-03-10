@@ -1,7 +1,7 @@
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 
-export type ServiceWorker = {
+type ServiceWorker = {
   readonly isUpdateAvailable: boolean;
   readonly isOfflineReady: boolean;
   readonly update: (reloadPage?: boolean) => Promise<void>;

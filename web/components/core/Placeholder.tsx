@@ -6,6 +6,7 @@ type PlaceholderProps = {
   children?: ComponentChildren;
 };
 
+/** @knipignore */
 export function Placeholder(props: PlaceholderProps) {
   return (
     <div
