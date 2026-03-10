@@ -4,6 +4,7 @@
     "prefix": "component",
     "body": [
       "import type { ComponentChildren } from \"preact\";",
+      "import clsx from \"clsx\";",
       "",
       "type ${TM_FILENAME_BASE}Props = {",
       "  class?: string;",
@@ -11,7 +12,7 @@
       "};",
       "",
       "export function ${TM_FILENAME_BASE}(props: ${TM_FILENAME_BASE}Props) {",
-      "  $0",
+      "  return <$0 class={clsx(props.class)}>{props.children}</$0>;",
       "}",
       "",
     ],

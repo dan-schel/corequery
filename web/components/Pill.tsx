@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import { TextBlock } from "@/web/components/core/TextBlock";
 
-type PillProps = {
+export type PillProps = {
   class?: string;
   type: "info" | "error" | "warning" | "success";
   text: string;

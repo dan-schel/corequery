@@ -4,15 +4,12 @@ import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { VERSIONS_V1 } from "@/shared/apis";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
-import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Alert } from "@/web/components/Alert";
-import { Row } from "@/web/components/core/Row";
-import { Pill } from "@/web/components/Pill";
-import { VerticalBleed } from "@/web/components/core/VerticalBleed";
-import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useQuery } from "@/web/hooks/use-query";
+import { LoadingTextBlock } from "@/web/components/pages/debug/LoadingTextBlock";
+import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -21,7 +18,7 @@ export default function Debug() {
   const { data, loading, error } = useQuery(
     VERSIONS_V1,
     {},
-    { debugDelay: 2000 },
+    { debugDelay: 2000, debugError: false },
   );
 
   return (
@@ -35,51 +32,34 @@ export default function Debug() {
           </Alert>
         )}
         <Column class="gap-4">
-          <Row class="gap-x-2 gap-y-3" wrap>
-            <TextBlock style="strong">App version</TextBlock>
-            {loading && <TextPlaceholder class="w-[20%] text-md" />}
-            {!loading &&
-              data != null &&
-              (data.version === frontendVersion ? (
-                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-                  <Pill type="success" text="Up to date" />
-                </VerticalBleed>
-              ) : (
-                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-                  <Pill type="error" text="Outdated" />
-                </VerticalBleed>
-              ))}
-          </Row>
+          <ComparisonHeader
+            header="App version"
+            currentValue={frontendVersion}
+            latestValue={data?.version ?? null}
+            loading={loading}
+          />
           <TextBlock>Current version: {frontendVersion}</TextBlock>
-          {loading && <TextPlaceholder class="w-[40%] text-md" />}
-          {!loading && data != null && (
-            <TextBlock>Latest version: {data.version}</TextBlock>
-          )}
+          <LoadingTextBlock
+            prefix="Latest version"
+            value={data?.version ?? null}
+            loading={loading}
+          />
         </Column>
         <Divider />
         <Column class="gap-4">
-          <Row class="gap-x-2 gap-y-3" wrap>
-            <TextBlock style="strong">Foundational data</TextBlock>
-            {loading && <TextPlaceholder class="w-[20%] text-md" />}
-            {!loading &&
-              data != null &&
-              (data.foundationalDataHash === foda.hash ? (
-                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-                  <Pill type="success" text="Up to date" />
-                </VerticalBleed>
-              ) : (
-                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-                  <Pill type="error" text="Outdated" />
-                </VerticalBleed>
-              ))}
-          </Row>
+          <ComparisonHeader
+            header="Foundational data"
+            currentValue={foda.hash}
+            latestValue={data?.foundationalDataHash ?? null}
+            loading={loading}
+          />
           <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
-          {loading && <TextPlaceholder class="w-[40%] text-md" />}
-          {!loading && data != null && (
-            <TextBlock class="break-all">
-              Latest hash: {data.foundationalDataHash}
-            </TextBlock>
-          )}
+          <LoadingTextBlock
+            class="break-all"
+            prefix="Latest hash"
+            value={data?.foundationalDataHash ?? null}
+            loading={loading}
+          />
         </Column>
         <Divider />
       </Column>
