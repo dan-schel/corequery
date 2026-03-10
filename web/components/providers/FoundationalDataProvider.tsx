@@ -1,11 +1,11 @@
 import { type ComponentChildren } from "preact";
-import { foundationalDataContext } from "@/web/data/foundational-data/context";
-import { callApi } from "@/web/utils/api";
 import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { FoundationalData } from "@/web/data/foundational-data";
 import { useLocalStorage } from "@/web/utils/use-local-storage";
 import { SplashScreen } from "@/web/components/SplashScreen";
+import { foundationalDataContext } from "@/web/utils/use-foundational-data";
+import { useApi, type CallApiFunction } from "@/web/utils/use-api";
 
 const cacheKey = "corequery-foundational-data";
 const cacheFallbackTimeoutMs = 2000;
@@ -22,12 +22,13 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const [cachedData] = useState(() => cache.get());
   const [foda, setFoda] = useState<FoundationalData | null>(null);
   const [error, setError] = useState(false);
+  const { callApi } = useApi();
 
   const triggerLoadData = useCallback(() => {
     setError(false);
     void loadData({
+      callApi,
       cachedData,
-
       onDataReady: (data, shouldBeCached) => {
         setFoda(data);
 
@@ -35,12 +36,11 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
           cache.set(data.toJson());
         }
       },
-
       onFailure: () => {
         setError(true);
       },
     });
-  }, [cache, cachedData]);
+  }, [cache, cachedData, callApi]);
 
   useEffect(() => {
     triggerLoadData();
@@ -54,10 +54,12 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
 }
 
 async function loadData({
+  callApi,
   cachedData,
   onDataReady,
   onFailure,
 }: {
+  callApi: CallApiFunction;
   cachedData: FoundationalData | null;
   onDataReady: (data: FoundationalData, shouldBeCached: boolean) => void;
   onFailure: () => void;

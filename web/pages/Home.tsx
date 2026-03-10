@@ -1,10 +1,10 @@
 import { PwaStatus } from "@/web/components/PwaStatus";
-import { useStaticData } from "@/web/data/static-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
-import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
+import { useStaticData } from "@/web/utils/use-static-data";
+import { useFoundationalData } from "@/web/utils/use-foundational-data";
 
 export default function Home() {
   const { appName } = useStaticData();

@@ -1,7 +1,7 @@
 import { Column } from "@/web/components/core/Column";
 import clsx from "clsx";
 import { Button } from "@/web/components/button/Button";
-import { useMenuItems } from "@/web/components/page/nav-items";
+import { useMenuItems } from "@/web/utils/use-nav-items";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type NavMenuProps = {

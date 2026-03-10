@@ -1,26 +1,27 @@
 import { Column } from "@/web/components/core/Column";
-import { useStaticData } from "@/web/data/static-data";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
-import { useQuery } from "@/web/utils/api";
 import { VERSIONS_V1 } from "@/shared/apis";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
-import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Alert } from "@/web/components/Alert";
 import { Row } from "@/web/components/core/Row";
 import { Pill } from "@/web/components/Pill";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
+import { useStaticData } from "@/web/utils/use-static-data";
+import { useFoundationalData } from "@/web/utils/use-foundational-data";
+import { useQuery } from "@/web/utils/use-query";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
   const foda = useFoundationalData();
+
   const { data, loading, error } = useQuery(
     VERSIONS_V1,
     {},
-    { debugDelay: 20000 },
+    { debugDelay: 2000 },
   );
 
   return (
