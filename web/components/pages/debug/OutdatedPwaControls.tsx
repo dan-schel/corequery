@@ -31,7 +31,7 @@ export function OutdatedPwaControls(props: OutdatedPwaControlsProps) {
 
   return (
     <Row class={clsx(props.class, "gap-2")}>
-      <VerticalBleed heightRem={getTextBoxHeightRem("text-md")} class="-ml-1">
+      <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
         <LoadingSpinner />
       </VerticalBleed>
       <TextBlock class="min-w-0 shrink w-full">
