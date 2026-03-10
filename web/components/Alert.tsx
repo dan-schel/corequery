@@ -6,6 +6,8 @@ import { Grid } from "@/web/components/core/Grid";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
+import { MingcuteAlertLine } from "@/web/components/icons/MingcuteAlertLine";
+import { MingcuteCheckLine } from "@/web/components/icons/MingcuteCheckLine";
 
 type AlertProps = {
   class?: string;
@@ -18,8 +20,8 @@ export function Alert(props: AlertProps) {
   const defaultIcon = {
     info: UilInfoCircle,
     error: MingcuteAlertDiamondLine,
-    warning: UilInfoCircle,
-    success: UilInfoCircle,
+    warning: MingcuteAlertLine,
+    success: MingcuteCheckLine,
   }[props.type];
 
   // Specifically check for undefined. If icon is given as `null`, use no icon.
@@ -56,19 +58,23 @@ export function Alert(props: AlertProps) {
   }[props.type];
 
   return (
-    <div class={clsx(props.class, bgColor, fgColors, "px-4 py-4.5 rounded-sm")}>
-      <Grid
-        class={clsx("gap-2 items-start", {
+    <Grid
+      class={clsx(
+        props.class,
+        bgColor,
+        fgColors,
+        "px-4 py-4.5 rounded-sm gap-2 items-start",
+        {
           "grid-cols-[auto_1fr]": Icon != null,
-        })}
-      >
-        {Icon != null && (
-          <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-            <Icon class="text-fg text-lg" />
-          </VerticalBleed>
-        )}
-        {props.children}
-      </Grid>
-    </div>
+        },
+      )}
+    >
+      {Icon != null && (
+        <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
+          <Icon class="text-fg text-lg" />
+        </VerticalBleed>
+      )}
+      {props.children}
+    </Grid>
   );
 }

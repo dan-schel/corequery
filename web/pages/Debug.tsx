@@ -8,10 +8,11 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
 import { useFoundationalData } from "@/web/data/foundational-data/context";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
-import { Strong } from "@/web/components/core/Strong";
-import { StatusDot } from "../components/StatusDot";
 import { Alert } from "@/web/components/Alert";
-import { Button } from "../components/button/Button";
+import { Row } from "@/web/components/core/Row";
+import { Pill } from "@/web/components/Pill";
+import { VerticalBleed } from "@/web/components/core/VerticalBleed";
+import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -19,66 +20,35 @@ export default function Debug() {
   const { data, loading, error } = useQuery(
     VERSIONS_V1,
     {},
-    { debugDelay: 2000, debugError: true },
+    { debugDelay: 20000 },
   );
 
   return (
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
       <Column class="px-4 py-8 gap-8 min-w-0">
         {error != null && (
-          <>
-            <Alert type="success">
-              <Column xAlign="left" class="gap-4">
-                <TextBlock>
-                  An error occurred while fetching the latest version info from
-                  the server. <Strong>😢</Strong>
-                </TextBlock>
-                <Button text="Ok" theme="success" />
-              </Column>
-            </Alert>
-            <Alert type="warning">
-              <Column xAlign="left" class="gap-4">
-                <TextBlock>
-                  An error occurred while fetching the latest version info from
-                  the server. <Strong>😢</Strong>
-                </TextBlock>
-                <Button text="Ok" theme="warning" />
-              </Column>
-            </Alert>
-            <Alert type="error">
-              <Column xAlign="left" class="gap-4">
-                <TextBlock>
-                  An error occurred while fetching the latest version info from
-                  the server. <Strong>😢</Strong>
-                </TextBlock>
-                <Button text="Ok" theme="error" />
-              </Column>
-            </Alert>
-            <Alert type="info">
-              <Column xAlign="left" class="gap-4">
-                <TextBlock>
-                  An error occurred while fetching the latest version info from
-                  the server. <Strong>😢</Strong>
-                </TextBlock>
-                <Button text="Ok" theme="accent" />
-              </Column>
-            </Alert>
-          </>
+          <Alert type="error">
+            <TextBlock>
+              Unable to fetch the latest version info from the server.
+            </TextBlock>
+          </Alert>
         )}
         <Column class="gap-4">
-          <TextBlock style="strong">App version</TextBlock>
-          {loading && <TextPlaceholder class="w-[20%] text-md" />}
-          {!loading &&
-            data != null &&
-            (data.version === frontendVersion ? (
-              <StatusDot value="success">
-                <TextBlock>Up to date</TextBlock>
-              </StatusDot>
-            ) : (
-              <StatusDot value="error">
-                <TextBlock>Outdated</TextBlock>
-              </StatusDot>
-            ))}
+          <Row class="gap-x-2 gap-y-3" wrap>
+            <TextBlock style="strong">App version</TextBlock>
+            {loading && <TextPlaceholder class="w-[20%] text-md" />}
+            {!loading &&
+              data != null &&
+              (data.version === frontendVersion ? (
+                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
+                  <Pill type="success" text="Up to date" />
+                </VerticalBleed>
+              ) : (
+                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
+                  <Pill type="error" text="Outdated" />
+                </VerticalBleed>
+              ))}
+          </Row>
           <TextBlock>Current version: {frontendVersion}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
           {!loading && data != null && (
@@ -87,19 +57,21 @@ export default function Debug() {
         </Column>
         <Divider />
         <Column class="gap-4">
-          <TextBlock style="strong">Foundational data</TextBlock>
-          {loading && <TextPlaceholder class="w-[20%] text-md" />}
-          {!loading &&
-            data != null &&
-            (data.foundationalDataHash === foda.hash ? (
-              <StatusDot value="success">
-                <TextBlock>Up to date</TextBlock>
-              </StatusDot>
-            ) : (
-              <StatusDot value="error">
-                <TextBlock>Outdated</TextBlock>
-              </StatusDot>
-            ))}
+          <Row class="gap-x-2 gap-y-3" wrap>
+            <TextBlock style="strong">Foundational data</TextBlock>
+            {loading && <TextPlaceholder class="w-[20%] text-md" />}
+            {!loading &&
+              data != null &&
+              (data.foundationalDataHash === foda.hash ? (
+                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
+                  <Pill type="success" text="Up to date" />
+                </VerticalBleed>
+              ) : (
+                <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
+                  <Pill type="error" text="Outdated" />
+                </VerticalBleed>
+              ))}
+          </Row>
           <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
           {loading && <TextPlaceholder class="w-[40%] text-md" />}
           {!loading && data != null && (
