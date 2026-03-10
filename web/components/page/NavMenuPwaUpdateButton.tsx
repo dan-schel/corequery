@@ -31,6 +31,7 @@ export function NavMenuPwaUpdateButton(props: NavMenuPwaUpdateButtonProps) {
       <PageCenterer>
         <MenuItemButtonLayout
           icon={UilRedo}
+          // TODO: [DS] This text needs to wrap when the page is narrow!
           text="Update available — click to refresh"
           outerPadding
         />
