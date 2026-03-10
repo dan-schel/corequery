@@ -10,17 +10,16 @@ import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useQuery } from "@/web/hooks/use-query";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
-import { OutdatedPwaControls } from "../components/pages/debug/OutdatedPwaControls";
+import { OutdatedPwaControls } from "@/web/components/pages/debug/OutdatedPwaControls";
+import { useEnvironment } from "@/web/hooks/use-environment";
+import { HeaderWithPill } from "@/web/components/pages/debug/HeaderWithPill";
 
 export default function Debug() {
+  const { isHotReloadingEnabled } = useEnvironment();
   const { frontendVersion } = useStaticData();
   const foda = useFoundationalData();
 
-  const { data, loading, error } = useQuery(
-    VERSIONS_V1,
-    {},
-    { debugDelay: 2000, debugError: false },
-  );
+  const { data, loading, error } = useQuery(VERSIONS_V1, {});
 
   return (
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
@@ -32,25 +31,49 @@ export default function Debug() {
             </TextBlock>
           </Alert>
         )}
-        <Column class="gap-8">
-          <Column class="gap-4">
-            <ComparisonHeader
-              header="App version"
-              currentValue={frontendVersion}
-              latestValue={data?.version ?? null}
-              loading={loading}
-            />
-            <TextBlock>Current version: {frontendVersion}</TextBlock>
-            <AsyncFieldValue
-              prefix="Latest version"
-              value={data?.version ?? null}
-              loading={loading}
-            />
+        {isHotReloadingEnabled ? (
+          <Column class="gap-8">
+            <Column class="gap-4">
+              <HeaderWithPill
+                header="App version"
+                pillContent={{ text: "Development", type: "info" }}
+                loading={false}
+              />
+              <TextBlock>
+                All frontend code is being served with hot-reloading enabled,
+                not through the PWA. (The below values are meaningless.)
+              </TextBlock>
+            </Column>
+            <Column class="gap-4">
+              <TextBlock>Current version: {frontendVersion}</TextBlock>
+              <AsyncFieldValue
+                prefix="Latest version"
+                value={data?.version ?? null}
+                loading={loading}
+              />
+            </Column>
           </Column>
-          {!loading && data?.version !== frontendVersion && (
-            <OutdatedPwaControls />
-          )}
-        </Column>
+        ) : (
+          <Column class="gap-8">
+            <Column class="gap-4">
+              <ComparisonHeader
+                header="App version"
+                currentValue={frontendVersion}
+                latestValue={data?.version ?? null}
+                loading={loading}
+              />
+              <TextBlock>Current version: {frontendVersion}</TextBlock>
+              <AsyncFieldValue
+                prefix="Latest version"
+                value={data?.version ?? null}
+                loading={loading}
+              />
+            </Column>
+            {!loading && data != null && data?.version !== frontendVersion && (
+              <OutdatedPwaControls />
+            )}
+          </Column>
+        )}
         <Divider />
         <Column class="gap-4">
           <ComparisonHeader
@@ -59,11 +82,17 @@ export default function Debug() {
             latestValue={data?.foundationalDataHash ?? null}
             loading={loading}
           />
-          <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
+          <TextBlock class="break-all">
+            Current version: {foda.serverVersion} (hash: {foda.hash})
+          </TextBlock>
           <AsyncFieldValue
             class="break-all"
-            prefix="Latest hash"
-            value={data?.foundationalDataHash ?? null}
+            prefix="Latest version"
+            value={
+              data == null
+                ? null
+                : `${data.version} (hash: ${data.foundationalDataHash})`
+            }
             loading={loading}
           />
         </Column>
