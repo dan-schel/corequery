@@ -1,4 +1,4 @@
-import { useNavItems } from "@/web/utils/use-nav-items";
+import { useNavItems } from "@/web/hooks/use-nav-items";
 import { useLocation } from "preact-iso";
 import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
@@ -7,7 +7,7 @@ import clsx from "clsx";
 import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
 import { Favicon } from "@/web/components/icons/Favicon";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { useStaticData } from "@/web/utils/use-static-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 type DesktopNavBarProps = {
   class?: string;

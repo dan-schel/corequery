@@ -16,7 +16,7 @@ export default {
         );
 
         // The file where they're defined is an exception.
-        if (repoRelativeFileName === "/web/utils/use-api.ts") return;
+        if (repoRelativeFileName === "/web/hooks/use-api.ts") return;
 
         const sourceCode = context.sourceCode;
         const text = sourceCode.getText();

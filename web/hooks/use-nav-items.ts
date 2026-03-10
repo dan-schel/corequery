@@ -11,7 +11,7 @@ import { MingcuteSettings7Line } from "@/web/components/icons/MingcuteSettings7L
 import { UilInfoCircle } from "@/web/components/icons/UilInfoCircle";
 import { MingcuteToolLine } from "@/web/components/icons/MingcuteToolLine";
 import { MingcuteTv1Line } from "@/web/components/icons/MingcuteTv1Line";
-import { useStaticData } from "@/web/utils/use-static-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 type NavItem = RegularNavItem | MenuNavItem;
 

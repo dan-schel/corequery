@@ -5,7 +5,7 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Strong } from "@/web/components/core/Strong";
 import { UilRedo } from "@/web/components/icons/UilRedo";
 import { Button } from "@/web/components/button/Button";
-import { useStaticData } from "@/web/utils/use-static-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 type SplashScreenProps = {
   error: boolean;

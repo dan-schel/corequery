@@ -3,7 +3,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { LinkText } from "@/web/components/core/LinkText";
-import { useStaticData } from "@/web/utils/use-static-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 export default function About() {
   const { appName } = useStaticData();

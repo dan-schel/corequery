@@ -1,5 +1,5 @@
 import { MobileNavButton } from "@/web/components/page/MobileNavButton";
-import { useNavItems } from "@/web/utils/use-nav-items";
+import { useNavItems } from "@/web/hooks/use-nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";

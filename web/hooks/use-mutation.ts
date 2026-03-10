@@ -1,7 +1,7 @@
 import type { Api } from "@/shared/apis/types";
 import { useState } from "preact/hooks";
 import type { z, ZodType } from "zod";
-import { useApi, type CallApiOptions } from "@/web/utils/use-api";
+import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
 
 /** @knipignore */
 export function useMutation<Args extends ZodType, Result extends ZodType>(

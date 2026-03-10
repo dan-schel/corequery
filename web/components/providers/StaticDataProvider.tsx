@@ -3,7 +3,7 @@ import { useMemo } from "preact/hooks";
 import {
   staticDataContext,
   type StaticData,
-} from "@/web/utils/use-static-data";
+} from "@/web/hooks/use-static-data";
 
 type StaticDataProviderProps = {
   children: ComponentChildren;

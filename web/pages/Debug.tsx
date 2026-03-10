@@ -10,9 +10,9 @@ import { Row } from "@/web/components/core/Row";
 import { Pill } from "@/web/components/Pill";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
-import { useStaticData } from "@/web/utils/use-static-data";
-import { useFoundationalData } from "@/web/utils/use-foundational-data";
-import { useQuery } from "@/web/utils/use-query";
+import { useStaticData } from "@/web/hooks/use-static-data";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
+import { useQuery } from "@/web/hooks/use-query";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();

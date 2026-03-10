@@ -3,7 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Button } from "@/web/components/button/Button";
-import { useStaticData } from "@/web/utils/use-static-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 export function PwaStatus() {
   const { frontendVersion } = useStaticData();

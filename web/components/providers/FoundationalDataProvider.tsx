@@ -2,10 +2,10 @@ import { type ComponentChildren } from "preact";
 import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { FoundationalData } from "@/web/data/foundational-data";
-import { useLocalStorage } from "@/web/utils/use-local-storage";
+import { useLocalStorage } from "@/web/hooks/use-local-storage";
 import { SplashScreen } from "@/web/components/SplashScreen";
-import { foundationalDataContext } from "@/web/utils/use-foundational-data";
-import { useApi, type CallApiFunction } from "@/web/utils/use-api";
+import { foundationalDataContext } from "@/web/hooks/use-foundational-data";
+import { useApi, type CallApiFunction } from "@/web/hooks/use-api";
 
 const cacheKey = "corequery-foundational-data";
 const cacheFallbackTimeoutMs = 2000;

@@ -3,8 +3,8 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
-import { useStaticData } from "@/web/utils/use-static-data";
-import { useFoundationalData } from "@/web/utils/use-foundational-data";
+import { useStaticData } from "@/web/hooks/use-static-data";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 
 export default function Home() {
   const { appName } = useStaticData();

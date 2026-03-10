@@ -1,8 +1,8 @@
 import type { Api } from "@/shared/apis/types";
 import { useState } from "preact/hooks";
 import type { z, ZodType } from "zod";
-import { useDeepCompareEffect } from "@/web/utils/use-deep-compare-effect";
-import { useApi, type CallApiOptions } from "@/web/utils/use-api";
+import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
+import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
 
 /** @knipignore */
 export function useQuery<Args extends ZodType, Result extends ZodType>(
