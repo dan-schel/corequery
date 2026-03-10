@@ -8,8 +8,9 @@ import { Alert } from "@/web/components/Alert";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useQuery } from "@/web/hooks/use-query";
-import { LoadingTextBlock } from "@/web/components/pages/debug/LoadingTextBlock";
+import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
+import { OutdatedPwaControls } from "../components/pages/debug/OutdatedPwaControls";
 
 export default function Debug() {
   const { frontendVersion } = useStaticData();
@@ -23,7 +24,7 @@ export default function Debug() {
 
   return (
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
-      <Column class="px-4 py-8 gap-8 min-w-0">
+      <Column class="px-4 py-8 gap-8">
         {error != null && (
           <Alert type="error">
             <TextBlock>
@@ -31,19 +32,24 @@ export default function Debug() {
             </TextBlock>
           </Alert>
         )}
-        <Column class="gap-4">
-          <ComparisonHeader
-            header="App version"
-            currentValue={frontendVersion}
-            latestValue={data?.version ?? null}
-            loading={loading}
-          />
-          <TextBlock>Current version: {frontendVersion}</TextBlock>
-          <LoadingTextBlock
-            prefix="Latest version"
-            value={data?.version ?? null}
-            loading={loading}
-          />
+        <Column class="gap-8">
+          <Column class="gap-4">
+            <ComparisonHeader
+              header="App version"
+              currentValue={frontendVersion}
+              latestValue={data?.version ?? null}
+              loading={loading}
+            />
+            <TextBlock>Current version: {frontendVersion}</TextBlock>
+            <AsyncFieldValue
+              prefix="Latest version"
+              value={data?.version ?? null}
+              loading={loading}
+            />
+          </Column>
+          {!loading && data?.version !== frontendVersion && (
+            <OutdatedPwaControls />
+          )}
         </Column>
         <Divider />
         <Column class="gap-4">
@@ -54,7 +60,7 @@ export default function Debug() {
             loading={loading}
           />
           <TextBlock class="break-all">Current hash: {foda.hash}</TextBlock>
-          <LoadingTextBlock
+          <AsyncFieldValue
             class="break-all"
             prefix="Latest hash"
             value={data?.foundationalDataHash ?? null}

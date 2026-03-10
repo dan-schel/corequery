@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { ComponentChildren } from "preact";
 
 type VerticalBleedProps = {
@@ -9,7 +10,7 @@ type VerticalBleedProps = {
 export function VerticalBleed(props: VerticalBleedProps) {
   return (
     <div
-      class="flex flex-col justify-center items-stretch"
+      class={clsx(props.class, "flex flex-col justify-center items-stretch")}
       style={{ height: `${props.heightRem}rem` }}
     >
       {props.children}

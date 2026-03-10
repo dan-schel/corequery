@@ -2,14 +2,14 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { Grid } from "@/web/components/core/Grid";
 
-type LoadingTextBlockProps = {
+type AsyncFieldValueProps = {
   class?: string;
   prefix: string;
   value: string | null;
   loading: boolean;
 };
 
-export function LoadingTextBlock(props: LoadingTextBlockProps) {
+export function AsyncFieldValue(props: AsyncFieldValueProps) {
   if (props.loading) {
     return (
       <Grid class={props.class}>
