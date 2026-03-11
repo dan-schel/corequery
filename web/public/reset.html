@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Factory reset</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Mona Sans", sans-serif;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+      @font-face {
+        font-family: "Mona Sans";
+        font-weight: 200 900;
+        font-display: swap;
+        src: url(/mona-sans.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      body,
+      div,
+      section {
+        display: flex;
+        flex-direction: column;
+      }
+      body {
+        background-color: hsl(220, 17%, 12%);
+        justify-content: center;
+        min-height: 100svh;
+        padding: 2rem 1rem;
+        align-items: center;
+      }
+      section {
+        background-color: hsl(220, 18%, 17%);
+        max-width: 50rem;
+        width: 100%;
+        padding: 2rem;
+      }
+      section:first-child {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        padding: 4rem 2rem;
+
+        align-items: center;
+        p,
+        h1,
+        h2 {
+          text-align: center;
+        }
+      }
+      section:last-child {
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+      }
+      ol {
+        display: flex;
+        flex-direction: column;
+      }
+      li {
+        margin-left: 1.25rem;
+      }
+      img {
+        width: 6rem;
+      }
+      p,
+      h1,
+      h2,
+      li {
+        line-height: 1.5;
+      }
+      h1,
+      h2 {
+        font-weight: bold;
+        color: hsla(220, 100%, 100%, 100%);
+      }
+      h1 {
+        font-size: 1.25rem;
+      }
+      h2 {
+        font-size: 0.9rem;
+      }
+      p,
+      li {
+        color: hsla(220, 100%, 96%, 80%);
+        font-size: 0.9rem;
+      }
+      .gap-2 {
+        gap: 0.5rem;
+      }
+      .gap-4 {
+        gap: 1rem;
+      }
+      .gap-8 {
+        gap: 2rem;
+      }
+      .gap-16 {
+        gap: 4rem;
+      }
+    </style>
+  </head>
+  <body class="gap-2">
+    <section class="gap-8">
+      <img src="/favicon.svg" />
+      <div class="gap-2">
+        <h1>Factory reset?</h1>
+        <p>
+          If things aren't working as expected, resetting the app and starting
+          fresh can help.
+        </p>
+      </div>
+      <button>
+        Factory reset TODO: [DS] Currently this button does nothing!
+      </button>
+    </section>
+    <section class="gap-8">
+      <div class="gap-4">
+        <h2>The technical details:</h2>
+        <div class="gap-2">
+          <p>When you click "Factory reset", it will:</p>
+          <ol class="gap-2">
+            <li>Unregister all service workers for this web app</li>
+            <li>Clear all local storage entries for this web app</li>
+            <li>Then, navigate you back to the homepage</li>
+          </ol>
+        </div>
+      </div>
+      <div class="gap-4">
+        <p>
+          This will force the web app to fetch the latest copy of the code and
+          critical data, rather than falling back to using the locally stored
+          copies on your device.
+        </p>
+        <p>
+          In normal circumstances, the code should be able to update itself, but
+          if there's a bug preventing it from doing so, this reset might be
+          required to purge the broken code :/
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
