@@ -1,5 +1,5 @@
 import type { ComponentChildren } from "preact";
-import { useMemo, useState } from "preact/hooks";
+import { useCallback, useMemo, useState } from "preact/hooks";
 import { registerSW } from "virtual:pwa-register";
 import { serviceWorkerContext } from "@/web/hooks/use-service-worker";
 
@@ -22,13 +22,28 @@ export function ServiceWorkerProvider(props: ServiceWorkerProviderProps) {
     });
   }, []);
 
+  // TODO: [DS] Use this for the force update mechanism.
+  const unregister = useCallback(async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const registration of registrations) {
+        await registration.unregister();
+      }
+    } catch (e) {
+      // Unregistration is best effort. Apparently navigator.serviceWorker is
+      // only available in secure contexts.
+      console.warn("Failed to unregister service worker:", e);
+    }
+  }, []);
+
   const serviceWorker = useMemo(() => {
     return {
       isUpdateAvailable,
       isOfflineReady,
       update,
+      unregister,
     };
-  }, [isUpdateAvailable, isOfflineReady, update]);
+  }, [isUpdateAvailable, isOfflineReady, update, unregister]);
 
   return <Provider value={serviceWorker}>{props.children}</Provider>;
 }

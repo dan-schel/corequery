@@ -12,6 +12,13 @@ export default defineConfig({
     VitePWA({
       workbox: {
         globPatterns: ["**/*.{js,css,html,png,svg,woff2}"],
+
+        // Let's always fetch the reset page from the server. Even though it can
+        // be used to reset the service worker, so we shouldn't get stuck in a
+        // broken state... idk! This is just in case I ever break the reset page
+        // too, and need to patch it without worrying that users could be stuck
+        // with the broken version cached.
+        navigateFallbackDenylist: [/^\/reset(.html)?\/?$/],
       },
       manifest: {
         // When running in production, before the server starts it replaces the
@@ -54,6 +61,7 @@ export default defineConfig({
       },
     }),
   ],
+  assetsInclude: ["/reset.html"],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, ".."),

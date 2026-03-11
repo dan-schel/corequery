@@ -2,7 +2,6 @@ import { Grid } from "@/web/components/core/Grid";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
-import { Strong } from "@/web/components/core/Strong";
 import { UilRedo } from "@/web/components/icons/UilRedo";
 import { Button } from "@/web/components/button/Button";
 import { useStaticData } from "@/web/hooks/use-static-data";
@@ -24,9 +23,7 @@ export function SplashScreen(props: SplashScreenProps) {
         </Column>
         {props.error ? (
           <Column class="gap-4" xAlign="center">
-            <TextBlock>
-              Failed to load data. <Strong>😭</Strong>
-            </TextBlock>
+            <TextBlock>Failed to load data :(</TextBlock>
             <Button text="Retry" icon={UilRedo} onClick={props.onRetry} />
           </Column>
         ) : (
