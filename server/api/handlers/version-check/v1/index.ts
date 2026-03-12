@@ -12,16 +12,16 @@ export async function handle(
     // are updated automatically upon loading, e.g. to deprecate an old version
     // of an API. If we return `isForceUpdateOfServiceWorkerRequired: true`, the
     // frontend will automatically unregister the service worker and reload the
-    // page. We can decide this based on the frontend version, corequery package
-    // version or foundational data hash, as they're each given in the args.
+    // page.
+    //
+    // We can decide this based on the frontend version or corequery package
+    // version, as they're each given in the args. My current thinking is that
+    // this'll primarily to be used such that we define a "minimum supported
+    // corequery package version", as most breaking changes will happen within
+    // the corequery project itself, not a consumer project configuration
+    // change. But "frontend version" is there just in case (harder to use
+    // though, as it's based on a random hash right now, not a nicely ordered
+    // versioning system).
     isForceUpdateOfServiceWorkerRequired: false,
-
-    // I'm less sure why we'd ever need to use this. In theory, all APIs which
-    // return data which depends on a certain foundational data version will
-    // already take the current hash from the frontend and return updated
-    // foundational data if it doesn't match the latest hash, so that already
-    // serves as a way to "force" the update when it actually counts.
-    // Regardless, this exists and can be used in case of emergency I suppose.
-    isForceUpdateOfFoundationalDataRequired: false,
   };
 }
