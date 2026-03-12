@@ -5,6 +5,7 @@ type ServiceWorker = {
   readonly isUpdateAvailable: boolean;
   readonly isOfflineReady: boolean;
   readonly update: (reloadPage?: boolean) => Promise<void>;
+  readonly unregister: () => Promise<void>;
 };
 
 export const serviceWorkerContext = createContext<ServiceWorker | null>(null);

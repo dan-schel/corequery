@@ -25,6 +25,7 @@ export class WebServer {
         distFolderPath,
         this._assetConfig,
         this._app.version,
+        this._app.corequeryPackageVersion,
       ).run();
     }
 
@@ -53,12 +54,22 @@ export class WebServer {
   }
 
   private async _serveFrontendFromDistFolder(server: express.Express) {
-    const indexHtmlPath = this._getWebFolderPath("dist/index.html");
-    const indexHtml = await fsp.readFile(indexHtmlPath, "utf-8");
-
     server.use(express.static(this._getWebFolderPath("dist")));
 
-    server.use("*all", (_req, res) => {
+    // The /reset page, which intentionally exists separately to the rest of the
+    // Preact app, to help the user reset their service worker and local storage
+    // if they get into a broken state.
+    const resetHtmlPath = this._getWebFolderPath("dist/reset.html");
+    const resetHtml = await fsp.readFile(resetHtmlPath, "utf-8");
+    server.get("/reset", (_req, res) => {
+      res.status(200).set({ "Content-Type": "text/html" }).end(resetHtml);
+    });
+
+    // Every other non-static-file & non-reset-page URL serves index.html, and
+    // the Preact router takes care of showing the correct page or 404 page.
+    const indexHtmlPath = this._getWebFolderPath("dist/index.html");
+    const indexHtml = await fsp.readFile(indexHtmlPath, "utf-8");
+    server.get("*all", (_req, res) => {
       res.status(200).set({ "Content-Type": "text/html" }).end(indexHtml);
     });
   }

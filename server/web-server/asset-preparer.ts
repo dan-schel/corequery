@@ -19,11 +19,13 @@ export class AssetPreparer {
   constructor(
     private readonly _distFolderPath: string,
     private readonly _config: AssetConfig,
-    private readonly _version: string,
+    private readonly _frontendVersion: string,
+    private readonly _corequeryPackageVersion: string,
   ) {
     this._indexHtml = new IndexHtmlPreparer(this._distFolderPath, {
       ...this._config,
-      version: this._version,
+      frontendVersion: this._frontendVersion,
+      corequeryPackageVersion: this._corequeryPackageVersion,
     });
     this._manifest = new ManifestPreparer(this._distFolderPath, this._config);
     this._icons = new IconsPreparer(this._distFolderPath, this._config);

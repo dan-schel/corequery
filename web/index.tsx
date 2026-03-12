@@ -11,6 +11,7 @@ import { StaticDataProvider } from "@/web/components/providers/StaticDataProvide
 import { FoundationalDataProvider } from "@/web/components/providers/FoundationalDataProvider";
 import { PageContainer } from "@/web/components/page/PageContainer";
 import { ServiceWorkerProvider } from "@/web/components/providers/ServiceWorkerProvider";
+import { ForceUpdateController } from "@/web/components/ForceUpdateController";
 
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));
@@ -22,20 +23,22 @@ function App() {
   return (
     <ServiceWorkerProvider>
       <StaticDataProvider>
-        <FoundationalDataProvider>
-          <LocationProvider>
-            <PageContainer>
-              <ErrorBoundary>
-                <Router>
-                  <Route path="/" component={Home} />
-                  <Route path="/about" component={About} />
-                  <Route path="/debug" component={Debug} />
-                  <Route default component={NotFound} />
-                </Router>
-              </ErrorBoundary>
-            </PageContainer>
-          </LocationProvider>
-        </FoundationalDataProvider>
+        <ForceUpdateController>
+          <FoundationalDataProvider>
+            <LocationProvider>
+              <PageContainer>
+                <ErrorBoundary>
+                  <Router>
+                    <Route path="/" component={Home} />
+                    <Route path="/about" component={About} />
+                    <Route path="/debug" component={Debug} />
+                    <Route default component={NotFound} />
+                  </Router>
+                </ErrorBoundary>
+              </PageContainer>
+            </LocationProvider>
+          </FoundationalDataProvider>
+        </ForceUpdateController>
       </StaticDataProvider>
     </ServiceWorkerProvider>
   );

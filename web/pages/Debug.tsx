@@ -48,7 +48,7 @@ export default function Debug() {
               <TextBlock>Current version: {frontendVersion}</TextBlock>
               <AsyncFieldValue
                 prefix="Latest version"
-                value={data?.version ?? null}
+                value={data?.frontendVersion ?? null}
                 loading={loading}
               />
             </Column>
@@ -59,19 +59,21 @@ export default function Debug() {
               <ComparisonHeader
                 header="App version"
                 currentValue={frontendVersion}
-                latestValue={data?.version ?? null}
+                latestValue={data?.frontendVersion ?? null}
                 loading={loading}
               />
               <TextBlock>Current version: {frontendVersion}</TextBlock>
               <AsyncFieldValue
                 prefix="Latest version"
-                value={data?.version ?? null}
+                value={data?.frontendVersion ?? null}
                 loading={loading}
               />
             </Column>
-            {!loading && data != null && data?.version !== frontendVersion && (
-              <OutdatedPwaControls />
-            )}
+            {!loading &&
+              data != null &&
+              data?.frontendVersion !== frontendVersion && (
+                <OutdatedPwaControls />
+              )}
           </Column>
         )}
         <Divider />
@@ -91,7 +93,7 @@ export default function Debug() {
             value={
               data == null
                 ? null
-                : `${data.version} (hash: ${data.foundationalDataHash})`
+                : `${data.serverVersion} (hash: ${data.foundationalDataHash})`
             }
             loading={loading}
           />

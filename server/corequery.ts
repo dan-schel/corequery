@@ -5,6 +5,7 @@ import { WebServer } from "@/server/web-server/web-server.js";
 import { StopCollection } from "@/server/data/stop-collection.js";
 import { LineCollection } from "@/server/data/line-collection.js";
 import type { FooterConfig, LandingPageConfig } from "@/server/config/index.js";
+import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
 
 export type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
 
@@ -13,6 +14,7 @@ export class Corequery {
   private readonly _webServer: WebServer;
 
   readonly version: string;
+  readonly corequeryPackageVersion: string;
   readonly stops: StopCollection;
   readonly lines: LineCollection;
 
@@ -33,6 +35,7 @@ export class Corequery {
     );
 
     this.version = this._config.version;
+    this.corequeryPackageVersion = getCorequeryPackageVersion();
 
     const { stopTagSuccession, lineTagSuccession } = this._config.tags;
     this.stops = StopCollection.build(this._config.stops, stopTagSuccession);

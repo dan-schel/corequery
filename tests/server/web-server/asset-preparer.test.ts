@@ -16,7 +16,8 @@ describe("AssetPreparer", () => {
         pwaMaskable192PngPath: "nothing.txt",
         pwaMaskable512PngPath: "nothing.txt",
       },
-      "1.0.0",
+      "abc123",
+      "def456",
     );
 
     await expect(preparer.validateDistFolder()).resolves.not.toThrow();

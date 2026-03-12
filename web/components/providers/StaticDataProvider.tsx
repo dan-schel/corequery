@@ -18,7 +18,7 @@ export function StaticDataProvider(props: StaticDataProviderProps) {
 }
 
 function retrieveStaticData(document: Document): StaticData {
-  function getContent(selector: string) {
+  function readTag(selector: string) {
     const tag = document.querySelector(selector);
     if (tag == null) throw new Error(`${selector} tag not found.`);
     const content = tag.getAttribute("content");
@@ -27,7 +27,8 @@ function retrieveStaticData(document: Document): StaticData {
   }
 
   return {
-    appName: getContent('meta[name="corequery-app-name"]'),
-    frontendVersion: getContent('meta[name="corequery-frontend-version"]'),
+    appName: readTag('meta[name="corequery-app-name"]'),
+    frontendVersion: readTag('meta[name="corequery-frontend-version"]'),
+    corequeryPackageVersion: readTag('meta[name="corequery-package-version"]'),
   };
 }

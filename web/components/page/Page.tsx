@@ -9,15 +9,8 @@ import { PageCenterer } from "@/web/components/page/PageCenterer";
 type PageProps = {
   class?: string;
   children?: ComponentChildren;
-
-  // TODO: Make a separate one for desktop, in case the page wants to configure
-  // them differently. Most pages will probably want something consistent across
-  // both, so maybe some sort of useSharedHeader() hook which creates and
-  // returns components for both types would be useful for the child pages to
-  // have.
   mobileHeader: ComponentChildren | null;
   desktopHeader: ComponentChildren | null;
-
   centered?: boolean;
 };
 
