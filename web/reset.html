@@ -39,8 +39,9 @@
         background-color: hsl(220, 17%, 12%);
         justify-content: center;
         min-height: 100svh;
-        padding: 2rem 1rem;
+        padding: 1rem;
         align-items: center;
+        gap: 0.25rem;
       }
       section {
         background-color: hsl(220, 18%, 17%);
@@ -48,7 +49,7 @@
         width: 100%;
         padding: 2rem;
       }
-      section:first-child {
+      section:nth-child(1) {
         border-top-left-radius: 1rem;
         border-top-right-radius: 1rem;
         padding: 4rem 2rem;
@@ -60,9 +61,26 @@
           text-align: center;
         }
       }
-      section:last-child {
+      section:nth-child(2) {
         border-bottom-left-radius: 1rem;
         border-bottom-right-radius: 1rem;
+      }
+      button {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        background-color: hsl(210, 80%, 65%);
+        color: #000000;
+        font-size: 0.9rem;
+        border-radius: 0.25rem;
+        height: 2rem;
+        padding: 0 1rem;
+        &:hover {
+          background-color: hsl(210, 80%, 70%);
+        }
+        &:active {
+          background-color: hsl(210, 80%, 60%);
+        }
       }
       ol {
         display: flex;
@@ -110,7 +128,7 @@
       }
     </style>
   </head>
-  <body class="gap-2">
+  <body>
     <section class="gap-8">
       <img src="/favicon.svg" />
       <div class="gap-2">
@@ -150,14 +168,29 @@
     <script>
       const resetButton = document.getElementById("reset-button");
       resetButton.addEventListener("click", async () => {
-        localStorage.clear();
+        let anyFailures = false;
 
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (const registration of registrations) {
-          await registration.unregister();
+        try {
+          localStorage.clear();
+        } catch (error) {
+          alert("Error while clearing local storage.", error);
+          anyFailures = true;
         }
 
-        window.location.href = "/";
+        try {
+          const registrations =
+            await navigator.serviceWorker.getRegistrations();
+          for (const registration of registrations) {
+            await registration.unregister();
+          }
+        } catch (error) {
+          alert("Error while unregistering service worker.", error);
+          anyFailures = true;
+        }
+
+        if (!anyFailures) {
+          window.location.href = "/";
+        }
       });
     </script>
   </body>
