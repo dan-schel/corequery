@@ -6,3 +6,4 @@ npx tsc-alias -p server/tsconfig.json
 npx tsc -p scripts/generate-pwa-assets/tsconfig.json
 npx tsc-alias -p scripts/generate-pwa-assets/tsconfig.json
 npx vite build web
+cp web/reset.html web/dist/reset.html

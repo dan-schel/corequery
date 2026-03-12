@@ -18,11 +18,7 @@ export default defineConfig({
         // broken state... idk! This is just in case I ever break the reset page
         // too, and need to patch it without worrying that users could be stuck
         // with the broken version cached.
-        //
-        // TODO: [DS] Confirm this is working. reset.html still appears in
-        // sw.js, but that doesn't mean the SW will intercept the request, I
-        // guess.
-        navigateFallbackDenylist: [/^\/reset(.html)?\/?$/],
+        navigateFallbackDenylist: [/^\/reset\/?$/],
       },
       manifest: {
         // When running in production, before the server starts it replaces the

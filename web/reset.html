@@ -2,8 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Factory reset</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF" />
+    <meta name="theme-color" content="#242933" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
       * {
         margin: 0;
@@ -114,9 +120,7 @@
           fresh can help.
         </p>
       </div>
-      <button>
-        Factory reset TODO: [DS] Currently this button does nothing!
-      </button>
+      <button id="reset-button" type="button">Factory reset</button>
     </section>
     <section class="gap-8">
       <div class="gap-4">
@@ -143,5 +147,18 @@
         </p>
       </div>
     </section>
+    <script>
+      const resetButton = document.getElementById("reset-button");
+      resetButton.addEventListener("click", async () => {
+        localStorage.clear();
+
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+          await registration.unregister();
+        }
+
+        window.location.href = "/";
+      });
+    </script>
   </body>
 </html>

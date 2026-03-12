@@ -60,7 +60,7 @@ export class WebServer {
     // if they get into a broken state.
     const resetHtmlPath = this._getWebFolderPath("dist/reset.html");
     const resetHtml = await fsp.readFile(resetHtmlPath, "utf-8");
-    server.use("*all", (_req, res) => {
+    server.get("/reset", (_req, res) => {
       res.status(200).set({ "Content-Type": "text/html" }).end(resetHtml);
     });
 
@@ -68,7 +68,7 @@ export class WebServer {
     // the Preact router takes care of showing the correct page or 404 page.
     const indexHtmlPath = this._getWebFolderPath("dist/index.html");
     const indexHtml = await fsp.readFile(indexHtmlPath, "utf-8");
-    server.use("*all", (_req, res) => {
+    server.get("*all", (_req, res) => {
       res.status(200).set({ "Content-Type": "text/html" }).end(indexHtml);
     });
   }
