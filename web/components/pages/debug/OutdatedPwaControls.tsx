@@ -34,7 +34,7 @@ export function OutdatedPwaControls(props: OutdatedPwaControlsProps) {
       <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
         <LoadingSpinner />
       </VerticalBleed>
-      {/** TODO: [DS] Confirm if `w-full` is right. (How to get text to wrap when page is narrow!) */}
+      {/** TODO: Confirm if `w-full` is right. (How to get text to wrap when page is narrow!) */}
       <TextBlock class="min-w-0 shrink w-full">
         Waiting for service worker to install update...
       </TextBlock>
