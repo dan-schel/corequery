@@ -31,7 +31,7 @@ export default function NotFound() {
     !loading &&
     error == null &&
     data != null &&
-    data.version !== frontendVersion;
+    data.frontendVersion !== frontendVersion;
 
   useEffect(() => {
     async function run() {
