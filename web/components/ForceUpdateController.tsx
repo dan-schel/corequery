@@ -21,13 +21,6 @@ export function ForceUpdateController(props: ForceUpdateControllerProps) {
     corequeryPackageVersion,
   });
 
-  console.log(
-    "frontendVersion",
-    frontendVersion,
-    "corequeryPackageVersion",
-    corequeryPackageVersion,
-  );
-
   const forceUpdateRequired =
     !isHotReloadingEnabled &&
     !loading &&
