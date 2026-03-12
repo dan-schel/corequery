@@ -40,7 +40,6 @@ export default function NotFound() {
         window.location.reload();
       }
     }
-
     void run();
   }, [pwaIsOutdated, unregister]);
 

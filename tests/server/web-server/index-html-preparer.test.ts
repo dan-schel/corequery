@@ -7,7 +7,8 @@ describe("IndexHtmlPreparer", () => {
       appName: "Corequery Test App",
       shortAppName: "CorequeryTest",
       description: "A test app for Corequery",
-      version: "1.0.0",
+      frontendVersion: "abc123",
+      corequeryPackageVersion: "def456",
     });
 
     const newContent = await preparer.getReplacedContent();
@@ -20,7 +21,10 @@ describe("IndexHtmlPreparer", () => {
       '<meta name="corequery-app-name" content="Corequery Test App">',
     );
     expect(newContent).toContain(
-      '<meta name="corequery-frontend-version" content="1.0.0">',
+      '<meta name="corequery-frontend-version" content="abc123">',
+    );
+    expect(newContent).toContain(
+      '<meta name="corequery-package-version" content="def456">',
     );
   });
 });

@@ -25,6 +25,7 @@ export class WebServer {
         distFolderPath,
         this._assetConfig,
         this._app.version,
+        this._app.corequeryPackageVersion,
       ).run();
     }
 

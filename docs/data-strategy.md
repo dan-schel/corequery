@@ -44,12 +44,14 @@ This strategy is used ONLY for:
 
 - the app name
 - the frontend version
+- the corequery package version of the frontend code
 
 When the server starts, we have to replace certain assets in the `web/dist` folder (see the [Demo App](./demo-app.md) docs) so that the consumer project can control certain attributes in the PWA manifest, and customize the favicons. At the same time, we take the opportunity to inject static data into the frontend code. This is achieved via `<meta>` tags in the `<head>` of `index.html`:
 
 ```html
 <meta name="corequery-app-name" content="..." />
 <meta name="corequery-frontend-version" content="..." />
+<meta name="corequery-package-version" content="..." />
 ```
 
 This is purposely done in a way that isn't designed to scale nicely. It is HIGHLY discouraged from adding anything further to this static data strategy. As we're hardcoding values into `index.html`, these values will be precached by the service worker, meaning they'll only be updated when the service worker updates. That makes it unsuitable for data which updates often (more often than a user would intentionally update their PWA).
@@ -57,6 +59,7 @@ This is purposely done in a way that isn't designed to scale nicely. It is HIGHL
 The reason this is done _at all_ is that:
 
 - we show the app name on the splash screen before the foundational data is loaded, and it can't be updated dynamically anyway since it's hardcoded in the PWA manifest
-- the frontend version is by design meant to the tied to the precached frontend code to aid debugging, and therefore also shouldn't be dynamic
+- the frontend version is by definition meant to the tied to the precached frontend code to aid debugging and enable the "force service worker update" mechanism, and therefore also shouldn't be dynamic
+- the corequery package version is used similarly to the frontend version value (it's just a different versioning scheme), and therefore also shouldn't be dynamic by definition
 
 Anything added to the static data needs a similarly strong justification. For example, the app description (shown on the landing page) _doesn't_ need to be static data, because it's not part of the splash screen, and so can live in the foundational data instead.

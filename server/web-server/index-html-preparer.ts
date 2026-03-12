@@ -6,7 +6,8 @@ type Config = {
   readonly appName: string;
   readonly shortAppName: string;
   readonly description: string;
-  readonly version: string;
+  readonly frontendVersion: string;
+  readonly corequeryPackageVersion: string;
 };
 
 export class IndexHtmlPreparer {
@@ -27,7 +28,11 @@ export class IndexHtmlPreparer {
     tags.title.textContent = this._config.appName;
     tags.description.setAttribute("content", this._config.description);
     tags.appName.setAttribute("content", this._config.appName);
-    tags.frontendVersion.setAttribute("content", this._config.version);
+    tags.frontendVersion.setAttribute("content", this._config.frontendVersion);
+    tags.corequeryPackageVersion.setAttribute(
+      "content",
+      this._config.corequeryPackageVersion,
+    );
 
     return tags.indexHtml.toString();
   }
@@ -54,6 +59,9 @@ export class IndexHtmlPreparer {
       description: requireTag('meta[name="description"]'),
       appName: requireTag('meta[name="corequery-app-name"]'),
       frontendVersion: requireTag('meta[name="corequery-frontend-version"]'),
+      corequeryPackageVersion: requireTag(
+        'meta[name="corequery-package-version"]',
+      ),
     };
   }
 
