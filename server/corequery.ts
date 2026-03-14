@@ -72,9 +72,14 @@ export class Corequery {
     await this._webServer.prepareAssets();
     this._frontendVersion = this._webServer.getFrontendVersion();
 
+    // TODO: Use proper logger.
+    // eslint-disable-next-line no-console
     console.log(`Starting ${this._config.assets.appName}...`);
+    // eslint-disable-next-line no-console
     console.log(`- Server version: ${this.serverVersion}`);
+    // eslint-disable-next-line no-console
     console.log(`- Frontend version: ${this.getFrontendVersion()}`);
+    // eslint-disable-next-line no-console
     console.log(`- CoreQuery version: ${this.getCorequeryPackageVersion()}`);
 
     await this._webServer.start();
