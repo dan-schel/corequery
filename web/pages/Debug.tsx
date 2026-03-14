@@ -8,6 +8,7 @@ import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-v
 import { AppVersionSection } from "@/web/components/pages/debug/AppVersionSection";
 import { VersionsApiResponseProvider } from "@/web/components/pages/debug/utils/VersionsApiResponseProvider";
 import { FoundationalDataSection } from "@/web/components/pages/debug/FoundationalDataSection";
+import { ServerVersionSection } from "@/web/components/pages/debug/ServerVersionSection";
 
 export default function Debug() {
   return (
@@ -18,6 +19,8 @@ export default function Debug() {
           <AppVersionSection />
           <Divider />
           <FoundationalDataSection />
+          <Divider />
+          <ServerVersionSection />
           <Divider />
         </Column>
       </VersionsApiResponseProvider>
