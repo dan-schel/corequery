@@ -16,11 +16,10 @@ export class ServiceWorkerPreparer {
   ) {}
 
   async run() {
-    const serviceWorkerFilePath = this._fullFilePath();
     const content = await this.getReplacedContent();
+    await fsp.writeFile(this._fullFilePath(), content);
 
-    await fsp.writeFile(serviceWorkerFilePath, content);
-    return this._getFileHash(serviceWorkerFilePath);
+    return this._hashValue(content);
   }
 
   async getReplacedContent() {
@@ -55,8 +54,12 @@ export class ServiceWorkerPreparer {
     } else {
       const fullFilePath = path.join(this._distFolderPath, filePath);
       const fileContent = await fsp.readFile(fullFilePath);
-      return crypto.createHash("md5").update(fileContent).digest("hex");
+      return this._hashValue(fileContent);
     }
+  }
+
+  private _hashValue(value: crypto.BinaryLike) {
+    return crypto.createHash("md5").update(value).digest("hex");
   }
 
   private async _getSubstringsToReplace() {
