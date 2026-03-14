@@ -17,6 +17,7 @@ import { ForceUpdateController } from "@/web/components/ForceUpdateController";
 const Home = lazy(() => import("./pages/Home.js"));
 const About = lazy(() => import("./pages/About.js"));
 const Debug = lazy(() => import("./pages/Debug.js"));
+const Settings = lazy(() => import("./pages/Settings.js"));
 
 const NotFound = lazy(() => import("./pages/NotFound.js"));
 
@@ -34,6 +35,7 @@ function App() {
                       <Route path="/" component={Home} />
                       <Route path="/about" component={About} />
                       <Route path="/debug" component={Debug} />
+                      <Route path="/settings" component={Settings} />
                       <Route default component={NotFound} />
                     </Router>
                   </ErrorBoundary>

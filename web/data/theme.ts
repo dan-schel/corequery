@@ -1,4 +1,5 @@
-export type Theme = "auto" | "light" | "dark";
+export const themes = ["auto", "light", "dark"] as const;
+export type Theme = (typeof themes)[number];
 
 declare global {
   interface Window {

@@ -8,7 +8,7 @@ export type UpdateSettingsFunction = (
   options?: { persist?: boolean },
 ) => void;
 
-export type SettingsContextValue = {
+type SettingsContextValue = {
   readonly settings: Settings;
   readonly updateSettings: UpdateSettingsFunction;
   readonly revalidateSettings: (foundationalData: FoundationalData) => void;
