@@ -18,6 +18,9 @@ export default function Settings() {
           <ThemePicker class="self-start" />
         </Column>
         <Divider />
+        <TextBlock style="small-weak">
+          (Settings are saved to your device's/browser's local storage.)
+        </TextBlock>
       </Column>
     </Page>
   );

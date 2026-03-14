@@ -29,7 +29,7 @@ export function TextBoxTrim(props: TextBoxTrimProps) {
 }
 
 const textSizes = {
-  "text-sm": 0.7,
+  "text-sm": 0.75,
   "text-md": 0.9,
   "text-mdlg": 1,
   "text-lg": 1.25,

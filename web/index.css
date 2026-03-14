@@ -9,7 +9,7 @@
   --spacing: 0.25rem;
 
   /* If changing, update `textSizes` in web/components/core/TextBoxTrim.tsx. */
-  --text-sm: 0.7rem;
+  --text-sm: 0.75rem;
   --text-md: 0.9rem;
   --text-mdlg: 1rem;
   --text-lg: 1.25rem;
@@ -31,7 +31,7 @@
   --color-bg-dialog: hsl(220, 40%, 100%);
   --color-fg: hsla(220, 100%, 4%, 80%);
   --color-fg-strong: hsla(220, 100%, 0%, 100%);
-  --color-fg-weak: hsla(220, 100%, 10%, 50%);
+  --color-fg-weak: hsla(220, 100%, 8%, 60%);
 
   --color-accent: hsl(210, 80%, 45%);
   --color-accent-hover: hsl(210, 80%, 50%);
@@ -97,7 +97,7 @@ body {
   --color-bg-navbar: hsl(220, 18%, 17%);
   --color-fg: hsla(220, 100%, 96%, 80%);
   --color-fg-strong: hsla(220, 100%, 100%, 100%);
-  --color-fg-weak: hsla(220, 100%, 90%, 50%);
+  --color-fg-weak: hsla(220, 100%, 92%, 60%);
 
   --color-accent: hsl(210, 80%, 65%);
   --color-accent-hover: hsl(210, 80%, 70%);
