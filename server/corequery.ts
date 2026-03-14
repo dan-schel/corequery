@@ -13,8 +13,10 @@ export class Corequery {
   private readonly _config: CorequeryConfig;
   private readonly _webServer: WebServer;
 
-  readonly version: string;
-  readonly corequeryPackageVersion: string;
+  readonly serverVersion: string;
+  private _corequeryPackageVersion: string | null;
+  private _frontendVersion: string | null;
+
   readonly stops: StopCollection;
   readonly lines: LineCollection;
 
@@ -34,8 +36,13 @@ export class Corequery {
       serverFolderPath,
     );
 
-    this.version = this._config.version;
-    this.corequeryPackageVersion = getCorequeryPackageVersion();
+    this.serverVersion = this._config.version;
+
+    // Currently fetched async during start().
+    this._corequeryPackageVersion = null;
+
+    // Only known after assets are prepared, during start().
+    this._frontendVersion = null;
 
     const { stopTagSuccession, lineTagSuccession } = this._config.tags;
     this.stops = StopCollection.build(this._config.stops, stopTagSuccession);
@@ -45,8 +52,31 @@ export class Corequery {
     this.footerConfig = this._config.footer;
   }
 
+  getCorequeryPackageVersion() {
+    if (this._corequeryPackageVersion == null) {
+      throw new Error("Call start() first.");
+    }
+    return this._corequeryPackageVersion;
+  }
+
+  getFrontendVersion() {
+    if (this._frontendVersion == null) {
+      throw new Error("Call start() first.");
+    }
+    return this._frontendVersion;
+  }
+
   async start() {
+    this._corequeryPackageVersion = await getCorequeryPackageVersion();
+
     await this._webServer.prepareAssets();
+    this._frontendVersion = this._webServer.getFrontendVersion();
+
+    console.log(`Starting ${this._config.assets.appName}...`);
+    console.log(`- Server version: ${this.serverVersion}`);
+    console.log(`- Frontend version: ${this.getFrontendVersion()}`);
+    console.log(`- CoreQuery version: ${this.getCorequeryPackageVersion()}`);
+
     await this._webServer.start();
   }
 }

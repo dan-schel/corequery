@@ -16,7 +16,11 @@ export class ServiceWorkerPreparer {
   ) {}
 
   async run() {
-    await fsp.writeFile(this._fullFilePath(), await this.getReplacedContent());
+    const serviceWorkerFilePath = this._fullFilePath();
+    const content = await this.getReplacedContent();
+
+    await fsp.writeFile(serviceWorkerFilePath, content);
+    return this._getFileHash(serviceWorkerFilePath);
   }
 
   async getReplacedContent() {

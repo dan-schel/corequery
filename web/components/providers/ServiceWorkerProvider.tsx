@@ -22,7 +22,6 @@ export function ServiceWorkerProvider(props: ServiceWorkerProviderProps) {
     });
   }, []);
 
-  // TODO: Use this for the force update mechanism.
   const unregister = useCallback(async () => {
     try {
       const registrations = await navigator.serviceWorker.getRegistrations();

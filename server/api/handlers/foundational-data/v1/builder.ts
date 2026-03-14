@@ -19,14 +19,14 @@ export class FoundationalDataV1Builder {
     // environment work, since in dev this._app.version won't be set).
     const hash = crypto
       .createHash("sha256")
-      .update(this._app.version + JSON.stringify(resultWithoutMetadata))
+      .update(this._app.serverVersion + JSON.stringify(resultWithoutMetadata))
       .digest("hex");
 
     return {
       ...resultWithoutMetadata,
       metadata: {
         hash: hash,
-        serverVersion: this._app.version,
+        serverVersion: this._app.serverVersion,
       },
     };
   }
