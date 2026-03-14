@@ -15,6 +15,7 @@ type TextBlockTag =
 
 const styles = {
   "small": "text-sm text-fg",
+  "small-weak": "text-sm text-fg-weak",
   "small-strong-accent": "text-sm text-accent-text font-bold",
   "regular": "text-md text-fg",
   "strong": "text-md font-bold text-fg-strong",

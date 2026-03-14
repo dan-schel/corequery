@@ -3,8 +3,7 @@ import type { ApiContext } from "@/server/api/types.js";
 import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
 import { FoundationalDataV1Builder } from "@/server/api/handlers/foundational-data/v1/builder.js";
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function handle(
+export function handle(
   ctx: ApiContext,
   args: ArgsOf<typeof FOUNDATIONAL_DATA_V1>,
 ): Promise<ResultOf<typeof FOUNDATIONAL_DATA_V1>> {
@@ -12,7 +11,9 @@ export async function handle(
 
   const foda = new FoundationalDataV1Builder(ctx.app).build();
 
-  if (args.hash === foda.metadata.hash) return { result: "up-to-date" };
+  if (args.hash === foda.metadata.hash) {
+    return Promise.resolve({ result: "up-to-date" });
+  }
 
-  return { result: "outdated", foundationalData: foda };
+  return Promise.resolve({ result: "outdated", foundationalData: foda });
 }

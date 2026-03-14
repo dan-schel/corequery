@@ -29,6 +29,13 @@ function retrieveStaticData(document: Document): StaticData {
   return {
     appName: readTag('meta[name="corequery-app-name"]'),
     frontendVersion: readTag('meta[name="corequery-frontend-version"]'),
-    corequeryPackageVersion: readTag('meta[name="corequery-package-version"]'),
+    versionsOnLastUpdate: {
+      corequeryPackageVersion: readTag(
+        'meta[name="corequery-package-version-on-last-update"]',
+      ),
+      serverVersion: readTag(
+        'meta[name="corequery-server-version-on-last-update"]',
+      ),
+    },
   };
 }

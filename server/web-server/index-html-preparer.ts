@@ -6,8 +6,8 @@ type Config = {
   readonly appName: string;
   readonly shortAppName: string;
   readonly description: string;
-  readonly frontendVersion: string;
   readonly corequeryPackageVersion: string;
+  readonly serverVersion: string;
 };
 
 export class IndexHtmlPreparer {
@@ -18,21 +18,38 @@ export class IndexHtmlPreparer {
     private readonly _config: Config,
   ) {}
 
-  async run() {
-    await fsp.writeFile(this._fullFilePath(), await this.getReplacedContent());
+  async runPartial() {
+    await fsp.writeFile(
+      this._fullFilePath(),
+      await this.getReplacedContent(true, ""),
+    );
   }
 
-  async getReplacedContent() {
+  async run(frontendVersion: string) {
+    await fsp.writeFile(
+      this._fullFilePath(),
+      await this.getReplacedContent(false, frontendVersion),
+    );
+  }
+
+  async getReplacedContent(partial: boolean, frontendVersion: string) {
     const tags = await this._readTags();
 
     tags.title.textContent = this._config.appName;
     tags.description.setAttribute("content", this._config.description);
     tags.appName.setAttribute("content", this._config.appName);
-    tags.frontendVersion.setAttribute("content", this._config.frontendVersion);
-    tags.corequeryPackageVersion.setAttribute(
-      "content",
-      this._config.corequeryPackageVersion,
-    );
+
+    if (!partial) {
+      tags.frontendVersion.setAttribute("content", frontendVersion);
+      tags.packageVersionOnLastUpdate.setAttribute(
+        "content",
+        this._config.corequeryPackageVersion,
+      );
+      tags.serverVersionOnLastUpdate.setAttribute(
+        "content",
+        this._config.serverVersion,
+      );
+    }
 
     return tags.indexHtml.toString();
   }
@@ -59,8 +76,11 @@ export class IndexHtmlPreparer {
       description: requireTag('meta[name="description"]'),
       appName: requireTag('meta[name="corequery-app-name"]'),
       frontendVersion: requireTag('meta[name="corequery-frontend-version"]'),
-      corequeryPackageVersion: requireTag(
-        'meta[name="corequery-package-version"]',
+      packageVersionOnLastUpdate: requireTag(
+        'meta[name="corequery-package-version-on-last-update"]',
+      ),
+      serverVersionOnLastUpdate: requireTag(
+        'meta[name="corequery-server-version-on-last-update"]',
       ),
     };
   }

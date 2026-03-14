@@ -13,12 +13,12 @@ type ForceUpdateControllerProps = {
 
 export function ForceUpdateController(props: ForceUpdateControllerProps) {
   const { isHotReloadingEnabled } = useEnvironment();
-  const { frontendVersion, corequeryPackageVersion } = useStaticData();
+  const { frontendVersion, versionsOnLastUpdate } = useStaticData();
   const { unregister } = useServiceWorker();
 
   const { data, loading, error } = useQuery(VERSION_CHECK_V1, {
     frontendVersion,
-    corequeryPackageVersion,
+    corequeryPackageVersion: versionsOnLastUpdate.corequeryPackageVersion,
   });
 
   const forceUpdateRequired =
