@@ -11,7 +11,10 @@ describe("IndexHtmlPreparer", () => {
       serverVersion: "server-version",
     });
 
-    const newContent = await preparer.getReplacedContent("frontend-version");
+    const newContent = await preparer.getReplacedContent(
+      false,
+      "frontend-version",
+    );
 
     expect(newContent).toContain("<title>Corequery Test App</title>");
     expect(newContent).toContain(
