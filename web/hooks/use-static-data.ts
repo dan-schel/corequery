@@ -4,7 +4,10 @@ import { useContext } from "preact/hooks";
 export type StaticData = {
   readonly appName: string;
   readonly frontendVersion: string;
-  readonly corequeryPackageVersion: string;
+  readonly versionsOnLastUpdate: {
+    readonly corequeryPackageVersion: string;
+    readonly serverVersion: string;
+  };
 };
 
 export const staticDataContext = createContext<StaticData | null>(null);

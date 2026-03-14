@@ -16,7 +16,7 @@ import { HeaderWithPill } from "@/web/components/pages/debug/HeaderWithPill";
 
 export default function Debug() {
   const { isHotReloadingEnabled } = useEnvironment();
-  const { frontendVersion, corequeryPackageVersion } = useStaticData();
+  const { frontendVersion, versionsOnLastUpdate } = useStaticData();
   const foda = useFoundationalData();
 
   const { data, loading, error } = useQuery(VERSIONS_V1, {});
@@ -64,7 +64,7 @@ export default function Debug() {
               />
               <TextBlock>
                 Current version: {frontendVersion} (CoreQuery v
-                {corequeryPackageVersion})
+                {versionsOnLastUpdate.corequeryPackageVersion})
               </TextBlock>
               <AsyncFieldValue
                 prefix="Latest version"
