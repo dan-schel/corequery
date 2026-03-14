@@ -2,16 +2,20 @@ import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import type { FoundationalData } from "@/web/data/foundational-data";
 
-export const foundationalDataContext = createContext<FoundationalData | null>(
-  null,
-);
+type FoundationalDataContextValue = {
+  readonly foda: FoundationalData;
+  readonly updateFoda: (newFoda: FoundationalData) => void;
+};
 
-export function useFoundationalData(): FoundationalData {
-  const foda = useContext(foundationalDataContext);
+export const foundationalDataContext =
+  createContext<FoundationalDataContextValue | null>(null);
 
-  if (foda == null) {
+export function useFoundationalData(): FoundationalDataContextValue {
+  const value = useContext(foundationalDataContext);
+
+  if (value == null) {
     throw new Error("Foundational data unavailable outside provider.");
   }
 
-  return foda;
+  return value;
 }

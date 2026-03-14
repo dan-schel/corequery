@@ -31,7 +31,8 @@ function useDeepCompareMemoize(value: Inputs | undefined) {
   return ref.current;
 }
 
-function deepEqual(a: any, b: any): boolean {
+// TODO: Move this to js utils?
+export function deepEqual(a: any, b: any): boolean {
   if (a === b) return true;
 
   if (a == null || b == null) return a === b;
