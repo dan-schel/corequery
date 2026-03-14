@@ -1,5 +1,5 @@
 import type { ComponentChildren } from "preact";
-import { versionsApiResponseContext } from "@/web/components/pages/debug/use-versions-api-response";
+import { versionsApiResponseContext } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { useQuery } from "@/web/hooks/use-query";
 import { VERSIONS_V1 } from "@/shared/apis";
 

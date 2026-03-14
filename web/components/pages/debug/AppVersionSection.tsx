@@ -4,10 +4,10 @@ import { useEnvironment } from "@/web/hooks/use-environment";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { HeaderWithPill } from "@/web/components/pages/debug/HeaderWithPill";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/use-versions-api-response";
+import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
-import { trimIfHash } from "@/web/components/pages/debug/trim-if-hash";
+import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
 
 type AppVersionSectionProps = {
   class?: string;

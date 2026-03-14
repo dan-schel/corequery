@@ -1,11 +1,11 @@
 import { Column } from "@/web/components/core/Column";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/use-versions-api-response";
+import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import clsx from "clsx";
-import { trimIfHash } from "@/web/components/pages/debug/trim-if-hash";
+import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
 
 type FoundationalDataSectionProps = {
   class?: string;

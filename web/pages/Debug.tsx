@@ -4,9 +4,9 @@ import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
 import { Alert } from "@/web/components/Alert";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/use-versions-api-response";
+import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { AppVersionSection } from "@/web/components/pages/debug/AppVersionSection";
-import { VersionsApiResponseProvider } from "@/web/components/pages/debug/VersionsApiResponseProvider";
+import { VersionsApiResponseProvider } from "@/web/components/pages/debug/utils/VersionsApiResponseProvider";
 import { FoundationalDataSection } from "@/web/components/pages/debug/FoundationalDataSection";
 
 export default function Debug() {
