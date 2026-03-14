@@ -3,9 +3,14 @@ import { useContext } from "preact/hooks";
 import type { Settings } from "@/web/data/settings";
 import type { FoundationalData } from "@/web/data/foundational-data";
 
+export type UpdateSettingsFunction = (
+  update: (current: Settings) => Settings,
+  options?: { persist?: boolean },
+) => void;
+
 export type SettingsContextValue = {
   readonly settings: Settings;
-  readonly updateSettings: (newSettings: Settings) => void;
+  readonly updateSettings: UpdateSettingsFunction;
   readonly revalidateSettings: (foundationalData: FoundationalData) => void;
 };
 

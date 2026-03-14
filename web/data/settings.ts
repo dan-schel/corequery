@@ -1,8 +1,7 @@
 import z from "zod";
 import type { FoundationalData } from "@/web/data/foundational-data";
 import { deepEqual } from "@/web/hooks/use-deep-compare-effect";
-
-type Theme = "auto" | "light" | "dark";
+import type { Theme } from "@/web/data/theme";
 
 type SettingsFields = {
   readonly theme: Theme;

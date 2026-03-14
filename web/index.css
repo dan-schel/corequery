@@ -72,7 +72,25 @@
   --color-soft-success: hsl(130, 100%, 30%, 15%);
   --color-on-success: #ffffff;
 
-  /* Dark theme */
+  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
+  @keyframes placeholder-pulse {
+    0%,
+    100% {
+      opacity: 50%;
+    }
+    50% {
+      opacity: 100%;
+    }
+  }
+}
+
+body {
+  background-color: var(--color-bg-navbar);
+}
+
+@utility dark-theme {
+  color-scheme: dark;
+
   --color-bg: hsl(220, 16%, 7%);
   --color-bg-raised: hsl(220, 17%, 12%);
   --color-bg-dialog: hsl(220, 18%, 17%);
@@ -119,21 +137,23 @@
   --color-success-text: hsl(130, 60%, 75%);
   --color-soft-success: hsla(130, 100%, 60%, 10%);
   --color-on-success: #000000;
+}
 
-  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
-  @keyframes placeholder-pulse {
-    0%,
-    100% {
-      opacity: 50%;
-    }
-    50% {
-      opacity: 100%;
-    }
+body.light,
+body.light dialog {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.light),
+  body:not(.light) dialog {
+    @apply dark-theme;
   }
 }
 
-:root {
-  background-color: var(--color-bg-navbar);
+body.dark,
+body.dark dialog {
+  @apply dark-theme;
 }
 
 * {
