@@ -4,6 +4,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
+import { Alert } from "@/web/components/Alert";
 
 type ServerVersionSectionProps = {
   class?: string;
@@ -16,6 +17,7 @@ export function ServerVersionSection(props: ServerVersionSectionProps) {
     <Column class={clsx(props.class, "gap-8")}>
       <Column class="gap-6">
         <TextBlock style="strong">Server</TextBlock>
+        <ErrorBanner />
         <Column class="gap-4">
           <AsyncFieldValue
             prefix="Server version"
@@ -30,5 +32,19 @@ export function ServerVersionSection(props: ServerVersionSectionProps) {
         </Column>
       </Column>
     </Column>
+  );
+}
+
+function ErrorBanner() {
+  const { error } = useVersionsApiResponse();
+
+  if (error == null) return null;
+
+  return (
+    <Alert type="error">
+      <TextBlock>
+        Unable to fetch the latest version info from the server.
+      </TextBlock>
+    </Alert>
   );
 }

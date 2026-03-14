@@ -17,6 +17,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
+    <script>
+      (() => {
+        const preference = window.matchMedia("(prefers-color-scheme: dark)");
+
+        function getStoredTheme() {
+          try {
+            const parsed = JSON.parse(
+              localStorage.getItem("corequery-settings"),
+            );
+            const theme = parsed?.theme;
+            if (theme === "light" || theme === "dark") return theme;
+            return null;
+          } catch {
+            return null;
+          }
+        }
+
+        function applyTheme() {
+          const theme = getStoredTheme();
+
+          document.body.classList.remove("light", "dark");
+          if (theme != null) {
+            document.body.classList.add(theme);
+          }
+
+          const themeColor = {
+            light: "#ffffff",
+            dark: "#242933",
+          }[theme ?? (preference.matches ? "dark" : "light")];
+
+          const themeMetaTag = document.querySelector(
+            'meta[name="theme-color"]',
+          );
+          themeMetaTag?.setAttribute("content", themeColor);
+        }
+
+        applyTheme();
+        preference.addEventListener("change", applyTheme);
+
+        window.applyTheme = applyTheme;
+      })();
+    </script>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

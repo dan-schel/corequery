@@ -9,7 +9,7 @@
   --spacing: 0.25rem;
 
   /* If changing, update `textSizes` in web/components/core/TextBoxTrim.tsx. */
-  --text-sm: 0.7rem;
+  --text-sm: 0.75rem;
   --text-md: 0.9rem;
   --text-mdlg: 1rem;
   --text-lg: 1.25rem;
@@ -31,7 +31,7 @@
   --color-bg-dialog: hsl(220, 40%, 100%);
   --color-fg: hsla(220, 100%, 4%, 80%);
   --color-fg-strong: hsla(220, 100%, 0%, 100%);
-  --color-fg-weak: hsla(220, 100%, 10%, 50%);
+  --color-fg-weak: hsla(220, 100%, 8%, 60%);
 
   --color-accent: hsl(210, 80%, 45%);
   --color-accent-hover: hsl(210, 80%, 50%);
@@ -72,14 +72,32 @@
   --color-soft-success: hsl(130, 100%, 30%, 15%);
   --color-on-success: #ffffff;
 
-  /* Dark theme */
+  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
+  @keyframes placeholder-pulse {
+    0%,
+    100% {
+      opacity: 50%;
+    }
+    50% {
+      opacity: 100%;
+    }
+  }
+}
+
+body {
+  background-color: var(--color-bg-navbar);
+}
+
+@utility dark-theme {
+  color-scheme: dark;
+
   --color-bg: hsl(220, 16%, 7%);
   --color-bg-raised: hsl(220, 17%, 12%);
   --color-bg-dialog: hsl(220, 18%, 17%);
   --color-bg-navbar: hsl(220, 18%, 17%);
   --color-fg: hsla(220, 100%, 96%, 80%);
   --color-fg-strong: hsla(220, 100%, 100%, 100%);
-  --color-fg-weak: hsla(220, 100%, 90%, 50%);
+  --color-fg-weak: hsla(220, 100%, 92%, 60%);
 
   --color-accent: hsl(210, 80%, 65%);
   --color-accent-hover: hsl(210, 80%, 70%);
@@ -119,21 +137,23 @@
   --color-success-text: hsl(130, 60%, 75%);
   --color-soft-success: hsla(130, 100%, 60%, 10%);
   --color-on-success: #000000;
+}
 
-  --animate-placeholder-pulse: placeholder-pulse 1s ease-in-out infinite;
-  @keyframes placeholder-pulse {
-    0%,
-    100% {
-      opacity: 50%;
-    }
-    50% {
-      opacity: 100%;
-    }
+body.light,
+body.light dialog {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.light),
+  body:not(.light) dialog {
+    @apply dark-theme;
   }
 }
 
-:root {
-  background-color: var(--color-bg-navbar);
+body.dark,
+body.dark dialog {
+  @apply dark-theme;
 }
 
 * {

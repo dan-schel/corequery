@@ -13,7 +13,7 @@ type FoundationalDataSectionProps = {
 
 export function FoundationalDataSection(props: FoundationalDataSectionProps) {
   const { data, loading } = useVersionsApiResponse();
-  const foda = useFoundationalData();
+  const { foda } = useFoundationalData();
 
   return (
     <Column class={clsx(props.class, "gap-6")}>
