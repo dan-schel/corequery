@@ -6,8 +6,7 @@ describe("ServiceWorkerPreparer", () => {
   it("correctly replaces the content", async () => {
     const preparer = new ServiceWorkerPreparer("web/dist", {
       filesReplaced: AssetPreparer.ALL_MODIFIED_FILES,
-      // eslint-disable-next-line @typescript-eslint/require-await
-      getFileHash: async (_filePath: string) => "bacon",
+      getFileHash: () => Promise.resolve("bacon"),
     });
 
     const newContent = await preparer.getReplacedContent();

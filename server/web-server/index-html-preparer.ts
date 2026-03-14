@@ -18,28 +18,38 @@ export class IndexHtmlPreparer {
     private readonly _config: Config,
   ) {}
 
-  async run(frontendVersion: string) {
+  async runPartial() {
     await fsp.writeFile(
       this._fullFilePath(),
-      await this.getReplacedContent(frontendVersion),
+      await this.getReplacedContent(true, ""),
     );
   }
 
-  async getReplacedContent(frontendVersion: string) {
+  async run(frontendVersion: string) {
+    await fsp.writeFile(
+      this._fullFilePath(),
+      await this.getReplacedContent(false, frontendVersion),
+    );
+  }
+
+  async getReplacedContent(partial: boolean, frontendVersion: string) {
     const tags = await this._readTags();
 
     tags.title.textContent = this._config.appName;
     tags.description.setAttribute("content", this._config.description);
     tags.appName.setAttribute("content", this._config.appName);
-    tags.frontendVersion.setAttribute("content", frontendVersion);
-    tags.packageVersionOnLastUpdate.setAttribute(
-      "content",
-      this._config.corequeryPackageVersion,
-    );
-    tags.serverVersionOnLastUpdate.setAttribute(
-      "content",
-      this._config.serverVersion,
-    );
+
+    if (!partial) {
+      tags.frontendVersion.setAttribute("content", frontendVersion);
+      tags.packageVersionOnLastUpdate.setAttribute(
+        "content",
+        this._config.corequeryPackageVersion,
+      );
+      tags.serverVersionOnLastUpdate.setAttribute(
+        "content",
+        this._config.serverVersion,
+      );
+    }
 
     return tags.indexHtml.toString();
   }
