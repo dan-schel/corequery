@@ -188,6 +188,15 @@
           anyFailures = true;
         }
 
+        try {
+          for (const cacheName of await window.caches.keys()) {
+            await window.caches.delete(cacheName);
+          }
+        } catch (error) {
+          alert("Error while clearing caches.", error);
+          anyFailures = true;
+        }
+
         if (!anyFailures) {
           window.location.href = "/";
         }

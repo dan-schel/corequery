@@ -26,7 +26,7 @@ export function FoundationalDataSection(props: FoundationalDataSectionProps) {
       <Column class="gap-4">
         <TextBlock>Current version: {trimIfHash(foda.hash)}</TextBlock>
         <TextBlock style="small-weak">
-          Server version: {foda.serverVersion}
+          Server version: {trimIfHash(foda.serverVersion)}
         </TextBlock>
       </Column>
       <AsyncFieldValue
