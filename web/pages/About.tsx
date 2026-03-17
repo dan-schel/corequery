@@ -20,13 +20,28 @@ export default function About() {
   if (loading) {
     return (
       <Page {...headers}>
-        <Column class="px-4 py-8 gap-6">
-          <TextPlaceholder class="w-[40%] text-xl" />
+        <Column class="px-4 py-8">
+          <TextPlaceholder class="w-[30%] text-xl" />
+          <div class="h-8" />
           <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
           <TextPlaceholder class="w-full text-md" />
-          <TextPlaceholder class="w-[25%] text-lg" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[60%] text-md" />
+          <div class="h-12" />
+          <TextPlaceholder class="w-[40%] text-lg" />
+          <div class="h-8" />
           <TextPlaceholder class="w-full text-md" />
-          <TextPlaceholder class="w-[70%] text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[20%] text-md" />
+          <div class="h-12" />
+          <TextPlaceholder class="w-[50%] text-lg" />
+          <div class="h-8" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[80%] text-md" />
         </Column>
       </Page>
     );
@@ -35,7 +50,7 @@ export default function About() {
   if (error != null || data == null) {
     return (
       <Page {...headers}>
-        <Column class="px-4 py-8 gap-6">
+        <Column class="px-4 py-8">
           <Alert type="error">
             <TextBlock>Unable to load the about page.</TextBlock>
           </Alert>
