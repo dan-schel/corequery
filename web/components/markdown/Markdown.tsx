@@ -22,21 +22,12 @@ export function Markdown(props: MarkdownProps) {
     <Column class={clsx(props.class)}>
       {blocks.map((block, index) => {
         const text = renderInlineTokens(block.content);
-        const isHeader = block.kind !== "p";
-        const prev = index > 0 ? blocks[index - 1] : undefined;
-        const prevIsHeader = prev != null ? prev.kind !== "p" : false;
-
-        // Headers get extra top margin (unless they're the first item or
-        // following another header). This creates the asymmetric spacing where
-        // a header sits closer to the paragraph below it than the one above.
-        const mt =
-          index === 0 ? "" : isHeader && !prevIsHeader ? "mt-8" : "mt-4";
-
-        const rendered = styles[block.kind](text, index);
+        const blockStyle = styles[block.kind];
+        const mt = index === 0 ? "" : blockStyle.marginTop;
 
         return (
           <div key={index} class={mt}>
-            {rendered}
+            {blockStyle.render(text, index)}
           </div>
         );
       })}
