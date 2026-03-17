@@ -12,6 +12,10 @@ export class FoundationalData {
     return this._raw.metadata.serverVersion;
   }
 
+  get footerPrimaryMarkdown() {
+    return this._raw.footer.primaryMarkdown;
+  }
+
   static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
   toJson(): z.input<typeof fodaSchema> {
