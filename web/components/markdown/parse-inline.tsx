@@ -1,64 +1,99 @@
 import type { ComponentChildren } from "preact";
-import { LinkText } from "@/web/components/core/LinkText";
+import type { InlineStyle } from "@/web/components/markdown/style";
 
-// Each pattern is tried in order. The first capture group of each is the
-// content to render (except for links which use groups 1 and 2).
-const inlinePatterns = [
-  { regex: /\[([^[\]]+)\]\(([^()]+)\)/, type: "link" },
-  { regex: /\*\*([^*]+)\*\*/, type: "bold" },
-  { regex: /\*([^*]+)\*/, type: "italic" },
-  { regex: /_([^_]+)_/, type: "italic" },
-] as const;
+const linkPattern = /\[([^[\]]+)\]\(([^()]+)\)/;
+const boldPattern = /\*\*([^*]+)\*\*/;
+const italicPattern = /\*([^*]+)\*/;
+const underscoreItalicPattern = /_([^_]+)_/;
 
-export function renderInlineTokens(text: string): ComponentChildren[] {
+type InlineMatch = {
+  readonly index: number;
+  readonly fullMatch: string;
+  readonly render: (style: InlineStyle) => ComponentChildren;
+};
+
+export function renderInlineTokens(
+  text: string,
+  style: InlineStyle,
+): ComponentChildren[] {
   const output: ComponentChildren[] = [];
   let remaining = text;
 
   while (remaining.length > 0) {
-    // Find the earliest match across all patterns.
-    let best: { index: number; match: RegExpMatchArray; type: string } | null =
-      null;
+    const match = findEarliestMatch(remaining);
 
-    for (const pattern of inlinePatterns) {
-      const m = remaining.match(pattern.regex);
-      if (
-        m != null &&
-        m.index != null &&
-        (best == null || m.index < best.index)
-      ) {
-        best = { index: m.index, match: m, type: pattern.type };
-      }
-    }
-
-    if (best == null) {
+    if (match == null) {
       output.push(remaining);
       break;
     }
 
-    // Push any plain text before the match.
-    if (best.index > 0) {
-      output.push(remaining.slice(0, best.index));
+    if (match.index > 0) {
+      output.push(remaining.slice(0, match.index));
     }
 
-    if (best.type === "link" && best.match[2] != null) {
-      const href = sanitizeHref(best.match[2]);
-      output.push(<LinkText href={href}>{best.match[1]}</LinkText>);
-    } else if (best.type === "bold") {
-      output.push(<b>{best.match[1]}</b>);
-    } else {
-      output.push(<i>{best.match[1]}</i>);
-    }
-
-    remaining = remaining.slice(best.index + best.match[0].length);
+    output.push(match.render(style));
+    remaining = remaining.slice(match.index + match.fullMatch.length);
   }
 
   return output;
 }
 
-function sanitizeHref(href: string) {
-  if (/^\s*(javascript:|data:)/i.test(href)) {
-    return "#";
+function findEarliestMatch(text: string): InlineMatch | null {
+  const candidates = [
+    matchLink(text),
+    matchBold(text),
+    matchItalic(text, italicPattern),
+    matchItalic(text, underscoreItalicPattern),
+  ];
+
+  let best: InlineMatch | null = null;
+  for (const candidate of candidates) {
+    if (candidate != null && (best == null || candidate.index < best.index)) {
+      best = candidate;
+    }
   }
 
-  return href;
+  return best;
+}
+
+function matchLink(text: string): InlineMatch | null {
+  const m = text.match(linkPattern);
+  if (m == null || m.index == null || m[1] == null || m[2] == null) return null;
+
+  const linkText = m[1];
+  const href = m[2];
+
+  if (!href.startsWith("https://")) return null;
+
+  return {
+    index: m.index,
+    fullMatch: m[0],
+    render: (style) => style.link(linkText, href),
+  };
+}
+
+function matchBold(text: string): InlineMatch | null {
+  const m = text.match(boldPattern);
+  if (m == null || m.index == null || m[1] == null) return null;
+
+  const content = m[1];
+
+  return {
+    index: m.index,
+    fullMatch: m[0],
+    render: (style) => style.bold(content),
+  };
+}
+
+function matchItalic(text: string, pattern: RegExp): InlineMatch | null {
+  const m = text.match(pattern);
+  if (m == null || m.index == null || m[1] == null) return null;
+
+  const content = m[1];
+
+  return {
+    index: m.index,
+    fullMatch: m[0],
+    render: (style) => style.italic(content),
+  };
 }

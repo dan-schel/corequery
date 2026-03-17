@@ -21,7 +21,7 @@ export function Markdown(props: MarkdownProps) {
   return (
     <Column class={clsx(props.class)}>
       {blocks.map((block, index) => {
-        const text = renderInlineTokens(block.content);
+        const text = renderInlineTokens(block.content, styles);
         const blockStyle = styles[block.kind];
         const mt = index === 0 ? "" : blockStyle.marginTop;
 

@@ -21,11 +21,7 @@ const config: KnipConfig = {
     "scripts/test",
   ],
   ignoreDependencies: ["@vitest/coverage-v8", "tsc-alias"],
-  ignoreFiles: [
-    "web/components/StatusDot.tsx",
-    "web/hooks/use-mutation.ts",
-    "web/components/core/Strong.tsx",
-  ],
+  ignoreFiles: ["web/components/StatusDot.tsx", "web/hooks/use-mutation.ts"],
 };
 
 export default config;

@@ -1,9 +1,20 @@
 import type { ComponentChildren } from "preact";
+import { Italic } from "@/web/components/core/Italic";
+import { LinkText } from "@/web/components/core/LinkText";
+import { Strong } from "@/web/components/core/Strong";
 import { TextBlock } from "@/web/components/core/TextBlock";
 
-export type BlockStyle = {
-  readonly render: BlockRenderer;
-  readonly marginTop: string;
+type InlineRenderer = (text: ComponentChildren) => ComponentChildren;
+
+type LinkRenderer = (
+  text: ComponentChildren,
+  href: string,
+) => ComponentChildren;
+
+export type InlineStyle = {
+  readonly bold: InlineRenderer;
+  readonly italic: InlineRenderer;
+  readonly link: LinkRenderer;
 };
 
 type BlockRenderer = (
@@ -11,11 +22,25 @@ type BlockRenderer = (
   key: string | number,
 ) => ComponentChildren;
 
+type BlockStyle = {
+  readonly render: BlockRenderer;
+  readonly marginTop: string;
+};
+
 export type MarkdownStyle = {
   readonly h1: BlockStyle;
   readonly h2: BlockStyle;
   readonly h3: BlockStyle;
   readonly p: BlockStyle;
+  readonly bold: InlineRenderer;
+  readonly italic: InlineRenderer;
+  readonly link: LinkRenderer;
+};
+
+export const defaultInlineStyle: InlineStyle = {
+  bold: (text) => <Strong>{text}</Strong>,
+  italic: (text) => <Italic>{text}</Italic>,
+  link: (text, href) => <LinkText href={href}>{text}</LinkText>,
 };
 
 export const defaultStyle: MarkdownStyle = {
@@ -51,4 +76,7 @@ export const defaultStyle: MarkdownStyle = {
     ),
     marginTop: "mt-4",
   },
+  bold: defaultInlineStyle.bold,
+  italic: defaultInlineStyle.italic,
+  link: defaultInlineStyle.link,
 };
