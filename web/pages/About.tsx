@@ -1,7 +1,8 @@
 import { Column } from "@/web/components/core/Column";
 import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { Markdown } from "@/web/components/core/Markdown";
+import { InlineMarkdown } from "@/web/components/markdown/InlineMarkdown";
+import { Markdown } from "@/web/components/markdown/Markdown";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { useQuery } from "@/web/hooks/use-query";
@@ -46,13 +47,12 @@ export default function About() {
   return (
     <Page {...headers}>
       <Column class="px-4 py-8 gap-12">
-        <Markdown markdown={data.primaryMarkdown} mode="block" />
+        <Markdown markdown={data.primaryMarkdown} />
         <Column class="gap-8">
           <Divider />
-          <Markdown
+          <InlineMarkdown
+            class="text-sm text-soft-text"
             markdown={foda.footerPrimaryMarkdown}
-            mode="inline"
-            inlineProps={{ as: "p", style: "small-weak" }}
           />
         </Column>
       </Column>
