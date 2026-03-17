@@ -14,6 +14,8 @@
     "noImplicitOverride": true,
     "module": "preserve",
     "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "lib": ["es2022"],
     "paths": {
       "@/*": ["../*"]
