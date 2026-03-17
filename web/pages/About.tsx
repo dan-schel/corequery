@@ -1,73 +1,72 @@
 import { Column } from "@/web/components/core/Column";
+import { TextPlaceholder } from "@/web/components/core/Placeholder";
 import { TextBlock } from "@/web/components/core/TextBlock";
+import { InlineMarkdown } from "@/web/components/markdown/InlineMarkdown";
+import { Markdown } from "@/web/components/markdown/Markdown";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
-import { LinkText } from "@/web/components/core/LinkText";
-import { useStaticData } from "@/web/hooks/use-static-data";
+import { useQuery } from "@/web/hooks/use-query";
+import { ABOUT_PAGE_V1 } from "@/shared/apis";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
+import { Divider } from "@/web/components/core/Divider";
+import { Alert } from "@/web/components/Alert";
 
 export default function About() {
-  const { appName } = useStaticData();
+  const { foda } = useFoundationalData();
+  const { data, loading, error } = useQuery(ABOUT_PAGE_V1, {});
+
+  const headers = useSimpleHeaders({ title: "About" });
+
+  if (loading) {
+    return (
+      <Page {...headers}>
+        <Column class="px-4 py-8">
+          <TextPlaceholder class="w-[30%] text-xl" />
+          <div class="h-8" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[60%] text-md" />
+          <div class="h-12" />
+          <TextPlaceholder class="w-[40%] text-lg" />
+          <div class="h-8" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[20%] text-md" />
+          <div class="h-12" />
+          <TextPlaceholder class="w-[50%] text-lg" />
+          <div class="h-8" />
+          <TextPlaceholder class="w-full text-md" />
+          <div class="h-3" />
+          <TextPlaceholder class="w-[80%] text-md" />
+        </Column>
+      </Page>
+    );
+  }
+
+  if (error != null || data == null) {
+    return (
+      <Page {...headers}>
+        <Column class="px-4 py-8">
+          <Alert type="error">
+            <TextBlock>Unable to load the about page.</TextBlock>
+          </Alert>
+        </Column>
+      </Page>
+    );
+  }
 
   return (
-    <Page {...useSimpleHeaders({ title: "About" })}>
+    <Page {...headers}>
       <Column class="px-4 py-8 gap-12">
+        <Markdown markdown={data.primaryMarkdown} />
         <Column class="gap-8">
-          <TextBlock style="title">About {appName}</TextBlock>
-          <TextBlock>
-            This is text so long that it needs to wrap. Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Earum corporis, autem expedita,
-            minus voluptatem ex voluptatum quis illum, quae dicta eius amet
-            soluta consequatur beatae{" "}
-            <LinkText href="/deleniti-repellendus">
-              deleniti repellendus
-            </LinkText>
-            ? Eos impedit adipisci molestiae similique quae corporis accusantium
-            voluptates? Quod odit est ea id nihil in saepe minus quia tempore
-            illum, dolorum, atque facilis natus delectus ratione omnis mollitia!
-            Eveniet aliquam nam temporibus velit quae iusto facere, earum rerum,
-            voluptate saepe officiis accusamus laboriosam maiores porro.
-          </TextBlock>
-          <TextBlock>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
-            quisquam molestias, cumque distinctio, laborum optio quam aut quasi
-            rem tempora, minima placeat labore dolor maiores expedita pariatur
-            reprehenderit mollitia modi.
-          </TextBlock>
-        </Column>
-        <Column class="gap-6">
-          <TextBlock style="subtitle">Mmm, yes</TextBlock>
-          <TextBlock>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-            eos quisquam laborum in eveniet officiis ab, perferendis ipsam natus
-            doloribus, qui ratione sit. Eos eligendi voluptatibus, nesciunt
-            asperiores commodi nemo minima beatae veritatis omnis magnam ipsam
-            minus enim ab dolorem nulla.
-          </TextBlock>
-        </Column>
-        <Column class="gap-6">
-          <TextBlock style="subtitle">I simply must agree</TextBlock>
-          <TextBlock>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
-            fugiat officia, culpa asperiores architecto recusandae beatae illum
-            aliquam magni ab sed a soluta id quae tenetur. Sit facere iste harum
-            dolorum molestias omnis animi vitae. Expedita voluptatum
-            perspiciatis dolor ex quam, tempore voluptates culpa ab nisi,
-            officia iure reiciendis. Atque quis, amet recusandae quisquam iure
-            fugiat tenetur voluptate harum inventore doloremque deleniti
-            repudiandae, facere, praesentium temporibus quidem modi culpa
-            similique eum ea architecto dolorem? Optio natus officiis,
-            architecto necessitatibus ab accusamus placeat. Similique, ea
-            mollitia excepturi neque nam odit doloremque molestias deleniti
-            praesentium officia veniam dolorem cumque temporibus quos possimus
-            error libero nisi voluptate reiciendis! Officiis dolorem fugit at
-            dignissimos.
-          </TextBlock>
-        </Column>
-        <Column class="gap-6">
-          <TextBlock style="subtitle">Good chat</TextBlock>
-          <TextBlock>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa magni
-            repudiandae tempore? Repellendus, fugit iusto!
+          <Divider />
+          <TextBlock as="p" style="small-weak">
+            <InlineMarkdown markdown={foda.footerPrimaryMarkdown} />
           </TextBlock>
         </Column>
       </Column>
