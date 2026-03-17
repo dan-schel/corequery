@@ -1,12 +1,11 @@
-import { TextBlock } from "@/web/components/core/TextBlock";
 import { renderInlineTokens } from "@/web/components/markdown/parse-inline";
 import {
   defaultInlineStyle,
   type InlineStyle,
 } from "@/web/components/markdown/style";
+import { useMemo } from "preact/hooks";
 
 type InlineMarkdownProps = {
-  class?: string;
   markdown: string;
   style?: InlineStyle;
 };
@@ -14,9 +13,10 @@ type InlineMarkdownProps = {
 export function InlineMarkdown(props: InlineMarkdownProps) {
   const style = props.style ?? defaultInlineStyle;
 
-  return (
-    <TextBlock class={props.class}>
-      {renderInlineTokens(props.markdown, style)}
-    </TextBlock>
+  const content = useMemo(
+    () => renderInlineTokens(props.markdown, style),
+    [props.markdown, style],
   );
+
+  return <>{content}</>;
 }

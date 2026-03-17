@@ -50,10 +50,9 @@ export default function About() {
         <Markdown markdown={data.primaryMarkdown} />
         <Column class="gap-8">
           <Divider />
-          <InlineMarkdown
-            class="text-sm text-soft-text"
-            markdown={foda.footerPrimaryMarkdown}
-          />
+          <TextBlock as="p" style="small-weak">
+            <InlineMarkdown markdown={foda.footerPrimaryMarkdown} />
+          </TextBlock>
         </Column>
       </Column>
     </Page>

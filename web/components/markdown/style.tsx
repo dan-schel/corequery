@@ -50,7 +50,7 @@ export const defaultStyle: MarkdownStyle = {
         {text}
       </TextBlock>
     ),
-    marginTop: "mt-8",
+    marginTop: "mt-12",
   },
   h2: {
     render: (text, key) => (
@@ -58,7 +58,7 @@ export const defaultStyle: MarkdownStyle = {
         {text}
       </TextBlock>
     ),
-    marginTop: "mt-8",
+    marginTop: "mt-12",
   },
   h3: {
     render: (text, key) => (
@@ -66,7 +66,7 @@ export const defaultStyle: MarkdownStyle = {
         {text}
       </TextBlock>
     ),
-    marginTop: "mt-8",
+    marginTop: "mt-12",
   },
   p: {
     render: (text, key) => (
@@ -74,7 +74,7 @@ export const defaultStyle: MarkdownStyle = {
         {text}
       </TextBlock>
     ),
-    marginTop: "mt-4",
+    marginTop: "mt-8",
   },
   bold: defaultInlineStyle.bold,
   italic: defaultInlineStyle.italic,
