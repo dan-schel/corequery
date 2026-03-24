@@ -1,7 +1,7 @@
 import type { SearchCandidate } from "@/web/components/search/algorithm/types";
 
 export class SearchResultBuilder<T> {
-  private readonly _results: Map<string, SearchCandidate<T>>;
+  private readonly _results: Map<string, T>;
   private readonly _candidatesNotRequiringExactMatch: readonly SearchCandidate<T>[];
 
   constructor(
@@ -36,7 +36,7 @@ export class SearchResultBuilder<T> {
 
     for (const result of funcResults) {
       if (this._results.has(result.id)) continue;
-      this._results.set(result.id, result);
+      this._results.set(result.id, result.data);
     }
   }
 }

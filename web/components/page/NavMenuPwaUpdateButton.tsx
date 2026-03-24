@@ -3,26 +3,23 @@ import { MenuItemButtonLayout } from "@/web/components/button/layouts/MenuItemBu
 import { AccentButtonHousing } from "@/web/components/button/housings/AccentButtonHousing";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { useEffect, useState } from "preact/hooks";
-import { useActivationDelay } from "@/web/hooks/use-activation-delay";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type NavMenuPwaUpdateButtonProps = {
-  menuOpen: boolean;
+  menuFullyClosed: boolean;
 };
 
 export function NavMenuPwaUpdateButton(props: NavMenuPwaUpdateButtonProps) {
-  const menuFullyClosed = useActivationDelay(!props.menuOpen, 300);
-
   const { isUpdateAvailable, update } = useServiceWorker();
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
     // Never toggle showPrompt if the menu is already open (avoids a layout
     // shift).
-    if (!menuFullyClosed) return;
+    if (!props.menuFullyClosed) return;
 
     setShowPrompt(isUpdateAvailable);
-  }, [isUpdateAvailable, menuFullyClosed]);
+  }, [isUpdateAvailable, props.menuFullyClosed]);
 
   if (!showPrompt) return null;
 

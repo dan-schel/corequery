@@ -8,6 +8,7 @@ import type {
   AboutPageConfig,
   FooterConfig,
   LandingPageConfig,
+  TerminologyConfig,
 } from "@/server/config/index.js";
 import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
 
@@ -29,6 +30,7 @@ export class Corequery {
   readonly landingPageConfig: LandingPageConfig;
   readonly footerConfig: FooterConfig;
   readonly aboutPageConfig: AboutPageConfig;
+  readonly terminologyConfig: TerminologyConfig;
 
   constructor(configBuilder: CorequeryConfigBuilder) {
     this._config = configBuilder(this);
@@ -56,6 +58,7 @@ export class Corequery {
     this.landingPageConfig = this._config.landingPage;
     this.footerConfig = this._config.footer;
     this.aboutPageConfig = this._config.aboutPage;
+    this.terminologyConfig = this._config.terminology;
   }
 
   getCorequeryPackageVersion() {
