@@ -18,6 +18,7 @@ const styles = {
   "small-weak": "text-sm text-fg-weak",
   "small-strong-accent": "text-sm text-accent-text font-bold",
   "regular": "text-md text-fg",
+  "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
   "strong-accent": "text-md font-bold text-accent-text",
   "wordmark": "text-mdlg font-bold text-fg-strong",

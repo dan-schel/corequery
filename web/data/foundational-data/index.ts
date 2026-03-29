@@ -16,6 +16,22 @@ export class FoundationalData {
     return this._raw.footer.primaryMarkdown;
   }
 
+  get stops() {
+    // I'm sure in future we'll want to make these fully fledged classes, but
+    // this is enough for now.
+    return this._raw.stops;
+  }
+
+  get lines() {
+    // I'm sure in future we'll want to make these fully fledged classes, but
+    // this is enough for now.
+    return this._raw.lines;
+  }
+
+  get terminology() {
+    return this._raw.terminology;
+  }
+
   static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
   toJson(): z.input<typeof fodaSchema> {

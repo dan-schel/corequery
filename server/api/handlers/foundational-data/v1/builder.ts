@@ -41,6 +41,10 @@ export class FoundationalDataV1Builder {
       footer: {
         primaryMarkdown: this._app.footerConfig.primaryMarkdown,
       },
+      terminology: {
+        stop: this._app.terminologyConfig.stop,
+        line: this._app.terminologyConfig.line,
+      },
     };
   }
 }

@@ -76,67 +76,38 @@ export const lineFodaSchema = z.object({
 });
 
 // Omitting for now, see comments below for each field's reasoning.
-//
-// export const terminologySchema = z.object({
-//   // Needed for navigation, probably? Are we gonna try constructing URLs
-//   // dynamically based on these (e.g. /stop/flindersstreet or
-//   // /station/flindersstreet)? Does the router support it? I suppose the router
-//   // is gonna live within the foundational data provider's scope, so it should
-//   // be available from its first render. We could also just register every
-//   // option, but use this to decide the canonical one we actually create links
-//   // to. Is this all a bit crazy? End users probably don't care about the URL
-//   // lol, and for platforms, the slugs used in filtering... I mean, surely we're
-//   // not gonna try to deal with that, right?
-//   //
-//   // Anyway, even if we don't do crazy URL things as above, these will probably
-//   // still be needed for little UI things here and there. Gonna omit them for
-//   // now, until I'm sure, then I don't have to make a breaking change.
-//   //
-//   // stop: z.enum(["stop", "station"]),
-//   // line: z.enum(["line", "route"]),
-//   // Not sure if this is really needed yet. It will be if stop filters are
-//   // included in the foundational data, as they're not pre-formatted by the
-//   // server (i.e. sent over as `position: 1` and expect the frontend to format
-//   // that to "Platform 1").
-//   //
-//   // Pre-formatting could make sense if we want to support customly named
-//   // filters for maximum flexibility, but NOT pre-formatting allows us to
-//   // smartly combine multiple filters together, e.g. "Citybound Frankston trains
-//   // on Platform 6". I think we'll end up pre-formatting the filters, due to how
-//   // Southern Cross has platforms 16a, 16b, and 16, and we just want a single
-//   // "Platform 16" filter to cover all three.
-//   //
-//   // This could also be needed for showing the little "Platform XYZ" badges on
-//   // each departure. It probably makes more sense to send it over as part of the
-//   // foundational data rather than each departures/service API response.
-//   //
-//   // Gonna omit it for now, until I'm sure, then I don't have to make a breaking
-//   // change.
-//   //
-//   // stopPosition: z.enum([
-//   //   "platform",
-//   //   "track",
-//   //   "bay",
-//   //   "wharf",
-//   //   "wharf-and-side",
-//   //   "stand",
-//   // ]),
-// });
+const terminologySchema = z.object({
+  stop: z.enum(["stop", "station"]),
+  line: z.enum(["line", "route"]),
 
-// I'm torn on this. I don't think the about page serves any real navigational
-// purpose, so there's little harm in fetching it from an API when the user
-// wants it. Also, unlike the two examples below for the landing page and
-// footer, this markdown isn't just a little snippet, it's essentially the
-// entire content of the page, which is traditionally exactly what you'd be
-// fetching from a server. The main argument to include it in the foundational
-// data is really just consistency with the other markdown bits below.
-//
-// Gonna omit it for now, until I'm sure, then I don't have to make a breaking
-// change.
-//
-// export const aboutPageSchema = z.object({
-//   primaryMarkdown: z.string(),
-// });
+  // Not sure if this is really needed yet. It will be if stop filters are
+  // included in the foundational data, as they're not pre-formatted by the
+  // server (i.e. sent over as `position: 1` and expect the frontend to format
+  // that to "Platform 1").
+  //
+  // Pre-formatting could make sense if we want to support customly named
+  // filters for maximum flexibility, but NOT pre-formatting allows us to
+  // smartly combine multiple filters together, e.g. "Citybound Frankston trains
+  // on Platform 6". I think we'll end up pre-formatting the filters, due to how
+  // Southern Cross has platforms 16a, 16b, and 16, and we just want a single
+  // "Platform 16" filter to cover all three.
+  //
+  // This could also be needed for showing the little "Platform XYZ" badges on
+  // each departure. It probably makes more sense to send it over as part of the
+  // foundational data rather than each departures/service API response.
+  //
+  // Gonna omit it for now, until I'm sure, then I don't have to make a breaking
+  // change.
+  //
+  // stopPosition: z.enum([
+  //   "platform",
+  //   "track",
+  //   "bay",
+  //   "wharf",
+  //   "wharf-and-side",
+  //   "stand",
+  // ]),
+});
 
 const landingPageFodaSchema = z.object({
   // Would feel weird needing to load copy from an API while the rest of the
@@ -159,11 +130,7 @@ export const fodaSchema = z.object({
 
   stops: stopFodaSchema.array(),
   lines: lineFodaSchema.array(),
-
-  // Omitting for now, see comments above.
-  // terminology: terminologySchema,
-  // aboutPage: aboutPageSchema,
-
+  terminology: terminologySchema,
   landingPage: landingPageFodaSchema,
   footer: footerFodaSchema,
 });
