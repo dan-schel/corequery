@@ -21,7 +21,7 @@ export function search<T>(
   }));
 
   const builder = new SearchResultBuilder(
-    query,
+    processedQuery,
     processedCandidates,
     maxResults,
   );

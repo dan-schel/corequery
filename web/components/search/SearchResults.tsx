@@ -4,6 +4,7 @@ import type { SearchCandidate } from "@/web/components/search/algorithm/types";
 import { useCallback, useMemo } from "preact/hooks";
 import { search } from "@/web/components/search/algorithm";
 import { Fragment, type ComponentChildren } from "preact";
+import { TextBlock } from "../core/TextBlock";
 
 type SearchResultButton<T> = (props: {
   result: T;
@@ -17,6 +18,7 @@ type SearchResultsProps<T> = {
   buttonComponent: SearchResultButton<T>;
   onResultClick?: (result: T) => void;
   maxResults?: number;
+  noResultsContent: ComponentChildren | null;
 };
 
 export function SearchResults<T>(props: SearchResultsProps<T>) {
@@ -39,5 +41,10 @@ export function SearchResults<T>(props: SearchResultsProps<T>) {
     [query, candidates, maxResults, componentify],
   );
 
-  return <Column class={clsx(props.class)}>{results}</Column>;
+  return (
+    <Column class={clsx(props.class)}>
+      {results}
+      {results.length === 0 && props.noResultsContent}
+    </Column>
+  );
 }

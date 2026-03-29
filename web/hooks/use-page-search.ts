@@ -1,14 +1,22 @@
 import type { SearchCandidate } from "@/web/components/search/algorithm/types";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useMemo } from "preact/hooks";
+import type { Icon } from "@/web/components/icons/type";
+import { MingcuteLocationLine } from "@/web/components/icons/MingcuteLocationLine";
+import { MingcuteGitCommitLine } from "@/web/components/icons/MingcuteGitCommitLine";
 
 export type PageSearchCandidateData = {
   name: string;
   url: string;
+  icon: Icon;
 };
 type PageSearchCandidate = SearchCandidate<PageSearchCandidateData>;
+type Result = {
+  candidates: readonly PageSearchCandidate[];
+  placeholder: string;
+};
 
-export function usePageSearchCandidates(): readonly PageSearchCandidate[] {
+export function usePageSearch(): Result {
   const { foda } = useFoundationalData();
 
   const candidates = useMemo(() => {
@@ -31,6 +39,7 @@ export function usePageSearchCandidates(): readonly PageSearchCandidate[] {
       data: {
         name: stopFormatter(x.name),
         url: `/stops/${x.urlPath}`,
+        icon: MingcuteLocationLine,
       },
     }));
 
@@ -41,11 +50,26 @@ export function usePageSearchCandidates(): readonly PageSearchCandidate[] {
       data: {
         name: lineFormatter(x.name),
         url: `/lines/${x.urlPath}`,
+        icon: MingcuteGitCommitLine,
       },
     }));
 
     return [...stops, ...lines];
   }, [foda]);
 
-  return candidates;
+  const placeholder = useMemo(() => {
+    const stopsTerm = {
+      stop: "stops",
+      station: "stations",
+    }[foda.terminology.stop];
+
+    const linesTerm = {
+      line: "lines",
+      route: "routes",
+    }[foda.terminology.line];
+
+    return `Search ${stopsTerm}, ${linesTerm}, or pages`;
+  }, [foda]);
+
+  return { candidates, placeholder };
 }
