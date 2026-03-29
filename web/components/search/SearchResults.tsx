@@ -4,7 +4,6 @@ import type { SearchCandidate } from "@/web/components/search/algorithm/types";
 import { useCallback, useMemo } from "preact/hooks";
 import { search } from "@/web/components/search/algorithm";
 import { Fragment, type ComponentChildren } from "preact";
-import { TextBlock } from "../core/TextBlock";
 
 type SearchResultButton<T> = (props: {
   result: T;
