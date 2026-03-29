@@ -1,9 +1,9 @@
-import { UilRedo } from "@/web/components/icons/UilRedo";
 import { MenuItemButtonLayout } from "@/web/components/button/layouts/MenuItemButtonLayout";
 import { AccentButtonHousing } from "@/web/components/button/housings/AccentButtonHousing";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { useEffect, useState } from "preact/hooks";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
+import { MingcuteRefresh3Line } from "@/web/components/icons/MingcuteRefresh3Line";
 
 type NavMenuPwaUpdateButtonProps = {
   menuFullyClosed: boolean;
@@ -27,7 +27,7 @@ export function NavMenuPwaUpdateButton(props: NavMenuPwaUpdateButtonProps) {
     <AccentButtonHousing rounded={false} onClick={() => void update()}>
       <PageCenterer>
         <MenuItemButtonLayout
-          icon={UilRedo}
+          icon={MingcuteRefresh3Line}
           // TODO: This text needs to wrap when the page is narrow!
           text="Update available — click to refresh"
           outerPadding

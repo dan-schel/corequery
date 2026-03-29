@@ -6,8 +6,8 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { Button } from "@/web/components/button/Button";
-import { UilRedo } from "@/web/components/icons/UilRedo";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
+import { MingcuteRefresh3Line } from "@/web/components/icons/MingcuteRefresh3Line";
 
 type OutdatedPwaControlsProps = {
   class?: string;
@@ -23,7 +23,7 @@ export function OutdatedPwaControls(props: OutdatedPwaControlsProps) {
         theme="accent"
         text="Refresh & update"
         class="self-start"
-        icon={UilRedo}
+        icon={MingcuteRefresh3Line}
         onClick={() => void update()}
       />
     );
