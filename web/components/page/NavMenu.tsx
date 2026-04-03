@@ -4,9 +4,7 @@ import { Button } from "@/web/components/button/Button";
 import { useMenuItems } from "@/web/hooks/use-nav-items";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { NavMenuPwaUpdateButton } from "@/web/components/page/NavMenuPwaUpdateButton";
-import { NavMenuSearch } from "@/web/components/page/NavMenuSearch";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
-import { Divider } from "@/web/components/core/Divider";
 
 type NavMenuProps = {
   class?: string;
@@ -50,21 +48,17 @@ export function NavMenu(props: NavMenuProps) {
       <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-95" />
       <Column class="relative z-1 desktop:flex-col-reverse">
         <PageCenterer>
-          <Column>
-            <NavMenuSearch class="py-2" menuFullyClosed={menuFullyClosed} />
-            <Divider />
-            <Column class="py-2">
-              {menuItems.map((item) => (
-                <Button
-                  icon={item.icon}
-                  text={item.name}
-                  href={item.href}
-                  onHrefClick={props.onClose}
-                  theme="hover-square"
-                  layout="menu-item"
-                />
-              ))}
-            </Column>
+          <Column class="py-2">
+            {menuItems.map((item) => (
+              <Button
+                icon={item.icon}
+                text={item.name}
+                href={item.href}
+                onHrefClick={props.onClose}
+                theme="hover-square"
+                layout="menu-item"
+              />
+            ))}
           </Column>
         </PageCenterer>
         <NavMenuPwaUpdateButton menuFullyClosed={menuFullyClosed} />
