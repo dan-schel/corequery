@@ -40,18 +40,20 @@ export function NavMenuSearch(props: NavMenuSearchProps) {
         <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-lg" />
       </Grid>
       <Divider />
-      <SearchResults
-        query={query}
-        candidates={candidates}
-        buttonComponent={SearchResult}
-        noResultsContent={
-          <Grid class="h-10 items-center">
-            <TextBlock class="px-4" style="weak">
-              No results.
-            </TextBlock>
-          </Grid>
-        }
-      />
+      <Grid class="h-50">
+        <SearchResults
+          query={query}
+          candidates={candidates}
+          buttonComponent={SearchResult}
+          noResultsContent={
+            <Grid class="h-10 items-center">
+              <TextBlock class="px-4" style="weak">
+                No results.
+              </TextBlock>
+            </Grid>
+          }
+        />
+      </Grid>
     </Column>
   );
 }

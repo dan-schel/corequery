@@ -50,7 +50,9 @@ export function NavMenu(props: NavMenuProps) {
       <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-95" />
       <Column class="relative z-1 desktop:flex-col-reverse">
         <PageCenterer>
-          <Column class="desktop:flex-col-reverse">
+          <Column>
+            <NavMenuSearch class="py-2" menuFullyClosed={menuFullyClosed} />
+            <Divider />
             <Column class="py-2">
               {menuItems.map((item) => (
                 <Button
@@ -63,8 +65,6 @@ export function NavMenu(props: NavMenuProps) {
                 />
               ))}
             </Column>
-            <Divider />
-            <NavMenuSearch class="py-2" menuFullyClosed={menuFullyClosed} />
           </Column>
         </PageCenterer>
         <NavMenuPwaUpdateButton menuFullyClosed={menuFullyClosed} />
