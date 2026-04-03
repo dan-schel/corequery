@@ -35,7 +35,7 @@ export function SearchPanel(props: SearchPanelProps) {
     <div
       class={clsx(
         props.class,
-        "fixed top-0 left-0 right-0 bottom-0 transition-[opacity,visibility] duration-100",
+        "fixed top-0 left-0 right-0 bottom-0 z-10 transition-[opacity,visibility] duration-100",
         {
           "invisible": !props.open,
           "opacity-0": !props.open,
