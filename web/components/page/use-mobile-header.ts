@@ -1,31 +1,35 @@
+import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useContext, useLayoutEffect, useState } from "preact/hooks";
 
 type MobileHeaderState = {
-  hasMobileHeader: boolean;
-  setHasMobileHeader: (value: boolean) => void;
+  mobileHeader: ComponentChildren | null;
+  setMobileHeader: (value: ComponentChildren | null) => void;
 };
 
 const MobileHeaderContext = createContext<MobileHeaderState>({
-  hasMobileHeader: false,
-  setHasMobileHeader: () => {},
+  mobileHeader: null,
+  setMobileHeader: () => {},
 });
 
 export function useMobileHeaderState() {
-  const [hasMobileHeader, setHasMobileHeader] = useState(false);
-  return { hasMobileHeader, setHasMobileHeader };
+  const [mobileHeader, setMobileHeader] = useState<ComponentChildren | null>(
+    null,
+  );
+  return { mobileHeader, setMobileHeader };
 }
 
 export const MobileHeaderProvider = MobileHeaderContext.Provider;
 
-export function useHasMobileHeader() {
-  return useContext(MobileHeaderContext).hasMobileHeader;
+export function useMobileHeader() {
+  return useContext(MobileHeaderContext).mobileHeader;
 }
 
-export function useSetMobileHeader(value: boolean) {
-  const { setHasMobileHeader } = useContext(MobileHeaderContext);
+export function useSetMobileHeader(value: ComponentChildren | null) {
+  const { setMobileHeader } = useContext(MobileHeaderContext);
 
-  useEffect(() => {
-    setHasMobileHeader(value);
-  }, [value, setHasMobileHeader]);
+  useLayoutEffect(() => {
+    setMobileHeader(value);
+    return () => setMobileHeader(null);
+  }, [value, setMobileHeader]);
 }

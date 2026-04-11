@@ -7,6 +7,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useNavExemptions } from "@/web/components/page/use-nav-exemptions";
 import { MobileNavBar } from "@/web/components/page/MobileNavBar";
 import { DesktopNavBar } from "@/web/components/page/DesktopNavBar";
+import { useMobileHeader } from "@/web/components/page/use-mobile-header";
 
 type NavProps = {
   class?: string;
@@ -14,6 +15,7 @@ type NavProps = {
 
 export function Nav(props: NavProps) {
   const { showMobileNav, showDesktopNav } = useNavExemptions();
+  const mobileHeader = useMobileHeader();
 
   const { url } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,7 +47,11 @@ export function Nav(props: NavProps) {
 
   return (
     <>
-      <SearchPanel open={searchOpen} onClose={handleCloseSearchRequested} />
+      <SearchPanel
+        open={searchOpen}
+        onClose={handleCloseSearchRequested}
+        hasMobileHeader={mobileHeader != null}
+      />
       <Grid
         class={clsx(
           props.class,
