@@ -14,12 +14,12 @@ import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
 
-type SearchPanelProps = {
+type SearchDrawerProps = {
   class?: string;
   open: boolean;
 };
 
-export function SearchPanel(props: SearchPanelProps) {
+export function SearchDrawer(props: SearchDrawerProps) {
   const [query, setQuery] = useState("");
   const { candidates, placeholder } = usePageSearch();
   const panelFullyClosed = useActivationDelay(!props.open, 300);

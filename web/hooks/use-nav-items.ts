@@ -27,13 +27,13 @@ type RegularNavItem = {
 type MenuNavItem = {
   readonly name: string;
   readonly icon: Icon;
-  readonly opensMenu: true;
+  readonly opensMoreDrawer: true;
 };
 
 type SearchNavItem = {
   readonly name: string;
   readonly icon: Icon;
-  readonly opensSearch: true;
+  readonly opensSearchDrawer: true;
 };
 
 type MenuItem = {
@@ -68,12 +68,12 @@ export function useNavItems(): NavItem[] {
     {
       name: "Search",
       icon: MingcuteSearch2Line,
-      opensSearch: true,
+      opensSearchDrawer: true,
     },
     {
       name: "More",
       icon: MingcuteMenuLine,
-      opensMenu: true,
+      opensMoreDrawer: true,
     },
   ];
 }

@@ -6,13 +6,13 @@ import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { NavMenuPwaUpdateButton } from "@/web/components/page/nav/NavMenuPwaUpdateButton";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
 
-type NavMenuProps = {
+type MoreDrawerProps = {
   class?: string;
   open: boolean;
   onClose: () => void;
 };
 
-export function NavMenu(props: NavMenuProps) {
+export function MoreDrawer(props: MoreDrawerProps) {
   const menuItems = useMenuItems();
   const menuFullyClosed = useActivationDelay(!props.open, 300);
 

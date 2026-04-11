@@ -7,8 +7,8 @@ import { useServiceWorker } from "@/web/hooks/use-service-worker";
 
 type MobileNavBarProps = {
   class?: string;
-  onMenuButtonClick: () => void;
-  onSearchButtonClick: () => void;
+  onOpenMoreDrawerRequest: () => void;
+  onOpenSearchDrawerRequest: () => void;
 };
 
 export function MobileNavBar(props: MobileNavBarProps) {
@@ -31,10 +31,10 @@ export function MobileNavBar(props: MobileNavBarProps) {
           active={"isActive" in item ? item.isActive(url) : false}
           href={"href" in item ? item.href : undefined}
           onClick={
-            "opensMenu" in item
-              ? props.onMenuButtonClick
-              : "opensSearch" in item
-                ? props.onSearchButtonClick
+            "opensMoreDrawer" in item
+              ? props.onOpenMoreDrawerRequest
+              : "opensSearchDrawer" in item
+                ? props.onOpenSearchDrawerRequest
                 : undefined
           }
           showBadge={isUpdateAvailable && "opensMenu" in item}
