@@ -19,7 +19,7 @@ export function MobileNavBar(props: MobileNavBarProps) {
   return (
     <Grid
       class={clsx(
-        props,
+        props.class,
         "h-18 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2",
       )}
     >

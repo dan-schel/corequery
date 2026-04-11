@@ -31,11 +31,8 @@ export function Nav(props: NavProps) {
     setSearchOpen((open) => !open);
   }
 
-  function handleCloseMenuRequested() {
+  function handleClosePanelRequested() {
     setMenuOpen(false);
-  }
-
-  function handleCloseSearchRequested() {
     setSearchOpen(false);
   }
 
@@ -46,48 +43,45 @@ export function Nav(props: NavProps) {
   }, [url]);
 
   return (
-    <>
-      <SearchPanel
-        open={searchOpen}
-        onClose={handleCloseSearchRequested}
-        hasMobileHeader={mobileHeader != null}
-      />
-      <Grid
-        class={clsx(
-          props.class,
-          "fixed desktop:top-0 not-desktop:bottom-0 left-0 right-0 desktop:grid-rows-[auto_auto_1fr] not-desktop:grid-rows-[1fr_auto_auto]",
-          {
-            "desktop:bottom-0 not-desktop:top-0": menuOpen,
-            "pointer-events-none": !menuOpen,
-          },
+    <Grid
+      class={clsx(
+        props.class,
+        "fixed desktop:top-0 bottom-0 left-0 right-0 desktop:grid-rows-[auto_1fr] not-desktop:grid-rows-[1fr_auto]",
+        {
+          "not-desktop:top-0": mobileHeader == null,
+          "not-desktop:top-12": mobileHeader != null,
+          "pointer-events-none": !menuOpen && !searchOpen,
+        },
+      )}
+    >
+      <div class="desktop:hidden row-2 pointer-events-auto relative z-1">
+        {showMobileNav && (
+          <MobileNavBar
+            onMenuButtonClick={handleMenuButtonClicked}
+            onSearchButtonClick={handleSearchButtonClicked}
+          />
         )}
-      >
-        <div class="desktop:hidden row-3 pointer-events-auto relative z-2">
-          {showMobileNav && (
-            <MobileNavBar
-              onMenuButtonClick={handleMenuButtonClicked}
-              onSearchButtonClick={handleSearchButtonClicked}
-            />
-          )}
+      </div>
+      <div class="not-desktop:hidden row-1 pointer-events-auto relative z-1">
+        {showDesktopNav && (
+          <DesktopNavBar
+            onMenuButtonClick={handleMenuButtonClicked}
+            onSearchButtonClick={handleSearchButtonClicked}
+          />
+        )}
+      </div>
+      <div class="relative z-0 h-full desktop:row-2 not-desktop:row-1">
+        <div class="absolute desktop:top-0 not-desktop:bottom-0 left-0 right-0 z-1">
+          <NavMenu open={menuOpen} onClose={handleClosePanelRequested} />
         </div>
-        <div class="not-desktop:hidden row-1 pointer-events-auto relative z-2">
-          {showDesktopNav && (
-            <DesktopNavBar
-              onMenuButtonClick={handleMenuButtonClicked}
-              onSearchButtonClick={handleSearchButtonClicked}
-            />
-          )}
+        <div class="absolute top-0 left-0 right-0 z-1">
+          <SearchPanel open={searchOpen} />
         </div>
-        <NavMenu
-          class="relative z-1 row-2"
-          open={menuOpen}
-          onClose={handleCloseMenuRequested}
-        />
         <div
-          class="relative z-0 h-full desktop:row-3 not-desktop:row-1"
-          onClick={handleCloseMenuRequested}
+          class="absolute top-0 left-0 right-0 bottom-0 z-0"
+          onClick={handleClosePanelRequested}
         />
-      </Grid>
-    </>
+      </div>
+    </Grid>
   );
 }

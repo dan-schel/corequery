@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
-import { useContext, useLayoutEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 type MobileHeaderState = {
   mobileHeader: ComponentChildren | null;
@@ -28,7 +28,8 @@ export function useMobileHeader() {
 export function useSetMobileHeader(value: ComponentChildren | null) {
   const { setMobileHeader } = useContext(MobileHeaderContext);
 
-  useLayoutEffect(() => {
+  // TODO: Is this re-running on every render?
+  useEffect(() => {
     setMobileHeader(value);
     return () => setMobileHeader(null);
   }, [value, setMobileHeader]);
