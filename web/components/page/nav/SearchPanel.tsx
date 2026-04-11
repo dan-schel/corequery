@@ -13,7 +13,6 @@ import { MingcuteSearch2Line } from "@/web/components/icons/MingcuteSearch2Line"
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
-import { Divider } from "@/web/components/core/Divider";
 
 type SearchPanelProps = {
   class?: string;
@@ -45,8 +44,8 @@ export function SearchPanel(props: SearchPanelProps) {
     >
       <div class="absolute top-0 bottom-0 left-0 right-0 bg-bg-raised border-b border-soft-border opacity-95" />
       <PageCenterer class="relative z-1">
-        <Column class="py-2 gap-2">
-          <Grid class="relative">
+        <Column>
+          <Grid class="relative py-2 border-b border-b-soft-border not-desktop:bg-bg-navbar">
             <Input
               value={query}
               onChange={setQuery}
@@ -55,8 +54,7 @@ export function SearchPanel(props: SearchPanelProps) {
             />
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-lg" />
           </Grid>
-          <Divider />
-          <Grid class="h-50">
+          <Grid class="h-54 py-2">
             <SearchResults
               query={query}
               candidates={candidates}

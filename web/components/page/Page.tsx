@@ -4,7 +4,7 @@ import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
 import { DesktopHeader } from "@/web/components/page/DesktopHeader";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
-import { useSetMobileHeader } from "@/web/components/page/use-mobile-header";
+import { MobileHeader } from "@/web/components/page/MobileHeader";
 
 type PageProps = {
   class?: string;
@@ -17,10 +17,6 @@ type PageProps = {
 export function Page(props: PageProps) {
   const { showMobileNav } = useNavExemptions();
   const centered = props.centered ?? true;
-
-  // The mobile header is rendered by PageContainer (fixed to the top of the
-  // page, above the search panel). Pass the content up via context.
-  useSetMobileHeader(props.mobileHeader);
 
   return (
     <Grid
@@ -44,6 +40,12 @@ export function Page(props: PageProps) {
         // Desktop header is not fixed (it scrolls with the page, so can be as
         // tall as it wants).
         <DesktopHeader>{props.desktopHeader}</DesktopHeader>
+      )}
+      {props.mobileHeader != null && (
+        // Intentionally lock the height at 3rem, so that if a page wanted to
+        // use a taller header, they'd need to negotiate with the <Page>
+        // component, and then we'd adjust the pt-12 above to match.
+        <MobileHeader class="h-12">{props.mobileHeader}</MobileHeader>
       )}
       {centered ? (
         <PageCenterer>{props.children}</PageCenterer>
