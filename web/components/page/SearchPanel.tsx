@@ -13,6 +13,7 @@ import { MingcuteSearch2Line } from "@/web/components/icons/MingcuteSearch2Line"
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
+import { useHasMobileHeader } from "@/web/components/page/use-mobile-header";
 
 type SearchPanelProps = {
   class?: string;
@@ -24,6 +25,7 @@ export function SearchPanel(props: SearchPanelProps) {
   const [query, setQuery] = useState("");
   const { candidates, placeholder } = usePageSearch();
   const panelFullyClosed = useActivationDelay(!props.open, 300);
+  const hasMobileHeader = useHasMobileHeader();
 
   useEffect(() => {
     if (panelFullyClosed) {
@@ -35,7 +37,12 @@ export function SearchPanel(props: SearchPanelProps) {
     <div
       class={clsx(
         props.class,
-        "fixed top-0 left-0 right-0 bottom-0 z-10 transition-[opacity,visibility] duration-100",
+        "fixed left-0 right-0 bottom-0 z-10 transition-[opacity,visibility] duration-100",
+
+        // Always below the desktop nav. On mobile, below the mobile header if
+        // present, otherwise at the top of the page.
+        "desktop:top-12",
+        hasMobileHeader ? "not-desktop:top-12" : "not-desktop:top-0",
         {
           "invisible": !props.open,
           "opacity-0": !props.open,

@@ -1,5 +1,9 @@
 import type { ComponentChildren } from "preact";
 import { Nav } from "@/web/components/page/Nav";
+import {
+  MobileHeaderProvider,
+  useMobileHeaderState,
+} from "@/web/components/page/use-mobile-header";
 
 type PageContainerProps = {
   class?: string;
@@ -7,12 +11,16 @@ type PageContainerProps = {
 };
 
 export function PageContainer(props: PageContainerProps) {
+  const mobileHeaderState = useMobileHeaderState();
+
   return (
-    <div class={props.class}>
-      <div class="relative z-0">{props.children}</div>
-      <div class="relative z-1">
-        <Nav />
+    <MobileHeaderProvider value={mobileHeaderState}>
+      <div class={props.class}>
+        <div class="relative z-0">{props.children}</div>
+        <div class="relative z-1">
+          <Nav />
+        </div>
       </div>
-    </div>
+    </MobileHeaderProvider>
   );
 }

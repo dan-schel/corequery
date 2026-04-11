@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { MobileHeader } from "@/web/components/page/MobileHeader";
 import { DesktopHeader } from "@/web/components/page/DesktopHeader";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
+import { useSetMobileHeader } from "@/web/components/page/use-mobile-header";
 
 type PageProps = {
   class?: string;
@@ -17,6 +18,8 @@ type PageProps = {
 export function Page(props: PageProps) {
   const { showMobileNav } = useNavExemptions();
   const centered = props.centered ?? true;
+
+  useSetMobileHeader(props.mobileHeader != null);
 
   return (
     <Grid
