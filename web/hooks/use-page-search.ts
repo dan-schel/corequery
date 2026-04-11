@@ -1,9 +1,9 @@
-import type { SearchCandidate } from "@/web/components/search/algorithm/types";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useMemo } from "preact/hooks";
 import type { Icon } from "@/web/components/icons/type";
 import { MingcuteLocationLine } from "@/web/components/icons/MingcuteLocationLine";
 import { MingcuteGitCommitLine } from "@/web/components/icons/MingcuteGitCommitLine";
+import type { SearchCandidate } from "@/web/data/search/types";
 
 export type PageSearchCandidateData = {
   name: string;

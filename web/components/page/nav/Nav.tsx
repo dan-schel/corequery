@@ -67,13 +67,24 @@ export function Nav(props: NavProps) {
         )}
       </div>
       <div class="relative z-0 h-full desktop:row-2 not-desktop:row-1">
-        <div class="absolute desktop:top-0 not-desktop:bottom-0 left-0 right-0 z-1">
+        <div
+          class={clsx(
+            "absolute desktop:top-0 not-desktop:bottom-0 left-0 right-0 z-1",
+            {
+              "pointer-events-none": !moreDrawerOpen,
+            },
+          )}
+        >
           <MoreDrawer
             open={moreDrawerOpen}
             onClose={handleCloseDrawersRequest}
           />
         </div>
-        <div class="absolute top-0 left-0 right-0 z-1">
+        <div
+          class={clsx("absolute top-0 left-0 right-0 z-1", {
+            "pointer-events-none": !searchDrawerOpen,
+          })}
+        >
           <SearchDrawer open={searchDrawerOpen} />
         </div>
         <div

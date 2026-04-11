@@ -1,11 +1,7 @@
 import clsx from "clsx";
 import { Column } from "@/web/components/core/Column";
-import { SearchResults } from "@/web/components/search/SearchResults";
-import {
-  usePageSearch,
-  type PageSearchCandidateData,
-} from "@/web/hooks/use-page-search";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { usePageSearch } from "@/web/hooks/use-page-search";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { Button } from "@/web/components/button/Button";
 import { Input } from "@/web/components/core/Input";
 import { Grid } from "@/web/components/core/Grid";
@@ -13,6 +9,9 @@ import { MingcuteSearch2Line } from "@/web/components/icons/MingcuteSearch2Line"
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
+import { search } from "@/web/data/search";
+import { useLocation } from "preact-iso";
+import { itsOk } from "@dan-schel/js-utils";
 
 type SearchDrawerProps = {
   class?: string;
@@ -22,14 +21,22 @@ type SearchDrawerProps = {
 export function SearchDrawer(props: SearchDrawerProps) {
   const [query, setQuery] = useState("");
   const { candidates, placeholder } = usePageSearch();
-  const drawerFullyClosed = useActivationDelay(!props.open, 300);
+  const { route } = useLocation();
 
+  const results = useMemo(
+    () => search(query, candidates, { maxResults: 5 }),
+    [query, candidates],
+  );
+
+  // Reset the query when the drawer closes.
+  const drawerFullyClosed = useActivationDelay(!props.open, 300);
   useEffect(() => {
     if (drawerFullyClosed) {
       setQuery("");
     }
   }, [drawerFullyClosed]);
 
+  // Focus the search input when the drawer opens.
   const inputRef = useRef<HTMLInputElement>(null);
   const searchInputReady = useActivationDelay(props.open, 100);
   useEffect(() => {
@@ -37,6 +44,12 @@ export function SearchDrawer(props: SearchDrawerProps) {
       inputRef.current?.focus();
     }
   }, [searchInputReady]);
+
+  function handleSearchSubmit() {
+    if (results.length > 0) {
+      route(itsOk(results[0]).url);
+    }
+  }
 
   return (
     <div
@@ -60,41 +73,32 @@ export function SearchDrawer(props: SearchDrawerProps) {
               class="px-4 pl-11 h-8"
               placeholder={placeholder}
               inputRef={inputRef}
+              onSubmit={handleSearchSubmit}
+              search
             />
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-lg" />
           </Grid>
-          <Grid class="h-54 py-2">
-            <SearchResults
-              query={query}
-              candidates={candidates}
-              buttonComponent={SearchResult}
-              noResultsContent={
-                <Grid class="h-10 items-center">
-                  <TextBlock class="px-4" style="weak">
-                    No results.
-                  </TextBlock>
-                </Grid>
-              }
-            />
-          </Grid>
+          <Column class="h-54 py-2">
+            {results.length === 0 && (
+              <Grid class="h-10 items-center">
+                <TextBlock class="px-4" style="weak">
+                  No results.
+                </TextBlock>
+              </Grid>
+            )}
+            {results.map((result, i) => (
+              <Button
+                key={i}
+                text={result.name}
+                href={result.url}
+                icon={result.icon}
+                theme="hover-square"
+                layout="menu-item"
+              />
+            ))}
+          </Column>
         </Column>
       </PageCenterer>
     </div>
-  );
-}
-
-type SearchResultProps = {
-  result: PageSearchCandidateData;
-};
-
-function SearchResult(props: SearchResultProps) {
-  return (
-    <Button
-      text={props.result.name}
-      href={props.result.url}
-      icon={props.result.icon}
-      theme="hover-square"
-      layout="menu-item"
-    />
   );
 }

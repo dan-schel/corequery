@@ -1,10 +1,10 @@
-import type { SearchCandidate } from "@/web/components/search/algorithm/types";
-import { SearchResultBuilder } from "@/web/components/search/algorithm/search-result-builder";
-import { getExactMatches } from "@/web/components/search/algorithm/subalgorithms/exact-matches";
-import { getPrimaryPrefixMatches } from "@/web/components/search/algorithm/subalgorithms/primary-prefix-matches";
-import { getAlternativePrefixMatches } from "@/web/components/search/algorithm/subalgorithms/alternatives-prefix-matches";
-import { getPrimarySubstringMatches } from "@/web/components/search/algorithm/subalgorithms/primary-substring-matches";
-import { getAlternativeSubstringMatches } from "@/web/components/search/algorithm/subalgorithms/alternatives-substring-matches";
+import type { SearchCandidate } from "@/web/data/search/types";
+import { SearchResultBuilder } from "@/web/data/search/search-result-builder";
+import { getExactMatches } from "@/web/data/search/subalgorithms/exact-matches";
+import { getPrimaryPrefixMatches } from "@/web/data/search/subalgorithms/primary-prefix-matches";
+import { getPrimarySubstringMatches } from "@/web/data/search/subalgorithms/primary-substring-matches";
+import { getAlternativePrefixMatches } from "@/web/data/search/subalgorithms/alternatives-prefix-matches";
+import { getAlternativeSubstringMatches } from "@/web/data/search/subalgorithms/alternatives-substring-matches";
 
 export function search<T>(
   query: string,
