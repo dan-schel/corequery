@@ -5,7 +5,7 @@ import {
   usePageSearch,
   type PageSearchCandidateData,
 } from "@/web/hooks/use-page-search";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "@/web/components/button/Button";
 import { Input } from "@/web/components/core/Input";
 import { Grid } from "@/web/components/core/Grid";
@@ -22,13 +22,21 @@ type SearchDrawerProps = {
 export function SearchDrawer(props: SearchDrawerProps) {
   const [query, setQuery] = useState("");
   const { candidates, placeholder } = usePageSearch();
-  const panelFullyClosed = useActivationDelay(!props.open, 300);
+  const drawerFullyClosed = useActivationDelay(!props.open, 300);
 
   useEffect(() => {
-    if (panelFullyClosed) {
+    if (drawerFullyClosed) {
       setQuery("");
     }
-  }, [panelFullyClosed]);
+  }, [drawerFullyClosed]);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const searchInputReady = useActivationDelay(props.open, 100);
+  useEffect(() => {
+    if (searchInputReady) {
+      inputRef.current?.focus();
+    }
+  }, [searchInputReady]);
 
   return (
     <div
@@ -51,6 +59,7 @@ export function SearchDrawer(props: SearchDrawerProps) {
               onChange={setQuery}
               class="px-4 pl-11 h-8"
               placeholder={placeholder}
+              inputRef={inputRef}
             />
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-lg" />
           </Grid>

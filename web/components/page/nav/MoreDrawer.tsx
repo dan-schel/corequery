@@ -14,24 +14,8 @@ type MoreDrawerProps = {
 
 export function MoreDrawer(props: MoreDrawerProps) {
   const menuItems = useMenuItems();
-  const menuFullyClosed = useActivationDelay(!props.open, 300);
+  const drawerFullyClosed = useActivationDelay(!props.open, 300);
 
-  // ------------------------------------
-  //  🔍 Search stops, lines, pages
-  // ------------------------------------
-  //  Recent pages                    ↕️
-  //  - 12:10 Southern Cross train    ⭐
-  //  - 12:50 Southern Cross train    ⚫
-  //  - Berwick station               ⚫
-  //  - Southern Cross station        ⚫
-  //  - 7:49 East Pakenham train      ⚫
-  // ------------------------------------
-  //  ℹ️ About
-  //  ⚙️ Settings
-  //  🧑‍💻 Developer info
-  //  🛠️ Admin controls
-  //  ✨ Zen mode
-  // ------------------------------------
   return (
     <div
       class={clsx(
@@ -61,7 +45,7 @@ export function MoreDrawer(props: MoreDrawerProps) {
             ))}
           </Column>
         </PageCenterer>
-        <NavMenuPwaUpdateButton menuFullyClosed={menuFullyClosed} />
+        <NavMenuPwaUpdateButton menuFullyClosed={drawerFullyClosed} />
       </Column>
     </div>
   );

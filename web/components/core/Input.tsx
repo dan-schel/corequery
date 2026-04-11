@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import type { Ref } from "preact";
 
 const styles = {
   regular: "text-fg text-md outline-none border-none placeholder:text-fg-weak",
@@ -10,6 +11,7 @@ type InputProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   style?: keyof typeof styles;
+  inputRef?: Ref<HTMLInputElement>;
 };
 
 export function Input(props: InputProps) {
@@ -31,6 +33,7 @@ export function Input(props: InputProps) {
         props.onChange(e.target.value);
       }}
       placeholder={props.placeholder}
+      ref={props.inputRef}
     />
   );
 }
