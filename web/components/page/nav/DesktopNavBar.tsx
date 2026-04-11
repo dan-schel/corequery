@@ -1,6 +1,6 @@
 import { useNavItems } from "@/web/hooks/use-nav-items";
 import { useLocation } from "preact-iso";
-import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
+import { DesktopNavButton } from "@/web/components/page/nav/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import clsx from "clsx";

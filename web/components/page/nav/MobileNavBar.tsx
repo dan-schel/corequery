@@ -1,4 +1,4 @@
-import { MobileNavButton } from "@/web/components/page/MobileNavButton";
+import { MobileNavButton } from "@/web/components/page/nav/MobileNavButton";
 import { useNavItems } from "@/web/hooks/use-nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";

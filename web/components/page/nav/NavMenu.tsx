@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Button } from "@/web/components/button/Button";
 import { useMenuItems } from "@/web/hooks/use-nav-items";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
-import { NavMenuPwaUpdateButton } from "@/web/components/page/NavMenuPwaUpdateButton";
+import { NavMenuPwaUpdateButton } from "@/web/components/page/nav/NavMenuPwaUpdateButton";
 import { useActivationDelay } from "@/web/hooks/use-activation-delay";
 
 type NavMenuProps = {

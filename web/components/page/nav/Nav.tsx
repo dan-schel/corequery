@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
 import { Grid } from "@/web/components/core/Grid";
-import { NavMenu } from "@/web/components/page/NavMenu";
-import { SearchPanel } from "@/web/components/page/SearchPanel";
+import { NavMenu } from "@/web/components/page/nav/NavMenu";
+import { SearchPanel } from "@/web/components/page/nav/SearchPanel";
 import { useEffect, useState } from "preact/hooks";
 import { useNavExemptions } from "@/web/components/page/use-nav-exemptions";
-import { MobileNavBar } from "@/web/components/page/MobileNavBar";
-import { DesktopNavBar } from "@/web/components/page/DesktopNavBar";
+import { MobileNavBar } from "@/web/components/page/nav/MobileNavBar";
+import { DesktopNavBar } from "@/web/components/page/nav/DesktopNavBar";
 import { useMobileHeader } from "@/web/components/page/use-mobile-header";
 
 type NavProps = {
