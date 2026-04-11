@@ -31,13 +31,12 @@ function PageContainerInner(props: PageContainerProps) {
     <div class={props.class}>
       <div class="relative z-0">{props.children}</div>
       <div class="relative z-1">
-        {mobileHeader != null && (
-          // Mobile header is intentionally fixed at 3rem tall. If the page wants
-          // a larger header they'll have to configure it through this component
-          // so it can set the appropriate amount of padding.
-          <MobileHeader class="h-12 z-10">{mobileHeader}</MobileHeader>
-        )}
         <Nav />
+      </div>
+      <div class="relative z-2">
+        {mobileHeader != null && (
+          <MobileHeader class="h-12">{mobileHeader}</MobileHeader>
+        )}
       </div>
     </div>
   );
