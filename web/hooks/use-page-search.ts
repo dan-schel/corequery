@@ -5,7 +5,7 @@ import { MingcuteLocationLine } from "@/web/components/icons/MingcuteLocationLin
 import { MingcuteGitCommitLine } from "@/web/components/icons/MingcuteGitCommitLine";
 import type { SearchCandidate } from "@/web/data/search/types";
 
-export type PageSearchCandidateData = {
+type PageSearchCandidateData = {
   name: string;
   url: string;
   icon: Icon;
