@@ -38,18 +38,18 @@ export function usePageSearch(): Result {
       alternatives: [],
       data: {
         name: stopFormatter(x.name),
-        url: `/stops/${x.urlPath}`,
+        url: `/stop/${x.urlPath}`,
         icon: MingcuteLocationLine,
       },
     }));
 
     const lines = foda.lines.map<PageSearchCandidate>((x) => ({
-      id: `lines-${x.id}`,
+      id: `line-${x.id}`,
       primary: lineFormatter(x.name),
       alternatives: [],
       data: {
         name: lineFormatter(x.name),
-        url: `/lines/${x.urlPath}`,
+        url: `/line/${x.urlPath}`,
         icon: MingcuteGitCommitLine,
       },
     }));

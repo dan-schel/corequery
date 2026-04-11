@@ -22,6 +22,7 @@ const Nearby = lazy(() => import("./pages/Nearby.js"));
 const Settings = lazy(() => import("./pages/Settings.js"));
 const Status = lazy(() => import("./pages/Status.js"));
 const ZenMode = lazy(() => import("./pages/ZenMode.js"));
+const Stop = lazy(() => import("./pages/Stop.js"));
 
 const NotFound = lazy(() => import("./pages/NotFound.js"));
 
@@ -43,6 +44,7 @@ function App() {
                       <Route path="/nearby" component={Nearby} />
                       <Route path="/settings" component={Settings} />
                       <Route path="/status" component={Status} />
+                      <Route path="/stop/:id" component={Stop} />
                       <Route path="/zen" component={ZenMode} />
                       <Route default component={NotFound} />
                     </Router>
