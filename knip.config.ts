@@ -20,7 +20,7 @@ const config: KnipConfig = {
     "scripts/start",
     "scripts/test",
   ],
-  ignoreDependencies: ["@vitest/coverage-v8", "tsc-alias"],
+  ignoreDependencies: ["tsc-alias"],
   ignoreFiles: ["web/components/StatusDot.tsx", "web/hooks/use-mutation.ts"],
 };
 
