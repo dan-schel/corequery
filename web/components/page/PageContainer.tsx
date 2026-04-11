@@ -1,5 +1,5 @@
 import type { ComponentChildren } from "preact";
-import { Nav } from "@/web/components/page/Nav";
+import { Nav } from "@/web/components/page/nav/Nav";
 
 type PageContainerProps = {
   class?: string;

@@ -2,9 +2,9 @@ import type { ComponentChildren } from "preact";
 import { useNavExemptions } from "@/web/components/page/use-nav-exemptions";
 import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
-import { MobileHeader } from "@/web/components/page/MobileHeader";
 import { DesktopHeader } from "@/web/components/page/DesktopHeader";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
+import { MobileHeader } from "@/web/components/page/MobileHeader";
 
 type PageProps = {
   class?: string;
@@ -36,16 +36,16 @@ export function Page(props: PageProps) {
         "desktop:pt-12",
       )}
     >
-      {props.mobileHeader != null && (
-        // Mobile header is intentionally fixed at 3rem tall. If the page wants a
-        // larger header they'll have to configure it through this component so it
-        // can set the appropriate amount of padding.
-        <MobileHeader class="h-12">{props.mobileHeader}</MobileHeader>
-      )}
       {props.desktopHeader != null && (
         // Desktop header is not fixed (it scrolls with the page, so can be as
         // tall as it wants).
         <DesktopHeader>{props.desktopHeader}</DesktopHeader>
+      )}
+      {props.mobileHeader != null && (
+        // Intentionally lock the height at 3rem, so that if a page wanted to
+        // use a taller header, they'd need to negotiate with the <Page>
+        // component, and then we'd adjust the pt-12 above to match.
+        <MobileHeader class="h-12">{props.mobileHeader}</MobileHeader>
       )}
       {centered ? (
         <PageCenterer>{props.children}</PageCenterer>

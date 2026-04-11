@@ -1,6 +1,6 @@
 import { useNavItems } from "@/web/hooks/use-nav-items";
 import { useLocation } from "preact-iso";
-import { DesktopNavButton } from "@/web/components/page/DesktopNavButton";
+import { DesktopNavButton } from "@/web/components/page/nav/DesktopNavButton";
 import { Row } from "@/web/components/core/Row";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import clsx from "clsx";
@@ -12,7 +12,8 @@ import { useServiceWorker } from "@/web/hooks/use-service-worker";
 
 type DesktopNavBarProps = {
   class?: string;
-  onMenuButtonClick: () => void;
+  onOpenMoreDrawerRequest: () => void;
+  onOpenSearchDrawerRequest: () => void;
 };
 
 export function DesktopNavBar(props: DesktopNavBarProps) {
@@ -39,7 +40,13 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
             activeIcon={"icon" in item ? item.icon : item.activeIcon}
             active={"isActive" in item ? item.isActive(url) : false}
             href={"href" in item ? item.href : undefined}
-            onClick={"opensMenu" in item ? props.onMenuButtonClick : undefined}
+            onClick={
+              "opensMoreDrawer" in item
+                ? props.onOpenMoreDrawerRequest
+                : "opensSearchDrawer" in item
+                  ? props.onOpenSearchDrawerRequest
+                  : undefined
+            }
             showBadge={isUpdateAvailable && "opensMenu" in item}
           />
         ))}

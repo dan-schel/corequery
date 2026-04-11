@@ -1,4 +1,4 @@
-import { MobileNavButton } from "@/web/components/page/MobileNavButton";
+import { MobileNavButton } from "@/web/components/page/nav/MobileNavButton";
 import { useNavItems } from "@/web/hooks/use-nav-items";
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
@@ -7,7 +7,8 @@ import { useServiceWorker } from "@/web/hooks/use-service-worker";
 
 type MobileNavBarProps = {
   class?: string;
-  onMenuButtonClick: () => void;
+  onOpenMoreDrawerRequest: () => void;
+  onOpenSearchDrawerRequest: () => void;
 };
 
 export function MobileNavBar(props: MobileNavBarProps) {
@@ -18,7 +19,7 @@ export function MobileNavBar(props: MobileNavBarProps) {
   return (
     <Grid
       class={clsx(
-        props,
+        props.class,
         "h-18 bg-bg-navbar grid-cols-[repeat(auto-fit,minmax(0,1fr))] border-t border-soft-border px-2",
       )}
     >
@@ -29,7 +30,13 @@ export function MobileNavBar(props: MobileNavBarProps) {
           activeIcon={"icon" in item ? item.icon : item.activeIcon}
           active={"isActive" in item ? item.isActive(url) : false}
           href={"href" in item ? item.href : undefined}
-          onClick={"opensMenu" in item ? props.onMenuButtonClick : undefined}
+          onClick={
+            "opensMoreDrawer" in item
+              ? props.onOpenMoreDrawerRequest
+              : "opensSearchDrawer" in item
+                ? props.onOpenSearchDrawerRequest
+                : undefined
+          }
           showBadge={isUpdateAvailable && "opensMenu" in item}
         />
       ))}

@@ -1,4 +1,4 @@
-import type { SearchCandidate } from "@/web/components/search/algorithm/types";
+import type { SearchCandidate } from "@/web/data/search/types";
 
 export class SearchResultBuilder<T> {
   private readonly _results: Map<string, T>;

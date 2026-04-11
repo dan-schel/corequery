@@ -5,6 +5,7 @@ import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { MingcuteMapPinFill } from "@/web/components/icons/MingcuteMapPinFill";
 import { MingcuteMapPinLine } from "@/web/components/icons/MingcuteMapPinLine";
 import { MingcuteMenuLine } from "@/web/components/icons/MingcuteMenuLine";
+import { MingcuteSearch2Line } from "@/web/components/icons/MingcuteSearch2Line";
 import type { Icon } from "@/web/components/icons/type";
 import { MingcuteChartVerticalLine } from "@/web/components/icons/MingcuteChartVerticalLine";
 import { MingcuteSettings7Line } from "@/web/components/icons/MingcuteSettings7Line";
@@ -13,7 +14,7 @@ import { MingcuteToolLine } from "@/web/components/icons/MingcuteToolLine";
 import { MingcuteTv1Line } from "@/web/components/icons/MingcuteTv1Line";
 import { useStaticData } from "@/web/hooks/use-static-data";
 
-type NavItem = RegularNavItem | MenuNavItem;
+type NavItem = RegularNavItem | MenuNavItem | SearchNavItem;
 
 type RegularNavItem = {
   readonly name: string;
@@ -26,7 +27,13 @@ type RegularNavItem = {
 type MenuNavItem = {
   readonly name: string;
   readonly icon: Icon;
-  readonly opensMenu: true;
+  readonly opensMoreDrawer: true;
+};
+
+type SearchNavItem = {
+  readonly name: string;
+  readonly icon: Icon;
+  readonly opensSearchDrawer: true;
 };
 
 type MenuItem = {
@@ -59,9 +66,14 @@ export function useNavItems(): NavItem[] {
       isActive: (url) => url === "/nearby",
     },
     {
+      name: "Search",
+      icon: MingcuteSearch2Line,
+      opensSearchDrawer: true,
+    },
+    {
       name: "More",
       icon: MingcuteMenuLine,
-      opensMenu: true,
+      opensMoreDrawer: true,
     },
   ];
 }
