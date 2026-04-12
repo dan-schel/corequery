@@ -9,8 +9,10 @@ import type { ApiHandler } from "@/server/api/types.js";
 export function createApiRouter(app: Corequery) {
   const router = Router();
 
-  // TODO: CORS?
-  // router.use(createCorsMiddleware());
+  // No CORS middleware needed. The API is served from the same origin as the
+  // web app, so nothing is needed to make that work, and browsers already block
+  // cross-origin requests bydefault, unless the server explicitly opts-in to
+  // allowing JS from another domain accessing it.
 
   function setup<Args extends ZodType, Result extends ZodType>(
     api: Api<Args, Result>,
