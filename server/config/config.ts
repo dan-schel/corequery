@@ -9,8 +9,10 @@ import type {
   TagsConfig,
   TerminologyConfig,
 } from "@/server/config/types/index.js";
+import type { Logger } from "@/server/logger/logger.js";
 
 export type CorequeryConfig = {
+  readonly logger: Logger;
   readonly port: number;
   readonly version: string;
   readonly assets: AssetConfig;
