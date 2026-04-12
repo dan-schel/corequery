@@ -16,4 +16,10 @@ export class GeneralLogCategory {
       ].join("\n"),
     );
   }
+
+  apiError(path: string, err: unknown) {
+    const message =
+      err instanceof Error ? (err.stack ?? err.message) : String(err);
+    this._log(`500 Error handling ${path}:\n${message}`);
+  }
 }
