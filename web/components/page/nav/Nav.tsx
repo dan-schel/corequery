@@ -85,7 +85,10 @@ export function Nav(props: NavProps) {
             "pointer-events-none": !searchDrawerOpen,
           })}
         >
-          <SearchDrawer open={searchDrawerOpen} />
+          <SearchDrawer
+            open={searchDrawerOpen}
+            onClose={handleCloseDrawersRequest}
+          />
         </div>
         <div
           class="absolute top-0 left-0 right-0 bottom-0 z-0"

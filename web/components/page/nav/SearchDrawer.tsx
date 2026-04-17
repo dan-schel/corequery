@@ -16,6 +16,7 @@ import { itsOk } from "@dan-schel/js-utils";
 type SearchDrawerProps = {
   class?: string;
   open: boolean;
+  onClose: () => void;
 };
 
 export function SearchDrawer(props: SearchDrawerProps) {
@@ -48,6 +49,10 @@ export function SearchDrawer(props: SearchDrawerProps) {
   function handleSearchSubmit() {
     if (results.length > 0) {
       route(itsOk(results[0]).url);
+
+      // We could end up "navigating" to the page we're already on, and in that
+      // case this call is required to close the drawer.
+      props.onClose();
     }
   }
 
