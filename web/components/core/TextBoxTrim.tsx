@@ -32,9 +32,8 @@ const textSizes = {
   "text-sm": 0.75,
   "text-md": 0.9,
   "text-mdlg": 1,
-  "text-lg": 1.25,
-  "text-xl": 1.5,
-  "text-2xl": 2,
+  "text-lg": 1.1,
+  "text-xl": 1.25,
 };
 
 export function getTextBoxHeightRem(fontSize: number | keyof typeof textSizes) {

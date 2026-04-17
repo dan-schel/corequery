@@ -38,9 +38,9 @@ export function DesktopNavButton(props: DesktopNavButtonProps) {
             <div class="h-2 w-2 absolute rounded-full bg-accent top-0 right-0" />
           )}
           {active === true ? (
-            <props.activeIcon class="text-fg-strong text-lg" />
+            <props.activeIcon class="text-fg-strong text-icon-lg" />
           ) : (
-            <props.regularIcon class="text-fg text-lg" />
+            <props.regularIcon class="text-fg text-icon-lg" />
           )}
         </Grid>
         <Grid class="relative">

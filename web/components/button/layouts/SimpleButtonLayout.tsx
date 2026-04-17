@@ -20,7 +20,7 @@ export function SimpleButtonLayout(props: SimpleButtonLayoutProps) {
       yAlign="center"
       xAlign="center"
     >
-      {props.icon != null && <props.icon class="text-fg text-lg" />}
+      {props.icon != null && <props.icon class="text-fg text-icon-lg" />}
       {props.text != null && <TextBlock>{props.text}</TextBlock>}
     </Row>
   );

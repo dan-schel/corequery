@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
 const styles = {
-  default: "text-lg text-fg-weak",
-  large: "text-xl text-fg-weak",
+  default: "text-icon-lg text-fg-weak",
+  large: "text-icon-xl text-fg-weak",
 };
 
 type LoadingSpinnerProps = {
