@@ -10,9 +10,10 @@ export class LineCollection extends Collection<number, Line> {
   static build(
     stops: readonly LineConfig[],
     lineTagSuccession: TagSuccessionConfig,
+    routeTagSuccession: TagSuccessionConfig,
   ) {
     return new LineCollection(
-      stops.map((s) => Line.build(s, lineTagSuccession)),
+      stops.map((s) => Line.build(s, lineTagSuccession, routeTagSuccession)),
     );
   }
 

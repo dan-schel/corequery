@@ -3,7 +3,7 @@ import { Tags } from "@/server/data/tags.js";
 import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { Location } from "@/server/data/location.js";
-import type { LineCollection } from "./line-collection.js";
+import type { LineCollection } from "@/server/data/line-collection.js";
 
 type StopFields = {
   readonly id: number;
@@ -50,6 +50,7 @@ export class Stop {
       id: this.id,
       name: this.name,
       urlPath: this.urlPath,
+      canonicalLinesServingStop: this.getCanonicalLinesServingStop(lines),
       location: this.location?.toFoda() ?? null,
     };
   }
@@ -57,5 +58,14 @@ export class Stop {
   /** e.g. `"Sandringham" (#1)` */
   get debugName(): string {
     return `"${this.name}" (#${this.id})`;
+  }
+
+  getCanonicalLinesServingStop(lines: LineCollection): number[] {
+    // TODO: Need a method to exclude the Flemington Racecourse line, unless
+    // it's the only line serving the stop. Some sort of "line tiers" system?
+    // Using the tags somehow?
+    return lines
+      .filter((line) => line.stopsAt(this.id, { includeHiddenStops: false }))
+      .map((line) => line.id);
   }
 }

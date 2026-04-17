@@ -54,9 +54,14 @@ export class Corequery {
     // Only known after assets are prepared, during start().
     this._frontendVersion = null;
 
-    const { stopTagSuccession, lineTagSuccession } = this._config.tags;
+    const { stopTagSuccession, lineTagSuccession, routeTagSuccession } =
+      this._config.tags;
     this.stops = StopCollection.build(this._config.stops, stopTagSuccession);
-    this.lines = LineCollection.build(this._config.lines, lineTagSuccession);
+    this.lines = LineCollection.build(
+      this._config.lines,
+      lineTagSuccession,
+      routeTagSuccession,
+    );
 
     this.landingPageConfig = this._config.landingPage;
     this.footerConfig = this._config.footer;

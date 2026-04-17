@@ -3,6 +3,7 @@ import { Tags } from "@/server/data/tags.js";
 import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { getHexCodesForColor, type Color } from "@/server/data/color.js";
+import { Route, type StopsAtOptions } from "@/server/data/route.js";
 
 type LineFields = {
   readonly id: number;
@@ -10,6 +11,7 @@ type LineFields = {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly color: Color | null;
+  readonly routes: readonly Route[];
 };
 
 export class Line {
@@ -18,6 +20,7 @@ export class Line {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly color: Color | null;
+  readonly routes: readonly Route[];
 
   constructor(fields: LineFields) {
     this.id = fields.id;
@@ -25,11 +28,13 @@ export class Line {
     this.tags = fields.tags;
     this.urlPath = fields.urlPath;
     this.color = fields.color;
+    this.routes = fields.routes;
   }
 
   static build(
     lineConfig: LineConfig,
     lineTagSuccession: TagSuccessionConfig,
+    routeTagSuccession: TagSuccessionConfig,
   ): Line {
     return new Line({
       id: lineConfig.id,
@@ -37,7 +42,14 @@ export class Line {
       tags: Tags.build(lineConfig.tags, lineTagSuccession),
       urlPath: lineConfig.urlPath,
       color: lineConfig.color,
+      routes: lineConfig.routes.map((route) =>
+        Route.build(route, routeTagSuccession),
+      ),
     });
+  }
+
+  stopsAt(stopId: number, options: StopsAtOptions): boolean {
+    return this.routes.some((route) => route.stopsAt(stopId, options));
   }
 
   toFoda(): z.input<typeof lineFodaSchema> {
