@@ -32,6 +32,10 @@ export class FoundationalData {
     return this._raw.terminology;
   }
 
+  get landingPage() {
+    return this._raw.landingPage;
+  }
+
   static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
   toJson(): z.input<typeof fodaSchema> {

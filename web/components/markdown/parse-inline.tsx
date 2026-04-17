@@ -66,7 +66,7 @@ function matchLink(text: string): InlineMatch | null {
   if (m == null || m.index == null || m[1] == null || m[2] == null) return null;
 
   const href = m[2];
-  if (!href.startsWith("https://")) return null;
+  if (!href.startsWith("https://") && !href.startsWith("/")) return null;
 
   return {
     index: m.index,

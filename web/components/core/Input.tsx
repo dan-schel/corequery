@@ -3,6 +3,8 @@ import type { ComponentChildren, Ref } from "preact";
 
 const styles = {
   regular: "text-fg text-md outline-none border-none placeholder:text-fg-weak",
+  search:
+    "text-fg-strong text-lg desktop:text-md font-bold outline-none border-none placeholder:text-fg-weak placeholder:font-normal",
 };
 
 type InputProps = {

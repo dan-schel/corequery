@@ -22,6 +22,8 @@ const Nearby = lazy(() => import("./pages/Nearby.js"));
 const Settings = lazy(() => import("./pages/Settings.js"));
 const Status = lazy(() => import("./pages/Status.js"));
 const ZenMode = lazy(() => import("./pages/ZenMode.js"));
+const Stop = lazy(() => import("./pages/Stop.js"));
+const Line = lazy(() => import("./pages/Line.js"));
 
 const NotFound = lazy(() => import("./pages/NotFound.js"));
 
@@ -40,9 +42,11 @@ function App() {
                       <Route path="/about" component={About} />
                       <Route path="/admin" component={AdminControls} />
                       <Route path="/debug" component={Debug} />
+                      <Route path="/line/:id" component={Line} />
                       <Route path="/nearby" component={Nearby} />
                       <Route path="/settings" component={Settings} />
                       <Route path="/status" component={Status} />
+                      <Route path="/stop/:id" component={Stop} />
                       <Route path="/zen" component={ZenMode} />
                       <Route default component={NotFound} />
                     </Router>

@@ -11,6 +11,7 @@ import type {
   TerminologyConfig,
 } from "@/server/config/index.js";
 import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
+import type { Logger } from "@/server/logger/logger.js";
 
 export type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
 
@@ -18,6 +19,7 @@ export class Corequery {
   private readonly _config: CorequeryConfig;
   private readonly _webServer: WebServer;
 
+  readonly log: Logger;
   readonly serverVersion: string;
   private _corequeryPackageVersion: string | null;
   private _frontendVersion: string | null;
@@ -43,6 +45,7 @@ export class Corequery {
       serverFolderPath,
     );
 
+    this.log = this._config.logger;
     this.serverVersion = this._config.version;
 
     // Currently fetched async during start().
@@ -81,15 +84,12 @@ export class Corequery {
     await this._webServer.prepareAssets();
     this._frontendVersion = this._webServer.getFrontendVersion();
 
-    // TODO: Use proper logger.
-    // eslint-disable-next-line no-console
-    console.log(`Starting ${this._config.assets.appName}...`);
-    // eslint-disable-next-line no-console
-    console.log(`- Server version: ${this.serverVersion}`);
-    // eslint-disable-next-line no-console
-    console.log(`- Frontend version: ${this.getFrontendVersion()}`);
-    // eslint-disable-next-line no-console
-    console.log(`- CoreQuery version: ${this.getCorequeryPackageVersion()}`);
+    this.log.general.starting(
+      this._config.assets.appName,
+      this.serverVersion,
+      this.getFrontendVersion(),
+      this.getCorequeryPackageVersion(),
+    );
 
     await this._webServer.start();
   }

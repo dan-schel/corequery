@@ -54,6 +54,12 @@ describe("InlineMarkdown", () => {
     );
   });
 
+  it("renders local links", () => {
+    expect(render("visit [my site](/about) today")).toMatchInlineSnapshot(
+      `"visit [link=/about]my site[/link] today"`,
+    );
+  });
+
   it("ignores links without https", () => {
     expect(render("click [here](javascript:alert(1))")).toMatchInlineSnapshot(
       `"click [here](javascript:alert(1))"`,

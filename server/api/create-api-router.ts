@@ -9,8 +9,10 @@ import type { ApiHandler } from "@/server/api/types.js";
 export function createApiRouter(app: Corequery) {
   const router = Router();
 
-  // TODO: CORS?
-  // router.use(createCorsMiddleware());
+  // No CORS middleware needed. The API is served from the same origin as the
+  // web app, so nothing is needed to make that work, and browsers already block
+  // cross-origin requests bydefault, unless the server explicitly opts-in to
+  // allowing JS from another domain accessing it.
 
   function setup<Args extends ZodType, Result extends ZodType>(
     api: Api<Args, Result>,
@@ -27,15 +29,13 @@ export function createApiRouter(app: Corequery) {
         // const token = getToken(req);
         const result = await handler({ app /* token */ }, args.data);
         res.json(result);
-      } catch /* (err) */ {
+      } catch (err) {
         // In future we might want to allow handlers to throw some sort of
         // custom error (e.g. throw new Api400Error(message)) and handle it here
         // to return 400 rather than 500. So far, my plan is to handle that with
         // return types in the schema instead, but it's an idea.
 
-        // TODO: Logging?
-        // app.log.warn(`500 Error handling ${api.path}`);
-        // app.log.warn(err);
+        app.log.general.apiError(api.path, err);
         res.sendStatus(500);
       }
     });
