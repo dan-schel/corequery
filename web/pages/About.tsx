@@ -10,12 +10,14 @@ import { ABOUT_PAGE_V1 } from "@/shared/apis";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { Divider } from "@/web/components/core/Divider";
 import { Alert } from "@/web/components/Alert";
+import { useStaticData } from "@/web/hooks/use-static-data";
 
 export default function About() {
+  const { appName } = useStaticData();
   const { foda } = useFoundationalData();
   const { data, loading, error } = useQuery(ABOUT_PAGE_V1, {});
 
-  const headers = useSimpleHeaders({ title: "About" });
+  const headers = useSimpleHeaders({ title: `About ${appName}` });
 
   if (loading) {
     return (
