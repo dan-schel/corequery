@@ -25,7 +25,7 @@
     "bump-check": "bump-check --ignore \"^renovate\\/\""
   },
   "dependencies": {
-    "@dan-schel/js-utils": "^4.11.0",
+    "@dan-schel/js-utils": "^4.12.0",
     "express": "^5.2.1",
     "node-html-parser": "^7.1.0",
     "sharp": "^0.34.5",
