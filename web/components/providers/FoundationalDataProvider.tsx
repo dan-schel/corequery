@@ -31,10 +31,9 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     (newFoda: FoundationalData) => {
       setFoda(newFoda);
       revalidateSettings(newFoda);
-
-      // TODO: Write it to the cache?
+      cache.set(newFoda.toJson());
     },
-    [revalidateSettings],
+    [cache, revalidateSettings],
   );
 
   const triggerLoadData = useCallback(() => {
