@@ -22,17 +22,21 @@ type RegularNavItem = {
   readonly regularIcon: Icon;
   readonly activeIcon: Icon;
   readonly isActive: (url: string) => boolean;
+  readonly opensMoreDrawer?: undefined;
+  readonly opensSearchDrawer?: undefined;
 };
 
 type MenuNavItem = {
   readonly name: string;
   readonly icon: Icon;
   readonly opensMoreDrawer: true;
+  readonly opensSearchDrawer?: undefined;
 };
 
 type SearchNavItem = {
   readonly name: string;
   readonly icon: Icon;
+  readonly opensMoreDrawer?: undefined;
   readonly opensSearchDrawer: true;
 };
 

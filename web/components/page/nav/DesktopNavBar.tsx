@@ -41,13 +41,13 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
             active={"isActive" in item ? item.isActive(url) : false}
             href={"href" in item ? item.href : undefined}
             onClick={
-              "opensMoreDrawer" in item
+              item.opensMoreDrawer
                 ? props.onOpenMoreDrawerRequest
-                : "opensSearchDrawer" in item
+                : item.opensSearchDrawer
                   ? props.onOpenSearchDrawerRequest
                   : undefined
             }
-            showBadge={isUpdateAvailable && "opensMenu" in item}
+            showBadge={isUpdateAvailable && item.opensMoreDrawer}
           />
         ))}
       </Row>
