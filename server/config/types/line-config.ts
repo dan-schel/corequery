@@ -1,3 +1,5 @@
+import type { Color } from "@/server/data/color.js";
+
 export type LineConfig = {
   readonly id: number;
   readonly name: string;
@@ -6,6 +8,7 @@ export type LineConfig = {
   readonly urlPath: string;
   readonly routes: readonly RouteConfig[];
   readonly diagram: LineDiagramConfig;
+  readonly color: Color | null;
 };
 
 export type RouteConfig = {
@@ -34,13 +37,3 @@ export type LineDiagramConfig = {
     }[];
   }[];
 };
-
-export type Color =
-  | "red"
-  | "yellow"
-  | "green"
-  | "cyan"
-  | "blue"
-  | "pink"
-  | "purple"
-  | "gray";

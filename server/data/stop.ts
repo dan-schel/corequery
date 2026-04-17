@@ -3,6 +3,7 @@ import { Tags } from "@/server/data/tags.js";
 import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { Location } from "@/server/data/location.js";
+import type { LineCollection } from "./line-collection.js";
 
 type StopFields = {
   readonly id: number;
@@ -44,7 +45,7 @@ export class Stop {
     return new Stop({ ...this, ...newValues });
   }
 
-  toFoda(): z.input<typeof stopFodaSchema> {
+  toFoda(lines: LineCollection): z.input<typeof stopFodaSchema> {
     return {
       id: this.id,
       name: this.name,
