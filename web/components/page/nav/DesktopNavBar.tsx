@@ -29,7 +29,7 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
       <Row>
         <HoverSquareButtonHousing href="/">
           <Row class="px-4 gap-2" xAlign="center" yAlign="center">
-            <Favicon class="text-icon-mdlg" />
+            <Favicon class="text-icon-md" />
             <TextBlock style="wordmark">{appName}</TextBlock>
           </Row>
         </HoverSquareButtonHousing>
