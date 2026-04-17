@@ -31,6 +31,8 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     (newFoda: FoundationalData) => {
       setFoda(newFoda);
       revalidateSettings(newFoda);
+
+      // TODO: Write it to the cache?
     },
     [revalidateSettings],
   );
