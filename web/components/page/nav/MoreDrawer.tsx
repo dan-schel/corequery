@@ -29,7 +29,7 @@ export function MoreDrawer(props: MoreDrawerProps) {
         },
       )}
     >
-      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-95" />
+      <div class="z-0 absolute top-0 bottom-0 left-0 right-0 bg-bg-raised desktop:border-b not-desktop:border-t border-soft-border opacity-97" />
       <Column class="relative z-1 desktop:flex-col-reverse">
         <PageCenterer>
           <Column class="py-2">

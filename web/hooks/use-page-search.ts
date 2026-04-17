@@ -68,7 +68,7 @@ export function usePageSearch(): Result {
       route: "routes",
     }[foda.terminology.line];
 
-    return `Search ${stopsTerm}, ${linesTerm}, or pages`;
+    return `Search ${stopsTerm}, ${linesTerm}, etc.`;
   }, [foda]);
 
   return { candidates, placeholder };

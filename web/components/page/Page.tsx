@@ -23,7 +23,7 @@ export function Page(props: PageProps) {
       class={clsx(
         "bg-bg min-h-svh",
         {
-          "pt-12": props.mobileHeader != null,
+          "pt-14": props.mobileHeader != null,
 
           // Matches the height of the <MobileNav>.
           "not-desktop:pb-18": showMobileNav,
@@ -45,7 +45,7 @@ export function Page(props: PageProps) {
         // Intentionally lock the height at 3rem, so that if a page wanted to
         // use a taller header, they'd need to negotiate with the <Page>
         // component, and then we'd adjust the pt-12 above to match.
-        <MobileHeader class="h-12">{props.mobileHeader}</MobileHeader>
+        <MobileHeader class="h-14">{props.mobileHeader}</MobileHeader>
       )}
       {centered ? (
         <PageCenterer>{props.children}</PageCenterer>
