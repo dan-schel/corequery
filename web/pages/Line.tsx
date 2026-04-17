@@ -9,31 +9,31 @@ import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational
 import type z from "zod";
 import { useTerminology } from "@/web/hooks/use-terminology";
 
-export default function Stop() {
+export default function Line() {
   const {
-    params: { id: stopUrlPath },
+    params: { id: lineUrlPath },
   } = useRoute();
 
   const { foda } = useFoundationalData();
-  const stop = foda.stops.find((x) => x.urlPath === stopUrlPath) ?? null;
+  const line = foda.lines.find((x) => x.urlPath === lineUrlPath) ?? null;
 
-  if (stop === null)
+  if (line === null)
     return <NotFoundPage afterConfirming="foundational-data-version" />;
 
-  return <StopPageContent stop={stop} />;
+  return <LinePageContent line={line} />;
 }
 
-type StopPageContentProps = {
-  stop: z.infer<typeof fodaSchema>["stops"][number];
+type LinePageContentProps = {
+  line: z.infer<typeof fodaSchema>["lines"][number];
 };
 
-function StopPageContent(props: StopPageContentProps) {
-  const { formatStop } = useTerminology();
+function LinePageContent(props: LinePageContentProps) {
+  const { formatLine } = useTerminology();
 
   return (
-    <Page {...useSimpleHeaders({ title: props.stop.name })}>
+    <Page {...useSimpleHeaders({ title: formatLine(props.line.name) })}>
       <Column class="px-4 py-8 gap-8">
-        <TextBlock>{formatStop(props.stop.name)}</TextBlock>
+        <TextBlock>{formatLine(props.line.name)}</TextBlock>
       </Column>
     </Page>
   );
