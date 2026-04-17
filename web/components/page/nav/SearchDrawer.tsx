@@ -71,13 +71,13 @@ export function SearchDrawer(props: SearchDrawerProps) {
               style="search"
               value={query}
               onChange={setQuery}
-              class="px-4 pl-11 h-8 not-desktop:h-10 not-desktop:pl-12"
+              class="px-4 pl-12 h-10 desktop:h-8 desktop:pl-11"
               placeholder={placeholder}
               inputRef={inputRef}
               onSubmit={handleSearchSubmit}
               search
             />
-            <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-lg not-desktop:text-xl" />
+            <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-xl desktop:text-lg" />
           </Grid>
           <Column class="h-54 py-2">
             {results.length === 0 && (
