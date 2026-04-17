@@ -92,9 +92,9 @@ export function SearchDrawer(props: SearchDrawerProps) {
                 </TextBlock>
               </Grid>
             )}
-            {results.map((result, i) => (
+            {results.map((result) => (
               <Button
-                key={i}
+                key={result.url}
                 text={result.name}
                 href={result.url}
                 icon={result.icon}

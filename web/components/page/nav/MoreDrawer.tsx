@@ -35,6 +35,7 @@ export function MoreDrawer(props: MoreDrawerProps) {
           <Column class="py-2">
             {menuItems.map((item) => (
               <Button
+                key={item.href}
                 icon={item.icon}
                 text={item.name}
                 href={item.href}
