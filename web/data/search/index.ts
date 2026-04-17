@@ -34,5 +34,10 @@ export function search<T>(
   builder.appendResults(getAlternativePrefixMatches);
   builder.appendResults(getAlternativeSubstringMatches);
 
+  // TODO: Matching irrespective of word order, e.g. "Richmond East".
+
+  // TODO: Fuzzy search. Use edit distance considering a slice of the candidate
+  // string to the length of the query.
+
   return builder.getResults();
 }
