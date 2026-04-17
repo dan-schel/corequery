@@ -1,7 +1,7 @@
 import z from "zod";
 import type { FoundationalData } from "@/web/data/foundational-data";
-import { deepEqual } from "@/web/hooks/use-deep-compare-effect";
 import type { Theme } from "@/web/data/theme";
+import { deepEquals } from "@dan-schel/js-utils";
 
 type SettingsFields = {
   readonly theme: Theme;
@@ -45,6 +45,6 @@ export class Settings {
   }
 
   equals(other: Settings): boolean {
-    return deepEqual(this.toJson(), other.toJson());
+    return deepEquals(this.toJson(), other.toJson());
   }
 }
