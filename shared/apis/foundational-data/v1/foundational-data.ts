@@ -71,40 +71,45 @@ export const stopFodaSchema = z.object({
   // available, it's fast anyway!
 });
 
+export const lineDiagramEntryFodaSchema = z.union([
+  z.object({
+    type: z.literal("linear"),
+    name: z.string().nullable(),
+    color: colorFodaSchema.nullable(),
+    stops: z
+      .object({
+        stopId: z.number(),
+        type: z.enum(["regular", "always-express"]),
+      })
+      .array()
+      .readonly(),
+  }),
+]);
+
+export const lineDiagramFodaSchema = z.object({
+  entries: z
+    .union([
+      lineDiagramEntryFodaSchema,
+
+      // Allows for future diagram types, without a breaking change. When this
+      // case is hit, the frontend, which doesn't understand this new diagram
+      // type, will fallback to the `fallbackStopList`.
+      z.object({
+        type: z.string(),
+      }),
+    ])
+    .array()
+    .readonly(),
+
+  fallbackStopList: z.number().array().readonly(),
+});
+
 export const lineFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
   color: colorFodaSchema.nullable(),
-
-  diagram: z.object({
-    entries: z
-      .union([
-        z.object({
-          type: z.literal("linear"),
-          name: z.string().nullable(),
-          color: colorFodaSchema.nullable(),
-          stops: z
-            .object({
-              stopId: z.number(),
-              type: z.enum(["regular", "always-express"]),
-            })
-            .array()
-            .readonly(),
-        }),
-
-        // Allows for future diagram types, without a breaking change. When this
-        // case is hit, the frontend, which doesn't understand this new diagram
-        // type, will fallback to the `fallbackStopList`.
-        z.object({
-          type: z.string(),
-        }),
-      ])
-      .array()
-      .readonly(),
-
-    fallbackStopList: z.number().array().readonly(),
-  }),
+  diagram: lineDiagramFodaSchema,
 });
 
 // Omitting for now, see comments below for each field's reasoning.
