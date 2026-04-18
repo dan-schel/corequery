@@ -5,9 +5,9 @@ import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
-import type z from "zod";
-import { listifyAnd, nonNull } from "@dan-schel/js-utils";
+import { listifyAnd } from "@dan-schel/js-utils";
+import { useMemo } from "preact/hooks";
+import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 
 export default function Stop() {
   const {
@@ -15,7 +15,11 @@ export default function Stop() {
   } = useRoute();
 
   const { foda } = useFoundationalData();
-  const stop = foda.stops.find((x) => x.urlPath === stopUrlPath) ?? null;
+
+  const stop = useMemo(
+    () => foda.stops.getByUrlPath(stopUrlPath ?? ""),
+    [foda.stops, stopUrlPath],
+  );
 
   if (stop === null)
     return <NotFoundPage afterConfirming="foundational-data-version" />;
@@ -24,7 +28,7 @@ export default function Stop() {
 }
 
 type StopPageContentProps = {
-  stop: z.infer<typeof fodaSchema>["stops"][number];
+  stop: FodaStop;
 };
 
 function StopPageContent(props: StopPageContentProps) {
@@ -35,13 +39,11 @@ function StopPageContent(props: StopPageContentProps) {
       <Column class="px-4 py-8 gap-8">
         <TextBlock>
           {
-            // TODO: This is obviously horrible and temporary!
-            // The FODA needs domain models to make this easier, and the
-            // formatting needs to respect the terminology.
+            // TODO: This is obviously horrible and temporary! The formatting
+            // needs to respect the terminology.
             listifyAnd(
               props.stop.canonicalLinesServingStop
-                .map((x) => foda.lines.find((l) => l.id === x)?.name ?? null)
-                .filter(nonNull)
+                .map((x) => foda.lines.require(x).name)
                 .sort((a, b) => a.localeCompare(b)),
             )
           }{" "}

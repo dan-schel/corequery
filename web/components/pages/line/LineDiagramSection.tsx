@@ -1,15 +1,13 @@
 import clsx from "clsx";
 import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import type z from "zod";
-import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import { useMemo } from "preact/hooks";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { nonNull } from "@dan-schel/js-utils";
+import type { FodaLine } from "@/web/data/foundational-data/foda-line-collection";
 
 type LineDiagramSectionProps = {
   class?: string;
-  diagram: z.infer<typeof fodaSchema>["lines"][number]["diagram"];
+  diagram: FodaLine["diagram"];
 };
 
 export function LineDiagramSection(props: LineDiagramSectionProps) {
@@ -17,8 +15,7 @@ export function LineDiagramSection(props: LineDiagramSectionProps) {
 
   const sortedStops = useMemo(() => {
     return props.diagram.fallbackStopList
-      .map((stopId) => foda.stops.find((stop) => stop.id === stopId) ?? null)
-      .filter(nonNull)
+      .map((stopId) => foda.stops.require(stopId))
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [foda.stops, props.diagram.fallbackStopList]);
 

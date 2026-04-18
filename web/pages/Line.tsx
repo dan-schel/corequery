@@ -4,10 +4,10 @@ import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
-import type z from "zod";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { LineDiagramSection } from "@/web/components/pages/line/LineDiagramSection";
+import { useMemo } from "preact/hooks";
+import type { FodaLine } from "@/web/data/foundational-data/foda-line-collection";
 
 export default function Line() {
   const {
@@ -15,7 +15,11 @@ export default function Line() {
   } = useRoute();
 
   const { foda } = useFoundationalData();
-  const line = foda.lines.find((x) => x.urlPath === lineUrlPath) ?? null;
+
+  const line = useMemo(
+    () => foda.lines.getByUrlPath(lineUrlPath ?? ""),
+    [foda.lines, lineUrlPath],
+  );
 
   if (line === null)
     return <NotFoundPage afterConfirming="foundational-data-version" />;
@@ -24,7 +28,7 @@ export default function Line() {
 }
 
 type LinePageContentProps = {
-  line: z.infer<typeof fodaSchema>["lines"][number];
+  line: FodaLine;
 };
 
 function LinePageContent(props: LinePageContentProps) {
