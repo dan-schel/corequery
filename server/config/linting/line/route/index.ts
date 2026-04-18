@@ -2,7 +2,6 @@ import type { LineConfig } from "@/server/config/types/line-config.js";
 import type { StopConfig } from "@/server/config/types/stop-config.js";
 import type { LineLintOptions } from "@/server/config/linting/types.js";
 import type { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
-import { checkLineRoutesAllOrNoneHaveColors } from "@/server/config/linting/line/route/all-or-none-colors.js";
 import { checkRouteHasMinimumStops } from "@/server/config/linting/line/route/minimum-stops.js";
 import { checkRouteNoDuplicateTags } from "@/server/config/linting/line/route/no-duplicate-tags.js";
 import { checkLineRouteNonEmptyName } from "@/server/config/linting/line/route/non-empty-name.js";
@@ -21,7 +20,6 @@ export function lintLineRouteConfig(
   checkLineRoutesUniqueIds(issues, line, lineIndex);
   checkLineRoutesUniqueNames(issues, line, lineIndex, options);
   checkLineRoutesMirrored(issues, line, lineIndex, options);
-  checkLineRoutesAllOrNoneHaveColors(issues, line, lineIndex, options);
 
   for (const [routeIndex, route] of line.routes.entries()) {
     checkRouteHasMinimumStops(issues, route, routeIndex, lineIndex, line.name);
