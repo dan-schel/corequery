@@ -22,6 +22,7 @@ export function LineDiagramFallbackStopList(
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [foda.stops, props.fallbackStopList]);
 
+  // TODO: Use a <ul> for this.
   return (
     <Column class={clsx(props.class, "gap-8")}>
       <TextBlock style="subtitle">Stops</TextBlock>
