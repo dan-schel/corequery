@@ -13,6 +13,10 @@ type LineDiagramViewerProps = {
 };
 
 export function LineDiagramViewer(props: LineDiagramViewerProps) {
+  // TODO: We'll want to abstract the "line diagram" FODA part from the line
+  // diagram graphic rendering, since the service page will also want to use the
+  // graphic.
+
   const { foda } = useFoundationalData();
 
   const labelsParent = useRef<HTMLDivElement>(null);
