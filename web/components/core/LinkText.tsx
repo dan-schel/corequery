@@ -1,15 +1,22 @@
 import clsx from "clsx";
 import type { ComponentChildren } from "preact";
 
+const styles = {
+  default: "text-accent-text underline",
+  subtle: "hover:underline",
+};
+
 type LinkTextProps = {
   class?: string;
   children?: ComponentChildren;
+  style?: keyof typeof styles;
   onClick?: () => void;
   href?: string;
 };
 
 export function LinkText(props: LinkTextProps) {
-  const _class = clsx("text-accent-text inline underline", props.class);
+  const style = styles[props.style ?? "default"];
+  const _class = clsx(style, "inline", props.class);
 
   if (props.onClick != null) {
     return (
