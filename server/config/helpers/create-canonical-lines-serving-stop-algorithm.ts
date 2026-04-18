@@ -1,7 +1,22 @@
 import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
-import type { Line } from "@/server/data/line.js";
+import type {
+  LineConfig,
+  RouteConfig,
+  RouteStopTypeConfig,
+} from "@/server/config/types/line-config.js";
+import type { TagSuccessionConfig } from "@/server/config/types/tags-config.js";
+import { Tags } from "@/server/data/tags.js";
+
+const isHiddenMapping: Record<RouteStopTypeConfig, boolean> = {
+  "regular": false,
+  "hidden-unless-stopped-at": true,
+};
 
 type Options = {
+  readonly lines: readonly LineConfig[];
+  readonly lineTagSuccession: TagSuccessionConfig;
+  readonly routeTagSuccession: TagSuccessionConfig;
+
   /**
    * Defines tiers such that lines from a subsequent tier are ignored if the
    * stop is also served by lines from an earlier tier. In other words, tiers
@@ -15,22 +30,37 @@ type Options = {
    */
   readonly tierLinesByTag?: number[];
 
+  /** A list of route tags, the routes of which should be ignored. */
+  readonly ignoreRoutesWithTags?: number[];
+
   /**
    * Whether to ignore stops on routes marked as `hidden-unless-stopped-at`.
-   * (Default: `false`)
+   * (Default: `true`)
    */
-  readonly includeHiddenStops?: boolean;
+  readonly ignoreHiddenStops?: boolean;
 };
 
 export function createCanonicalLinesServingStopAlgorithm(
   options: Options,
 ): GetCanonicalLinesServingStopConfig {
-  const tierLinesByTag = options.tierLinesByTag ?? [];
-  const includeHiddenStops = options.includeHiddenStops ?? false;
+  const lines = options.lines.map((line) => ({
+    ...line,
+    tags: Tags.build(line.tags, options.lineTagSuccession),
+  }));
 
-  return (stopId, lines) => {
+  const tierLinesByTag = options.tierLinesByTag ?? [];
+  const ignoreRoutesWithTags = options.ignoreRoutesWithTags ?? [];
+  const ignoreHiddenStops = options.ignoreHiddenStops ?? true;
+
+  return (stopId) => {
     const allCandidateLines = lines.filter((line) =>
-      line.anyRouteStopsAt(stopId, { includeHiddenStops }),
+      find({
+        stopId,
+        routes: line.routes,
+        routeTagSuccession: options.routeTagSuccession,
+        ignoreRoutesWithTags,
+        ignoreHiddenStops,
+      }),
     );
 
     if (tierLinesByTag.length === 0 || allCandidateLines.length === 0) {
@@ -38,15 +68,41 @@ export function createCanonicalLinesServingStopAlgorithm(
     }
 
     // Assign each line to a tier, using 0 as the default if tier unclear.
-    const linesByTier = new Map<number, Line[]>();
+    const linesByTier = new Map<number, number[]>();
     for (const line of allCandidateLines) {
       const foundTier = tierLinesByTag.findIndex((tag) => line.tags.has(tag));
       const tier = foundTier === -1 ? 0 : foundTier;
-      linesByTier.set(tier, [...(linesByTier.get(tier) ?? []), line]);
+      linesByTier.set(tier, [...(linesByTier.get(tier) ?? []), line.id]);
     }
 
     const highestTier = Math.min(...linesByTier.keys());
-    const highestTierLines = linesByTier.get(highestTier) ?? [];
-    return highestTierLines.map((line) => line.id);
+    return linesByTier.get(highestTier) ?? [];
   };
+}
+
+function find({
+  stopId,
+  routes,
+  routeTagSuccession,
+  ignoreRoutesWithTags,
+  ignoreHiddenStops,
+}: {
+  stopId: number;
+  routes: readonly RouteConfig[];
+  routeTagSuccession: TagSuccessionConfig;
+  ignoreRoutesWithTags: number[];
+  ignoreHiddenStops: boolean;
+}): boolean {
+  return routes.some((route) => {
+    const routeTags = Tags.build(route.tags, routeTagSuccession);
+    const ignored = ignoreRoutesWithTags.some((tag) => routeTags.has(tag));
+    if (ignored) return false;
+
+    const relevantStops = route.stops.filter((stop) => {
+      const isHiddenStop = isHiddenMapping[stop.type];
+      return !isHiddenStop || !ignoreHiddenStops;
+    });
+
+    return relevantStops.some((stop) => stop.stopId === stopId);
+  });
 }

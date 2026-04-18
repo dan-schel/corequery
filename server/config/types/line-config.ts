@@ -1,5 +1,8 @@
 import type { Color } from "@/server/data/color.js";
 
+export type RouteStopTypeConfig = "regular" | "hidden-unless-stopped-at";
+type LineDiagramStopTypeConfig = "regular" | "always-express";
+
 export type LineConfig = {
   readonly id: number;
   readonly name: string;
@@ -18,7 +21,7 @@ export type RouteConfig = {
 
   readonly stops: readonly {
     readonly stopId: number;
-    readonly type: "regular" | "hidden-unless-stopped-at";
+    readonly type: RouteStopTypeConfig;
   }[];
 
   readonly color: Color | null;
@@ -33,7 +36,7 @@ export type LineDiagramConfig = {
     // This could be extended in the future to support branches, loops, etc.
     readonly stops: readonly {
       readonly stopId: number;
-      readonly type: "regular" | "always-express";
+      readonly type: LineDiagramStopTypeConfig;
     }[];
   }[];
 };

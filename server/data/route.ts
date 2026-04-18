@@ -5,10 +5,6 @@ import type {
 import { Tags } from "@/server/data/tags.js";
 import type { Color } from "@/server/data/color.js";
 
-export type StopsAtOptions = {
-  readonly includeHiddenStops: boolean;
-};
-
 type RouteStop = RouteConfig["stops"][number];
 
 type RouteFields = {
@@ -44,13 +40,6 @@ export class Route {
       tags: Tags.build(routeConfig.tags, routeTagSuccession),
       stops: routeConfig.stops,
       color: routeConfig.color,
-    });
-  }
-
-  stopsAt(stopId: number, options: StopsAtOptions): boolean {
-    return this.stops.some((stop) => {
-      const included = stop.type === "regular" || options.includeHiddenStops;
-      return included && stop.stopId === stopId;
     });
   }
 

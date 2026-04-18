@@ -54,15 +54,15 @@ export class Corequery {
     // Only known after assets are prepared, during start().
     this._frontendVersion = null;
 
+    this.stops = StopCollection.build(
+      this._config.stops,
+      this._config.tags.stopTagSuccession,
+      this._config.getCanonicalLinesServingStop,
+    );
     this.lines = LineCollection.build(
       this._config.lines,
       this._config.tags.lineTagSuccession,
       this._config.tags.routeTagSuccession,
-    );
-    this.stops = StopCollection.build(
-      this._config.stops,
-      this._config.tags.stopTagSuccession,
-      (stopId) => this._config.getCanonicalLinesServingStop(stopId, this.lines),
     );
 
     this.landingPageConfig = this._config.landingPage;

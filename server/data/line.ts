@@ -3,7 +3,7 @@ import { Tags } from "@/server/data/tags.js";
 import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { getHexCodesForColor, type Color } from "@/server/data/color.js";
-import { Route, type StopsAtOptions } from "@/server/data/route.js";
+import { Route } from "@/server/data/route.js";
 
 type LineFields = {
   readonly id: number;
@@ -46,10 +46,6 @@ export class Line {
         Route.build(route, routeTagSuccession),
       ),
     });
-  }
-
-  anyRouteStopsAt(stopId: number, options: StopsAtOptions): boolean {
-    return this.routes.some((route) => route.stopsAt(stopId, options));
   }
 
   toFoda(): z.input<typeof lineFodaSchema> {
