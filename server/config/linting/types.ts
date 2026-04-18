@@ -64,6 +64,9 @@ export type LineLintOptions = {
   /** Ignore this line missing a code when others have one. */
   readonly ignoreMissingCode?: boolean;
 
+  /** Ignore this line missing a color when others have one. */
+  readonly ignoreMissingColor?: boolean;
+
   /** Ignore this line having no routes. */
   readonly ignoreMissingRoutes?: boolean;
 
@@ -77,6 +80,9 @@ export type RouteLintOptions = {
 
   /** Ignore this route missing a mirrored counterpart. */
   readonly ignoreMissingMirrored?: boolean;
+
+  /** Ignore this route missing a color when others have one. */
+  readonly ignoreMissingColor?: boolean;
 };
 
 export type LinesPageLineLintOptions = {

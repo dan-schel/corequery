@@ -1,6 +1,7 @@
 import type { LineConfig } from "@/server/config/types/line-config.js";
 import type { LineLintOptions } from "@/server/config/linting/types.js";
 import type { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
+import { checkLinesAllOrNoneHaveColors } from "@/server/config/linting/line/all-or-none-colors.js";
 import { checkLinesAllOrNoneHaveCodes } from "@/server/config/linting/line/all-or-none-codes.js";
 import { lintLineDiagramConfig } from "@/server/config/linting/line/diagram/index.js";
 import { checkLineHasRoutes } from "@/server/config/linting/line/has-routes.js";
@@ -26,6 +27,7 @@ export function lintLineConfig(
   checkLinesUniqueUrlPaths(issues, lines);
   checkLinesUniqueNames(issues, lines, options);
   checkLinesAllOrNoneHaveCodes(issues, lines, options);
+  checkLinesAllOrNoneHaveColors(issues, lines, options);
 
   for (const [lineIndex, line] of lines.entries()) {
     checkLineHasRoutes(issues, line, lineIndex, options[line.id] ?? {});
