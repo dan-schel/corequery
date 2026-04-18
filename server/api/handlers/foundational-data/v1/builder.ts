@@ -33,7 +33,7 @@ export class FoundationalDataV1Builder {
 
   private _buildWithoutMetadata(): ResultWithoutMetadata {
     return {
-      stops: this._app.stops.map((s) => s.toFoda(this._app.lines)),
+      stops: this._app.stops.map((s) => s.toFoda()),
       lines: this._app.lines.map((l) => l.toFoda()),
       landingPage: {
         primaryMarkdown: this._app.landingPageConfig.primaryMarkdown,

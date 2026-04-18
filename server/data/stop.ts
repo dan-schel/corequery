@@ -3,7 +3,6 @@ import { Tags } from "@/server/data/tags.js";
 import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { Location } from "@/server/data/location.js";
-import type { LineCollection } from "@/server/data/line-collection.js";
 
 type StopFields = {
   readonly id: number;
@@ -11,6 +10,7 @@ type StopFields = {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly location: Location | null;
+  readonly canonicalLinesServingStop: readonly number[];
 };
 
 export class Stop {
@@ -19,6 +19,7 @@ export class Stop {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly location: Location | null;
+  readonly canonicalLinesServingStop: readonly number[];
 
   constructor(fields: StopFields) {
     this.id = fields.id;
@@ -26,11 +27,13 @@ export class Stop {
     this.tags = fields.tags;
     this.urlPath = fields.urlPath;
     this.location = fields.location;
+    this.canonicalLinesServingStop = fields.canonicalLinesServingStop;
   }
 
   static build(
     stopConfig: StopConfig,
     stopTagSuccession: TagSuccessionConfig,
+    canonicalLinesServingStop: readonly number[],
   ): Stop {
     return new Stop({
       id: stopConfig.id,
@@ -38,6 +41,7 @@ export class Stop {
       tags: Tags.build(stopConfig.tags, stopTagSuccession),
       urlPath: stopConfig.urlPath,
       location: Location.buildIfPresent(stopConfig.location),
+      canonicalLinesServingStop,
     });
   }
 
@@ -45,12 +49,12 @@ export class Stop {
     return new Stop({ ...this, ...newValues });
   }
 
-  toFoda(lines: LineCollection): z.input<typeof stopFodaSchema> {
+  toFoda(): z.input<typeof stopFodaSchema> {
     return {
       id: this.id,
       name: this.name,
       urlPath: this.urlPath,
-      canonicalLinesServingStop: this.getCanonicalLinesServingStop(lines),
+      canonicalLinesServingStop: this.canonicalLinesServingStop,
       location: this.location?.toFoda() ?? null,
     };
   }
@@ -58,14 +62,5 @@ export class Stop {
   /** e.g. `"Sandringham" (#1)` */
   get debugName(): string {
     return `"${this.name}" (#${this.id})`;
-  }
-
-  getCanonicalLinesServingStop(lines: LineCollection): number[] {
-    // TODO: Need a method to exclude the Flemington Racecourse line, unless
-    // it's the only line serving the stop. Some sort of "line tiers" system?
-    // Using the tags somehow?
-    return lines
-      .filter((line) => line.stopsAt(this.id, { includeHiddenStops: false }))
-      .map((line) => line.id);
   }
 }

@@ -20,6 +20,7 @@
     "test": "scripts/test",
     "test-coverage": "scripts/test --coverage",
     "lint": "scripts/lint",
+    "lint-demo-app": "scripts/lint-demo-app",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "bump-check": "bump-check --ignore \"^renovate\\/\""

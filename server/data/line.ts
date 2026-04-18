@@ -48,7 +48,7 @@ export class Line {
     });
   }
 
-  stopsAt(stopId: number, options: StopsAtOptions): boolean {
+  anyRouteStopsAt(stopId: number, options: StopsAtOptions): boolean {
     return this.routes.some((route) => route.stopsAt(stopId, options));
   }
 

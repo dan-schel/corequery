@@ -32,7 +32,7 @@ export const stopFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
-  canonicalLinesServingStop: z.number().array(),
+  canonicalLinesServingStop: z.number().array().readonly(),
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.

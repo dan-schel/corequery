@@ -10,9 +10,12 @@ export class StopCollection extends Collection<number, Stop> {
   static build(
     stops: readonly StopConfig[],
     stopTagSuccession: TagSuccessionConfig,
+    getCanonicalLinesServingStop: (stopId: number) => readonly number[],
   ) {
     return new StopCollection(
-      stops.map((s) => Stop.build(s, stopTagSuccession)),
+      stops.map((s) =>
+        Stop.build(s, stopTagSuccession, getCanonicalLinesServingStop(s.id)),
+      ),
     );
   }
 

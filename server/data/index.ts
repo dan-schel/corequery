@@ -1,4 +1,5 @@
 export * from "./collection.js";
+export * from "./color.js";
 export * from "./line-collection.js";
 export * from "./line.js";
 export * from "./location.js";

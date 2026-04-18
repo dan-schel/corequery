@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Helps find issues in the demo app, e.g. when I make config breaking changes to
+# the CoreQuery package and forget to update the demo app, this should help me
+# catch it.
+#
+# Relies on the demo app:
+# - using Typescript
+# - having tsconfig.json in the expected spot 
+# - using Eslint
+# - using versions of Typescript & Eslint which are compatible with the version
+#   installed by CoreQuery.
+#
+# Depending on the demo-app which is active at the time, one/all of these 
+# conditions might not be true, and if that's the case the script will fail.
+# That's ok though, the script is just meant to be a best-effort helper during
+# development. We wouldn't want to force CoreQuery consumers to meet these
+# requirements!
+
+set -euo pipefail
+npx tsc -p demo-app/tsconfig.json --noEmit
+(cd demo-app; npx eslint . --max-warnings 0)

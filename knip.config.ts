@@ -16,6 +16,7 @@ const config: KnipConfig = {
     "scripts/build",
     "scripts/dev",
     "scripts/lint",
+    "scripts/lint-demo-app",
     "scripts/setup",
     "scripts/start",
     "scripts/test",
