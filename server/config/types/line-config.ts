@@ -30,7 +30,7 @@ export type RouteConfig = {
 export type LineDiagramConfig = {
   readonly entries: {
     readonly name: string | null;
-    readonly color: string;
+    readonly color: Color | null;
 
     // So far, line diagrams are limited to being linear sequences of stops.
     // This could be extended in the future to support branches, loops, etc.

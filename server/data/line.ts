@@ -54,6 +54,11 @@ export class Line {
       name: this.name,
       urlPath: this.urlPath,
       color: this.color != null ? getHexCodesForColor(this.color) : null,
+      diagram: {
+        // TODO: Fill these out.
+        entries: [],
+        fallbackStopList: [],
+      },
     };
   }
 
