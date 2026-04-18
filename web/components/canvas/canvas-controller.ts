@@ -7,6 +7,7 @@ declare global {
 export abstract class CanvasController<T> {
   readonly ctx: CanvasRenderingContext2D;
   private readonly _resizeListener: () => void;
+  private readonly _resizeObserver: ResizeObserver;
 
   private _data: T | null;
   private _width: number;
@@ -24,6 +25,7 @@ export abstract class CanvasController<T> {
     if (ctx == null) throw new Error("Failed to get 2D rendering context.");
     this.ctx = ctx;
     this._resizeListener = this._onResize.bind(this);
+    this._resizeObserver = new ResizeObserver(this._resizeListener);
 
     this._data = null;
     this._width = 1;
@@ -64,7 +66,7 @@ export abstract class CanvasController<T> {
     this._render();
 
     window.addEventListener("resize", this._resizeListener);
-    this._canvasContainer.addEventListener("resize", this._resizeListener);
+    this._resizeObserver.observe(this._canvasContainer);
     this.onStart();
   }
 
@@ -72,7 +74,7 @@ export abstract class CanvasController<T> {
     this._running = false;
 
     window.removeEventListener("resize", this._resizeListener);
-    this._canvasContainer.removeEventListener("resize", this._resizeListener);
+    this._resizeObserver.unobserve(this._canvasContainer);
     this.onDestroy();
   }
 
