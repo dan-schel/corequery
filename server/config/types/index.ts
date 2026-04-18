@@ -1,6 +1,7 @@
 export * from "./about-page-config.js";
 export * from "./asset-config.js";
 export * from "./footer-config.js";
+export * from "./get-canonical-lines-serving-stop-config-func.js";
 export * from "./landing-page-config.js";
 export * from "./line-config.js";
 export * from "./lines-page-config.js";

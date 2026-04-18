@@ -56,6 +56,7 @@ export function createLine(overrides: Partial<LineConfig> = {}): LineConfig {
     urlPath: "/line",
     routes: [createRoute()],
     diagram: { entries: [createDiagramEntry()] },
+    color: null,
     ...overrides,
   };
 }

@@ -71,7 +71,7 @@ export function Alert(props: AlertProps) {
     >
       {Icon != null && (
         <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
-          <Icon class="text-fg text-lg" />
+          <Icon class="text-fg text-icon-lg" />
         </VerticalBleed>
       )}
       {props.children}

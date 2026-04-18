@@ -82,7 +82,7 @@ export function SearchDrawer(props: SearchDrawerProps) {
               onSubmit={handleSearchSubmit}
               search
             />
-            <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-xl desktop:text-lg" />
+            <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-icon-xl desktop:text-icon-lg" />
           </Grid>
           <Column class="h-54 py-2">
             {results.length === 0 && (
@@ -92,9 +92,9 @@ export function SearchDrawer(props: SearchDrawerProps) {
                 </TextBlock>
               </Grid>
             )}
-            {results.map((result, i) => (
+            {results.map((result) => (
               <Button
-                key={i}
+                key={result.url}
                 text={result.name}
                 href={result.url}
                 icon={result.icon}

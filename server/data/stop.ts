@@ -10,6 +10,7 @@ type StopFields = {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly location: Location | null;
+  readonly canonicalLinesServingStop: readonly number[];
 };
 
 export class Stop {
@@ -18,6 +19,7 @@ export class Stop {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly location: Location | null;
+  readonly canonicalLinesServingStop: readonly number[];
 
   constructor(fields: StopFields) {
     this.id = fields.id;
@@ -25,11 +27,13 @@ export class Stop {
     this.tags = fields.tags;
     this.urlPath = fields.urlPath;
     this.location = fields.location;
+    this.canonicalLinesServingStop = fields.canonicalLinesServingStop;
   }
 
   static build(
     stopConfig: StopConfig,
     stopTagSuccession: TagSuccessionConfig,
+    canonicalLinesServingStop: readonly number[],
   ): Stop {
     return new Stop({
       id: stopConfig.id,
@@ -37,6 +41,7 @@ export class Stop {
       tags: Tags.build(stopConfig.tags, stopTagSuccession),
       urlPath: stopConfig.urlPath,
       location: Location.buildIfPresent(stopConfig.location),
+      canonicalLinesServingStop,
     });
   }
 
@@ -49,6 +54,7 @@ export class Stop {
       id: this.id,
       name: this.name,
       urlPath: this.urlPath,
+      canonicalLinesServingStop: this.canonicalLinesServingStop,
       location: this.location?.toFoda() ?? null,
     };
   }

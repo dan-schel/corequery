@@ -1,6 +1,10 @@
 import { Collection } from "@/server/data/collection.js";
 import { Stop } from "@/server/data/stop.js";
-import type { StopConfig, TagSuccessionConfig } from "@/server/config/index.js";
+import type {
+  GetCanonicalLinesServingStopConfig,
+  StopConfig,
+  TagSuccessionConfig,
+} from "@/server/config/index.js";
 
 export class StopCollection extends Collection<number, Stop> {
   constructor(data: readonly Stop[]) {
@@ -10,9 +14,12 @@ export class StopCollection extends Collection<number, Stop> {
   static build(
     stops: readonly StopConfig[],
     stopTagSuccession: TagSuccessionConfig,
+    getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig,
   ) {
     return new StopCollection(
-      stops.map((s) => Stop.build(s, stopTagSuccession)),
+      stops.map((s) =>
+        Stop.build(s, stopTagSuccession, getCanonicalLinesServingStop(s.id)),
+      ),
     );
   }
 

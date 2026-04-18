@@ -7,7 +7,7 @@ import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
 import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import type z from "zod";
-import { useTerminology } from "@/web/hooks/use-terminology";
+import { listifyAnd, nonNull } from "@dan-schel/js-utils";
 
 export default function Stop() {
   const {
@@ -28,12 +28,25 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
-  const { formatStop } = useTerminology();
+  const { foda } = useFoundationalData();
 
   return (
     <Page {...useSimpleHeaders({ title: props.stop.name })}>
       <Column class="px-4 py-8 gap-8">
-        <TextBlock>{formatStop(props.stop.name)}</TextBlock>
+        <TextBlock>
+          {
+            // TODO: This is obviously horrible and temporary!
+            // The FODA needs domain models to make this easier, and the
+            // formatting needs to respect the terminology.
+            listifyAnd(
+              props.stop.canonicalLinesServingStop
+                .map((x) => foda.lines.find((l) => l.id === x)?.name ?? null)
+                .filter(nonNull)
+                .sort((a, b) => a.localeCompare(b)),
+            )
+          }{" "}
+          {props.stop.canonicalLinesServingStop.length === 1 ? "Line" : "lines"}
+        </TextBlock>
       </Column>
     </Page>
   );

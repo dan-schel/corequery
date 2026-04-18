@@ -10,6 +10,7 @@ import type {
   TerminologyConfig,
 } from "@/server/config/types/index.js";
 import type { Logger } from "@/server/logger/logger.js";
+import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
 
 export type CorequeryConfig = {
   readonly logger: Logger;
@@ -24,4 +25,5 @@ export type CorequeryConfig = {
   readonly aboutPage: AboutPageConfig;
   readonly linesPage: LinesPageConfig;
   readonly tags: TagsConfig;
+  readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
 };

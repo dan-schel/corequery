@@ -25,19 +25,20 @@ export function MobileNavBar(props: MobileNavBarProps) {
     >
       {navItems.map((item) => (
         <MobileNavButton
+          key={item.name}
           text={item.name}
           regularIcon={"icon" in item ? item.icon : item.regularIcon}
           activeIcon={"icon" in item ? item.icon : item.activeIcon}
           active={"isActive" in item ? item.isActive(url) : false}
           href={"href" in item ? item.href : undefined}
           onClick={
-            "opensMoreDrawer" in item
+            item.opensMoreDrawer
               ? props.onOpenMoreDrawerRequest
-              : "opensSearchDrawer" in item
+              : item.opensSearchDrawer
                 ? props.onOpenSearchDrawerRequest
                 : undefined
           }
-          showBadge={isUpdateAvailable && "opensMenu" in item}
+          showBadge={isUpdateAvailable && item.opensMoreDrawer}
         />
       ))}
     </Grid>

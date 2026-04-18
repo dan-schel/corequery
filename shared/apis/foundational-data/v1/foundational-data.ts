@@ -32,6 +32,7 @@ export const stopFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
+  canonicalLinesServingStop: z.number().array().readonly(),
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.
@@ -69,6 +70,12 @@ export const lineFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
+  color: z
+    .object({
+      lightModeHexCode: z.string(),
+      darkModeHexCode: z.string(),
+    })
+    .nullable(),
 
   // To the above point. It's probably good to include line diagrams in the
   // foundational data, so navigation (by clicking through to a stop via the
