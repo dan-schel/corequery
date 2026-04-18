@@ -1,4 +1,3 @@
-import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
@@ -8,6 +7,7 @@ import { NotFoundPage } from "@/web/components/NotFoundPage";
 import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import type z from "zod";
 import { useTerminology } from "@/web/hooks/use-terminology";
+import { LineDiagramSection } from "@/web/components/pages/line/LineDiagramSection";
 
 export default function Line() {
   const {
@@ -33,7 +33,7 @@ function LinePageContent(props: LinePageContentProps) {
   return (
     <Page {...useSimpleHeaders({ title: formatLine(props.line.name) })}>
       <Column class="px-4 py-8 gap-8">
-        <TextBlock>{formatLine(props.line.name)}</TextBlock>
+        <LineDiagramSection diagram={props.line.diagram} />
       </Column>
     </Page>
   );
