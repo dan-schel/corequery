@@ -30,7 +30,7 @@ export function LineDiagramSection(props: LineDiagramSectionProps) {
   }
 
   return (
-    <Column class={clsx(props.class, "gap-8")}>
+    <Column class={clsx(props.class, "gap-6")}>
       <TextBlock style="subtitle">Diagram</TextBlock>
       {understoodEntries.length === 1 ? (
         <LineDiagramViewer diagram={itsOk(understoodEntries[0])} />
@@ -59,7 +59,7 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
   }, [props.entries]);
 
   return (
-    <Column class="gap-8">
+    <Column class="gap-4">
       <Picker
         class="self-start"
         value={selectedEntryIndex.toFixed()}

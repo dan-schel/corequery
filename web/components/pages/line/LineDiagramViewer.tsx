@@ -46,30 +46,37 @@ export function LineDiagramViewer(props: LineDiagramViewerProps) {
   );
 
   return (
-    <Grid class={clsx(props.class, "relative")}>
-      <Grid class="absolute top-0 bottom-0 left-0 w-8">
-        <LineDiagramCanvas
-          diagram={props.diagram}
-          labelsParent={labelsParentState}
-        />
+    <Grid
+      class={clsx(
+        props.class,
+        "bg-bg-raised px-4 py-8 justify-center rounded-sm border border-soft-border",
+      )}
+    >
+      <Grid class="relative">
+        <Grid class="absolute top-0 bottom-0 left-0 w-8">
+          <LineDiagramCanvas
+            diagram={props.diagram}
+            labelsParent={labelsParentState}
+          />
+        </Grid>
+        <div ref={labelsParent} class="flex flex-col gap-6 ml-8">
+          {stops.map((stop) =>
+            stop.type === "always-express" ? (
+              <TextBlock style="small-weak">
+                <LinkText href={stop.url} style="subtle">
+                  Skips {stop.name}
+                </LinkText>
+              </TextBlock>
+            ) : (
+              <TextBlock style="strong">
+                <LinkText href={stop.url} style="subtle">
+                  {stop.name}
+                </LinkText>
+              </TextBlock>
+            ),
+          )}
+        </div>
       </Grid>
-      <div ref={labelsParent} class="flex flex-col gap-6 ml-8">
-        {stops.map((stop) =>
-          stop.type === "always-express" ? (
-            <TextBlock style="small-weak">
-              <LinkText href={stop.url} style="subtle">
-                Skips {stop.name}
-              </LinkText>
-            </TextBlock>
-          ) : (
-            <TextBlock style="strong">
-              <LinkText href={stop.url} style="subtle">
-                {stop.name}
-              </LinkText>
-            </TextBlock>
-          ),
-        )}
-      </div>
     </Grid>
   );
 }
