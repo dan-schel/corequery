@@ -33,19 +33,19 @@ export class LineDiagramCanvasController extends CanvasController<LineDiagramCan
     const labelYLevels = this._getLabelYLevels();
     if (labelYLevels.length !== this.data.diagram.stops.length) return;
 
-    this.ctx.fillStyle = this._getDiagramColor();
+    // The strokes can be drawn literally whatever color we want, we use
+    // `globalCompositeOperation` below to draw the color over them, and
+    // essentially use these strokes as a mask.
+    this.ctx.strokeStyle = "#000000";
 
-    // TODO: Drawing two distinct rectangles doesn't work so well with partially
-    // transparent colors. The better approach would probably be to draw it all
-    // as one polygon, calculating and adding points for each notch.
     const topY = itsOk(labelYLevels[0]);
     const bottomY = itsOk(labelYLevels[labelYLevels.length - 1]);
-    this.ctx.fillRect(
-      (NOTCH_WIDTH - LINE_WIDTH) / 2,
-      topY,
-      LINE_WIDTH,
-      bottomY - topY,
-    );
+
+    this.ctx.lineWidth = LINE_WIDTH;
+    this.ctx.beginPath();
+    this.ctx.moveTo(NOTCH_WIDTH / 2, topY);
+    this.ctx.lineTo(NOTCH_WIDTH / 2, bottomY);
+    this.ctx.stroke();
 
     this.data.diagram.stops.forEach((stop, index) => {
       const labelY = itsOk(labelYLevels[index]);
@@ -54,14 +54,19 @@ export class LineDiagramCanvasController extends CanvasController<LineDiagramCan
         index === 0 || index === this.data.diagram.stops.length - 1;
 
       if (stop.type !== "always-express") {
-        this.ctx.fillRect(
-          fullSize ? 0 : NOTCH_WIDTH / 2,
-          labelY - NOTCH_HEIGHT / 2,
-          fullSize ? NOTCH_WIDTH : NOTCH_WIDTH / 2,
-          NOTCH_HEIGHT,
-        );
+        this.ctx.lineWidth = NOTCH_HEIGHT;
+        this.ctx.beginPath();
+        this.ctx.moveTo(fullSize ? 0 : NOTCH_WIDTH / 2, labelY);
+        this.ctx.lineTo(NOTCH_WIDTH, labelY);
+        this.ctx.stroke();
       }
     });
+
+    // Fill over the whole canvas with the chosen color. The strokes become the
+    // mask.
+    this.ctx.globalCompositeOperation = "source-in";
+    this.ctx.fillStyle = this._getDiagramColor();
+    this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
   private _getDiagramColor() {
