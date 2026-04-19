@@ -45,6 +45,7 @@ export function Picker<T extends string>(props: PickerProps<T>) {
       {props.options.map((option, index) => (
         <SegmentedPickerButton
           key={option.value}
+          class="shrink"
           label={option.label}
           active={option.value === props.value}
           last={index === props.options.length - 1}
@@ -56,6 +57,7 @@ export function Picker<T extends string>(props: PickerProps<T>) {
 }
 
 type SegmentedPickerButtonProps = {
+  class?: string;
   label: string;
   active: boolean;
   last: boolean;
@@ -65,7 +67,7 @@ type SegmentedPickerButtonProps = {
 function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
   return (
     <Clickable
-      class={clsx("relative group h-8", {
+      class={clsx(props.class, "relative group h-8", {
         [activeForegroundClasses]: props.active,
         "border-r border-accent": !props.last,
       })}
