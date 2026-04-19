@@ -80,7 +80,9 @@ function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
         })}
       />
       <Row class="relative z-1 px-6 min-w-0" xAlign="center" yAlign="center">
-        <TextBlock class="shrink min-w-0">{props.label}</TextBlock>
+        <TextBlock class="shrink min-w-0" align="center">
+          {props.label}
+        </TextBlock>
       </Row>
     </Clickable>
   );
