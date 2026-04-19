@@ -37,7 +37,9 @@ function LinePageContent(props: LinePageContentProps) {
   return (
     <Page {...useSimpleHeaders({ title: formatLine(props.line.name) })}>
       <Column class="px-4 py-8 gap-8">
-        <LineDiagramSection diagram={props.line.diagram} />
+        {props.line.diagram.entries.length > 0 && (
+          <LineDiagramSection diagram={props.line.diagram} />
+        )}
       </Column>
     </Page>
   );
