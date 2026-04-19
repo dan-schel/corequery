@@ -11,7 +11,8 @@ type TextBlockTag =
   | "h4"
   | "h5"
   | "h6"
-  | "pre";
+  | "pre"
+  | "li";
 
 const styles = {
   "small": "text-sm text-fg",

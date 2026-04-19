@@ -1,7 +1,7 @@
 import type { Color } from "@/server/data/color.js";
 
 export type RouteStopTypeConfig = "regular" | "hidden-unless-stopped-at";
-type LineDiagramStopTypeConfig = "regular" | "always-express";
+export type LineDiagramStopTypeConfig = "regular" | "always-express";
 
 export type LineConfig = {
   readonly id: number;
@@ -27,16 +27,18 @@ export type RouteConfig = {
   readonly color: Color | null;
 };
 
-export type LineDiagramConfig = {
-  readonly entries: {
-    readonly name: string | null;
-    readonly color: string;
+export type LineDiagramEntryConfig = {
+  readonly name: string | null;
+  readonly color: Color | null;
 
-    // So far, line diagrams are limited to being linear sequences of stops.
-    // This could be extended in the future to support branches, loops, etc.
-    readonly stops: readonly {
-      readonly stopId: number;
-      readonly type: LineDiagramStopTypeConfig;
-    }[];
+  // So far, line diagrams are limited to being linear sequences of stops.
+  // This could be extended in the future to support branches, loops, etc.
+  readonly stops: readonly {
+    readonly stopId: number;
+    readonly type: LineDiagramStopTypeConfig;
   }[];
+};
+
+export type LineDiagramConfig = {
+  readonly entries: readonly LineDiagramEntryConfig[];
 };

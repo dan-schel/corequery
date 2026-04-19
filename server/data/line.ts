@@ -4,6 +4,7 @@ import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundati
 import type z from "zod";
 import { getHexCodesForColor, type Color } from "@/server/data/color.js";
 import { Route } from "@/server/data/route.js";
+import { LineDiagram } from "@/server/data/line-diagram.js";
 
 type LineFields = {
   readonly id: number;
@@ -12,6 +13,7 @@ type LineFields = {
   readonly urlPath: string;
   readonly color: Color | null;
   readonly routes: readonly Route[];
+  readonly diagram: LineDiagram;
 };
 
 export class Line {
@@ -21,6 +23,7 @@ export class Line {
   readonly urlPath: string;
   readonly color: Color | null;
   readonly routes: readonly Route[];
+  readonly diagram: LineDiagram;
 
   constructor(fields: LineFields) {
     this.id = fields.id;
@@ -29,6 +32,7 @@ export class Line {
     this.urlPath = fields.urlPath;
     this.color = fields.color;
     this.routes = fields.routes;
+    this.diagram = fields.diagram;
   }
 
   static build(
@@ -45,6 +49,7 @@ export class Line {
       routes: lineConfig.routes.map((route) =>
         Route.build(route, routeTagSuccession),
       ),
+      diagram: LineDiagram.build(lineConfig.diagram),
     });
   }
 
@@ -54,6 +59,7 @@ export class Line {
       name: this.name,
       urlPath: this.urlPath,
       color: this.color != null ? getHexCodesForColor(this.color) : null,
+      diagram: this.diagram.toFoda(),
     };
   }
 

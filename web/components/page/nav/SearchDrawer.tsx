@@ -96,8 +96,9 @@ export function SearchDrawer(props: SearchDrawerProps) {
               <Button
                 key={result.url}
                 text={result.name}
-                href={result.url}
                 icon={result.icon}
+                href={result.url}
+                onHrefClick={props.onClose}
                 theme="hover-square"
                 layout="menu-item"
               />

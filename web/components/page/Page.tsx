@@ -21,7 +21,7 @@ export function Page(props: PageProps) {
   return (
     <Grid
       class={clsx(
-        "bg-bg min-h-svh",
+        "bg-bg min-h-svh relative",
         {
           "pt-14": props.mobileHeader != null,
 
@@ -45,13 +45,15 @@ export function Page(props: PageProps) {
         // Intentionally lock the height at 3rem, so that if a page wanted to
         // use a taller header, they'd need to negotiate with the <Page>
         // component, and then we'd adjust the pt-12 above to match.
-        <MobileHeader class="h-14">{props.mobileHeader}</MobileHeader>
+        <MobileHeader class="h-14 z-1">{props.mobileHeader}</MobileHeader>
       )}
-      {centered ? (
-        <PageCenterer>{props.children}</PageCenterer>
-      ) : (
-        props.children
-      )}
+      <Grid class="z-0">
+        {centered ? (
+          <PageCenterer>{props.children}</PageCenterer>
+        ) : (
+          props.children
+        )}
+      </Grid>
     </Grid>
   );
 }

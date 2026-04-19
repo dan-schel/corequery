@@ -39,12 +39,13 @@ export function Picker<T extends string>(props: PickerProps<T>) {
     <Row
       class={clsx(
         props.class,
-        "overflow-hidden rounded-sm border border-accent",
+        "overflow-hidden rounded-sm border border-accent max-w-full",
       )}
     >
       {props.options.map((option, index) => (
         <SegmentedPickerButton
           key={option.value}
+          class="shrink"
           label={option.label}
           active={option.value === props.value}
           last={index === props.options.length - 1}
@@ -56,6 +57,7 @@ export function Picker<T extends string>(props: PickerProps<T>) {
 }
 
 type SegmentedPickerButtonProps = {
+  class?: string;
   label: string;
   active: boolean;
   last: boolean;
@@ -65,7 +67,7 @@ type SegmentedPickerButtonProps = {
 function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
   return (
     <Clickable
-      class={clsx("relative group h-8", {
+      class={clsx(props.class, "relative group min-h-8", {
         [activeForegroundClasses]: props.active,
         "border-r border-accent": !props.last,
       })}
@@ -77,8 +79,14 @@ function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
           [activeBackgroundClasses]: props.active,
         })}
       />
-      <Row class="relative z-1 px-6" xAlign="center" yAlign="center">
-        <TextBlock>{props.label}</TextBlock>
+      <Row
+        class="relative z-1 px-6 py-2 min-w-0"
+        xAlign="center"
+        yAlign="center"
+      >
+        <TextBlock class="shrink min-w-min" align="center">
+          {props.label}
+        </TextBlock>
       </Row>
     </Clickable>
   );

@@ -28,6 +28,11 @@ export const locationFodaSchema = z.object({
   longitude: z.number(),
 });
 
+const colorFodaSchema = z.object({
+  lightModeHexCode: z.string(),
+  darkModeHexCode: z.string(),
+});
+
 export const stopFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -66,20 +71,45 @@ export const stopFodaSchema = z.object({
   // available, it's fast anyway!
 });
 
+export const lineDiagramEntryFodaSchema = z.union([
+  z.object({
+    type: z.literal("linear"),
+    name: z.string().nullable(),
+    color: colorFodaSchema.nullable(),
+    stops: z
+      .object({
+        stopId: z.number(),
+        type: z.enum(["regular", "always-express"]),
+      })
+      .array()
+      .readonly(),
+  }),
+]);
+
+export const lineDiagramFodaSchema = z.object({
+  entries: z
+    .union([
+      lineDiagramEntryFodaSchema,
+
+      // Allows for future diagram types, without a breaking change. When this
+      // case is hit, the frontend, which doesn't understand this new diagram
+      // type, will fallback to the `fallbackStopList`.
+      z.object({
+        type: z.string(),
+      }),
+    ])
+    .array()
+    .readonly(),
+
+  fallbackStopList: z.number().array().readonly(),
+});
+
 export const lineFodaSchema = z.object({
   id: z.number(),
   name: z.string(),
   urlPath: z.string(),
-  color: z
-    .object({
-      lightModeHexCode: z.string(),
-      darkModeHexCode: z.string(),
-    })
-    .nullable(),
-
-  // To the above point. It's probably good to include line diagrams in the
-  // foundational data, so navigation (by clicking through to a stop via the
-  // line page) isn't blocked by an API call.
+  color: colorFodaSchema.nullable(),
+  diagram: lineDiagramFodaSchema,
 });
 
 // Omitting for now, see comments below for each field's reasoning.
@@ -124,8 +154,11 @@ const landingPageFodaSchema = z.object({
 });
 
 const footerFodaSchema = z.object({
-  // This is structural to enough pages that loading it in via an API each time
-  // would be insane.
+  // Adding this to the foundational data when the about page content is NOT in
+  // the foundational data doesn't make much sense. I put it in because I
+  // thought we'd be displaying this footer on most/every page, but given that
+  // we're only showing it on the about page, it can probably be removed in the
+  // next major version.
   primaryMarkdown: z.string(),
 });
 
@@ -135,8 +168,8 @@ export const fodaSchema = z.object({
     serverVersion: z.string(),
   }),
 
-  stops: stopFodaSchema.array(),
-  lines: lineFodaSchema.array(),
+  stops: stopFodaSchema.array().readonly(),
+  lines: lineFodaSchema.array().readonly(),
   terminology: terminologySchema,
   landingPage: landingPageFodaSchema,
   footer: footerFodaSchema,

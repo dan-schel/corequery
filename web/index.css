@@ -159,8 +159,15 @@ body.dark dialog {
   @apply dark-theme;
 }
 
-* {
-  flex-shrink: 0;
+/* 
+ * Because Tailwind uses layers, everytime I'm setting a default, it needs to go 
+ * in some sort of @layer, otherwise the utility classes will be unable to 
+ * override it, as unlayered styles exist at the top layer. 
+ */
+@layer base {
+  * {
+    flex-shrink: 0;
+  }
 }
 
 @font-face {

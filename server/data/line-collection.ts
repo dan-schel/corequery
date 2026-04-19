@@ -1,12 +1,8 @@
-import { Collection } from "@/server/data/collection.js";
+import { Collection } from "@/shared/data/collection.js";
 import { Line } from "@/server/data/line.js";
 import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 
 export class LineCollection extends Collection<number, Line> {
-  constructor(data: readonly Line[]) {
-    super(data);
-  }
-
   static build(
     stops: readonly LineConfig[],
     lineTagSuccession: TagSuccessionConfig,

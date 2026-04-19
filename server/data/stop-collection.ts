@@ -1,4 +1,4 @@
-import { Collection } from "@/server/data/collection.js";
+import { Collection } from "@/shared/data/collection.js";
 import { Stop } from "@/server/data/stop.js";
 import type {
   GetCanonicalLinesServingStopConfig,
@@ -7,10 +7,6 @@ import type {
 } from "@/server/config/index.js";
 
 export class StopCollection extends Collection<number, Stop> {
-  constructor(data: readonly Stop[]) {
-    super(data);
-  }
-
   static build(
     stops: readonly StopConfig[],
     stopTagSuccession: TagSuccessionConfig,
