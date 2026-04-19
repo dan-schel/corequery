@@ -67,7 +67,7 @@ type SegmentedPickerButtonProps = {
 function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
   return (
     <Clickable
-      class={clsx(props.class, "relative group min-h-8 min-w-0", {
+      class={clsx(props.class, "relative group min-h-8", {
         [activeForegroundClasses]: props.active,
         "border-r border-accent": !props.last,
       })}
@@ -79,8 +79,12 @@ function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
           [activeBackgroundClasses]: props.active,
         })}
       />
-      <Row class="relative z-1 px-6 min-w-0" xAlign="center" yAlign="center">
-        <TextBlock class="shrink min-w-0" align="center">
+      <Row
+        class="relative z-1 px-6 py-2 min-w-0"
+        xAlign="center"
+        yAlign="center"
+      >
+        <TextBlock class="shrink min-w-min" align="center">
           {props.label}
         </TextBlock>
       </Row>
