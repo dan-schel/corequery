@@ -16,16 +16,18 @@ export function MenuItemButtonLayout(props: MenuItemButtonLayoutProps) {
 
   return (
     <Row
-      class={clsx(props.class, "gap-2 min-w-0", {
+      class={clsx(props.class, "gap-2 min-w-0 py-2", {
         "px-4": props.text != null,
         "min-w-8": props.text == null,
-        "h-10": !outerPadding,
-        "h-14": outerPadding,
+        "min-h-10": !outerPadding,
+        "min-h-12": outerPadding,
       })}
       yAlign="center"
     >
       {props.icon != null && <props.icon class="text-fg text-icon-lg" />}
-      {props.text != null && <TextBlock>{props.text}</TextBlock>}
+      {props.text != null && (
+        <TextBlock class="shrink min-w-0">{props.text}</TextBlock>
+      )}
     </Row>
   );
 }

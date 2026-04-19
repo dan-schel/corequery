@@ -39,7 +39,7 @@ export function Picker<T extends string>(props: PickerProps<T>) {
     <Row
       class={clsx(
         props.class,
-        "overflow-hidden rounded-sm border border-accent",
+        "overflow-hidden rounded-sm border border-accent max-w-full",
       )}
     >
       {props.options.map((option, index) => (
@@ -67,7 +67,7 @@ type SegmentedPickerButtonProps = {
 function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
   return (
     <Clickable
-      class={clsx(props.class, "relative group h-8", {
+      class={clsx(props.class, "relative group min-h-8 min-w-0", {
         [activeForegroundClasses]: props.active,
         "border-r border-accent": !props.last,
       })}
@@ -79,8 +79,8 @@ function SegmentedPickerButton(props: SegmentedPickerButtonProps) {
           [activeBackgroundClasses]: props.active,
         })}
       />
-      <Row class="relative z-1 px-6" xAlign="center" yAlign="center">
-        <TextBlock>{props.label}</TextBlock>
+      <Row class="relative z-1 px-6 min-w-0" xAlign="center" yAlign="center">
+        <TextBlock class="shrink min-w-0">{props.label}</TextBlock>
       </Row>
     </Clickable>
   );
