@@ -16,7 +16,7 @@ type QuasilinearStopDiagramCanvasProps = {
   structure: QuasilinearStopDiagramStructure;
   lightThemeColorHexCode: string;
   darkThemeColorHexCode: string;
-  labelsParent: HTMLDivElement | null;
+  contentParent: HTMLDivElement | null;
 };
 
 export function QuasilinearStopDiagramCanvas(
@@ -29,12 +29,12 @@ export function QuasilinearStopDiagramCanvas(
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
       darkThemeColorHexCode: props.darkThemeColorHexCode,
-      labelsParent: props.labelsParent,
+      contentParent: props.contentParent,
       colorTheme: settings.theme,
     }),
     [
       props.darkThemeColorHexCode,
-      props.labelsParent,
+      props.contentParent,
       props.lightThemeColorHexCode,
       props.structure,
       settings.theme,

@@ -16,16 +16,18 @@ type QuasilinearStopDiagramProps = {
 };
 
 export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {
-  const labelsParentRef = useRef<HTMLDivElement>(null);
+  const contentParentRef = useRef<HTMLDivElement>(null);
 
   // Bit a hack, but if we pass the ref directly to
   // <QuasilinearStopDiagramCanvas>, it uses the initial value of `null` and
   // doesn't notice when the ref updates to the actual div element. It does
   // notice this change in state though.
-  const [labelsParent, setLabelsParent] = useState<HTMLDivElement | null>(null);
+  const [contentParent, setContentParent] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   useEffect(() => {
-    setLabelsParent(labelsParentRef.current);
+    setContentParent(contentParentRef.current);
   }, []);
 
   if (props.structure.type === "linear") {
@@ -35,8 +37,8 @@ export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {
         structure={props.structure}
         lightThemeColorHexCode={props.lightThemeColorHexCode}
         darkThemeColorHexCode={props.darkThemeColorHexCode}
-        labelsParent={labelsParent}
-        labelsParentRef={labelsParentRef}
+        contentParent={contentParent}
+        contentParentRef={contentParentRef}
       />
     );
   }
@@ -47,8 +49,8 @@ type LinearLayoutProps = {
   structure: LinearStopDiagramStructure;
   lightThemeColorHexCode: string;
   darkThemeColorHexCode: string;
-  labelsParent: HTMLDivElement | null;
-  labelsParentRef: RefObject<HTMLDivElement>;
+  contentParent: HTMLDivElement | null;
+  contentParentRef: RefObject<HTMLDivElement>;
 };
 
 function LinearLayout(props: LinearLayoutProps) {
@@ -59,9 +61,9 @@ function LinearLayout(props: LinearLayoutProps) {
         structure={props.structure}
         lightThemeColorHexCode={props.lightThemeColorHexCode}
         darkThemeColorHexCode={props.darkThemeColorHexCode}
-        labelsParent={props.labelsParent}
+        contentParent={props.contentParent}
       />
-      <div ref={props.labelsParentRef} class="flex flex-col gap-6">
+      <div ref={props.contentParentRef} class="flex flex-col gap-6">
         {props.structure.stops.map((stop) => (
           <Grid>{stop.content}</Grid>
         ))}

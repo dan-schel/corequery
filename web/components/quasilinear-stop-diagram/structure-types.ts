@@ -1,10 +1,9 @@
 import type { ComponentChildren } from "preact";
 
-type StopStructure = {
+export type StopStructure = {
   readonly content: ComponentChildren;
-  readonly drawMark?:
-    | boolean
-    | { getMarkYPosition(contentPosition: DOMRect): number };
+  readonly drawMark?: boolean;
+  readonly getOverriddenMarkYPosition?: (contentDiv: HTMLElement) => number;
 };
 
 export type LinearStopDiagramStructure = {
