@@ -24,24 +24,46 @@ export default function Home() {
   //   };
   // }, []);
 
+  // const structure = useMemo<QuasilinearStopDiagramStructure>(() => {
+  //   return {
+  //     type: "branch",
+  //     commonStops: [
+  //       { content: <TextBlock>Alphington</TextBlock> },
+  //       { content: <TextBlock>Berwick</TextBlock> },
+  //       { content: <TextBlock>Cheltenham</TextBlock> },
+  //       { content: <TextBlock>Darling</TextBlock> },
+  //       { content: <TextBlock>Epping</TextBlock> },
+  //     ],
+  //     branchAStops: [
+  //       { content: <TextBlock align="right">Fairfield</TextBlock> },
+  //       { content: <TextBlock align="right">Geelong</TextBlock> },
+  //     ],
+  //     branchBStops: [
+  //       { content: <TextBlock>Highett</TextBlock> },
+  //       { content: <TextBlock>Ivanhoe</TextBlock> },
+  //       { content: <TextBlock>Jewell</TextBlock> },
+  //     ],
+  //   };
+  // }, []);
+
   const structure = useMemo<QuasilinearStopDiagramStructure>(() => {
     return {
-      type: "branch",
-      commonStops: [
+      type: "loop",
+      loopLeftStops: [
+        { content: <TextBlock align="right">Southern Cross</TextBlock> },
+        { content: <TextBlock align="right">Flinders Street</TextBlock> },
+      ],
+      loopRightStops: [
+        { content: <TextBlock>Flagstaff</TextBlock> },
+        { content: <TextBlock>Melbourne Central</TextBlock> },
+        { content: <TextBlock>Parliament</TextBlock> },
+      ],
+      mainStops: [
         { content: <TextBlock>Alphington</TextBlock> },
         { content: <TextBlock>Berwick</TextBlock> },
         { content: <TextBlock>Cheltenham</TextBlock> },
         { content: <TextBlock>Darling</TextBlock> },
         { content: <TextBlock>Epping</TextBlock> },
-      ],
-      branchAStops: [
-        { content: <TextBlock>Fairfield</TextBlock> },
-        { content: <TextBlock>Geelong</TextBlock> },
-      ],
-      branchBStops: [
-        { content: <TextBlock>Highett</TextBlock> },
-        { content: <TextBlock>Ivanhoe</TextBlock> },
-        { content: <TextBlock>Jewell</TextBlock> },
       ],
     };
   }, []);

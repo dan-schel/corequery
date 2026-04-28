@@ -3,6 +3,7 @@ import type { QuasilinearStopDiagramStructure } from "@/web/components/quasiline
 import { assertNever } from "@dan-schel/js-utils";
 import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/layout/LinearLayout";
 import { BranchLayout } from "@/web/components/quasilinear-stop-diagram/layout/BranchLayout";
+import { LoopLayout } from "@/web/components/quasilinear-stop-diagram/layout/LoopLayout";
 
 type QuasilinearStopDiagramProps = {
   class?: string;
@@ -40,6 +41,17 @@ export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {
   } else if (props.structure.type === "branch") {
     return (
       <BranchLayout
+        class={props.class}
+        structure={props.structure}
+        lightThemeColorHexCode={props.lightThemeColorHexCode}
+        darkThemeColorHexCode={props.darkThemeColorHexCode}
+        contentParent={contentParent}
+        contentParentRef={contentParentRef}
+      />
+    );
+  } else if (props.structure.type === "loop") {
+    return (
+      <LoopLayout
         class={props.class}
         structure={props.structure}
         lightThemeColorHexCode={props.lightThemeColorHexCode}

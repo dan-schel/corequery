@@ -5,6 +5,7 @@ import type { Theme } from "@/web/data/theme";
 import type {
   BranchStopDiagramStructure,
   LinearStopDiagramStructure,
+  LoopStopDiagramStructure,
   QuasilinearStopDiagramStructure,
   StopStructure,
 } from "@/web/components/quasilinear-stop-diagram/structure-types";
@@ -13,6 +14,11 @@ import {
   BRANCH_B_STOPS_SECTION_CLASS,
   COMMON_STOPS_SECTION_CLASS,
 } from "@/web/components/quasilinear-stop-diagram/layout/BranchLayout";
+import {
+  LOOP_LEFT_STOPS_SECTION_CLASS,
+  LOOP_RIGHT_STOPS_SECTION_CLASS,
+  MAIN_STOPS_SECTION_CLASS,
+} from "@/web/components/quasilinear-stop-diagram/layout/LoopLayout";
 
 export type QuasilinearStopDiagramCanvasData = {
   structure: QuasilinearStopDiagramStructure;
@@ -27,6 +33,7 @@ const NOTCH_HEIGHT = 6;
 const LINE_WIDTH = 6;
 const BRANCH_OFFSET = 10;
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
+const LOOP_CURVE_BEZIER_OFFSET = 24;
 const SECTION_LINE_OVERSHOOT = 1;
 
 export class QuasilinearStopDiagramCanvasController extends CanvasController<QuasilinearStopDiagramCanvasData> {
@@ -54,6 +61,8 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
       this._renderLinear(this.data.structure, this.data.contentParent);
     } else if (this.data.structure.type === "branch") {
       this._renderBranch(this.data.structure, this.data.contentParent);
+    } else if (this.data.structure.type === "loop") {
+      this._renderLoop(this.data.structure, this.data.contentParent);
     } else {
       assertNever(this.data.structure);
     }
@@ -136,6 +145,8 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.beginPath();
     this.ctx.moveTo(commonX, commonBottomY);
+
+    // From the bottom of common to the top of branch A.
     this.ctx.lineTo(commonX, commonBottomY + BRANCH_OFFSET);
     this.ctx.bezierCurveTo(
       commonX,
@@ -146,6 +157,8 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
       branchCommomTopY,
     );
     this.ctx.lineTo(branchAX, branchATopY);
+
+    // From the bottom of common to the top of branch B.
     this.ctx.moveTo(commonX, commonBottomY + BRANCH_OFFSET);
     this.ctx.bezierCurveTo(
       commonX,
@@ -156,6 +169,110 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
       branchCommomTopY,
     );
     this.ctx.lineTo(branchBX, branchBTopY);
+
+    this.ctx.stroke();
+  }
+
+  private _renderLoop(
+    structure: LoopStopDiagramStructure,
+    contentParent: HTMLDivElement,
+  ) {
+    const loopLeftYLevels = this._extractYLevels(
+      structure.loopLeftStops,
+      contentParent,
+      LOOP_LEFT_STOPS_SECTION_CLASS,
+    );
+    const loopRightYLevels = this._extractYLevels(
+      structure.loopRightStops,
+      contentParent,
+      LOOP_RIGHT_STOPS_SECTION_CLASS,
+    );
+    const mainYLevels = this._extractYLevels(
+      structure.mainStops,
+      contentParent,
+      MAIN_STOPS_SECTION_CLASS,
+    );
+
+    const loopLeftX = NOTCH_WIDTH / 2;
+    const loopRightX = this.width - NOTCH_WIDTH / 2;
+    const mainX = this.width / 2;
+
+    this._renderSection({
+      stops: structure.loopLeftStops,
+      x: loopLeftX,
+      yLevels: loopLeftYLevels,
+      terminatesAtTop: false,
+      terminatesAtBottom: false,
+      notchSide: "left",
+    });
+    this._renderSection({
+      stops: structure.loopRightStops,
+      x: loopRightX,
+      yLevels: loopRightYLevels,
+      terminatesAtTop: false,
+      terminatesAtBottom: false,
+      notchSide: "right",
+    });
+    this._renderSection({
+      stops: structure.mainStops,
+      x: mainX,
+      yLevels: mainYLevels,
+      terminatesAtTop: false,
+      terminatesAtBottom: true,
+      notchSide: "right",
+    });
+
+    const mainTopY = itsOk(mainYLevels[0]);
+    const loopLeftBottomY = itsOk(loopLeftYLevels[loopLeftYLevels.length - 1]);
+    const loopRightBottomY = itsOk(
+      loopRightYLevels[loopRightYLevels.length - 1],
+    );
+    const loopLeftTopY = itsOk(loopLeftYLevels[0]);
+    const loopRightTopY = itsOk(loopRightYLevels[0]);
+    const loopCommonBottomY = Math.max(loopLeftBottomY, loopRightBottomY);
+    const loopCommonTopY = Math.min(loopLeftTopY, loopRightTopY);
+
+    this.ctx.lineWidth = LINE_WIDTH;
+    this.ctx.beginPath();
+    this.ctx.moveTo(mainX, mainTopY);
+
+    // From the top of main to the bottom of loop left.
+    this.ctx.lineTo(mainX, mainTopY - BRANCH_OFFSET);
+    this.ctx.bezierCurveTo(
+      mainX,
+      mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+      loopLeftX,
+      loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+      loopLeftX,
+      loopCommonBottomY,
+    );
+    this.ctx.lineTo(loopLeftX, loopLeftBottomY);
+
+    // From the top of main to the bottom of loop right.
+    this.ctx.moveTo(mainX, mainTopY - BRANCH_OFFSET);
+    this.ctx.bezierCurveTo(
+      mainX,
+      mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+      loopRightX,
+      loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+      loopRightX,
+      loopCommonBottomY,
+    );
+    this.ctx.lineTo(loopRightX, loopRightBottomY);
+
+    // From the top of loop left to the top of loop right.
+    this.ctx.moveTo(loopLeftX, loopLeftTopY);
+    this.ctx.lineTo(loopLeftX, loopCommonTopY);
+    this.ctx.bezierCurveTo(
+      loopLeftX,
+      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
+      loopRightX,
+      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
+      loopRightX,
+      loopCommonTopY,
+    );
+    this.ctx.lineTo(loopRightX, loopRightTopY);
+
     this.ctx.stroke();
   }
 

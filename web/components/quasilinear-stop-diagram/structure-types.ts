@@ -18,6 +18,14 @@ export type BranchStopDiagramStructure = {
   readonly branchBStops: readonly StopStructure[];
 };
 
+export type LoopStopDiagramStructure = {
+  readonly type: "loop";
+  readonly loopLeftStops: readonly StopStructure[];
+  readonly loopRightStops: readonly StopStructure[];
+  readonly mainStops: readonly StopStructure[];
+};
+
 export type QuasilinearStopDiagramStructure =
   | LinearStopDiagramStructure
-  | BranchStopDiagramStructure;
+  | BranchStopDiagramStructure
+  | LoopStopDiagramStructure;
