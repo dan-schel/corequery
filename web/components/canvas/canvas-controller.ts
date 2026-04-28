@@ -18,10 +18,10 @@ export abstract class CanvasController<T> {
   private _running: boolean;
 
   constructor(
-    private readonly _canvasContainer: HTMLDivElement,
-    readonly canvas: HTMLCanvasElement,
+    protected readonly _canvasContainer: HTMLDivElement,
+    protected readonly _canvas: HTMLCanvasElement,
   ) {
-    const ctx = this.canvas.getContext("2d");
+    const ctx = this._canvas.getContext("2d");
     if (ctx == null) throw new Error("Failed to get 2D rendering context.");
     this.ctx = ctx;
     this._resizeListener = this._onResize.bind(this);
@@ -122,10 +122,10 @@ export abstract class CanvasController<T> {
     const bsr = this.ctx.backingStorePixelRatio ?? 1;
     this._dpiRatio = dpr / bsr;
 
-    this.canvas.style.width = `${this._width}px`;
-    this.canvas.style.height = `${this._height}px`;
-    this.canvas.width = this._width * this._dpiRatio;
-    this.canvas.height = this._height * this._dpiRatio;
+    this._canvas.style.width = `${this._width}px`;
+    this._canvas.style.height = `${this._height}px`;
+    this._canvas.width = this._width * this._dpiRatio;
+    this._canvas.height = this._height * this._dpiRatio;
 
     this._dirty = true;
   }
