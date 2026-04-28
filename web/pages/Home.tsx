@@ -11,25 +11,37 @@ import type { QuasilinearStopDiagramStructure } from "@/web/components/quasiline
 export default function Home() {
   const { foda } = useFoundationalData();
 
+  // const structure = useMemo<QuasilinearStopDiagramStructure>(() => {
+  //   return {
+  //     type: "linear",
+  //     stops: [
+  //       { content: <TextBlock>Alphington</TextBlock> },
+  //       { content: <TextBlock>Berwick</TextBlock> },
+  //       { content: <TextBlock>Cheltenham</TextBlock> },
+  //       { content: <TextBlock>Darling</TextBlock> },
+  //       { content: <TextBlock>Epping</TextBlock> },
+  //     ],
+  //   };
+  // }, []);
+
   const structure = useMemo<QuasilinearStopDiagramStructure>(() => {
     return {
-      type: "linear",
-      stops: [
-        {
-          content: <TextBlock>Alphington</TextBlock>,
-        },
-        {
-          content: <TextBlock>Berwick</TextBlock>,
-        },
-        {
-          content: <TextBlock>Cheltenham</TextBlock>,
-        },
-        {
-          content: <TextBlock>Darling</TextBlock>,
-        },
-        {
-          content: <TextBlock>Epping</TextBlock>,
-        },
+      type: "branch",
+      commonStops: [
+        { content: <TextBlock>Alphington</TextBlock> },
+        { content: <TextBlock>Berwick</TextBlock> },
+        { content: <TextBlock>Cheltenham</TextBlock> },
+        { content: <TextBlock>Darling</TextBlock> },
+        { content: <TextBlock>Epping</TextBlock> },
+      ],
+      branchAStops: [
+        { content: <TextBlock>Fairfield</TextBlock> },
+        { content: <TextBlock>Geelong</TextBlock> },
+      ],
+      branchBStops: [
+        { content: <TextBlock>Highett</TextBlock> },
+        { content: <TextBlock>Ivanhoe</TextBlock> },
+        { content: <TextBlock>Jewell</TextBlock> },
       ],
     };
   }, []);

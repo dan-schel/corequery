@@ -11,4 +11,13 @@ export type LinearStopDiagramStructure = {
   readonly stops: readonly StopStructure[];
 };
 
-export type QuasilinearStopDiagramStructure = LinearStopDiagramStructure;
+export type BranchStopDiagramStructure = {
+  readonly type: "branch";
+  readonly commonStops: readonly StopStructure[];
+  readonly branchAStops: readonly StopStructure[];
+  readonly branchBStops: readonly StopStructure[];
+};
+
+export type QuasilinearStopDiagramStructure =
+  | LinearStopDiagramStructure
+  | BranchStopDiagramStructure;

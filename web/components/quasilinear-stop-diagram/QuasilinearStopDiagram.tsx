@@ -1,12 +1,8 @@
-import type { RefObject } from "preact";
-import clsx from "clsx";
-import { Grid } from "@/web/components/core/Grid";
-import { QuasilinearStopDiagramCanvas } from "@/web/components/quasilinear-stop-diagram/QuasilinearStopDiagramCanvas";
 import { useEffect, useRef, useState } from "preact/hooks";
-import type {
-  LinearStopDiagramStructure,
-  QuasilinearStopDiagramStructure,
-} from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type { QuasilinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import { assertNever } from "@dan-schel/js-utils";
+import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/layout/LinearLayout";
+import { BranchLayout } from "@/web/components/quasilinear-stop-diagram/layout/BranchLayout";
 
 type QuasilinearStopDiagramProps = {
   class?: string;
@@ -41,33 +37,18 @@ export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {
         contentParentRef={contentParentRef}
       />
     );
-  }
-}
-
-type LinearLayoutProps = {
-  class?: string;
-  structure: LinearStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
-  contentParent: HTMLDivElement | null;
-  contentParentRef: RefObject<HTMLDivElement>;
-};
-
-function LinearLayout(props: LinearLayoutProps) {
-  return (
-    <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-4")}>
-      <QuasilinearStopDiagramCanvas
-        class="w-4"
+  } else if (props.structure.type === "branch") {
+    return (
+      <BranchLayout
+        class={props.class}
         structure={props.structure}
         lightThemeColorHexCode={props.lightThemeColorHexCode}
         darkThemeColorHexCode={props.darkThemeColorHexCode}
-        contentParent={props.contentParent}
+        contentParent={contentParent}
+        contentParentRef={contentParentRef}
       />
-      <div ref={props.contentParentRef} class="flex flex-col gap-6">
-        {props.structure.stops.map((stop) => (
-          <Grid>{stop.content}</Grid>
-        ))}
-      </div>
-    </Grid>
-  );
+    );
+  } else {
+    assertNever(props.structure);
+  }
 }
