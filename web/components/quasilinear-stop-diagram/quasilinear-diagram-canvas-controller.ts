@@ -1,13 +1,12 @@
 import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import { getColors, type Colors } from "@/web/components/canvas/colors";
-import { itsOk } from "@dan-schel/js-utils";
+import { assertNever, itsOk } from "@dan-schel/js-utils";
 import type { Theme } from "@/web/data/theme";
 import type {
   LinearStopDiagramStructure,
   QuasilinearStopDiagramStructure,
   StopStructure,
 } from "@/web/components/quasilinear-stop-diagram/structure-types";
-import { th } from "zod/locales";
 
 export type QuasilinearStopDiagramCanvasData = {
   structure: QuasilinearStopDiagramStructure;
@@ -45,8 +44,7 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     if (this.data.structure.type === "linear") {
       this._renderLinear(this.data.structure, this.data.contentParent);
     } else {
-      this.data.structure.type satisfies never;
-      throw new Error("Unknown structure type");
+      assertNever(this.data.structure.type);
     }
 
     // Fill over the whole canvas with the chosen color. The strokes become the

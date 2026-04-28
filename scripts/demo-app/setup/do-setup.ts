@@ -3,6 +3,7 @@ import fsp from "fs/promises";
 import { execSync } from "child_process";
 import { updatePackageJson } from "@/scripts/demo-app/setup/package-json.js";
 import path from "path";
+import { assertNever } from "@dan-schel/js-utils";
 import { type SetupArgs } from "@/scripts/demo-app/setup/setup-args.js";
 
 export async function doSetup(args: SetupArgs) {
@@ -24,7 +25,7 @@ async function loadCodeIntoFolder(args: SetupArgs) {
   if (args.source === "git") {
     await loadCodeFromGit(args.gitRepoUrl, args.branch);
   } else {
-    throw new Error(`Unknown setup source: ${args.source as string}`);
+    assertNever(args.source);
   }
 }
 
