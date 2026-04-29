@@ -71,18 +71,33 @@ export const stopFodaSchema = z.object({
   // available, it's fast anyway!
 });
 
+const lineDiagramStopFodaSchema = z.object({
+  stopId: z.number(),
+  type: z.enum(["regular", "always-express"]),
+});
+
 export const lineDiagramEntryFodaSchema = z.union([
   z.object({
     type: z.literal("linear"),
     name: z.string().nullable(),
     color: colorFodaSchema.nullable(),
-    stops: z
-      .object({
-        stopId: z.number(),
-        type: z.enum(["regular", "always-express"]),
-      })
-      .array()
-      .readonly(),
+    stops: lineDiagramStopFodaSchema.array().readonly(),
+  }),
+  z.object({
+    type: z.literal("branch"),
+    name: z.string().nullable(),
+    color: colorFodaSchema.nullable(),
+    commonStops: lineDiagramStopFodaSchema.array().readonly(),
+    branchAStops: lineDiagramStopFodaSchema.array().readonly(),
+    branchBStops: lineDiagramStopFodaSchema.array().readonly(),
+  }),
+  z.object({
+    type: z.literal("loop"),
+    name: z.string().nullable(),
+    color: colorFodaSchema.nullable(),
+    loopLeftStops: lineDiagramStopFodaSchema.array().readonly(),
+    loopRightStops: lineDiagramStopFodaSchema.array().readonly(),
+    mainStops: lineDiagramStopFodaSchema.array().readonly(),
   }),
 ]);
 
