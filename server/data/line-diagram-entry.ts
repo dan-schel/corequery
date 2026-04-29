@@ -4,6 +4,7 @@ import type {
 } from "@/server/config/index.js";
 import { getHexCodesForColor, type Color } from "@/server/data/color.js";
 import type { lineDiagramEntryFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
+import { unique } from "@dan-schel/js-utils";
 import type z from "zod";
 
 const includedInStopListMapping: Record<LineDiagramStopTypeConfig, boolean> = {
@@ -51,9 +52,11 @@ export class LineDiagramEntry {
   }
 
   getFallbackStopList() {
-    return this.stops
-      .filter((s) => includedInStopListMapping[s.type])
-      .map((stop) => stop.stopId);
+    return unique(
+      this.stops
+        .filter((s) => includedInStopListMapping[s.type])
+        .map((stop) => stop.stopId),
+    );
   }
 
   with(newValues: Partial<LineDiagramEntryFields>): LineDiagramEntry {
