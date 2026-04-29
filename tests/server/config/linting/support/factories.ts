@@ -39,10 +39,13 @@ export function createDiagramEntry(
   return {
     name: null,
     color: "red",
-    stops: [
-      { stopId: 1, type: "regular" },
-      { stopId: 2, type: "regular" },
-    ],
+    shape: {
+      type: "linear",
+      stops: [
+        { stopId: 1, type: "regular" },
+        { stopId: 2, type: "regular" },
+      ],
+    },
     ...overrides,
   };
 }

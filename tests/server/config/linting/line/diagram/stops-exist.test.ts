@@ -12,7 +12,11 @@ describe("checkLineDiagramStopsExist", () => {
     const line = createLine({
       diagram: {
         entries: [
-          { name: null, color: "red", stops: [{ stopId: 1, type: "regular" }] },
+          {
+            name: null,
+            color: "red",
+            shape: { type: "linear", stops: [{ stopId: 1, type: "regular" }] },
+          },
         ],
       },
     });
@@ -26,7 +30,11 @@ describe("checkLineDiagramStopsExist", () => {
     const line = createLine({
       diagram: {
         entries: [
-          { name: null, color: "red", stops: [{ stopId: 2, type: "regular" }] },
+          {
+            name: null,
+            color: "red",
+            shape: { type: "linear", stops: [{ stopId: 2, type: "regular" }] },
+          },
         ],
       },
     });
@@ -35,6 +43,31 @@ describe("checkLineDiagramStopsExist", () => {
 
     expectIssueMessages(issues, [
       'Stop ID 2 in diagram entry <Entry 1> of line "Line" does not exist in the stop list.',
+    ]);
+  });
+
+  it("checks stops across all arms of a branch shape", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          {
+            name: null,
+            color: "red",
+            shape: {
+              type: "branch",
+              commonStops: [{ stopId: 1, type: "regular" }],
+              branchAStops: [{ stopId: 2, type: "regular" }],
+              branchBStops: [{ stopId: 99, type: "regular" }],
+            },
+          },
+        ],
+      },
+    });
+    const stops = [createStop({ id: 1 }), createStop({ id: 2 })];
+    const issues = collectIssues(checkLineDiagramStopsExist, line, 0, stops);
+
+    expectIssueMessages(issues, [
+      'Stop ID 99 in diagram entry <Entry 1> of line "Line" does not exist in the stop list.',
     ]);
   });
 });

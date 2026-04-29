@@ -15,18 +15,64 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     expectIssueMessages(issues, []);
   });
 
-  it("returns issues when an entry has fewer than 2 stops", () => {
+  it("returns issues when a linear entry has fewer than 2 stops", () => {
     const line = createLine({
       diagram: {
         entries: [
-          createDiagramEntry({ stops: [{ stopId: 1, type: "regular" }] }),
+          createDiagramEntry({
+            shape: { type: "linear", stops: [{ stopId: 1, type: "regular" }] },
+          }),
         ],
       },
     });
     const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
 
     expectIssueMessages(issues, [
-      'Diagram entry <Entry 1> in line "Line" has fewer than 2 stops.',
+      'Diagram entry <Entry 1> in line "Line" has fewer than 2 stops in stops.',
+    ]);
+  });
+
+  it("returns issues when a branch entry is missing stops in a branch arm", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          createDiagramEntry({
+            shape: {
+              type: "branch",
+              commonStops: [{ stopId: 1, type: "regular" }],
+              branchAStops: [{ stopId: 2, type: "regular" }],
+              branchBStops: [],
+            },
+          }),
+        ],
+      },
+    });
+    const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
+
+    expectIssueMessages(issues, [
+      'Diagram entry <Entry 1> in line "Line" has fewer than 1 stop in branchBStops.',
+    ]);
+  });
+
+  it("returns issues when a loop entry has no main stops", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          createDiagramEntry({
+            shape: {
+              type: "loop",
+              loopLeftStops: [{ stopId: 1, type: "regular" }],
+              loopRightStops: [],
+              mainStops: [],
+            },
+          }),
+        ],
+      },
+    });
+    const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
+
+    expectIssueMessages(issues, [
+      'Diagram entry <Entry 1> in line "Line" has fewer than 1 stop in mainStops.',
     ]);
   });
 });
