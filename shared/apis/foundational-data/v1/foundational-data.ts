@@ -71,7 +71,7 @@ export const stopFodaSchema = z.object({
   // available, it's fast anyway!
 });
 
-const lineDiagramStopFodaSchema = z.object({
+export const lineDiagramStopFodaSchema = z.object({
   stopId: z.number(),
   type: z.enum(["regular", "always-express"]),
 });

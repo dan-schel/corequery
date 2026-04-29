@@ -12,6 +12,8 @@ import type {
 } from "@/web/components/quasilinear-stop-diagram/structure-types";
 import type { FoundationalData } from "@/web/data/foundational-data";
 import { assertNever } from "@dan-schel/js-utils";
+import type z from "zod";
+import type { lineDiagramStopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 
 type LineDiagramViewerProps = {
   class?: string;
@@ -46,12 +48,34 @@ function toStructure(
   foda: FoundationalData,
   diagram: FodaLineDiagramEntry,
 ): QuasilinearStopDiagramStructure {
-  return {
-    type: "linear",
-    stops: diagram.stops.map((stop) =>
-      toStopStructure(foda, stop.stopId, stop.type),
-    ),
-  };
+  function toStopStructures(
+    stops: readonly z.infer<typeof lineDiagramStopFodaSchema>[],
+  ) {
+    return stops.map((stop) => toStopStructure(foda, stop.stopId, stop.type));
+  }
+
+  if (diagram.type === "linear") {
+    return {
+      type: "linear",
+      stops: toStopStructures(diagram.stops),
+    };
+  } else if (diagram.type === "branch") {
+    return {
+      type: "branch",
+      commonStops: toStopStructures(diagram.commonStops),
+      branchAStops: toStopStructures(diagram.branchAStops),
+      branchBStops: toStopStructures(diagram.branchBStops),
+    };
+  } else if (diagram.type === "loop") {
+    return {
+      type: "loop",
+      loopLeftStops: toStopStructures(diagram.loopLeftStops),
+      loopRightStops: toStopStructures(diagram.loopRightStops),
+      mainStops: toStopStructures(diagram.mainStops),
+    };
+  } else {
+    assertNever(diagram);
+  }
 }
 
 function toStopStructure(
