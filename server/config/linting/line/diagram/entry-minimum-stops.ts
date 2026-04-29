@@ -40,7 +40,8 @@ export function checkLineDiagramEntriesMinimumStops(
         loopStops,
         "loopLeftStops and loopRightStops combined",
       );
-      addIssueUnlessLengthIs(1, entry.shape.mainStops, "mainStops");
+
+      // Intentionally allow mainStops to be empty (for the City Circle line!).
     } else {
       assertNever(entry.shape);
     }

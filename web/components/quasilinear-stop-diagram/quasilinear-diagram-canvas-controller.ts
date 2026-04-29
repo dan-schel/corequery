@@ -197,6 +197,11 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     const loopRightX = this.width - NOTCH_WIDTH / 2;
     const mainX = this.width / 2;
 
+    // TODO: Would like this to handle cases where mainStops is empty (e.g. the
+    // City Circle line), and/or where one of `loopLeftStops` or
+    // `loopRightStops` is empty (and just show that side as a line without any
+    // notches).
+
     this._renderSection({
       stops: structure.loopLeftStops,
       x: loopLeftX,

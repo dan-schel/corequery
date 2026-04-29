@@ -24,7 +24,7 @@ export function BranchLayout(props: BranchLayoutProps) {
       ref={props.contentParentRef}
       class={clsx(
         props.class,
-        "grid grid-cols-[1fr_auto_1fr] grid-rows-[auto_auto] gap-y-8 gap-x-4",
+        "grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-y-8 gap-x-4",
       )}
     >
       <QuasilinearStopDiagramCanvas
