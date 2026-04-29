@@ -54,7 +54,29 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     ]);
   });
 
-  it("returns issues when a loop entry has no main stops", () => {
+  it("returns issues when a loop entry has no stops in either side of the loop", () => {
+    const line = createLine({
+      diagram: {
+        entries: [
+          createDiagramEntry({
+            shape: {
+              type: "loop",
+              loopLeftStops: [],
+              loopRightStops: [],
+              mainStops: [],
+            },
+          }),
+        ],
+      },
+    });
+    const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
+
+    expectIssueMessages(issues, [
+      'Diagram entry <Entry 1> in line "Line" has fewer than 1 stop in loopLeftStops and loopRightStops combined.',
+    ]);
+  });
+
+  it("does not return issues when a loop entry has no main stops", () => {
     const line = createLine({
       diagram: {
         entries: [
@@ -71,8 +93,6 @@ describe("checkLineDiagramEntriesMinimumStops", () => {
     });
     const issues = collectIssues(checkLineDiagramEntriesMinimumStops, line, 0);
 
-    expectIssueMessages(issues, [
-      'Diagram entry <Entry 1> in line "Line" has fewer than 1 stop in mainStops.',
-    ]);
+    expectIssueMessages(issues, []);
   });
 });
