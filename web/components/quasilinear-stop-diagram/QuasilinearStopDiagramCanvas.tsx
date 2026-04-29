@@ -14,8 +14,8 @@ import {
 type QuasilinearStopDiagramCanvasProps = {
   class?: string;
   structure: QuasilinearStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
   contentParent: HTMLDivElement | null;
 };
 

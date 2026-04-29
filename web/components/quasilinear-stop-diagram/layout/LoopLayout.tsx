@@ -12,8 +12,8 @@ export const LOOP_RIGHT_STOPS_SECTION_CLASS = "_diagram-loop-right-stops";
 type LoopLayoutProps = {
   class?: string;
   structure: LoopStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
   contentParent: HTMLDivElement | null;
   contentParentRef: RefObject<HTMLDivElement>;
 };

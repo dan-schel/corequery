@@ -8,8 +8,8 @@ import { LoopLayout } from "@/web/components/quasilinear-stop-diagram/layout/Loo
 type QuasilinearStopDiagramProps = {
   class?: string;
   structure: QuasilinearStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
 };
 
 export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {

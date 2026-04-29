@@ -22,8 +22,8 @@ import {
 
 export type QuasilinearStopDiagramCanvasData = {
   structure: QuasilinearStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
   contentParent: HTMLDivElement | null;
   colorTheme: Theme;
 };

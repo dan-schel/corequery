@@ -12,8 +12,8 @@ export const BRANCH_B_STOPS_SECTION_CLASS = "_diagram-branch-b-stops";
 type BranchLayoutProps = {
   class?: string;
   structure: BranchStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
   contentParent: HTMLDivElement | null;
   contentParentRef: RefObject<HTMLDivElement>;
 };

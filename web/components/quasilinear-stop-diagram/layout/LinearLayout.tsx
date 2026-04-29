@@ -7,8 +7,8 @@ import { QuasilinearStopDiagramCanvas } from "@/web/components/quasilinear-stop-
 type LinearLayoutProps = {
   class?: string;
   structure: LinearStopDiagramStructure;
-  lightThemeColorHexCode: string;
-  darkThemeColorHexCode: string;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
   contentParent: HTMLDivElement | null;
   contentParentRef: RefObject<HTMLDivElement>;
 };
