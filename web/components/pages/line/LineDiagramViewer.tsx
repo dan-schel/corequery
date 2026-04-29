@@ -6,8 +6,12 @@ import { useMemo } from "preact/hooks";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { LinkText } from "@/web/components/core/LinkText";
 import { QuasilinearStopDiagram } from "@/web/components/quasilinear-stop-diagram/QuasilinearStopDiagram";
-import type { QuasilinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type {
+  QuasilinearStopDiagramStructure,
+  StopStructure,
+} from "@/web/components/quasilinear-stop-diagram/structure-types";
 import type { FoundationalData } from "@/web/data/foundational-data";
+import { assertNever } from "@dan-schel/js-utils";
 
 type LineDiagramViewerProps = {
   class?: string;
@@ -44,28 +48,44 @@ function toStructure(
 ): QuasilinearStopDiagramStructure {
   return {
     type: "linear",
-    stops: diagram.stops.map((stop) => {
-      const stopData = foda.stops.require(stop.stopId);
-
-      // TODO: Standardize this with usePageSearch.
-      const url = `/stop/${stopData.urlPath}`;
-
-      return {
-        content:
-          stop.type === "always-express" ? (
-            <TextBlock style="small-weak">
-              <LinkText href={url} style="subtle">
-                Skips {stopData.name}
-              </LinkText>
-            </TextBlock>
-          ) : (
-            <TextBlock style="strong">
-              <LinkText href={url} style="subtle">
-                {stopData.name}
-              </LinkText>
-            </TextBlock>
-          ),
-      };
-    }),
+    stops: diagram.stops.map((stop) =>
+      toStopStructure(foda, stop.stopId, stop.type),
+    ),
   };
+}
+
+function toStopStructure(
+  foda: FoundationalData,
+  stopId: number,
+  type: "regular" | "always-express",
+): StopStructure {
+  const stopData = foda.stops.require(stopId);
+
+  // TODO: Standardize this with usePageSearch.
+  const url = `/stop/${stopData.urlPath}`;
+
+  if (type === "regular") {
+    return {
+      content: (
+        <TextBlock style="strong">
+          <LinkText href={url} style="subtle">
+            {stopData.name}
+          </LinkText>
+        </TextBlock>
+      ),
+    };
+  } else if (type === "always-express") {
+    return {
+      content: (
+        <TextBlock style="small-weak">
+          <LinkText href={url} style="subtle">
+            Skips {stopData.name}
+          </LinkText>
+        </TextBlock>
+      ),
+      drawMark: false,
+    };
+  } else {
+    assertNever(type);
+  }
 }
