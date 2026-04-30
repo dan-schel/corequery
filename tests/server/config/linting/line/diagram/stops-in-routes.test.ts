@@ -13,7 +13,11 @@ describe("checkLineDiagramStopsInRoutes", () => {
       routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
       diagram: {
         entries: [
-          { name: null, color: "red", stops: [{ stopId: 1, type: "regular" }] },
+          {
+            name: null,
+            color: "red",
+            shape: { type: "linear", stops: [{ stopId: 1, type: "regular" }] },
+          },
         ],
       },
     });
@@ -28,7 +32,11 @@ describe("checkLineDiagramStopsInRoutes", () => {
       routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
       diagram: {
         entries: [
-          { name: null, color: "red", stops: [{ stopId: 2, type: "regular" }] },
+          {
+            name: null,
+            color: "red",
+            shape: { type: "linear", stops: [{ stopId: 2, type: "regular" }] },
+          },
         ],
       },
     });
@@ -45,7 +53,11 @@ describe("checkLineDiagramStopsInRoutes", () => {
       routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
       diagram: {
         entries: [
-          { name: null, color: "red", stops: [{ stopId: 2, type: "regular" }] },
+          {
+            name: null,
+            color: "red",
+            shape: { type: "linear", stops: [{ stopId: 2, type: "regular" }] },
+          },
         ],
       },
     });
@@ -55,5 +67,38 @@ describe("checkLineDiagramStopsInRoutes", () => {
     });
 
     expectIssueMessages(issues, []);
+  });
+
+  it("checks stops across all parts of a loop shape", () => {
+    const line = createLine({
+      routes: [
+        createRoute({
+          stops: [
+            { stopId: 1, type: "regular" },
+            { stopId: 2, type: "regular" },
+          ],
+        }),
+      ],
+      diagram: {
+        entries: [
+          {
+            name: null,
+            color: "red",
+            shape: {
+              type: "loop",
+              loopLeftStops: [{ stopId: 1, type: "regular" }],
+              loopRightStops: [{ stopId: 99, type: "regular" }],
+              mainStops: [{ stopId: 2, type: "regular" }],
+            },
+          },
+        ],
+      },
+    });
+
+    const issues = collectIssues(checkLineDiagramStopsInRoutes, line, 0, {});
+
+    expectIssueMessages(issues, [
+      'Stop ID 99 in diagram entry <Entry 1> of line "Line" does not exist in any route.',
+    ]);
   });
 });

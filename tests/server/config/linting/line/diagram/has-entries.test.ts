@@ -7,7 +7,11 @@ import { createLine } from "@/tests/server/config/linting/support/factories.js";
 describe("checkLineDiagramHasEntries", () => {
   it("returns no issues when entries exist", () => {
     const line = createLine({
-      diagram: { entries: [{ name: null, color: "red", stops: [] }] },
+      diagram: {
+        entries: [
+          { name: null, color: "red", shape: { type: "linear", stops: [] } },
+        ],
+      },
     });
     const issues = collectIssues(checkLineDiagramHasEntries, line, 0, {});
 

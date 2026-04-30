@@ -30,6 +30,12 @@ type Options = {
    */
   readonly tierLinesByTag?: number[];
 
+  // TODO: Both config options below could be made redundant. They're a
+  // side-effect of using routes as the basis for "canonical" stops. Using the
+  // diagrams to form the lists instead would be less likely to need any tweaks
+  // (would ANY tweaks be needed?), as the diagram is supposed to represent the
+  // "canonical" stops on the line already!
+
   /** A list of route tags, the routes of which should be ignored. */
   readonly ignoreRoutesWithTags?: number[];
 

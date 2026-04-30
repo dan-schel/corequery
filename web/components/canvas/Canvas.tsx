@@ -11,6 +11,7 @@ type CanvasProps<T> = {
   class?: string;
   data: T;
   createController: CreateControllerFunc<T>;
+  interceptTouches?: boolean;
 };
 
 export function Canvas<T>(props: CanvasProps<T>) {
@@ -22,6 +23,9 @@ export function Canvas<T>(props: CanvasProps<T>) {
   const [controller, setController] = useState<CanvasController<T> | null>(
     null,
   );
+
+  const style =
+    (props.interceptTouches ?? false) ? { touchAction: "none" } : undefined;
 
   useEffect(() => {
     if (containerRef.current == null || canvasRef.current == null) return;
@@ -48,11 +52,7 @@ export function Canvas<T>(props: CanvasProps<T>) {
       ref={containerRef}
       className={clsx(props.class, "relative overflow-hidden")}
     >
-      <canvas
-        className="absolute top-0 left-0 select-none"
-        ref={canvasRef}
-        style={{ touchAction: "none" }}
-      />
+      <canvas className="absolute top-0 left-0" ref={canvasRef} style={style} />
     </div>
   );
 }

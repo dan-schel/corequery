@@ -1,0 +1,59 @@
+import clsx from "clsx";
+import {
+  Canvas,
+  type CreateControllerFunc,
+} from "@/web/components/canvas/Canvas";
+import { useCallback, useMemo } from "preact/hooks";
+import { useSettings } from "@/web/hooks/use-settings";
+import type { QuasilinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import {
+  QuasilinearStopDiagramCanvasController,
+  type QuasilinearStopDiagramCanvasData,
+} from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
+
+type QuasilinearStopDiagramCanvasProps = {
+  class?: string;
+  structure: QuasilinearStopDiagramStructure;
+  lightThemeColorHexCode: string | null;
+  darkThemeColorHexCode: string | null;
+  contentParent: HTMLDivElement | null;
+};
+
+export function QuasilinearStopDiagramCanvas(
+  props: QuasilinearStopDiagramCanvasProps,
+) {
+  const { settings } = useSettings();
+
+  const data = useMemo<QuasilinearStopDiagramCanvasData>(
+    () => ({
+      structure: props.structure,
+      lightThemeColorHexCode: props.lightThemeColorHexCode,
+      darkThemeColorHexCode: props.darkThemeColorHexCode,
+      contentParent: props.contentParent,
+      colorTheme: settings.theme,
+    }),
+    [
+      props.darkThemeColorHexCode,
+      props.contentParent,
+      props.lightThemeColorHexCode,
+      props.structure,
+      settings.theme,
+    ],
+  );
+
+  const createController = useCallback<
+    CreateControllerFunc<QuasilinearStopDiagramCanvasData>
+  >(
+    (canvasContainer, canvas) =>
+      new QuasilinearStopDiagramCanvasController(canvasContainer, canvas),
+    [],
+  );
+
+  return (
+    <Canvas<QuasilinearStopDiagramCanvasData>
+      class={clsx(props.class)}
+      createController={createController}
+      data={data}
+    />
+  );
+}

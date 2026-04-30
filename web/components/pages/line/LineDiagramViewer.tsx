@@ -1,11 +1,19 @@
 import clsx from "clsx";
-import { LineDiagramCanvas } from "@/web/components/pages/line/LineDiagramCanvas";
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { Grid } from "@/web/components/core/Grid";
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { LinkText } from "@/web/components/core/LinkText";
+import { QuasilinearStopDiagram } from "@/web/components/quasilinear-stop-diagram/QuasilinearStopDiagram";
+import type {
+  QuasilinearStopDiagramStructure,
+  StopStructure,
+} from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type { FoundationalData } from "@/web/data/foundational-data";
+import { assertNever } from "@dan-schel/js-utils";
+import type z from "zod";
+import type { lineDiagramStopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 
 type LineDiagramViewerProps = {
   class?: string;
@@ -13,36 +21,11 @@ type LineDiagramViewerProps = {
 };
 
 export function LineDiagramViewer(props: LineDiagramViewerProps) {
-  // TODO: We'll want to abstract the "line diagram" FODA part from the line
-  // diagram graphic rendering, since the service page will also want to use the
-  // graphic.
-
   const { foda } = useFoundationalData();
 
-  const labelsParent = useRef<HTMLDivElement>(null);
-
-  // Bit a hack, but if we pass the ref directly to <LineDiagramCanvas>, it uses
-  // the initial value of null and doesn't notice when the ref updates to the
-  // actual div element. It does notice this change in state though.
-  const [labelsParentState, setLabelsParentState] =
-    useState<HTMLDivElement | null>(null);
-  useEffect(() => {
-    setLabelsParentState(labelsParent.current);
-  }, []);
-
-  const stops = useMemo(
-    () =>
-      props.diagram.stops.map(({ stopId, type }) => {
-        const stop = foda.stops.require(stopId);
-
-        return {
-          name: stop.name,
-          // TODO: Standardize this with usePageSearch.
-          url: `/stop/${stop.urlPath}`,
-          type,
-        };
-      }),
-    [foda.stops, props.diagram.stops],
+  const structure = useMemo<QuasilinearStopDiagramStructure>(
+    () => toStructure(foda, props.diagram),
+    [foda, props.diagram],
   );
 
   return (
@@ -52,31 +35,81 @@ export function LineDiagramViewer(props: LineDiagramViewerProps) {
         "bg-bg-raised px-4 py-8 justify-center rounded-sm border border-soft-border",
       )}
     >
-      <Grid class="relative">
-        <Grid class="absolute top-0 bottom-0 left-0 w-8">
-          <LineDiagramCanvas
-            diagram={props.diagram}
-            labelsParent={labelsParentState}
-          />
-        </Grid>
-        <div ref={labelsParent} class="flex flex-col gap-6 ml-8">
-          {stops.map((stop) =>
-            stop.type === "always-express" ? (
-              <TextBlock style="small-weak">
-                <LinkText href={stop.url} style="subtle">
-                  Skips {stop.name}
-                </LinkText>
-              </TextBlock>
-            ) : (
-              <TextBlock style="strong">
-                <LinkText href={stop.url} style="subtle">
-                  {stop.name}
-                </LinkText>
-              </TextBlock>
-            ),
-          )}
-        </div>
-      </Grid>
+      <QuasilinearStopDiagram
+        structure={structure}
+        lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}
+        darkThemeColorHexCode={props.diagram.color?.darkModeHexCode ?? null}
+      />
     </Grid>
   );
+}
+
+function toStructure(
+  foda: FoundationalData,
+  diagram: FodaLineDiagramEntry,
+): QuasilinearStopDiagramStructure {
+  function toStopStructures(
+    stops: readonly z.infer<typeof lineDiagramStopFodaSchema>[],
+  ) {
+    return stops.map((stop) => toStopStructure(foda, stop.stopId, stop.type));
+  }
+
+  if (diagram.type === "linear") {
+    return {
+      type: "linear",
+      stops: toStopStructures(diagram.stops),
+    };
+  } else if (diagram.type === "branch") {
+    return {
+      type: "branch",
+      commonStops: toStopStructures(diagram.commonStops),
+      branchAStops: toStopStructures(diagram.branchAStops),
+      branchBStops: toStopStructures(diagram.branchBStops),
+    };
+  } else if (diagram.type === "loop") {
+    return {
+      type: "loop",
+      loopLeftStops: toStopStructures(diagram.loopLeftStops),
+      loopRightStops: toStopStructures(diagram.loopRightStops),
+      mainStops: toStopStructures(diagram.mainStops),
+    };
+  } else {
+    assertNever(diagram);
+  }
+}
+
+function toStopStructure(
+  foda: FoundationalData,
+  stopId: number,
+  type: "regular" | "always-express",
+): StopStructure {
+  const stopData = foda.stops.require(stopId);
+
+  // TODO: Standardize this with usePageSearch.
+  const url = `/stop/${stopData.urlPath}`;
+
+  if (type === "regular") {
+    return {
+      content: (
+        <TextBlock style="strong">
+          <LinkText href={url} style="subtle">
+            {stopData.name}
+          </LinkText>
+        </TextBlock>
+      ),
+    };
+  } else if (type === "always-express") {
+    return {
+      content: (
+        <TextBlock style="small-weak">
+          <LinkText href={url} style="subtle">
+            Skips {stopData.name}
+          </LinkText>
+        </TextBlock>
+      ),
+      drawMark: false,
+    };
+  } else {
+    assertNever(type);
+  }
 }
