@@ -211,11 +211,6 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     const loopLeftTopY = itsOk(loopLeftTopActualY ?? loopRightTopActualY);
     const loopRightTopY = itsOk(loopRightTopActualY ?? loopLeftTopActualY);
 
-    // TODO: Would like this to handle cases where mainStops is empty (e.g. the
-    // City Circle line), and/or where one of `loopLeftStops` or
-    // `loopRightStops` is empty (and just show that side as a line without any
-    // notches).
-
     if (structure.loopLeftStops.length > 0) {
       this._renderSection({
         stops: structure.loopLeftStops,
