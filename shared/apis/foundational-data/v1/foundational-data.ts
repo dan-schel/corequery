@@ -135,7 +135,8 @@ export const lineDiagramFodaSchema = z.object({
       //
       //    [Recommended solution, in combination with #4]
       //
-      // 2. Passthrough unknown keys for unknown this fallback type object.
+      // 2. Passthrough unknown keys for unknown diagram types using this
+      //    fallback type object.
       //
       //    [Not recommended - #4 covers this, but is broader in scope, and is
       //    recommended instead.]
