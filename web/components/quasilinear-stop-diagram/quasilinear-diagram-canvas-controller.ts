@@ -177,6 +177,31 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     structure: LoopStopDiagramStructure,
     contentParent: HTMLDivElement,
   ) {
+    // TODO: Plz refactor:
+    //
+    // - A common line rendering method.
+    //
+    // - Split the linear/branch/loop rendering into different files, and maybe
+    //   make the <...Layout> components responsible for passing it in? Has the
+    //   additional advantage of co-locating the margin/padding logic as well as
+    //   the magic class names stuff.
+    //
+    //   Suggestion: Use different canvases/canvas controllers entirely for the
+    //   different layout types, but the controllers share a base class. E.g.
+    //   <LoopLayout> uses <LoopLayoutCanvas>.
+    //
+    // - Logic for calculating the Y levels is messily named, and hard to
+    //   follow. Can be nicer when the classes are split.
+    //
+    // - Do expected length checks upfront, don't rely on itsOk(), because
+    //   sometimes it's not OK. If the structure doesn't pass validation, then
+    //   have a nice fallback. Maybe the <...Layout> components should handle
+    //   this though, not the canvas. Another argument for co-locating the
+    //   render logic with the <...Layout> components!
+    //
+    // - Can we unit test it somehow? It'd be nice to make sure the loop layout
+    //   handles all cases, for example.
+
     const loopLeftYLevels = this._extractYLevels(
       structure.loopLeftStops,
       contentParent,
