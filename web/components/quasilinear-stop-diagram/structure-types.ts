@@ -9,6 +9,12 @@ export type StopStructure = {
 export type LinearStopDiagramStructure = {
   readonly type: "linear";
   readonly stops: readonly StopStructure[];
+
+  // TODO: Allow setting a threshold for the faded out section.
+
+  // TODO: Allow "Trains typically start from/continue to [other lines]" for
+  // the Pakenham, Cranbourne, and Sunbury lines (and Sandringham, Werribee, and
+  // Williamstown lines in future).
 };
 
 export type BranchStopDiagramStructure = {
