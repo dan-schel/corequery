@@ -133,24 +133,32 @@ export const lineDiagramFodaSchema = z.object({
       //
       //    https://github.com/dan-schel/corequery/blob/b4130010878c28a066fe7f191e515d0bf1e8a5c1/web/components/pages/line/LineDiagramSection.tsx#L32
       //
-      //    [Recommended solution, in combination with #2]
+      //    [Recommended solution, in combination with #4]
       //
       // 2. Passthrough unknown keys for unknown this fallback type object.
       //
-      //    [Recommended solution, but only in combination with #1, because I
-      //    still prefer parsing to be strict in case I accidentally break the
-      //    schema.]
+      //    [Not recommended - #4 covers this, but is broader in scope, and is
+      //    recommended instead.]
       //
       // 3. Don't store unknown diagram types (or any diagram entries at all) in
       //    the (cached) FODA for lines which have an unknown diagram type.
+      //
       //    [Not recommended - Due to the hash being equal, the new PWA would
       //    never update the FODA, so users won't get to see the new diagrams
       //    until a subsequent FODA update.]
       //
-      // Note that any FODA update would theoretically cause the some bug, where
-      // the old app downloads the new FODA and doesn't store any new keys. But,
-      // in those cases the parsing would fail when the new app takes over, as
-      // described in #1, meaning this is the only time it's actually an issue.
+      // 4. Always store the FODA verbatim from the server in local storage,
+      //    Still continue using the FODA parsed through the schema as we do
+      //    today in the actual frontend code, including when reading back from
+      //    local storage. New PWA versions will see, and make available new
+      //    fields in the cached version that a previous PWA version didn't
+      //    understand, but still cached.
+      //
+      //    [Recommended solution, in combination with #1 - This solution alone
+      //    would fully solve the bug, but unlike #1, it solves the whole class
+      //    of issue (knowing that any schema update adding a new field will
+      //    similarly be initally downloaded by a version of the PWA which
+      //    doesn't understand it), not just this specific case.]
       z.object({
         type: z.string(),
       }),
