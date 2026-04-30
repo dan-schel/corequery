@@ -74,7 +74,7 @@ export type LineLintOptions = {
   readonly routes?: Record<number, RouteLintOptions>;
 };
 
-export type RouteLintOptions = {
+type RouteLintOptions = {
   /** Ignore this route sharing the same name as another route on this line. */
   readonly ignoreDuplicatedName?: boolean;
 
