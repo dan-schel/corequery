@@ -82,7 +82,7 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
         }}
       />
       <LineDiagramViewer
-        key={selectedEntryIndex}
+        key={itsOk(props.entries[selectedEntryIndex]).type}
         diagram={itsOk(props.entries[selectedEntryIndex])}
       />
     </Column>
