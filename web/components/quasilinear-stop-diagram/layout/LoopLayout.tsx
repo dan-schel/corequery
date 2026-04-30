@@ -24,7 +24,7 @@ export function LoopLayout(props: LoopLayoutProps) {
       ref={props.contentParentRef}
       class={clsx(
         props.class,
-        "grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-y-8 gap-x-4",
+        "grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-x-4",
       )}
     >
       <QuasilinearStopDiagramCanvas
@@ -35,7 +35,7 @@ export function LoopLayout(props: LoopLayoutProps) {
         contentParent={props.contentParent}
       />
       <Column
-        class={clsx("gap-6 col-1 row-1 mt-4", LOOP_LEFT_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-1 row-1 py-4", LOOP_LEFT_STOPS_SECTION_CLASS)}
         xAlign="right"
         yAlign="center"
       >
@@ -44,7 +44,7 @@ export function LoopLayout(props: LoopLayoutProps) {
         ))}
       </Column>
       <Column
-        class={clsx("gap-6 col-3 row-1 mt-4", LOOP_RIGHT_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-3 row-1 py-4", LOOP_RIGHT_STOPS_SECTION_CLASS)}
         xAlign="left"
         yAlign="center"
       >
@@ -53,7 +53,9 @@ export function LoopLayout(props: LoopLayoutProps) {
         ))}
       </Column>
       <Column
-        class={clsx("gap-6 col-3 row-2 -ml-4", MAIN_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-3 row-2 -ml-4", MAIN_STOPS_SECTION_CLASS, {
+          "pt-4": props.structure.mainStops.length > 0,
+        })}
         xAlign="left"
       >
         {props.structure.mainStops.map((stop) => (

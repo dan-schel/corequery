@@ -144,9 +144,9 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
 
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.beginPath();
-    this.ctx.moveTo(commonX, commonBottomY);
 
     // From the bottom of common to the top of branch A.
+    this.ctx.moveTo(commonX, commonBottomY);
     this.ctx.lineTo(commonX, commonBottomY + BRANCH_OFFSET);
     this.ctx.bezierCurveTo(
       commonX,
@@ -197,73 +197,126 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     const loopRightX = this.width - NOTCH_WIDTH / 2;
     const mainX = this.width / 2;
 
+    const loopLeftBottomActualY = loopLeftYLevels[loopLeftYLevels.length - 1];
+    const loopRightBottomActualY =
+      loopRightYLevels[loopRightYLevels.length - 1];
+    const loopLeftBottomY = itsOk(
+      loopLeftBottomActualY ?? loopRightBottomActualY,
+    );
+    const loopRightBottomY = itsOk(
+      loopRightBottomActualY ?? loopLeftBottomActualY,
+    );
+    const loopLeftTopActualY = loopLeftYLevels[0];
+    const loopRightTopActualY = loopRightYLevels[0];
+    const loopLeftTopY = itsOk(loopLeftTopActualY ?? loopRightTopActualY);
+    const loopRightTopY = itsOk(loopRightTopActualY ?? loopLeftTopActualY);
+
     // TODO: Would like this to handle cases where mainStops is empty (e.g. the
     // City Circle line), and/or where one of `loopLeftStops` or
     // `loopRightStops` is empty (and just show that side as a line without any
     // notches).
 
-    this._renderSection({
-      stops: structure.loopLeftStops,
-      x: loopLeftX,
-      yLevels: loopLeftYLevels,
-      terminatesAtTop: false,
-      terminatesAtBottom: false,
-      notchSide: "left",
-    });
-    this._renderSection({
-      stops: structure.loopRightStops,
-      x: loopRightX,
-      yLevels: loopRightYLevels,
-      terminatesAtTop: false,
-      terminatesAtBottom: false,
-      notchSide: "right",
-    });
-    this._renderSection({
-      stops: structure.mainStops,
-      x: mainX,
-      yLevels: mainYLevels,
-      terminatesAtTop: false,
-      terminatesAtBottom: true,
-      notchSide: "right",
-    });
+    if (structure.loopLeftStops.length > 0) {
+      this._renderSection({
+        stops: structure.loopLeftStops,
+        x: loopLeftX,
+        yLevels: loopLeftYLevels,
+        terminatesAtTop: false,
+        terminatesAtBottom: false,
+        notchSide: "left",
+      });
+    } else {
+      this.ctx.lineWidth = LINE_WIDTH;
+      this.ctx.beginPath();
+      this.ctx.moveTo(loopLeftX, loopLeftTopY - SECTION_LINE_OVERSHOOT);
+      this.ctx.lineTo(loopLeftX, loopLeftBottomY + SECTION_LINE_OVERSHOOT);
+      this.ctx.stroke();
+    }
 
-    const mainTopY = itsOk(mainYLevels[0]);
-    const loopLeftBottomY = itsOk(loopLeftYLevels[loopLeftYLevels.length - 1]);
-    const loopRightBottomY = itsOk(
-      loopRightYLevels[loopRightYLevels.length - 1],
-    );
-    const loopLeftTopY = itsOk(loopLeftYLevels[0]);
-    const loopRightTopY = itsOk(loopRightYLevels[0]);
+    if (structure.loopRightStops.length > 0) {
+      this._renderSection({
+        stops: structure.loopRightStops,
+        x: loopRightX,
+        yLevels: loopRightYLevels,
+        terminatesAtTop: false,
+        terminatesAtBottom: false,
+        notchSide: "right",
+      });
+    } else {
+      this.ctx.lineWidth = LINE_WIDTH;
+      this.ctx.beginPath();
+      this.ctx.moveTo(loopRightX, loopRightTopY - SECTION_LINE_OVERSHOOT);
+      this.ctx.lineTo(loopRightX, loopRightBottomY + SECTION_LINE_OVERSHOOT);
+      this.ctx.stroke();
+    }
+
     const loopCommonBottomY = Math.max(loopLeftBottomY, loopRightBottomY);
+
+    if (structure.mainStops.length > 0) {
+      const mainTopY = itsOk(mainYLevels[0]);
+
+      this._renderSection({
+        stops: structure.mainStops,
+        x: mainX,
+        yLevels: mainYLevels,
+        terminatesAtTop: false,
+        terminatesAtBottom: true,
+        notchSide: "right",
+      });
+
+      this.ctx.lineWidth = LINE_WIDTH;
+      this.ctx.beginPath();
+
+      // From the top of main to the bottom of loop left.
+      this.ctx.moveTo(mainX, mainTopY);
+      this.ctx.lineTo(mainX, mainTopY - BRANCH_OFFSET);
+      this.ctx.bezierCurveTo(
+        mainX,
+        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+        loopLeftX,
+        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+        loopLeftX,
+        loopCommonBottomY,
+      );
+      this.ctx.lineTo(loopLeftX, loopLeftBottomY);
+
+      // From the top of main to the bottom of loop right.
+      this.ctx.moveTo(mainX, mainTopY - BRANCH_OFFSET);
+      this.ctx.bezierCurveTo(
+        mainX,
+        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+        loopRightX,
+        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+        loopRightX,
+        loopCommonBottomY,
+      );
+      this.ctx.lineTo(loopRightX, loopRightBottomY);
+
+      this.ctx.stroke();
+    } else {
+      this.ctx.lineWidth = LINE_WIDTH;
+      this.ctx.beginPath();
+
+      // From the bottom of loop left to the bottom of loop right.
+      this.ctx.moveTo(loopLeftX, loopLeftBottomY);
+      this.ctx.lineTo(loopLeftX, loopCommonBottomY);
+      this.ctx.bezierCurveTo(
+        loopLeftX,
+        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
+        loopRightX,
+        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
+        loopRightX,
+        loopCommonBottomY,
+      );
+      this.ctx.lineTo(loopRightX, loopRightBottomY);
+
+      this.ctx.stroke();
+    }
+
     const loopCommonTopY = Math.min(loopLeftTopY, loopRightTopY);
 
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.beginPath();
-    this.ctx.moveTo(mainX, mainTopY);
-
-    // From the top of main to the bottom of loop left.
-    this.ctx.lineTo(mainX, mainTopY - BRANCH_OFFSET);
-    this.ctx.bezierCurveTo(
-      mainX,
-      mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
-      loopLeftX,
-      loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-      loopLeftX,
-      loopCommonBottomY,
-    );
-    this.ctx.lineTo(loopLeftX, loopLeftBottomY);
-
-    // From the top of main to the bottom of loop right.
-    this.ctx.moveTo(mainX, mainTopY - BRANCH_OFFSET);
-    this.ctx.bezierCurveTo(
-      mainX,
-      mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
-      loopRightX,
-      loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-      loopRightX,
-      loopCommonBottomY,
-    );
-    this.ctx.lineTo(loopRightX, loopRightBottomY);
 
     // From the top of loop left to the top of loop right.
     this.ctx.moveTo(loopLeftX, loopLeftTopY);
