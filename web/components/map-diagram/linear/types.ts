@@ -1,6 +1,6 @@
 import type { StopStructure } from "@/web/components/map-diagram/types";
 
-export type LinearStopDiagramStructure = {
+export type LinearMapDiagramStructure = {
   readonly type: "linear";
   readonly stops: readonly StopStructure[];
 

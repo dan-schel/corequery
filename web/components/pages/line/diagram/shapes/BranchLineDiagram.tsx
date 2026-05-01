@@ -1,9 +1,9 @@
 import { useMemo } from "preact/hooks";
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { BranchMapDiagram } from "@/web/components/map-diagram/branch/BranchLayout";
+import { BranchMapDiagram } from "@/web/components/map-diagram/branch";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
-import type { BranchStopDiagramStructure } from "@/web/components/map-diagram/branch/types";
+import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
 
 type BranchLineDiagramProps = {
   class?: string;
@@ -13,7 +13,7 @@ type BranchLineDiagramProps = {
 export function BranchLineDiagram(props: BranchLineDiagramProps) {
   const { foda } = useFoundationalData();
 
-  const structure = useMemo<BranchStopDiagramStructure>(
+  const structure = useMemo<BranchMapDiagramStructure>(
     () => ({
       type: "branch",
       commonStops: buildStopStructures(foda, props.diagram.commonStops),

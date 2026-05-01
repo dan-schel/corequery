@@ -1,9 +1,9 @@
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useMemo } from "preact/hooks";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { LinearMapDiagram } from "@/web/components/map-diagram/linear/LinearLayout";
+import { LinearMapDiagram } from "@/web/components/map-diagram/linear";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
-import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/linear/types";
+import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
 
 type LinearLineDiagramProps = {
   class?: string;
@@ -13,7 +13,7 @@ type LinearLineDiagramProps = {
 export function LinearLineDiagram(props: LinearLineDiagramProps) {
   const { foda } = useFoundationalData();
 
-  const structure = useMemo<LinearStopDiagramStructure>(
+  const structure = useMemo<LinearMapDiagramStructure>(
     () => ({
       type: "linear",
       stops: buildStopStructures(foda, props.diagram.stops),
