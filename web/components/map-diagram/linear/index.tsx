@@ -7,7 +7,7 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
 import { LinearMapDiagramController } from "@/web/components/map-diagram/linear/controller";
 import { Column } from "@/web/components/core/Column";
 
@@ -23,9 +23,7 @@ type LinearMapDiagramProps = {
 export function LinearMapDiagram(props: LinearMapDiagramProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<
-    QuasilinearStopDiagramCanvasData<LinearMapDiagramStructure>
-  >(
+  const data = useMemo<BaseMapDiagramCanvasData<LinearMapDiagramStructure>>(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -41,9 +39,7 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<
-      QuasilinearStopDiagramCanvasData<LinearMapDiagramStructure>
-    >
+    CreateControllerFunc<BaseMapDiagramCanvasData<LinearMapDiagramStructure>>
   >(
     (canvasContainer, canvas) =>
       new LinearMapDiagramController(canvasContainer, canvas),
@@ -52,7 +48,7 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
 
   return (
     <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-4")}>
-      <Canvas<QuasilinearStopDiagramCanvasData<LinearMapDiagramStructure>>
+      <Canvas<BaseMapDiagramCanvasData<LinearMapDiagramStructure>>
         class="w-4"
         createController={createController}
         data={data}

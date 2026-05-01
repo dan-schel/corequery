@@ -8,7 +8,7 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
 import { LoopMapDiagramController } from "@/web/components/map-diagram/loop/controller";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";
@@ -25,9 +25,7 @@ type LoopMapDiagramProps = {
 export function LoopMapDiagram(props: LoopMapDiagramProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<
-    QuasilinearStopDiagramCanvasData<LoopMapDiagramStructure>
-  >(
+  const data = useMemo<BaseMapDiagramCanvasData<LoopMapDiagramStructure>>(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -43,9 +41,7 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<
-      QuasilinearStopDiagramCanvasData<LoopMapDiagramStructure>
-    >
+    CreateControllerFunc<BaseMapDiagramCanvasData<LoopMapDiagramStructure>>
   >(
     (canvasContainer, canvas) =>
       new LoopMapDiagramController(canvasContainer, canvas),
@@ -59,7 +55,7 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
         "grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-x-4",
       )}
     >
-      <Canvas<QuasilinearStopDiagramCanvasData<LoopMapDiagramStructure>>
+      <Canvas<BaseMapDiagramCanvasData<LoopMapDiagramStructure>>
         class="w-12 col-2 row-span-full"
         createController={createController}
         data={data}

@@ -7,7 +7,7 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
 import { BranchMapDiagramController } from "@/web/components/map-diagram/branch/controller";
 import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
 
@@ -25,9 +25,7 @@ type BranchMapDiagramProps = {
 export function BranchMapDiagram(props: BranchMapDiagramProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<
-    QuasilinearStopDiagramCanvasData<BranchMapDiagramStructure>
-  >(
+  const data = useMemo<BaseMapDiagramCanvasData<BranchMapDiagramStructure>>(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -43,9 +41,7 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<
-      QuasilinearStopDiagramCanvasData<BranchMapDiagramStructure>
-    >
+    CreateControllerFunc<BaseMapDiagramCanvasData<BranchMapDiagramStructure>>
   >(
     (canvasContainer, canvas) =>
       new BranchMapDiagramController(canvasContainer, canvas),
@@ -59,7 +55,7 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
         "grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-y-8 gap-x-4",
       )}
     >
-      <Canvas<QuasilinearStopDiagramCanvasData<BranchMapDiagramStructure>>
+      <Canvas<BaseMapDiagramCanvasData<BranchMapDiagramStructure>>
         class="w-12 col-2 row-span-full"
         createController={createController}
         data={data}

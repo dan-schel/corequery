@@ -1,8 +1,8 @@
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
-import { QuasilinearStopDiagramCanvasController } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import { BaseMapDiagramController } from "@/web/components/map-diagram/base-controller";
 import { STOPS_SECTION_CLASS } from "@/web/components/map-diagram/linear";
 
-export class LinearMapDiagramController extends QuasilinearStopDiagramCanvasController<LinearMapDiagramStructure> {
+export class LinearMapDiagramController extends BaseMapDiagramController<LinearMapDiagramStructure> {
   protected override onRenderStructure(structure: LinearMapDiagramStructure) {
     this.renderSection({
       stops: structure.stops,

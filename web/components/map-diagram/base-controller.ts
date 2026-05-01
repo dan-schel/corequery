@@ -4,7 +4,7 @@ import { itsOk } from "@dan-schel/js-utils";
 import type { Theme } from "@/web/data/theme";
 import type { StopStructure } from "@/web/components/map-diagram/types";
 
-export type QuasilinearStopDiagramCanvasData<Structure> = {
+export type BaseMapDiagramCanvasData<Structure> = {
   structure: Structure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
@@ -17,9 +17,9 @@ const LINE_WIDTH = 6;
 const BRANCH_OFFSET = 10;
 const SECTION_LINE_OVERSHOOT = 1;
 
-export abstract class QuasilinearStopDiagramCanvasController<
+export abstract class BaseMapDiagramController<
   Structure,
-> extends CanvasController<QuasilinearStopDiagramCanvasData<Structure>> {
+> extends CanvasController<BaseMapDiagramCanvasData<Structure>> {
   private readonly _css: Colors;
   private readonly _prefersDark: boolean;
 
