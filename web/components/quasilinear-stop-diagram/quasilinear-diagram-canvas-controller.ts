@@ -111,9 +111,9 @@ export abstract class QuasilinearStopDiagramCanvasController<
   protected extractYLevels(
     stops: readonly StopStructure[],
     parent: HTMLDivElement,
-    inner?: string,
+    inner: string,
   ) {
-    const contentPerStop = this.extractChildElements(parent, inner);
+    const contentPerStop = this.extractChildElements(inner);
     if (stops.length !== contentPerStop.length) throw new Error("Bad length.");
 
     return stops.map((stop, i) => {
@@ -127,11 +127,10 @@ export abstract class QuasilinearStopDiagramCanvasController<
     });
   }
 
-  protected extractChildElements(
-    parent: HTMLDivElement,
-    inner?: string,
-  ): HTMLElement[] {
-    const target = inner == null ? parent : parent.querySelector(`.${inner}`);
+  protected extractChildElements(inner: string): HTMLElement[] {
+    const target = this._canvasContainer.parentElement?.querySelector(
+      `.${inner}`,
+    );
     if (target == null) throw new Error(`Couldn't find "${inner}".`);
 
     return Array.from(target.childNodes.values()).filter(

@@ -16,6 +16,8 @@ import { useSettings } from "@/web/hooks/use-settings";
 import type { QuasilinearStopDiagramCanvasData } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
 import { LinearDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/linear/linear-diagram-canvas-controller";
 
+export const STOPS_SECTION_CLASS = "_diagram-stops";
+
 type LinearLayoutProps = {
   class?: string;
   structure: LinearStopDiagramStructure;
@@ -77,7 +79,10 @@ export function LinearLayout(props: LinearLayoutProps) {
         createController={createController}
         data={data}
       />
-      <div ref={contentParentRef} class="flex flex-col gap-6">
+      <div
+        ref={contentParentRef}
+        class={clsx("flex flex-col gap-6", STOPS_SECTION_CLASS)}
+      >
         {props.structure.stops.map((stop) => (
           <Grid>{stop.content}</Grid>
         ))}
