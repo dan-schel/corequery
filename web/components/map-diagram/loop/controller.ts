@@ -61,7 +61,7 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
     }
 
     if (mainStops.length > 0) {
-      const mainTopY = itsOk(y.main.top);
+      const yMainTop = itsOk(y.main.top);
 
       this._renderSection({
         stops: mainStops,
@@ -74,11 +74,11 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
 
       this._drawLine((ctx) => {
         // From the top of main to the bottom of loop left.
-        ctx.moveTo(x.main, mainTopY);
-        ctx.lineTo(x.main, mainTopY - BRANCH_OFFSET);
+        ctx.moveTo(x.main, yMainTop);
+        ctx.lineTo(x.main, yMainTop - BRANCH_OFFSET);
         ctx.bezierCurveTo(
           x.main,
-          mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+          yMainTop - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
           x.loopLeft,
           y.loop.bottom + BRANCH_CURVE_BEZIER_OFFSET,
           x.loopLeft,
@@ -87,10 +87,10 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
         ctx.lineTo(x.loopLeft, y.loopLeft.bottom);
 
         // From the top of main to the bottom of loop right.
-        ctx.moveTo(x.main, mainTopY - BRANCH_OFFSET);
+        ctx.moveTo(x.main, yMainTop - BRANCH_OFFSET);
         ctx.bezierCurveTo(
           x.main,
-          mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+          yMainTop - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
           x.loopRight,
           y.loop.bottom + BRANCH_CURVE_BEZIER_OFFSET,
           x.loopRight,
@@ -179,8 +179,8 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
         },
         main: {
           all: mainYs,
-          top: mainYs[0],
-          bottom: mainYs[mainYs.length - 1],
+          top: mainYs[0] ?? null,
+          bottom: mainYs[mainYs.length - 1] ?? null,
         },
         loop: {
           top: Math.min(topLoopLeftY, topLoopRightY),
