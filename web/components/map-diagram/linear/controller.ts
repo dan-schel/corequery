@@ -1,5 +1,5 @@
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base-controller";
+import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
 import { STOPS_SECTION_CLASS } from "@/web/components/map-diagram/linear";
 
 export class LinearMapDiagramController extends BaseMapDiagramController<LinearMapDiagramStructure> {

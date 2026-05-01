@@ -1,6 +1,6 @@
 import { itsOk } from "@dan-schel/js-utils";
 import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base-controller";
+import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
 import {
   BRANCH_A_STOPS_SECTION_CLASS,
   BRANCH_B_STOPS_SECTION_CLASS,

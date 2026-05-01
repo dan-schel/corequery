@@ -1,6 +1,6 @@
 import { itsOk } from "@dan-schel/js-utils";
 import type { LoopMapDiagramStructure } from "@/web/components/map-diagram/loop/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base-controller";
+import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
 import {
   LOOP_LEFT_STOPS_SECTION_CLASS,
   LOOP_RIGHT_STOPS_SECTION_CLASS,

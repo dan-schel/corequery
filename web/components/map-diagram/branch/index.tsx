@@ -7,9 +7,9 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
 import { BranchMapDiagramController } from "@/web/components/map-diagram/branch/controller";
 import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 
 export const COMMON_STOPS_SECTION_CLASS = "_diagram-common-stops";
 export const BRANCH_A_STOPS_SECTION_CLASS = "_diagram-branch-a-stops";

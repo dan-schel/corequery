@@ -7,7 +7,7 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 import { LinearMapDiagramController } from "@/web/components/map-diagram/linear/controller";
 import { Column } from "@/web/components/core/Column";
 

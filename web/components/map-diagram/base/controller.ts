@@ -1,15 +1,10 @@
 import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import { getColors, type Colors } from "@/web/components/canvas/colors";
 import { itsOk } from "@dan-schel/js-utils";
-import type { Theme } from "@/web/data/theme";
-import type { StopStructure } from "@/web/components/map-diagram/types";
-
-export type BaseMapDiagramCanvasData<Structure> = {
-  structure: Structure;
-  lightThemeColorHexCode: string | null;
-  darkThemeColorHexCode: string | null;
-  colorTheme: Theme;
-};
+import type {
+  BaseMapDiagramCanvasData,
+  StopStructure,
+} from "@/web/components/map-diagram/base/types";
 
 const NOTCH_WIDTH = 16;
 const NOTCH_HEIGHT = 6;

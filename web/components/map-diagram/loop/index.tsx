@@ -8,7 +8,7 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base-controller";
+import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 import { LoopMapDiagramController } from "@/web/components/map-diagram/loop/controller";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";

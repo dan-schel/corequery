@@ -1,4 +1,4 @@
-import type { StopStructure } from "@/web/components/map-diagram/types";
+import type { StopStructure } from "@/web/components/map-diagram/base/types";
 
 export type BranchMapDiagramStructure = {
   readonly type: "branch";
