@@ -25,7 +25,9 @@ type BranchLayoutProps = {
 export function BranchLayout(props: BranchLayoutProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<QuasilinearStopDiagramCanvasData>(
+  const data = useMemo<
+    QuasilinearStopDiagramCanvasData<BranchStopDiagramStructure>
+  >(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -41,7 +43,9 @@ export function BranchLayout(props: BranchLayoutProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<QuasilinearStopDiagramCanvasData>
+    CreateControllerFunc<
+      QuasilinearStopDiagramCanvasData<BranchStopDiagramStructure>
+    >
   >(
     (canvasContainer, canvas) =>
       new BranchDiagramCanvasController(canvasContainer, canvas),
@@ -55,7 +59,7 @@ export function BranchLayout(props: BranchLayoutProps) {
         "grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-y-8 gap-x-4",
       )}
     >
-      <Canvas<QuasilinearStopDiagramCanvasData>
+      <Canvas<QuasilinearStopDiagramCanvasData<BranchStopDiagramStructure>>
         class="w-12 col-2 row-span-full"
         createController={createController}
         data={data}

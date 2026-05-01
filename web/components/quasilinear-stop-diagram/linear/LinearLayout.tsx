@@ -23,7 +23,9 @@ type LinearLayoutProps = {
 export function LinearLayout(props: LinearLayoutProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<QuasilinearStopDiagramCanvasData>(
+  const data = useMemo<
+    QuasilinearStopDiagramCanvasData<LinearStopDiagramStructure>
+  >(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -39,7 +41,9 @@ export function LinearLayout(props: LinearLayoutProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<QuasilinearStopDiagramCanvasData>
+    CreateControllerFunc<
+      QuasilinearStopDiagramCanvasData<LinearStopDiagramStructure>
+    >
   >(
     (canvasContainer, canvas) =>
       new LinearDiagramCanvasController(canvasContainer, canvas),
@@ -48,7 +52,7 @@ export function LinearLayout(props: LinearLayoutProps) {
 
   return (
     <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-4")}>
-      <Canvas<QuasilinearStopDiagramCanvasData>
+      <Canvas<QuasilinearStopDiagramCanvasData<LinearStopDiagramStructure>>
         class="w-4"
         createController={createController}
         data={data}

@@ -7,8 +7,10 @@ import type {
   StopStructure,
 } from "@/web/components/quasilinear-stop-diagram/structure-types";
 
-export type QuasilinearStopDiagramCanvasData = {
-  structure: QuasilinearStopDiagramStructure;
+export type QuasilinearStopDiagramCanvasData<
+  Structure extends QuasilinearStopDiagramStructure,
+> = {
+  structure: Structure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
   colorTheme: Theme;
@@ -21,8 +23,8 @@ const BRANCH_OFFSET = 10;
 const SECTION_LINE_OVERSHOOT = 1;
 
 export abstract class QuasilinearStopDiagramCanvasController<
-  TStructure extends QuasilinearStopDiagramStructure,
-> extends CanvasController<QuasilinearStopDiagramCanvasData> {
+  Structure extends QuasilinearStopDiagramStructure,
+> extends CanvasController<QuasilinearStopDiagramCanvasData<Structure>> {
   private readonly _css: Colors;
   private readonly _prefersDark: boolean;
 
@@ -41,8 +43,7 @@ export abstract class QuasilinearStopDiagramCanvasController<
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
 
-    // TODO: No! Bad!
-    this.onRenderStructure(this.data.structure as TStructure);
+    this.onRenderStructure(this.data.structure);
 
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
@@ -51,7 +52,7 @@ export abstract class QuasilinearStopDiagramCanvasController<
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  protected abstract onRenderStructure(structure: TStructure): void;
+  protected abstract onRenderStructure(structure: Structure): void;
 
   protected renderSection({
     stops,

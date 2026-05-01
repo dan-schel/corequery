@@ -25,7 +25,9 @@ type LoopLayoutProps = {
 export function LoopLayout(props: LoopLayoutProps) {
   const { settings } = useSettings();
 
-  const data = useMemo<QuasilinearStopDiagramCanvasData>(
+  const data = useMemo<
+    QuasilinearStopDiagramCanvasData<LoopStopDiagramStructure>
+  >(
     () => ({
       structure: props.structure,
       lightThemeColorHexCode: props.lightThemeColorHexCode,
@@ -41,7 +43,9 @@ export function LoopLayout(props: LoopLayoutProps) {
   );
 
   const createController = useCallback<
-    CreateControllerFunc<QuasilinearStopDiagramCanvasData>
+    CreateControllerFunc<
+      QuasilinearStopDiagramCanvasData<LoopStopDiagramStructure>
+    >
   >(
     (canvasContainer, canvas) =>
       new LoopDiagramCanvasController(canvasContainer, canvas),
@@ -55,7 +59,7 @@ export function LoopLayout(props: LoopLayoutProps) {
         "grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-x-4",
       )}
     >
-      <Canvas<QuasilinearStopDiagramCanvasData>
+      <Canvas<QuasilinearStopDiagramCanvasData<LoopStopDiagramStructure>>
         class="w-12 col-2 row-span-full"
         createController={createController}
         data={data}
