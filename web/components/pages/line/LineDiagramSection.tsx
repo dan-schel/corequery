@@ -69,16 +69,6 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
     }));
   }, [props.entries]);
 
-  // TODO: I want to remove the key on <LineDiagramViewer> if I can avoid it.
-  // See TODO in <QuasilinearStopDiagram>.
-  //
-  // TODO: Idk why but this key doesn't actually work. There's still a bug
-  // switching between /line/sandringham and /line/frankston for example,
-  // seemingly because they have different diagram types (linear vs loop). The
-  // bug doesn't happen switching between different diagrams of the same type.
-  //
-  // Moving the diagram stuff inside each <...Layout> component should fix it
-  // all, so I should just try doing that first!
   return (
     <Column class="gap-4">
       <Picker
@@ -89,10 +79,7 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
           setSelectedEntryIndex(parseIntThrow(value));
         }}
       />
-      <LineDiagramViewer
-        key={itsOk(props.entries[selectedEntryIndex]).type}
-        diagram={itsOk(props.entries[selectedEntryIndex])}
-      />
+      <LineDiagramViewer diagram={itsOk(props.entries[selectedEntryIndex])} />
     </Column>
   );
 }
