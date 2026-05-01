@@ -1,34 +1,38 @@
 import { itsOk } from "@dan-schel/js-utils";
 import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
+import {
+  BaseMapDiagramController,
+  NOTCH_WIDTH,
+} from "@/web/components/map-diagram/base/controller";
 import {
   BRANCH_A_STOPS_SECTION_CLASS,
   BRANCH_B_STOPS_SECTION_CLASS,
   COMMON_STOPS_SECTION_CLASS,
 } from "@/web/components/map-diagram/branch";
 
+const BRANCH_OFFSET = 10;
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 
 export class BranchMapDiagramController extends BaseMapDiagramController<BranchMapDiagramStructure> {
-  protected override onRenderStructure(structure: BranchMapDiagramStructure) {
-    const commonYLevels = this.extractYLevels(
+  protected override _onRenderStructure(structure: BranchMapDiagramStructure) {
+    const commonYLevels = this._extractYLevels(
       structure.commonStops,
       COMMON_STOPS_SECTION_CLASS,
     );
-    const branchAYLevels = this.extractYLevels(
+    const branchAYLevels = this._extractYLevels(
       structure.branchAStops,
       BRANCH_A_STOPS_SECTION_CLASS,
     );
-    const branchBYLevels = this.extractYLevels(
+    const branchBYLevels = this._extractYLevels(
       structure.branchBStops,
       BRANCH_B_STOPS_SECTION_CLASS,
     );
 
     const commonX = this.width / 2;
-    const branchAX = this.notchWidth / 2;
-    const branchBX = this.width - this.notchWidth / 2;
+    const branchAX = NOTCH_WIDTH / 2;
+    const branchBX = this.width - NOTCH_WIDTH / 2;
 
-    this.renderSection({
+    this._renderSection({
       stops: structure.commonStops,
       x: commonX,
       yLevels: commonYLevels,
@@ -36,7 +40,7 @@ export class BranchMapDiagramController extends BaseMapDiagramController<BranchM
       terminatesAtBottom: false,
       notchSide: "right",
     });
-    this.renderSection({
+    this._renderSection({
       stops: structure.branchAStops,
       x: branchAX,
       yLevels: branchAYLevels,
@@ -44,7 +48,7 @@ export class BranchMapDiagramController extends BaseMapDiagramController<BranchM
       terminatesAtBottom: true,
       notchSide: "left",
     });
-    this.renderSection({
+    this._renderSection({
       stops: structure.branchBStops,
       x: branchBX,
       yLevels: branchBYLevels,
@@ -58,34 +62,31 @@ export class BranchMapDiagramController extends BaseMapDiagramController<BranchM
     const branchBTopY = itsOk(branchBYLevels[0]);
     const branchCommomTopY = Math.min(branchATopY, branchBTopY);
 
-    this.ctx.lineWidth = this.lineWidth;
-    this.ctx.beginPath();
+    this._drawLine((ctx) => {
+      // From the bottom of common to the top of branch A.
+      ctx.moveTo(commonX, commonBottomY);
+      ctx.lineTo(commonX, commonBottomY + BRANCH_OFFSET);
+      ctx.bezierCurveTo(
+        commonX,
+        commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + BRANCH_OFFSET,
+        branchAX,
+        branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
+        branchAX,
+        branchCommomTopY,
+      );
+      ctx.lineTo(branchAX, branchATopY);
 
-    // From the bottom of common to the top of branch A.
-    this.ctx.moveTo(commonX, commonBottomY);
-    this.ctx.lineTo(commonX, commonBottomY + this.branchOffset);
-    this.ctx.bezierCurveTo(
-      commonX,
-      commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + this.branchOffset,
-      branchAX,
-      branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
-      branchAX,
-      branchCommomTopY,
-    );
-    this.ctx.lineTo(branchAX, branchATopY);
-
-    // From the bottom of common to the top of branch B.
-    this.ctx.moveTo(commonX, commonBottomY + this.branchOffset);
-    this.ctx.bezierCurveTo(
-      commonX,
-      commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + this.branchOffset,
-      branchBX,
-      branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
-      branchBX,
-      branchCommomTopY,
-    );
-    this.ctx.lineTo(branchBX, branchBTopY);
-
-    this.ctx.stroke();
+      // From the bottom of common to the top of branch B.
+      ctx.moveTo(commonX, commonBottomY + BRANCH_OFFSET);
+      ctx.bezierCurveTo(
+        commonX,
+        commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + BRANCH_OFFSET,
+        branchBX,
+        branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
+        branchBX,
+        branchCommomTopY,
+      );
+      ctx.lineTo(branchBX, branchBTopY);
+    });
   }
 }

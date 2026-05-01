@@ -1,20 +1,23 @@
 import { itsOk } from "@dan-schel/js-utils";
 import type { LoopMapDiagramStructure } from "@/web/components/map-diagram/loop/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
+import {
+  BaseMapDiagramController,
+  NOTCH_WIDTH,
+} from "@/web/components/map-diagram/base/controller";
 import {
   LOOP_LEFT_STOPS_SECTION_CLASS,
   LOOP_RIGHT_STOPS_SECTION_CLASS,
   MAIN_STOPS_SECTION_CLASS,
 } from "@/web/components/map-diagram/loop";
 
+const BRANCH_OFFSET = 10;
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 const LOOP_CURVE_BEZIER_OFFSET = 24;
+const OVERSHOOT = 1;
 
 export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDiagramStructure> {
-  protected override onRenderStructure(structure: LoopMapDiagramStructure) {
+  protected override _onRenderStructure(structure: LoopMapDiagramStructure) {
     // TODO: Plz refactor:
-    //
-    // - A common line rendering method.
     //
     // - Logic for calculating the Y levels is messily named, and hard to
     //   follow. Can be nicer when the classes are split.
@@ -28,21 +31,21 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
     // - Can we unit test it somehow? It'd be nice to make sure the loop layout
     //   handles all cases, for example.
 
-    const loopLeftYLevels = this.extractYLevels(
+    const loopLeftYLevels = this._extractYLevels(
       structure.loopLeftStops,
       LOOP_LEFT_STOPS_SECTION_CLASS,
     );
-    const loopRightYLevels = this.extractYLevels(
+    const loopRightYLevels = this._extractYLevels(
       structure.loopRightStops,
       LOOP_RIGHT_STOPS_SECTION_CLASS,
     );
-    const mainYLevels = this.extractYLevels(
+    const mainYLevels = this._extractYLevels(
       structure.mainStops,
       MAIN_STOPS_SECTION_CLASS,
     );
 
-    const loopLeftX = this.notchWidth / 2;
-    const loopRightX = this.width - this.notchWidth / 2;
+    const loopLeftX = NOTCH_WIDTH / 2;
+    const loopRightX = this.width - NOTCH_WIDTH / 2;
     const mainX = this.width / 2;
 
     const loopLeftBottomActualY = loopLeftYLevels[loopLeftYLevels.length - 1];
@@ -60,7 +63,7 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
     const loopRightTopY = itsOk(loopRightTopActualY ?? loopLeftTopActualY);
 
     if (structure.loopLeftStops.length > 0) {
-      this.renderSection({
+      this._renderSection({
         stops: structure.loopLeftStops,
         x: loopLeftX,
         yLevels: loopLeftYLevels,
@@ -69,15 +72,14 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
         notchSide: "left",
       });
     } else {
-      this.ctx.lineWidth = this.lineWidth;
-      this.ctx.beginPath();
-      this.ctx.moveTo(loopLeftX, loopLeftTopY - this.sectionLineOvershoot);
-      this.ctx.lineTo(loopLeftX, loopLeftBottomY + this.sectionLineOvershoot);
-      this.ctx.stroke();
+      this._drawLine((ctx) => {
+        ctx.moveTo(loopLeftX, loopLeftTopY - OVERSHOOT);
+        ctx.lineTo(loopLeftX, loopLeftBottomY + OVERSHOOT);
+      });
     }
 
     if (structure.loopRightStops.length > 0) {
-      this.renderSection({
+      this._renderSection({
         stops: structure.loopRightStops,
         x: loopRightX,
         yLevels: loopRightYLevels,
@@ -86,11 +88,10 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
         notchSide: "right",
       });
     } else {
-      this.ctx.lineWidth = this.lineWidth;
-      this.ctx.beginPath();
-      this.ctx.moveTo(loopRightX, loopRightTopY - this.sectionLineOvershoot);
-      this.ctx.lineTo(loopRightX, loopRightBottomY + this.sectionLineOvershoot);
-      this.ctx.stroke();
+      this._drawLine((ctx) => {
+        ctx.moveTo(loopRightX, loopRightTopY - OVERSHOOT);
+        ctx.lineTo(loopRightX, loopRightBottomY + OVERSHOOT);
+      });
     }
 
     const loopCommonBottomY = Math.max(loopLeftBottomY, loopRightBottomY);
@@ -98,7 +99,7 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
     if (structure.mainStops.length > 0) {
       const mainTopY = itsOk(mainYLevels[0]);
 
-      this.renderSection({
+      this._renderSection({
         stops: structure.mainStops,
         x: mainX,
         yLevels: mainYLevels,
@@ -107,73 +108,66 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
         notchSide: "right",
       });
 
-      this.ctx.lineWidth = this.lineWidth;
-      this.ctx.beginPath();
+      this._drawLine((ctx) => {
+        // From the top of main to the bottom of loop left.
+        ctx.moveTo(mainX, mainTopY);
+        ctx.lineTo(mainX, mainTopY - BRANCH_OFFSET);
+        ctx.bezierCurveTo(
+          mainX,
+          mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+          loopLeftX,
+          loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+          loopLeftX,
+          loopCommonBottomY,
+        );
+        ctx.lineTo(loopLeftX, loopLeftBottomY);
 
-      // From the top of main to the bottom of loop left.
-      this.ctx.moveTo(mainX, mainTopY);
-      this.ctx.lineTo(mainX, mainTopY - this.branchOffset);
-      this.ctx.bezierCurveTo(
-        mainX,
-        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - this.branchOffset,
-        loopLeftX,
-        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-        loopLeftX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopLeftX, loopLeftBottomY);
-
-      // From the top of main to the bottom of loop right.
-      this.ctx.moveTo(mainX, mainTopY - this.branchOffset);
-      this.ctx.bezierCurveTo(
-        mainX,
-        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - this.branchOffset,
-        loopRightX,
-        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopRightX, loopRightBottomY);
+        // From the top of main to the bottom of loop right.
+        ctx.moveTo(mainX, mainTopY - BRANCH_OFFSET);
+        ctx.bezierCurveTo(
+          mainX,
+          mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
+          loopRightX,
+          loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
+          loopRightX,
+          loopCommonBottomY,
+        );
+        ctx.lineTo(loopRightX, loopRightBottomY);
+      });
 
       this.ctx.stroke();
     } else {
-      this.ctx.lineWidth = this.lineWidth;
-      this.ctx.beginPath();
-
       // From the bottom of loop left to the bottom of loop right.
-      this.ctx.moveTo(loopLeftX, loopLeftBottomY);
-      this.ctx.lineTo(loopLeftX, loopCommonBottomY);
-      this.ctx.bezierCurveTo(
-        loopLeftX,
-        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopRightX, loopRightBottomY);
-
-      this.ctx.stroke();
+      this._drawLine((ctx) => {
+        ctx.moveTo(loopLeftX, loopLeftBottomY);
+        ctx.lineTo(loopLeftX, loopCommonBottomY);
+        ctx.bezierCurveTo(
+          loopLeftX,
+          loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
+          loopRightX,
+          loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
+          loopRightX,
+          loopCommonBottomY,
+        );
+        ctx.lineTo(loopRightX, loopRightBottomY);
+      });
     }
 
     const loopCommonTopY = Math.min(loopLeftTopY, loopRightTopY);
 
-    this.ctx.lineWidth = this.lineWidth;
-    this.ctx.beginPath();
-
     // From the top of loop left to the top of loop right.
-    this.ctx.moveTo(loopLeftX, loopLeftTopY);
-    this.ctx.lineTo(loopLeftX, loopCommonTopY);
-    this.ctx.bezierCurveTo(
-      loopLeftX,
-      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
-      loopRightX,
-      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
-      loopRightX,
-      loopCommonTopY,
-    );
-    this.ctx.lineTo(loopRightX, loopRightTopY);
-
-    this.ctx.stroke();
+    this._drawLine((ctx) => {
+      ctx.moveTo(loopLeftX, loopLeftTopY);
+      ctx.lineTo(loopLeftX, loopCommonTopY);
+      ctx.bezierCurveTo(
+        loopLeftX,
+        loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
+        loopRightX,
+        loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
+        loopRightX,
+        loopCommonTopY,
+      );
+      ctx.lineTo(loopRightX, loopRightTopY);
+    });
   }
 }

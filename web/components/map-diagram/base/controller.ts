@@ -6,11 +6,12 @@ import type {
   StopStructure,
 } from "@/web/components/map-diagram/base/types";
 
-const NOTCH_WIDTH = 16;
+export const NOTCH_WIDTH = 16;
 const NOTCH_HEIGHT = 6;
 const LINE_WIDTH = 6;
-const BRANCH_OFFSET = 10;
-const SECTION_LINE_OVERSHOOT = 1;
+const OVERSHOOT = 1;
+
+type Side = "left" | "right";
 
 export abstract class BaseMapDiagramController<
   Structure,
@@ -33,7 +34,7 @@ export abstract class BaseMapDiagramController<
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
 
-    this.onRenderStructure(this.data.structure);
+    this._onRenderStructure(this.data.structure);
 
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
@@ -42,9 +43,9 @@ export abstract class BaseMapDiagramController<
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  protected abstract onRenderStructure(structure: Structure): void;
+  protected abstract _onRenderStructure(structure: Structure): void;
 
-  protected renderSection({
+  protected _renderSection({
     stops,
     x,
     yLevels,
@@ -57,7 +58,7 @@ export abstract class BaseMapDiagramController<
     yLevels: number[];
     terminatesAtTop: boolean;
     terminatesAtBottom: boolean;
-    notchSide: "left" | "right";
+    notchSide: Side;
   }) {
     if (stops.length < 1) throw new Error("Expecting at least one stop.");
     if (stops.length !== yLevels.length) throw new Error("Bad length.");
@@ -65,13 +66,10 @@ export abstract class BaseMapDiagramController<
     const topY = itsOk(yLevels[0]);
     const bottomY = itsOk(yLevels[yLevels.length - 1]);
 
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.beginPath();
-    this.ctx.moveTo(x, topY - SECTION_LINE_OVERSHOOT);
-    this.ctx.lineTo(x, bottomY + SECTION_LINE_OVERSHOOT);
-    this.ctx.stroke();
-
-    const dir = { left: -1, right: 1 }[notchSide];
+    this._drawLine((ctx) => {
+      ctx.moveTo(x, topY - OVERSHOOT);
+      ctx.lineTo(x, bottomY + OVERSHOOT);
+    });
 
     stops.forEach((stop, index) => {
       const labelY = itsOk(yLevels[index]);
@@ -81,18 +79,30 @@ export abstract class BaseMapDiagramController<
         (index === stops.length - 1 && terminatesAtBottom);
 
       if (stop.drawMark ?? true) {
-        this.ctx.lineWidth = NOTCH_HEIGHT;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(termination ? x - (NOTCH_WIDTH / 2) * dir : x, labelY);
-        this.ctx.lineTo(x + (NOTCH_WIDTH / 2) * dir, labelY);
-        this.ctx.stroke();
+        this._drawMark(x, labelY, termination, notchSide);
       }
     });
   }
 
-  protected extractYLevels(stops: readonly StopStructure[], inner: string) {
-    const contentPerStop = this.extractChildElements(inner);
+  protected _drawLine(func: (ctx: CanvasRenderingContext2D) => void) {
+    this.ctx.lineWidth = LINE_WIDTH;
+    this.ctx.beginPath();
+    func(this.ctx);
+    this.ctx.stroke();
+  }
+
+  protected _drawMark(x: number, y: number, termination: boolean, side: Side) {
+    const dir = { left: -1, right: 1 }[side];
+
+    this.ctx.lineWidth = NOTCH_HEIGHT;
+    this.ctx.beginPath();
+    this.ctx.moveTo(termination ? x - (NOTCH_WIDTH / 2) * dir : x, y);
+    this.ctx.lineTo(x + (NOTCH_WIDTH / 2) * dir, y);
+    this.ctx.stroke();
+  }
+
+  protected _extractYLevels(stops: readonly StopStructure[], inner: string) {
+    const contentPerStop = this._extractChildElements(inner);
     if (stops.length !== contentPerStop.length) throw new Error("Bad length.");
 
     return stops.map((stop, i) => {
@@ -101,12 +111,12 @@ export abstract class BaseMapDiagramController<
       if (stop.getOverriddenMarkYPosition != null) {
         return stop.getOverriddenMarkYPosition(content);
       } else {
-        return this.getDefaultMarkYPosition(content);
+        return this._getDefaultMarkYPosition(content);
       }
     });
   }
 
-  protected extractChildElements(inner: string): HTMLElement[] {
+  private _extractChildElements(inner: string): HTMLElement[] {
     const target = this._canvasContainer.parentElement?.querySelector(
       `.${inner}`,
     );
@@ -117,26 +127,10 @@ export abstract class BaseMapDiagramController<
     );
   }
 
-  protected getDefaultMarkYPosition(content: HTMLElement) {
+  private _getDefaultMarkYPosition(content: HTMLElement) {
     const containerRect = this._canvasContainer.getBoundingClientRect();
     const contentRect = content.getBoundingClientRect();
     return contentRect.top - containerRect.top + contentRect.height / 2;
-  }
-
-  protected get notchWidth() {
-    return NOTCH_WIDTH;
-  }
-
-  protected get lineWidth() {
-    return LINE_WIDTH;
-  }
-
-  protected get branchOffset() {
-    return BRANCH_OFFSET;
-  }
-
-  protected get sectionLineOvershoot() {
-    return SECTION_LINE_OVERSHOOT;
   }
 
   private _getDiagramColor() {
