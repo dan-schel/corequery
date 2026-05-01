@@ -11,10 +11,7 @@ const BRANCH_CURVE_BEZIER_OFFSET = 15;
 const LOOP_CURVE_BEZIER_OFFSET = 24;
 
 export class LoopDiagramCanvasController extends QuasilinearStopDiagramCanvasController<LoopStopDiagramStructure> {
-  protected override onRenderStructure(
-    structure: LoopStopDiagramStructure,
-    contentParent: HTMLDivElement,
-  ) {
+  protected override onRenderStructure(structure: LoopStopDiagramStructure) {
     // TODO: Plz refactor:
     //
     // - A common line rendering method.
@@ -33,17 +30,14 @@ export class LoopDiagramCanvasController extends QuasilinearStopDiagramCanvasCon
 
     const loopLeftYLevels = this.extractYLevels(
       structure.loopLeftStops,
-      contentParent,
       LOOP_LEFT_STOPS_SECTION_CLASS,
     );
     const loopRightYLevels = this.extractYLevels(
       structure.loopRightStops,
-      contentParent,
       LOOP_RIGHT_STOPS_SECTION_CLASS,
     );
     const mainYLevels = this.extractYLevels(
       structure.mainStops,
-      contentParent,
       MAIN_STOPS_SECTION_CLASS,
     );
 

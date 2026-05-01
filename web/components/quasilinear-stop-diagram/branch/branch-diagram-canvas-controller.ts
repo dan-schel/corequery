@@ -10,23 +10,17 @@ import {
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 
 export class BranchDiagramCanvasController extends QuasilinearStopDiagramCanvasController<BranchStopDiagramStructure> {
-  protected override onRenderStructure(
-    structure: BranchStopDiagramStructure,
-    contentParent: HTMLDivElement,
-  ) {
+  protected override onRenderStructure(structure: BranchStopDiagramStructure) {
     const commonYLevels = this.extractYLevels(
       structure.commonStops,
-      contentParent,
       COMMON_STOPS_SECTION_CLASS,
     );
     const branchAYLevels = this.extractYLevels(
       structure.branchAStops,
-      contentParent,
       BRANCH_A_STOPS_SECTION_CLASS,
     );
     const branchBYLevels = this.extractYLevels(
       structure.branchBStops,
-      contentParent,
       BRANCH_B_STOPS_SECTION_CLASS,
     );
 

@@ -11,7 +11,6 @@ export type QuasilinearStopDiagramCanvasData = {
   structure: QuasilinearStopDiagramStructure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
-  contentParent: HTMLDivElement | null;
   colorTheme: Theme;
 };
 
@@ -37,17 +36,13 @@ export abstract class QuasilinearStopDiagramCanvasController<
   }
 
   override onRender(): void {
-    if (this.data.contentParent == null) return;
-
     // The strokes can be drawn literally whatever color we want, we use
     // `globalCompositeOperation` below to draw the color over them, and
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
 
-    this.onRenderStructure(
-      this.data.structure as TStructure,
-      this.data.contentParent,
-    );
+    // TODO: No! Bad!
+    this.onRenderStructure(this.data.structure as TStructure);
 
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
@@ -56,10 +51,7 @@ export abstract class QuasilinearStopDiagramCanvasController<
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  protected abstract onRenderStructure(
-    structure: TStructure,
-    contentParent: HTMLDivElement,
-  ): void;
+  protected abstract onRenderStructure(structure: TStructure): void;
 
   protected renderSection({
     stops,
@@ -108,11 +100,7 @@ export abstract class QuasilinearStopDiagramCanvasController<
     });
   }
 
-  protected extractYLevels(
-    stops: readonly StopStructure[],
-    parent: HTMLDivElement,
-    inner: string,
-  ) {
+  protected extractYLevels(stops: readonly StopStructure[], inner: string) {
     const contentPerStop = this.extractChildElements(inner);
     if (stops.length !== contentPerStop.length) throw new Error("Bad length.");
 
