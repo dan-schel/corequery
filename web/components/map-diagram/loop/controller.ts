@@ -16,20 +16,16 @@ const LOOP_CURVE_BEZIER_OFFSET = 24;
 const OVERSHOOT = 1;
 
 export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDiagramStructure> {
-  protected override _onRenderStructure(structure: LoopMapDiagramStructure) {
+  protected override _onRenderStructure() {
     // TODO: Plz refactor:
     //
     // - Logic for calculating the Y levels is messily named, and hard to
     //   follow. Can be nicer when the classes are split.
     //
-    // - Do expected length checks upfront, don't rely on itsOk(), because
-    //   sometimes it's not OK. If the structure doesn't pass validation, then
-    //   have a nice fallback. Maybe the <...Layout> components should handle
-    //   this though, not the canvas. Another argument for co-locating the
-    //   render logic with the <...Layout> components!
-    //
     // - Can we unit test it somehow? It'd be nice to make sure the loop layout
     //   handles all cases, for example.
+
+    const structure = this.data.structure;
 
     const loopLeftYLevels = this._extractYLevels(
       structure.loopLeftStops,

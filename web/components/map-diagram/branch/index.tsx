@@ -12,9 +12,9 @@ import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/bra
 import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 import { MapDiagramError } from "@/web/components/map-diagram/base/Error";
 
-export const COMMON_STOPS_SECTION_CLASS = "_diagram-common-stops";
-export const BRANCH_A_STOPS_SECTION_CLASS = "_diagram-branch-a-stops";
-export const BRANCH_B_STOPS_SECTION_CLASS = "_diagram-branch-b-stops";
+export const COMMON_STOPS_CLASS = "_diagram-common-stops";
+export const BRANCH_A_STOPS_CLASS = "_diagram-branch-a-stops";
+export const BRANCH_B_STOPS_CLASS = "_diagram-branch-b-stops";
 
 type BranchMapDiagramProps = {
   class?: string;
@@ -70,7 +70,7 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
         data={data}
       />
       <Column
-        class={clsx("gap-6 col-3 row-1 -ml-4", COMMON_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-3 row-1 -ml-4", COMMON_STOPS_CLASS)}
         xAlign="left"
       >
         {props.structure.commonStops.map((stop) => (
@@ -78,7 +78,7 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
         ))}
       </Column>
       <Column
-        class={clsx("gap-6 col-1 row-2", BRANCH_A_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-1 row-2", BRANCH_A_STOPS_CLASS)}
         xAlign="right"
       >
         {props.structure.branchAStops.map((stop) => (
@@ -86,7 +86,7 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
         ))}
       </Column>
       <Column
-        class={clsx("gap-6 col-3 row-2", BRANCH_B_STOPS_SECTION_CLASS)}
+        class={clsx("gap-6 col-3 row-2", BRANCH_B_STOPS_CLASS)}
         xAlign="left"
       >
         {props.structure.branchBStops.map((stop) => (

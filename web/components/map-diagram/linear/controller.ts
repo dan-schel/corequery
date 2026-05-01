@@ -3,7 +3,9 @@ import { BaseMapDiagramController } from "@/web/components/map-diagram/base/cont
 import { STOPS_SECTION_CLASS } from "@/web/components/map-diagram/linear";
 
 export class LinearMapDiagramController extends BaseMapDiagramController<LinearMapDiagramStructure> {
-  protected override _onRenderStructure(structure: LinearMapDiagramStructure) {
+  protected override _onRenderStructure() {
+    const structure = this.data.structure;
+
     this._renderSection({
       stops: structure.stops,
       x: this.width / 2,

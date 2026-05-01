@@ -34,7 +34,7 @@ export abstract class BaseMapDiagramController<
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
 
-    this._onRenderStructure(this.data.structure);
+    this._onRenderStructure();
 
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
@@ -43,7 +43,7 @@ export abstract class BaseMapDiagramController<
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  protected abstract _onRenderStructure(structure: Structure): void;
+  protected abstract _onRenderStructure(): void;
 
   protected _renderSection({
     stops,
