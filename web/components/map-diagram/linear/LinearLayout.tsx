@@ -1,4 +1,4 @@
-import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/linear/types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import {
@@ -8,19 +8,19 @@ import {
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
 import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
-import { LinearDiagramCanvasController } from "@/web/components/map-diagram/linear/linear-diagram-canvas-controller";
+import { LinearMapDiagramController } from "@/web/components/map-diagram/linear/linear-diagram-canvas-controller";
 import { Column } from "@/web/components/core/Column";
 
 export const STOPS_SECTION_CLASS = "_diagram-stops";
 
-type LinearLayoutProps = {
+type LinearMapDiagramProps = {
   class?: string;
   structure: LinearStopDiagramStructure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
 };
 
-export function LinearLayout(props: LinearLayoutProps) {
+export function LinearMapDiagram(props: LinearMapDiagramProps) {
   const { settings } = useSettings();
 
   const data = useMemo<
@@ -46,7 +46,7 @@ export function LinearLayout(props: LinearLayoutProps) {
     >
   >(
     (canvasContainer, canvas) =>
-      new LinearDiagramCanvasController(canvasContainer, canvas),
+      new LinearMapDiagramController(canvasContainer, canvas),
     [],
   );
 

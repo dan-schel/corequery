@@ -1,9 +1,9 @@
 import { useMemo } from "preact/hooks";
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { LoopLayout } from "@/web/components/map-diagram/loop/LoopLayout";
-import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import { LoopMapDiagram } from "@/web/components/map-diagram/loop/LoopLayout";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
+import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/loop/types";
 
 type LoopLineDiagramProps = {
   class?: string;
@@ -24,7 +24,7 @@ export function LoopLineDiagram(props: LoopLineDiagramProps) {
   );
 
   return (
-    <LoopLayout
+    <LoopMapDiagram
       class={props.class}
       structure={structure}
       lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}

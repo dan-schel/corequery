@@ -2,14 +2,9 @@ import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import { getColors, type Colors } from "@/web/components/canvas/colors";
 import { itsOk } from "@dan-schel/js-utils";
 import type { Theme } from "@/web/data/theme";
-import type {
-  QuasilinearStopDiagramStructure,
-  StopStructure,
-} from "@/web/components/map-diagram/structure-types";
+import type { StopStructure } from "@/web/components/map-diagram/types";
 
-export type QuasilinearStopDiagramCanvasData<
-  Structure extends QuasilinearStopDiagramStructure,
-> = {
+export type QuasilinearStopDiagramCanvasData<Structure> = {
   structure: Structure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
@@ -23,7 +18,7 @@ const BRANCH_OFFSET = 10;
 const SECTION_LINE_OVERSHOOT = 1;
 
 export abstract class QuasilinearStopDiagramCanvasController<
-  Structure extends QuasilinearStopDiagramStructure,
+  Structure,
 > extends CanvasController<QuasilinearStopDiagramCanvasData<Structure>> {
   private readonly _css: Colors;
   private readonly _prefersDark: boolean;

@@ -1,5 +1,5 @@
 import { itsOk } from "@dan-schel/js-utils";
-import type { BranchStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import type { BranchStopDiagramStructure } from "@/web/components/map-diagram/branch/types";
 import { QuasilinearStopDiagramCanvasController } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
 import {
   BRANCH_A_STOPS_SECTION_CLASS,
@@ -9,7 +9,7 @@ import {
 
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 
-export class BranchDiagramCanvasController extends QuasilinearStopDiagramCanvasController<BranchStopDiagramStructure> {
+export class BranchMapDiagramController extends QuasilinearStopDiagramCanvasController<BranchStopDiagramStructure> {
   protected override onRenderStructure(structure: BranchStopDiagramStructure) {
     const commonYLevels = this.extractYLevels(
       structure.commonStops,

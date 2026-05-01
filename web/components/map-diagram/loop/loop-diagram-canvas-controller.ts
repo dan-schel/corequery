@@ -1,5 +1,5 @@
 import { itsOk } from "@dan-schel/js-utils";
-import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/loop/types";
 import { QuasilinearStopDiagramCanvasController } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
 import {
   LOOP_LEFT_STOPS_SECTION_CLASS,
@@ -10,7 +10,7 @@ import {
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 const LOOP_CURVE_BEZIER_OFFSET = 24;
 
-export class LoopDiagramCanvasController extends QuasilinearStopDiagramCanvasController<LoopStopDiagramStructure> {
+export class LoopMapDiagramController extends QuasilinearStopDiagramCanvasController<LoopStopDiagramStructure> {
   protected override onRenderStructure(structure: LoopStopDiagramStructure) {
     // TODO: Plz refactor:
     //

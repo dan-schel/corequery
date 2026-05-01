@@ -1,4 +1,4 @@
-import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/loop/types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import { Column } from "@/web/components/core/Column";
@@ -9,20 +9,20 @@ import {
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
 import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
-import { LoopDiagramCanvasController } from "@/web/components/map-diagram/loop/loop-diagram-canvas-controller";
+import { LoopMapDiagramController } from "@/web/components/map-diagram/loop/loop-diagram-canvas-controller";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";
 export const LOOP_LEFT_STOPS_SECTION_CLASS = "_diagram-loop-left-stops";
 export const LOOP_RIGHT_STOPS_SECTION_CLASS = "_diagram-loop-right-stops";
 
-type LoopLayoutProps = {
+type LoopMapDiagramProps = {
   class?: string;
   structure: LoopStopDiagramStructure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
 };
 
-export function LoopLayout(props: LoopLayoutProps) {
+export function LoopMapDiagram(props: LoopMapDiagramProps) {
   const { settings } = useSettings();
 
   const data = useMemo<
@@ -48,7 +48,7 @@ export function LoopLayout(props: LoopLayoutProps) {
     >
   >(
     (canvasContainer, canvas) =>
-      new LoopDiagramCanvasController(canvasContainer, canvas),
+      new LoopMapDiagramController(canvasContainer, canvas),
     [],
   );
 

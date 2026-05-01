@@ -1,9 +1,9 @@
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useMemo } from "preact/hooks";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { LinearLayout } from "@/web/components/map-diagram/linear/LinearLayout";
-import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import { LinearMapDiagram } from "@/web/components/map-diagram/linear/LinearLayout";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
+import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/linear/types";
 
 type LinearLineDiagramProps = {
   class?: string;
@@ -22,7 +22,7 @@ export function LinearLineDiagram(props: LinearLineDiagramProps) {
   );
 
   return (
-    <LinearLayout
+    <LinearMapDiagram
       class={props.class}
       structure={structure}
       lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}
