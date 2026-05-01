@@ -17,14 +17,6 @@ const OVERSHOOT = 1;
 
 export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDiagramStructure> {
   protected override _onRenderStructure() {
-    // TODO: Plz refactor:
-    //
-    // - Logic for calculating the Y levels is messily named, and hard to
-    //   follow. Can be nicer when the classes are split.
-    //
-    // - Can we unit test it somehow? It'd be nice to make sure the loop layout
-    //   handles all cases, for example.
-
     const { loopLeftStops, loopRightStops, mainStops } = this.data.structure;
     const { x, y } = this._measure();
 
