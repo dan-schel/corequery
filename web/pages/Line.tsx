@@ -5,7 +5,7 @@ import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
 import { useTerminology } from "@/web/hooks/use-terminology";
-import { LineDiagramSection } from "@/web/components/pages/line/LineDiagramSection";
+import { DiagramSection } from "@/web/components/pages/line/DiagramSection";
 import { useMemo } from "preact/hooks";
 import type { FodaLine } from "@/web/data/foundational-data/foda-line-collection";
 
@@ -38,7 +38,7 @@ function LinePageContent(props: LinePageContentProps) {
     <Page {...useSimpleHeaders({ title: formatLine(props.line.name) })}>
       <Column class="px-4 py-8 gap-8">
         {props.line.diagram.entries.length > 0 && (
-          <LineDiagramSection diagram={props.line.diagram} />
+          <DiagramSection diagram={props.line.diagram} />
         )}
       </Column>
     </Page>

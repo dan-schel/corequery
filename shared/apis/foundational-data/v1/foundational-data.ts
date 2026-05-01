@@ -101,6 +101,26 @@ export const lineDiagramEntryFodaSchema = z.union([
   }),
 ]);
 
+// TODO: Time to split up this huge file.
+type UnderstoodLineDiagramEntryType = z.infer<
+  typeof lineDiagramEntryFodaSchema
+>["type"];
+
+const understoodLineDiagramEntryTypeMap: Record<
+  UnderstoodLineDiagramEntryType,
+  true
+> = {
+  linear: true,
+  branch: true,
+  loop: true,
+};
+
+export function isUnderstoodLineDiagramEntryType(
+  type: string,
+): type is UnderstoodLineDiagramEntryType {
+  return type in understoodLineDiagramEntryTypeMap;
+}
+
 export const lineDiagramFodaSchema = z.object({
   entries: z
     .union([
@@ -110,7 +130,7 @@ export const lineDiagramFodaSchema = z.object({
       // case is hit, the frontend, which doesn't understand this new diagram
       // type, will fallback to the `fallbackStopList`.
       z.object({
-        type: z.string(),
+        type: z.string().refine((x) => !isUnderstoodLineDiagramEntryType(x)),
       }),
     ])
     .array()

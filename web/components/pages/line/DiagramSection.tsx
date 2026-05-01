@@ -1,40 +1,31 @@
 import clsx from "clsx";
+import { isUnderstoodLineDiagramEntryType } from "@/shared/apis/foundational-data/v1/foundational-data";
 import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import type {
   FodaLine,
   FodaLineDiagramEntry,
 } from "@/web/data/foundational-data/foda-line-collection";
-import { LineDiagramFallbackStopList } from "@/web/components/pages/line/LineDiagramFallbackStopList";
+import { FallbackStopListSection } from "@/web/components/pages/line/FallbackStopListSection";
 import { Picker } from "@/web/components/Picker";
 import { useMemo, useState } from "preact/hooks";
 import { itsOk, parseIntThrow } from "@dan-schel/js-utils";
-import { LineDiagramViewer } from "@/web/components/pages/line/LineDiagramViewer";
+import { LineDiagram } from "@/web/components/pages/line/diagram/LineDiagram";
 
-type LineDiagramSectionProps = {
+type DiagramSectionProps = {
   class?: string;
   diagram: FodaLine["diagram"];
 };
 
-// Hacky way to ensure Typescript will catch new diagram types being added to
-// the foundational data without making their way into the `understoodTypes`
-// array.
-const _understoodTypeMap: Record<FodaLineDiagramEntry["type"], true> = {
-  linear: true,
-  branch: true,
-  loop: true,
-};
-const understoodTypes = Object.keys(_understoodTypeMap);
-
-export function LineDiagramSection(props: LineDiagramSectionProps) {
+export function DiagramSection(props: DiagramSectionProps) {
   const understoodEntries = props.diagram.entries.filter(
     (entry): entry is FodaLineDiagramEntry =>
-      understoodTypes.includes(entry.type),
+      isUnderstoodLineDiagramEntryType(entry.type),
   );
 
   if (understoodEntries.length < props.diagram.entries.length) {
     return (
-      <LineDiagramFallbackStopList
+      <FallbackStopListSection
         fallbackStopList={props.diagram.fallbackStopList}
       />
     );
@@ -44,7 +35,7 @@ export function LineDiagramSection(props: LineDiagramSectionProps) {
     <Column class={clsx(props.class, "gap-6")}>
       <TextBlock style="subtitle">Diagram</TextBlock>
       {understoodEntries.length === 1 ? (
-        <LineDiagramViewer diagram={itsOk(understoodEntries[0])} />
+        <LineDiagram diagram={itsOk(understoodEntries[0])} />
       ) : (
         <LineDiagramEntrySelector
           key={understoodEntries.length}
@@ -69,8 +60,6 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
     }));
   }, [props.entries]);
 
-  // TODO: I want to remove the key on <LineDiagramViewer> if I can avoid it.
-  // See TODO in <QuasilinearStopDiagram>.
   return (
     <Column class="gap-4">
       <Picker
@@ -81,10 +70,7 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
           setSelectedEntryIndex(parseIntThrow(value));
         }}
       />
-      <LineDiagramViewer
-        key={itsOk(props.entries[selectedEntryIndex]).type}
-        diagram={itsOk(props.entries[selectedEntryIndex])}
-      />
+      <LineDiagram diagram={itsOk(props.entries[selectedEntryIndex])} />
     </Column>
   );
 }

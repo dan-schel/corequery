@@ -8,15 +8,13 @@ import { LinkText } from "@/web/components/core/LinkText";
 import { Alert } from "@/web/components/Alert";
 import { useStaticData } from "@/web/hooks/use-static-data";
 
-type LineDiagramFallbackStopListProps = {
+type FallbackStopListSectionProps = {
   class?: string;
   children?: ComponentChildren;
   fallbackStopList: readonly number[];
 };
 
-export function LineDiagramFallbackStopList(
-  props: LineDiagramFallbackStopListProps,
-) {
+export function FallbackStopListSection(props: FallbackStopListSectionProps) {
   const { foda } = useFoundationalData();
   const { appName } = useStaticData();
 
