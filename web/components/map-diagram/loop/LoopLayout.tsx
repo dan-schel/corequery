@@ -1,4 +1,4 @@
-import type { LoopStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import { Column } from "@/web/components/core/Column";
@@ -8,8 +8,8 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
-import { LoopDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/loop/loop-diagram-canvas-controller";
+import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import { LoopDiagramCanvasController } from "@/web/components/map-diagram/loop/loop-diagram-canvas-controller";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";
 export const LOOP_LEFT_STOPS_SECTION_CLASS = "_diagram-loop-left-stops";

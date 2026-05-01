@@ -1,4 +1,4 @@
-import type { LinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import {
@@ -7,8 +7,8 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
-import { LinearDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/linear/linear-diagram-canvas-controller";
+import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import { LinearDiagramCanvasController } from "@/web/components/map-diagram/linear/linear-diagram-canvas-controller";
 import { Column } from "@/web/components/core/Column";
 
 export const STOPS_SECTION_CLASS = "_diagram-stops";

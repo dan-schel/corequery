@@ -5,7 +5,7 @@ import type { Theme } from "@/web/data/theme";
 import type {
   QuasilinearStopDiagramStructure,
   StopStructure,
-} from "@/web/components/quasilinear-stop-diagram/structure-types";
+} from "@/web/components/map-diagram/structure-types";
 
 export type QuasilinearStopDiagramCanvasData<
   Structure extends QuasilinearStopDiagramStructure,

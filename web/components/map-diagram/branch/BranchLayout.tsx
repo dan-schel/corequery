@@ -1,4 +1,4 @@
-import type { BranchStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import type { BranchStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import { Column } from "@/web/components/core/Column";
@@ -8,8 +8,8 @@ import {
 } from "@/web/components/canvas/Canvas";
 import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
-import type { QuasilinearStopDiagramCanvasData } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
-import { BranchDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/branch/branch-diagram-canvas-controller";
+import type { QuasilinearStopDiagramCanvasData } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
+import { BranchDiagramCanvasController } from "@/web/components/map-diagram/branch/branch-diagram-canvas-controller";
 
 export const COMMON_STOPS_SECTION_CLASS = "_diagram-common-stops";
 export const BRANCH_A_STOPS_SECTION_CLASS = "_diagram-branch-a-stops";

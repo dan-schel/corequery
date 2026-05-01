@@ -1,8 +1,8 @@
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useMemo } from "preact/hooks";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/linear/LinearLayout";
-import type { LinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import { LinearLayout } from "@/web/components/map-diagram/linear/LinearLayout";
+import type { LinearStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type LinearLineDiagramProps = {

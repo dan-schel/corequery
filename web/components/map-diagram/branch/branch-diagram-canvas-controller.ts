@@ -1,11 +1,11 @@
 import { itsOk } from "@dan-schel/js-utils";
-import type { BranchStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
-import { QuasilinearStopDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
+import type { BranchStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
+import { QuasilinearStopDiagramCanvasController } from "@/web/components/map-diagram/quasilinear-diagram-canvas-controller";
 import {
   BRANCH_A_STOPS_SECTION_CLASS,
   BRANCH_B_STOPS_SECTION_CLASS,
   COMMON_STOPS_SECTION_CLASS,
-} from "@/web/components/quasilinear-stop-diagram/branch/BranchLayout";
+} from "@/web/components/map-diagram/branch/BranchLayout";
 
 const BRANCH_CURVE_BEZIER_OFFSET = 15;
 

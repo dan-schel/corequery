@@ -1,8 +1,8 @@
 import { useMemo } from "preact/hooks";
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { LoopLayout } from "@/web/components/quasilinear-stop-diagram/loop/LoopLayout";
-import type { LoopStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
+import { LoopLayout } from "@/web/components/map-diagram/loop/LoopLayout";
+import type { LoopStopDiagramStructure } from "@/web/components/map-diagram/structure-types";
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type LoopLineDiagramProps = {
