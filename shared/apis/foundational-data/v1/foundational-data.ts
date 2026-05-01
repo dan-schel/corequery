@@ -115,10 +115,6 @@ const understoodLineDiagramEntryTypeMap: Record<
   loop: true,
 };
 
-export const understoodLineDiagramEntryTypes = Object.keys(
-  understoodLineDiagramEntryTypeMap,
-) as UnderstoodLineDiagramEntryType[];
-
 export function isUnderstoodLineDiagramEntryType(
   type: string,
 ): type is UnderstoodLineDiagramEntryType {
