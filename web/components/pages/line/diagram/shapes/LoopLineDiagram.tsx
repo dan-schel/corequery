@@ -6,6 +6,7 @@ import type { LoopStopDiagramStructure } from "@/web/components/quasilinear-stop
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type LoopLineDiagramProps = {
+  class?: string;
   diagram: Extract<FodaLineDiagramEntry, { type: "loop" }>;
 };
 
@@ -24,6 +25,7 @@ export function LoopLineDiagram(props: LoopLineDiagramProps) {
 
   return (
     <LoopLayout
+      class={props.class}
       structure={structure}
       lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}
       darkThemeColorHexCode={props.diagram.color?.darkModeHexCode ?? null}

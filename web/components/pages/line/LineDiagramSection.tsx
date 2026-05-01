@@ -9,7 +9,7 @@ import { LineDiagramFallbackStopList } from "@/web/components/pages/line/LineDia
 import { Picker } from "@/web/components/Picker";
 import { useMemo, useState } from "preact/hooks";
 import { itsOk, parseIntThrow } from "@dan-schel/js-utils";
-import { LineDiagramViewer } from "@/web/components/pages/line/diagram/LineDiagramViewer";
+import { LineDiagram } from "@/web/components/pages/line/diagram/LineDiagram";
 
 type LineDiagramSectionProps = {
   class?: string;
@@ -44,7 +44,7 @@ export function LineDiagramSection(props: LineDiagramSectionProps) {
     <Column class={clsx(props.class, "gap-6")}>
       <TextBlock style="subtitle">Diagram</TextBlock>
       {understoodEntries.length === 1 ? (
-        <LineDiagramViewer diagram={itsOk(understoodEntries[0])} />
+        <LineDiagram diagram={itsOk(understoodEntries[0])} />
       ) : (
         <LineDiagramEntrySelector
           key={understoodEntries.length}
@@ -79,7 +79,7 @@ function LineDiagramEntrySelector(props: LineDiagramEntrySelectorProps) {
           setSelectedEntryIndex(parseIntThrow(value));
         }}
       />
-      <LineDiagramViewer diagram={itsOk(props.entries[selectedEntryIndex])} />
+      <LineDiagram diagram={itsOk(props.entries[selectedEntryIndex])} />
     </Column>
   );
 }

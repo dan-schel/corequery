@@ -6,6 +6,7 @@ import type { BranchStopDiagramStructure } from "@/web/components/quasilinear-st
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type BranchLineDiagramProps = {
+  class?: string;
   diagram: Extract<FodaLineDiagramEntry, { type: "branch" }>;
 };
 
@@ -24,6 +25,7 @@ export function BranchLineDiagram(props: BranchLineDiagramProps) {
 
   return (
     <BranchLayout
+      class={props.class}
       structure={structure}
       lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}
       darkThemeColorHexCode={props.diagram.color?.darkModeHexCode ?? null}

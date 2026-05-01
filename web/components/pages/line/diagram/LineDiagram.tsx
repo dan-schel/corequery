@@ -6,12 +6,12 @@ import { LinearLineDiagram } from "@/web/components/pages/line/diagram/shapes/Li
 import { BranchLineDiagram } from "@/web/components/pages/line/diagram/shapes/BranchLineDiagram";
 import { LoopLineDiagram } from "@/web/components/pages/line/diagram/shapes/LoopLineDiagram";
 
-type LineDiagramViewerProps = {
+type LineDiagramProps = {
   class?: string;
   diagram: FodaLineDiagramEntry;
 };
 
-export function LineDiagramViewer(props: LineDiagramViewerProps) {
+export function LineDiagram(props: LineDiagramProps) {
   return (
     <Grid
       class={clsx(

@@ -6,6 +6,7 @@ import type { LinearStopDiagramStructure } from "@/web/components/quasilinear-st
 import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type LinearLineDiagramProps = {
+  class?: string;
   diagram: Extract<FodaLineDiagramEntry, { type: "linear" }>;
 };
 
@@ -22,6 +23,7 @@ export function LinearLineDiagram(props: LinearLineDiagramProps) {
 
   return (
     <LinearLayout
+      class={props.class}
       structure={structure}
       lightThemeColorHexCode={props.diagram.color?.lightModeHexCode ?? null}
       darkThemeColorHexCode={props.diagram.color?.darkModeHexCode ?? null}
