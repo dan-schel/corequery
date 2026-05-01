@@ -10,6 +10,7 @@ import { useSettings } from "@/web/hooks/use-settings";
 import { BranchMapDiagramController } from "@/web/components/map-diagram/branch/controller";
 import type { BranchMapDiagramStructure } from "@/web/components/map-diagram/branch/types";
 import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
+import { MapDiagramError } from "@/web/components/map-diagram/base/Error";
 
 export const COMMON_STOPS_SECTION_CLASS = "_diagram-common-stops";
 export const BRANCH_A_STOPS_SECTION_CLASS = "_diagram-branch-a-stops";
@@ -47,6 +48,14 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
       new BranchMapDiagramController(canvasContainer, canvas),
     [],
   );
+
+  if (
+    data.structure.commonStops.length < 1 ||
+    data.structure.branchAStops.length < 1 ||
+    data.structure.branchBStops.length < 1
+  ) {
+    return <MapDiagramError />;
+  }
 
   return (
     <Grid

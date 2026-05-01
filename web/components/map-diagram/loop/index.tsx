@@ -10,6 +10,7 @@ import { useCallback, useMemo } from "preact/hooks";
 import { useSettings } from "@/web/hooks/use-settings";
 import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 import { LoopMapDiagramController } from "@/web/components/map-diagram/loop/controller";
+import { MapDiagramError } from "../base/Error";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";
 export const LOOP_LEFT_STOPS_SECTION_CLASS = "_diagram-loop-left-stops";
@@ -47,6 +48,11 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
       new LoopMapDiagramController(canvasContainer, canvas),
     [],
   );
+
+  const { loopLeftStops, loopRightStops } = data.structure;
+  if (loopLeftStops.length + loopRightStops.length < 1) {
+    return <MapDiagramError />;
+  }
 
   return (
     <Grid

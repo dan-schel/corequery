@@ -10,6 +10,7 @@ import { useSettings } from "@/web/hooks/use-settings";
 import type { BaseMapDiagramCanvasData } from "@/web/components/map-diagram/base/types";
 import { LinearMapDiagramController } from "@/web/components/map-diagram/linear/controller";
 import { Column } from "@/web/components/core/Column";
+import { MapDiagramError } from "@/web/components/map-diagram/base/Error";
 
 export const STOPS_SECTION_CLASS = "_diagram-stops";
 
@@ -45,6 +46,10 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
       new LinearMapDiagramController(canvasContainer, canvas),
     [],
   );
+
+  if (data.structure.stops.length < 2) {
+    return <MapDiagramError />;
+  }
 
   return (
     <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-4")}>
