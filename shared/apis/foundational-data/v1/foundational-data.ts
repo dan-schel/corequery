@@ -101,6 +101,30 @@ export const lineDiagramEntryFodaSchema = z.union([
   }),
 ]);
 
+// TODO: Time to split up this huge file.
+type UnderstoodLineDiagramEntryType = z.infer<
+  typeof lineDiagramEntryFodaSchema
+>["type"];
+
+const understoodLineDiagramEntryTypeMap: Record<
+  UnderstoodLineDiagramEntryType,
+  true
+> = {
+  linear: true,
+  branch: true,
+  loop: true,
+};
+
+export const understoodLineDiagramEntryTypes = Object.keys(
+  understoodLineDiagramEntryTypeMap,
+) as UnderstoodLineDiagramEntryType[];
+
+export function isUnderstoodLineDiagramEntryType(
+  type: string,
+): type is UnderstoodLineDiagramEntryType {
+  return type in understoodLineDiagramEntryTypeMap;
+}
+
 export const lineDiagramFodaSchema = z.object({
   entries: z
     .union([
@@ -109,59 +133,8 @@ export const lineDiagramFodaSchema = z.object({
       // Allows for future diagram types, without a breaking change. When this
       // case is hit, the frontend, which doesn't understand this new diagram
       // type, will fallback to the `fallbackStopList`.
-      //
-      // TODO: This creates a bug. When a new diagram type is added and
-      // immediately starts being used in the FODA, or at least, since the user
-      // updated their PWA, the frontend downloads the new line diagram with the
-      // unknown type, and saves the FODA to local storage. A few seconds later,
-      // when the user is prompted to update the PWA and does, the FODA is not
-      // refreshed (because the hash in local storage equals the hash from the
-      // server), but the localstorage version didn't save the fields it didn't
-      // understand, so the new PWA doesn't actually have the data it needs to
-      // display the diagram and crashes out.
-      //
-      // I see a few solutions:
-      //
-      // 1. Enforce that this string can't equal a known diagram type. This
-      //    would mean when the new PWA launches it will consider the FODA in
-      //    local storage as invalid, as it'll try to parse the new diagram type
-      //    and be missing fields. Right now it can succeed because if the
-      //    new diagram type fails to parse against the proper schemas above, it
-      //    will fallback still to the `type: string` schema below, which
-      //    doesn't require it to contain any specific keys, but in the new
-      //    version of the PWA the check here will pass, and the type cast:
-      //
-      //    https://github.com/dan-schel/corequery/blob/b4130010878c28a066fe7f191e515d0bf1e8a5c1/web/components/pages/line/LineDiagramSection.tsx#L32
-      //
-      //    [Recommended solution, in combination with #4]
-      //
-      // 2. Passthrough unknown keys for unknown diagram types using this
-      //    fallback type object.
-      //
-      //    [Not recommended - #4 covers this, but is broader in scope, and is
-      //    recommended instead.]
-      //
-      // 3. Don't store unknown diagram types (or any diagram entries at all) in
-      //    the (cached) FODA for lines which have an unknown diagram type.
-      //
-      //    [Not recommended - Due to the hash being equal, the new PWA would
-      //    never update the FODA, so users won't get to see the new diagrams
-      //    until a subsequent FODA update.]
-      //
-      // 4. Always store the FODA verbatim from the server in local storage,
-      //    Still continue using the FODA parsed through the schema as we do
-      //    today in the actual frontend code, including when reading back from
-      //    local storage. New PWA versions will see, and make available new
-      //    fields in the cached version that a previous PWA version didn't
-      //    understand, but still cached.
-      //
-      //    [Recommended solution, in combination with #1 - This solution alone
-      //    would fully solve the bug, but unlike #1, it solves the whole class
-      //    of issue (knowing that any schema update adding a new field will
-      //    similarly be initally downloaded by a version of the PWA which
-      //    doesn't understand it), not just this specific case.]
       z.object({
-        type: z.string(),
+        type: z.string().refine((x) => !isUnderstoodLineDiagramEntryType(x)),
       }),
     ])
     .array()

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { isUnderstoodLineDiagramEntryType } from "@/shared/apis/foundational-data/v1/foundational-data";
 import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import type {
@@ -16,20 +17,10 @@ type DiagramSectionProps = {
   diagram: FodaLine["diagram"];
 };
 
-// Hacky way to ensure Typescript will catch new diagram types being added to
-// the foundational data without making their way into the `understoodTypes`
-// array.
-const _understoodTypeMap: Record<FodaLineDiagramEntry["type"], true> = {
-  linear: true,
-  branch: true,
-  loop: true,
-};
-const understoodTypes = Object.keys(_understoodTypeMap);
-
 export function DiagramSection(props: DiagramSectionProps) {
   const understoodEntries = props.diagram.entries.filter(
     (entry): entry is FodaLineDiagramEntry =>
-      understoodTypes.includes(entry.type),
+      isUnderstoodLineDiagramEntryType(entry.type),
   );
 
   if (understoodEntries.length < props.diagram.entries.length) {

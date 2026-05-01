@@ -44,6 +44,19 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
       onDataReady: (data, shouldBeCached) => {
         updateFoda(data);
 
+        // TODO: Due to the line diagram fallback type bug, I think we should
+        // always store the foundational data verbatim as we receive it from the
+        // server, not just the fields parsed by Zod as we currently do.
+        //
+        // This would involve changing the foundational data API schema to
+        // accept literally anything for `foundationalData`, and once saved in
+        // localstorage, parse the value, and save that parsed value to state.
+        //
+        // (Note that I've already fixed that specific bug, but this change
+        // would future-proof against that whole class of bugs, and prevents the
+        // app needlessly needing to re-download the FODA when the PWA updates
+        // after a schema change, even though it's on the latest hash which is
+        // still necessary at the time of writing.)
         if (shouldBeCached) {
           cache.set(data.toJson());
         }
