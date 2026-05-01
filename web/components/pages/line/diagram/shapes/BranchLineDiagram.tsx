@@ -3,7 +3,7 @@ import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-lin
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { BranchLayout } from "@/web/components/quasilinear-stop-diagram/branch/BranchLayout";
 import type { BranchStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
-import { buildStopStructures } from "@/web/components/pages/line/utils/build-stop-structures";
+import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type BranchLineDiagramProps = {
   diagram: Extract<FodaLineDiagramEntry, { type: "branch" }>;

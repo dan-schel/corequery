@@ -9,7 +9,7 @@ import { LineDiagramFallbackStopList } from "@/web/components/pages/line/LineDia
 import { Picker } from "@/web/components/Picker";
 import { useMemo, useState } from "preact/hooks";
 import { itsOk, parseIntThrow } from "@dan-schel/js-utils";
-import { LineDiagramViewer } from "@/web/components/pages/line/LineDiagramViewer";
+import { LineDiagramViewer } from "@/web/components/pages/line/diagram/LineDiagramViewer";
 
 type LineDiagramSectionProps = {
   class?: string;

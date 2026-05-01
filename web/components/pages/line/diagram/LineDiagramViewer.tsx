@@ -2,9 +2,9 @@ import clsx from "clsx";
 import type { FodaLineDiagramEntry } from "@/web/data/foundational-data/foda-line-collection";
 import { Grid } from "@/web/components/core/Grid";
 import { assertNever } from "@dan-schel/js-utils";
-import { LinearLineDiagram } from "@/web/components/pages/line/shapes/LinearLineDiagram";
-import { BranchLineDiagram } from "@/web/components/pages/line/shapes/BranchLineDiagram";
-import { LoopLineDiagram } from "@/web/components/pages/line/shapes/LoopLineDiagram";
+import { LinearLineDiagram } from "@/web/components/pages/line/diagram/shapes/LinearLineDiagram";
+import { BranchLineDiagram } from "@/web/components/pages/line/diagram/shapes/BranchLineDiagram";
+import { LoopLineDiagram } from "@/web/components/pages/line/diagram/shapes/LoopLineDiagram";
 
 type LineDiagramViewerProps = {
   class?: string;

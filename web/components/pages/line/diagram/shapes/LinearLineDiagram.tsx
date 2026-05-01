@@ -3,7 +3,7 @@ import { useMemo } from "preact/hooks";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/linear/LinearLayout";
 import type { LinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
-import { buildStopStructures } from "@/web/components/pages/line/utils/build-stop-structures";
+import { buildStopStructures } from "@/web/components/pages/line/diagram/utils/build-stop-structures";
 
 type LinearLineDiagramProps = {
   diagram: Extract<FodaLineDiagramEntry, { type: "linear" }>;
