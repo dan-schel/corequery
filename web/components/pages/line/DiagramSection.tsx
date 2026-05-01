@@ -5,13 +5,13 @@ import type {
   FodaLine,
   FodaLineDiagramEntry,
 } from "@/web/data/foundational-data/foda-line-collection";
-import { LineDiagramFallbackStopList } from "@/web/components/pages/line/LineDiagramFallbackStopList";
+import { FallbackStopListSection } from "@/web/components/pages/line/FallbackStopListSection";
 import { Picker } from "@/web/components/Picker";
 import { useMemo, useState } from "preact/hooks";
 import { itsOk, parseIntThrow } from "@dan-schel/js-utils";
 import { LineDiagram } from "@/web/components/pages/line/diagram/LineDiagram";
 
-type LineDiagramSectionProps = {
+type DiagramSectionProps = {
   class?: string;
   diagram: FodaLine["diagram"];
 };
@@ -26,7 +26,7 @@ const _understoodTypeMap: Record<FodaLineDiagramEntry["type"], true> = {
 };
 const understoodTypes = Object.keys(_understoodTypeMap);
 
-export function LineDiagramSection(props: LineDiagramSectionProps) {
+export function DiagramSection(props: DiagramSectionProps) {
   const understoodEntries = props.diagram.entries.filter(
     (entry): entry is FodaLineDiagramEntry =>
       understoodTypes.includes(entry.type),
@@ -34,7 +34,7 @@ export function LineDiagramSection(props: LineDiagramSectionProps) {
 
   if (understoodEntries.length < props.diagram.entries.length) {
     return (
-      <LineDiagramFallbackStopList
+      <FallbackStopListSection
         fallbackStopList={props.diagram.fallbackStopList}
       />
     );
