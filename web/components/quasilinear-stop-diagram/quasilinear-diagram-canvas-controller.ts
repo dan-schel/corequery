@@ -1,24 +1,11 @@
 import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import { getColors, type Colors } from "@/web/components/canvas/colors";
-import { assertNever, itsOk } from "@dan-schel/js-utils";
+import { itsOk } from "@dan-schel/js-utils";
 import type { Theme } from "@/web/data/theme";
 import type {
-  BranchStopDiagramStructure,
-  LinearStopDiagramStructure,
-  LoopStopDiagramStructure,
   QuasilinearStopDiagramStructure,
   StopStructure,
 } from "@/web/components/quasilinear-stop-diagram/structure-types";
-import {
-  BRANCH_A_STOPS_SECTION_CLASS,
-  BRANCH_B_STOPS_SECTION_CLASS,
-  COMMON_STOPS_SECTION_CLASS,
-} from "@/web/components/quasilinear-stop-diagram/layout/BranchLayout";
-import {
-  LOOP_LEFT_STOPS_SECTION_CLASS,
-  LOOP_RIGHT_STOPS_SECTION_CLASS,
-  MAIN_STOPS_SECTION_CLASS,
-} from "@/web/components/quasilinear-stop-diagram/layout/LoopLayout";
 
 export type QuasilinearStopDiagramCanvasData = {
   structure: QuasilinearStopDiagramStructure;
@@ -32,11 +19,11 @@ const NOTCH_WIDTH = 16;
 const NOTCH_HEIGHT = 6;
 const LINE_WIDTH = 6;
 const BRANCH_OFFSET = 10;
-const BRANCH_CURVE_BEZIER_OFFSET = 15;
-const LOOP_CURVE_BEZIER_OFFSET = 24;
 const SECTION_LINE_OVERSHOOT = 1;
 
-export class QuasilinearStopDiagramCanvasController extends CanvasController<QuasilinearStopDiagramCanvasData> {
+export abstract class QuasilinearStopDiagramCanvasController<
+  TStructure extends QuasilinearStopDiagramStructure,
+> extends CanvasController<QuasilinearStopDiagramCanvasData> {
   private readonly _css: Colors;
   private readonly _prefersDark: boolean;
 
@@ -57,15 +44,10 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
 
-    if (this.data.structure.type === "linear") {
-      this._renderLinear(this.data.structure, this.data.contentParent);
-    } else if (this.data.structure.type === "branch") {
-      this._renderBranch(this.data.structure, this.data.contentParent);
-    } else if (this.data.structure.type === "loop") {
-      this._renderLoop(this.data.structure, this.data.contentParent);
-    } else {
-      assertNever(this.data.structure);
-    }
+    this.onRenderStructure(
+      this.data.structure as TStructure,
+      this.data.contentParent,
+    );
 
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
@@ -74,287 +56,12 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  private _renderLinear(
-    structure: LinearStopDiagramStructure,
+  protected abstract onRenderStructure(
+    structure: TStructure,
     contentParent: HTMLDivElement,
-  ) {
-    this._renderSection({
-      stops: structure.stops,
-      x: this.width / 2,
-      yLevels: this._extractYLevels(structure.stops, contentParent),
-      terminatesAtTop: true,
-      terminatesAtBottom: true,
-      notchSide: "right",
-    });
-  }
+  ): void;
 
-  private _renderBranch(
-    structure: BranchStopDiagramStructure,
-    contentParent: HTMLDivElement,
-  ) {
-    const commonYLevels = this._extractYLevels(
-      structure.commonStops,
-      contentParent,
-      COMMON_STOPS_SECTION_CLASS,
-    );
-    const branchAYLevels = this._extractYLevels(
-      structure.branchAStops,
-      contentParent,
-      BRANCH_A_STOPS_SECTION_CLASS,
-    );
-    const branchBYLevels = this._extractYLevels(
-      structure.branchBStops,
-      contentParent,
-      BRANCH_B_STOPS_SECTION_CLASS,
-    );
-
-    const commonX = this.width / 2;
-    const branchAX = NOTCH_WIDTH / 2;
-    const branchBX = this.width - NOTCH_WIDTH / 2;
-
-    this._renderSection({
-      stops: structure.commonStops,
-      x: commonX,
-      yLevels: commonYLevels,
-      terminatesAtTop: true,
-      terminatesAtBottom: false,
-      notchSide: "right",
-    });
-    this._renderSection({
-      stops: structure.branchAStops,
-      x: branchAX,
-      yLevels: branchAYLevels,
-      terminatesAtTop: false,
-      terminatesAtBottom: true,
-      notchSide: "left",
-    });
-    this._renderSection({
-      stops: structure.branchBStops,
-      x: branchBX,
-      yLevels: branchBYLevels,
-      terminatesAtTop: false,
-      terminatesAtBottom: true,
-      notchSide: "right",
-    });
-
-    const commonBottomY = itsOk(commonYLevels[commonYLevels.length - 1]);
-    const branchATopY = itsOk(branchAYLevels[0]);
-    const branchBTopY = itsOk(branchBYLevels[0]);
-    const branchCommomTopY = Math.min(branchATopY, branchBTopY);
-
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.beginPath();
-
-    // From the bottom of common to the top of branch A.
-    this.ctx.moveTo(commonX, commonBottomY);
-    this.ctx.lineTo(commonX, commonBottomY + BRANCH_OFFSET);
-    this.ctx.bezierCurveTo(
-      commonX,
-      commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + BRANCH_OFFSET,
-      branchAX,
-      branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
-      branchAX,
-      branchCommomTopY,
-    );
-    this.ctx.lineTo(branchAX, branchATopY);
-
-    // From the bottom of common to the top of branch B.
-    this.ctx.moveTo(commonX, commonBottomY + BRANCH_OFFSET);
-    this.ctx.bezierCurveTo(
-      commonX,
-      commonBottomY + BRANCH_CURVE_BEZIER_OFFSET + BRANCH_OFFSET,
-      branchBX,
-      branchCommomTopY - BRANCH_CURVE_BEZIER_OFFSET,
-      branchBX,
-      branchCommomTopY,
-    );
-    this.ctx.lineTo(branchBX, branchBTopY);
-
-    this.ctx.stroke();
-  }
-
-  private _renderLoop(
-    structure: LoopStopDiagramStructure,
-    contentParent: HTMLDivElement,
-  ) {
-    // TODO: Plz refactor:
-    //
-    // - A common line rendering method.
-    //
-    // - Split the linear/branch/loop rendering into different files, and maybe
-    //   make the <...Layout> components responsible for passing it in? Has the
-    //   additional advantage of co-locating the margin/padding logic as well as
-    //   the magic class names stuff.
-    //
-    //   Suggestion: Use different canvases/canvas controllers entirely for the
-    //   different layout types, but the controllers share a base class. E.g.
-    //   <LoopLayout> uses <LoopLayoutCanvas>.
-    //
-    // - Logic for calculating the Y levels is messily named, and hard to
-    //   follow. Can be nicer when the classes are split.
-    //
-    // - Do expected length checks upfront, don't rely on itsOk(), because
-    //   sometimes it's not OK. If the structure doesn't pass validation, then
-    //   have a nice fallback. Maybe the <...Layout> components should handle
-    //   this though, not the canvas. Another argument for co-locating the
-    //   render logic with the <...Layout> components!
-    //
-    // - Can we unit test it somehow? It'd be nice to make sure the loop layout
-    //   handles all cases, for example.
-
-    const loopLeftYLevels = this._extractYLevels(
-      structure.loopLeftStops,
-      contentParent,
-      LOOP_LEFT_STOPS_SECTION_CLASS,
-    );
-    const loopRightYLevels = this._extractYLevels(
-      structure.loopRightStops,
-      contentParent,
-      LOOP_RIGHT_STOPS_SECTION_CLASS,
-    );
-    const mainYLevels = this._extractYLevels(
-      structure.mainStops,
-      contentParent,
-      MAIN_STOPS_SECTION_CLASS,
-    );
-
-    const loopLeftX = NOTCH_WIDTH / 2;
-    const loopRightX = this.width - NOTCH_WIDTH / 2;
-    const mainX = this.width / 2;
-
-    const loopLeftBottomActualY = loopLeftYLevels[loopLeftYLevels.length - 1];
-    const loopRightBottomActualY =
-      loopRightYLevels[loopRightYLevels.length - 1];
-    const loopLeftBottomY = itsOk(
-      loopLeftBottomActualY ?? loopRightBottomActualY,
-    );
-    const loopRightBottomY = itsOk(
-      loopRightBottomActualY ?? loopLeftBottomActualY,
-    );
-    const loopLeftTopActualY = loopLeftYLevels[0];
-    const loopRightTopActualY = loopRightYLevels[0];
-    const loopLeftTopY = itsOk(loopLeftTopActualY ?? loopRightTopActualY);
-    const loopRightTopY = itsOk(loopRightTopActualY ?? loopLeftTopActualY);
-
-    if (structure.loopLeftStops.length > 0) {
-      this._renderSection({
-        stops: structure.loopLeftStops,
-        x: loopLeftX,
-        yLevels: loopLeftYLevels,
-        terminatesAtTop: false,
-        terminatesAtBottom: false,
-        notchSide: "left",
-      });
-    } else {
-      this.ctx.lineWidth = LINE_WIDTH;
-      this.ctx.beginPath();
-      this.ctx.moveTo(loopLeftX, loopLeftTopY - SECTION_LINE_OVERSHOOT);
-      this.ctx.lineTo(loopLeftX, loopLeftBottomY + SECTION_LINE_OVERSHOOT);
-      this.ctx.stroke();
-    }
-
-    if (structure.loopRightStops.length > 0) {
-      this._renderSection({
-        stops: structure.loopRightStops,
-        x: loopRightX,
-        yLevels: loopRightYLevels,
-        terminatesAtTop: false,
-        terminatesAtBottom: false,
-        notchSide: "right",
-      });
-    } else {
-      this.ctx.lineWidth = LINE_WIDTH;
-      this.ctx.beginPath();
-      this.ctx.moveTo(loopRightX, loopRightTopY - SECTION_LINE_OVERSHOOT);
-      this.ctx.lineTo(loopRightX, loopRightBottomY + SECTION_LINE_OVERSHOOT);
-      this.ctx.stroke();
-    }
-
-    const loopCommonBottomY = Math.max(loopLeftBottomY, loopRightBottomY);
-
-    if (structure.mainStops.length > 0) {
-      const mainTopY = itsOk(mainYLevels[0]);
-
-      this._renderSection({
-        stops: structure.mainStops,
-        x: mainX,
-        yLevels: mainYLevels,
-        terminatesAtTop: false,
-        terminatesAtBottom: true,
-        notchSide: "right",
-      });
-
-      this.ctx.lineWidth = LINE_WIDTH;
-      this.ctx.beginPath();
-
-      // From the top of main to the bottom of loop left.
-      this.ctx.moveTo(mainX, mainTopY);
-      this.ctx.lineTo(mainX, mainTopY - BRANCH_OFFSET);
-      this.ctx.bezierCurveTo(
-        mainX,
-        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
-        loopLeftX,
-        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-        loopLeftX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopLeftX, loopLeftBottomY);
-
-      // From the top of main to the bottom of loop right.
-      this.ctx.moveTo(mainX, mainTopY - BRANCH_OFFSET);
-      this.ctx.bezierCurveTo(
-        mainX,
-        mainTopY - BRANCH_CURVE_BEZIER_OFFSET - BRANCH_OFFSET,
-        loopRightX,
-        loopCommonBottomY + BRANCH_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopRightX, loopRightBottomY);
-
-      this.ctx.stroke();
-    } else {
-      this.ctx.lineWidth = LINE_WIDTH;
-      this.ctx.beginPath();
-
-      // From the bottom of loop left to the bottom of loop right.
-      this.ctx.moveTo(loopLeftX, loopLeftBottomY);
-      this.ctx.lineTo(loopLeftX, loopCommonBottomY);
-      this.ctx.bezierCurveTo(
-        loopLeftX,
-        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY + LOOP_CURVE_BEZIER_OFFSET,
-        loopRightX,
-        loopCommonBottomY,
-      );
-      this.ctx.lineTo(loopRightX, loopRightBottomY);
-
-      this.ctx.stroke();
-    }
-
-    const loopCommonTopY = Math.min(loopLeftTopY, loopRightTopY);
-
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.beginPath();
-
-    // From the top of loop left to the top of loop right.
-    this.ctx.moveTo(loopLeftX, loopLeftTopY);
-    this.ctx.lineTo(loopLeftX, loopCommonTopY);
-    this.ctx.bezierCurveTo(
-      loopLeftX,
-      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
-      loopRightX,
-      loopCommonTopY - LOOP_CURVE_BEZIER_OFFSET,
-      loopRightX,
-      loopCommonTopY,
-    );
-    this.ctx.lineTo(loopRightX, loopRightTopY);
-
-    this.ctx.stroke();
-  }
-
-  private _renderSection({
+  protected renderSection({
     stops,
     x,
     yLevels,
@@ -401,12 +108,12 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     });
   }
 
-  private _extractYLevels(
+  protected extractYLevels(
     stops: readonly StopStructure[],
     parent: HTMLDivElement,
     inner?: string,
   ) {
-    const contentPerStop = this._extractChildElements(parent, inner);
+    const contentPerStop = this.extractChildElements(parent, inner);
     if (stops.length !== contentPerStop.length) throw new Error("Bad length.");
 
     return stops.map((stop, i) => {
@@ -415,12 +122,12 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
       if (stop.getOverriddenMarkYPosition != null) {
         return stop.getOverriddenMarkYPosition(content);
       } else {
-        return this._getDefaultMarkYPosition(content);
+        return this.getDefaultMarkYPosition(content);
       }
     });
   }
 
-  private _extractChildElements(
+  protected extractChildElements(
     parent: HTMLDivElement,
     inner?: string,
   ): HTMLElement[] {
@@ -432,10 +139,26 @@ export class QuasilinearStopDiagramCanvasController extends CanvasController<Qua
     );
   }
 
-  private _getDefaultMarkYPosition(content: HTMLElement) {
+  protected getDefaultMarkYPosition(content: HTMLElement) {
     const containerRect = this._canvasContainer.getBoundingClientRect();
     const contentRect = content.getBoundingClientRect();
     return contentRect.top - containerRect.top + contentRect.height / 2;
+  }
+
+  protected get notchWidth() {
+    return NOTCH_WIDTH;
+  }
+
+  protected get lineWidth() {
+    return LINE_WIDTH;
+  }
+
+  protected get branchOffset() {
+    return BRANCH_OFFSET;
+  }
+
+  protected get sectionLineOvershoot() {
+    return SECTION_LINE_OVERSHOOT;
   }
 
   private _getDiagramColor() {

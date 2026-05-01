@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import type { QuasilinearStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
 import { assertNever } from "@dan-schel/js-utils";
-import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/layout/LinearLayout";
-import { BranchLayout } from "@/web/components/quasilinear-stop-diagram/layout/BranchLayout";
-import { LoopLayout } from "@/web/components/quasilinear-stop-diagram/layout/LoopLayout";
+import { BranchLayout } from "@/web/components/quasilinear-stop-diagram/branch/BranchLayout";
+import { LinearLayout } from "@/web/components/quasilinear-stop-diagram/linear/LinearLayout";
+import { LoopLayout } from "@/web/components/quasilinear-stop-diagram/loop/LoopLayout";
 
 type QuasilinearStopDiagramProps = {
   class?: string;
@@ -16,7 +16,7 @@ export function QuasilinearStopDiagram(props: QuasilinearStopDiagramProps) {
   const contentParentRef = useRef<HTMLDivElement>(null);
 
   // Bit a hack, but if we pass the ref directly to
-  // <QuasilinearStopDiagramCanvas>, it uses the initial value of `null` and
+  // <Canvas>, it uses the initial value of `null` and
   // doesn't notice when the ref updates to the actual div element. It does
   // notice this change in state though.
   //

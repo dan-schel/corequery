@@ -2,8 +2,15 @@ import type { RefObject } from "preact";
 import type { LoopStopDiagramStructure } from "@/web/components/quasilinear-stop-diagram/structure-types";
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
-import { QuasilinearStopDiagramCanvas } from "@/web/components/quasilinear-stop-diagram/QuasilinearStopDiagramCanvas";
 import { Column } from "@/web/components/core/Column";
+import {
+  Canvas,
+  type CreateControllerFunc,
+} from "@/web/components/canvas/Canvas";
+import { useCallback, useMemo } from "preact/hooks";
+import { useSettings } from "@/web/hooks/use-settings";
+import type { QuasilinearStopDiagramCanvasData } from "@/web/components/quasilinear-stop-diagram/quasilinear-diagram-canvas-controller";
+import { LoopDiagramCanvasController } from "@/web/components/quasilinear-stop-diagram/loop/loop-diagram-canvas-controller";
 
 export const MAIN_STOPS_SECTION_CLASS = "_diagram-main-stops";
 export const LOOP_LEFT_STOPS_SECTION_CLASS = "_diagram-loop-left-stops";
@@ -19,6 +26,33 @@ type LoopLayoutProps = {
 };
 
 export function LoopLayout(props: LoopLayoutProps) {
+  const { settings } = useSettings();
+
+  const data = useMemo<QuasilinearStopDiagramCanvasData>(
+    () => ({
+      structure: props.structure,
+      lightThemeColorHexCode: props.lightThemeColorHexCode,
+      darkThemeColorHexCode: props.darkThemeColorHexCode,
+      contentParent: props.contentParent,
+      colorTheme: settings.theme,
+    }),
+    [
+      props.darkThemeColorHexCode,
+      props.contentParent,
+      props.lightThemeColorHexCode,
+      props.structure,
+      settings.theme,
+    ],
+  );
+
+  const createController = useCallback<
+    CreateControllerFunc<QuasilinearStopDiagramCanvasData>
+  >(
+    (canvasContainer, canvas) =>
+      new LoopDiagramCanvasController(canvasContainer, canvas),
+    [],
+  );
+
   return (
     <div
       ref={props.contentParentRef}
@@ -27,12 +61,10 @@ export function LoopLayout(props: LoopLayoutProps) {
         "grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto] gap-x-4",
       )}
     >
-      <QuasilinearStopDiagramCanvas
+      <Canvas<QuasilinearStopDiagramCanvasData>
         class="w-12 col-2 row-span-full"
-        structure={props.structure}
-        lightThemeColorHexCode={props.lightThemeColorHexCode}
-        darkThemeColorHexCode={props.darkThemeColorHexCode}
-        contentParent={props.contentParent}
+        createController={createController}
+        data={data}
       />
       <Column
         class={clsx("gap-6 col-1 row-1 py-4", LOOP_LEFT_STOPS_SECTION_CLASS)}
