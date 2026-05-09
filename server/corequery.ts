@@ -62,7 +62,6 @@ export class Corequery {
     this.lines = LineCollection.build(
       this._config.lines,
       this._config.tags.lineTagSuccession,
-      this._config.tags.routeTagSuccession,
     );
 
     this.landingPageConfig = this._config.landingPage;

@@ -3,7 +3,6 @@ import { Tags } from "@/server/data/tags.js";
 import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { getHexCodesForColor, type Color } from "@/server/data/color.js";
-import { Route } from "@/server/data/route.js";
 import { LineDiagram } from "@/server/data/line-diagram.js";
 
 type LineFields = {
@@ -12,7 +11,6 @@ type LineFields = {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly color: Color | null;
-  readonly routes: readonly Route[];
   readonly diagram: LineDiagram;
 };
 
@@ -22,7 +20,6 @@ export class Line {
   readonly tags: Tags;
   readonly urlPath: string;
   readonly color: Color | null;
-  readonly routes: readonly Route[];
   readonly diagram: LineDiagram;
 
   constructor(fields: LineFields) {
@@ -31,14 +28,12 @@ export class Line {
     this.tags = fields.tags;
     this.urlPath = fields.urlPath;
     this.color = fields.color;
-    this.routes = fields.routes;
     this.diagram = fields.diagram;
   }
 
   static build(
     lineConfig: LineConfig,
     lineTagSuccession: TagSuccessionConfig,
-    routeTagSuccession: TagSuccessionConfig,
   ): Line {
     return new Line({
       id: lineConfig.id,
@@ -46,9 +41,6 @@ export class Line {
       tags: Tags.build(lineConfig.tags, lineTagSuccession),
       urlPath: lineConfig.urlPath,
       color: lineConfig.color,
-      routes: lineConfig.routes.map((route) =>
-        Route.build(route, routeTagSuccession),
-      ),
       diagram: LineDiagram.build(lineConfig.diagram),
     });
   }

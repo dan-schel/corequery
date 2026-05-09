@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { createCanonicalLinesServingStopAlgorithm } from "@/server/config/helpers/create-canonical-lines-serving-stop-algorithm.js";
 import {
+  createDiagramWithStops,
   createLine,
-  createRoute,
 } from "@/tests/server/config/linting/support/factories.js";
 
 describe("createCanonicalLinesServingStopAlgorithm", () => {
@@ -12,19 +12,18 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
         lines: [
           createLine({
             id: 10,
-            routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
+            diagram: createDiagramWithStops([1, 2]),
           }),
           createLine({
             id: 20,
-            routes: [createRoute({ stops: [{ stopId: 1, type: "regular" }] })],
+            diagram: createDiagramWithStops([1, 3]),
           }),
           createLine({
             id: 30,
-            routes: [createRoute({ stops: [{ stopId: 2, type: "regular" }] })],
+            diagram: createDiagramWithStops([2, 3]),
           }),
         ],
         lineTagSuccession: {},
-        routeTagSuccession: {},
       });
 
     expect(getCanonicalLinesServingStop(1)).toEqual([10, 20]);
@@ -42,24 +41,23 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
           createLine({
             id: 1,
             tags: [GREAT_LINE],
-            routes: [createRoute({ stops: [{ stopId: 77, type: "regular" }] })],
+            diagram: createDiagramWithStops([77, 78]),
           }),
           createLine({
             id: 2,
             tags: [AWFUL_LINE],
-            routes: [createRoute({ stops: [{ stopId: 77, type: "regular" }] })],
+            diagram: createDiagramWithStops([77, 78]),
           }),
           createLine({
             id: 3,
             tags: [AWFUL_LINE],
-            routes: [createRoute({ stops: [{ stopId: 77, type: "regular" }] })],
+            diagram: createDiagramWithStops([77, 78]),
           }),
         ],
         lineTagSuccession: {
           [GREAT_LINE]: [HIGH_PRIORITY],
           [AWFUL_LINE]: [LOW_PRIORITY],
         },
-        routeTagSuccession: {},
         tierLinesByTag: [HIGH_PRIORITY, LOW_PRIORITY],
       });
 
@@ -75,79 +73,18 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
           createLine({
             id: 100,
             tags: [TIERED_TAG],
-            routes: [createRoute({ stops: [{ stopId: 5, type: "regular" }] })],
+            diagram: createDiagramWithStops([5]),
           }),
           createLine({
             id: 200,
             tags: [],
-            routes: [createRoute({ stops: [{ stopId: 5, type: "regular" }] })],
+            diagram: createDiagramWithStops([5]),
           }),
         ],
         lineTagSuccession: {},
-        routeTagSuccession: {},
         tierLinesByTag: [TIERED_TAG],
       });
 
     expect(getCanonicalLinesServingStop(5)).toEqual([100, 200]);
-  });
-
-  it("can ignore routes via tags", () => {
-    const AWFUL_ROUTE = 9;
-    const ROUTE_TO_IGNORE = 10;
-
-    const getCanonicalLinesServingStop =
-      createCanonicalLinesServingStopAlgorithm({
-        lines: [
-          createLine({
-            id: 1,
-            routes: [
-              createRoute({
-                tags: [AWFUL_ROUTE],
-                stops: [{ stopId: 90, type: "regular" }],
-              }),
-            ],
-          }),
-        ],
-        lineTagSuccession: {},
-        routeTagSuccession: { [AWFUL_ROUTE]: [ROUTE_TO_IGNORE] },
-        ignoreRoutesWithTags: [ROUTE_TO_IGNORE],
-        ignoreHiddenStops: false,
-      });
-
-    expect(getCanonicalLinesServingStop(90)).toEqual([]);
-  });
-
-  describe("with hidden stops", () => {
-    const lines = [
-      createLine({
-        id: 2,
-        routes: [
-          createRoute({
-            stops: [{ stopId: 90, type: "hidden-unless-stopped-at" }],
-          }),
-        ],
-      }),
-    ];
-
-    it("ignores hidden stops by default", () => {
-      const getCanonicalLinesServingStop =
-        createCanonicalLinesServingStopAlgorithm({
-          lines: lines,
-          lineTagSuccession: {},
-          routeTagSuccession: {},
-        });
-      expect(getCanonicalLinesServingStop(90)).toEqual([]);
-    });
-
-    it("can include hidden stops if configured to", () => {
-      const getCanonicalLinesServingStop =
-        createCanonicalLinesServingStopAlgorithm({
-          lines: lines,
-          lineTagSuccession: {},
-          routeTagSuccession: {},
-          ignoreHiddenStops: false,
-        });
-      expect(getCanonicalLinesServingStop(90)).toEqual([2]);
-    });
   });
 });
