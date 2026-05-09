@@ -87,4 +87,35 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
 
     expect(getCanonicalLinesServingStop(5)).toEqual([100, 200]);
   });
+
+  it("doesn't count stops which are always express", () => {
+    const getCanonicalLinesServingStop =
+      createCanonicalLinesServingStopAlgorithm({
+        lines: [
+          createLine({
+            id: 10,
+            diagram: {
+              entries: [
+                {
+                  name: null,
+                  color: "red",
+                  shape: {
+                    type: "linear",
+                    stops: [
+                      { stopId: 1, type: "regular" },
+                      { stopId: 2, type: "always-express" },
+                      { stopId: 3, type: "regular" },
+                    ],
+                  },
+                },
+              ],
+            },
+          }),
+        ],
+        lineTagSuccession: {},
+      });
+
+    expect(getCanonicalLinesServingStop(1)).toEqual([10]);
+    expect(getCanonicalLinesServingStop(2)).toEqual([]);
+  });
 });

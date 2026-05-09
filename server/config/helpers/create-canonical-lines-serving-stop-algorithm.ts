@@ -2,10 +2,16 @@ import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/g
 import type {
   LineConfig,
   LineDiagramConfig,
+  LineDiagramStopTypeConfig,
 } from "@/server/config/types/line-config.js";
 import type { TagSuccessionConfig } from "@/server/config/types/tags-config.js";
 import { Tags } from "@/server/data/tags.js";
 import { extractStopsFromLineDiagramShape } from "@/server/config/helpers/extract-stops-from-line-diagram-shape.js";
+
+const isCanonicalMapping: Record<LineDiagramStopTypeConfig, boolean> = {
+  "regular": true,
+  "always-express": false,
+};
 
 type Options = {
   readonly lines: readonly LineConfig[];
@@ -60,5 +66,5 @@ export function createCanonicalLinesServingStopAlgorithm(
 function isStopInDiagram(stopId: number, diagram: LineDiagramConfig): boolean {
   return diagram.entries
     .flatMap((entry) => extractStopsFromLineDiagramShape(entry.shape))
-    .some((s) => s.stopId === stopId);
+    .some((s) => s.stopId === stopId && isCanonicalMapping[s.type]);
 }
