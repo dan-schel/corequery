@@ -16,11 +16,6 @@ export function checkTagsNoDuplicatesInSuccession(
     tags.lineTagSuccession,
     "tags.lineTagSuccession",
   );
-  checkSuccessionNoDuplicates(
-    issues,
-    tags.routeTagSuccession,
-    "tags.routeTagSuccession",
-  );
 }
 
 function checkSuccessionNoDuplicates(

@@ -1,21 +1,15 @@
 import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
 import type {
   LineConfig,
-  RouteConfig,
-  RouteStopTypeConfig,
+  LineDiagramConfig,
 } from "@/server/config/types/line-config.js";
 import type { TagSuccessionConfig } from "@/server/config/types/tags-config.js";
 import { Tags } from "@/server/data/tags.js";
-
-const isHiddenMapping: Record<RouteStopTypeConfig, boolean> = {
-  "regular": false,
-  "hidden-unless-stopped-at": true,
-};
+import { extractStopsFromLineDiagramShape } from "@/server/config/helpers/extract-stops-from-line-diagram-shape.js";
 
 type Options = {
   readonly lines: readonly LineConfig[];
   readonly lineTagSuccession: TagSuccessionConfig;
-  readonly routeTagSuccession: TagSuccessionConfig;
 
   /**
    * Defines tiers such that lines from a subsequent tier are ignored if the
@@ -29,21 +23,6 @@ type Options = {
    * tagged as `FULL_TIME`.
    */
   readonly tierLinesByTag?: number[];
-
-  // TODO: Both config options below could be made redundant. They're a
-  // side-effect of using routes as the basis for "canonical" stops. Using the
-  // diagrams to form the lists instead would be less likely to need any tweaks
-  // (would ANY tweaks be needed?), as the diagram is supposed to represent the
-  // "canonical" stops on the line already!
-
-  /** A list of route tags, the routes of which should be ignored. */
-  readonly ignoreRoutesWithTags?: number[];
-
-  /**
-   * Whether to ignore stops on routes marked as `hidden-unless-stopped-at`.
-   * (Default: `true`)
-   */
-  readonly ignoreHiddenStops?: boolean;
 };
 
 export function createCanonicalLinesServingStopAlgorithm(
@@ -55,18 +34,10 @@ export function createCanonicalLinesServingStopAlgorithm(
   }));
 
   const tierLinesByTag = options.tierLinesByTag ?? [];
-  const ignoreRoutesWithTags = options.ignoreRoutesWithTags ?? [];
-  const ignoreHiddenStops = options.ignoreHiddenStops ?? true;
 
   return (stopId) => {
     const allCandidateLines = lines.filter((line) =>
-      find({
-        stopId,
-        routes: line.routes,
-        routeTagSuccession: options.routeTagSuccession,
-        ignoreRoutesWithTags,
-        ignoreHiddenStops,
-      }),
+      isStopInDiagram(stopId, line.diagram),
     );
 
     if (tierLinesByTag.length === 0 || allCandidateLines.length === 0) {
@@ -86,29 +57,8 @@ export function createCanonicalLinesServingStopAlgorithm(
   };
 }
 
-function find({
-  stopId,
-  routes,
-  routeTagSuccession,
-  ignoreRoutesWithTags,
-  ignoreHiddenStops,
-}: {
-  stopId: number;
-  routes: readonly RouteConfig[];
-  routeTagSuccession: TagSuccessionConfig;
-  ignoreRoutesWithTags: number[];
-  ignoreHiddenStops: boolean;
-}): boolean {
-  return routes.some((route) => {
-    const routeTags = Tags.build(route.tags, routeTagSuccession);
-    const ignored = ignoreRoutesWithTags.some((tag) => routeTags.has(tag));
-    if (ignored) return false;
-
-    const relevantStops = route.stops.filter((stop) => {
-      const isHiddenStop = isHiddenMapping[stop.type];
-      return !isHiddenStop || !ignoreHiddenStops;
-    });
-
-    return relevantStops.some((stop) => stop.stopId === stopId);
-  });
+function isStopInDiagram(stopId: number, diagram: LineDiagramConfig): boolean {
+  return diagram.entries
+    .flatMap((entry) => extractStopsFromLineDiagramShape(entry.shape))
+    .some((s) => s.stopId === stopId);
 }

@@ -4,7 +4,7 @@ import type { StopLintOptions } from "@/server/config/linting/types.js";
 import type { IssueCollector } from "@/server/config/linting/utils/issue-collector.js";
 import { checkStopsAllOrNoneHaveLocations } from "@/server/config/linting/stop/all-or-none-locations.js";
 import { checkStopsAllOrNoneHavePositions } from "@/server/config/linting/stop/all-or-none-positions.js";
-import { checkStopsAppearInRoutes } from "@/server/config/linting/stop/appears-in-routes.js";
+import { checkStopsAppearInDiagrams } from "@/server/config/linting/stop/appears-in-diagrams.js";
 import { checkStopNoDuplicateTags } from "@/server/config/linting/stop/no-duplicate-tags.js";
 import { checkStopNonEmptyName } from "@/server/config/linting/stop/non-empty-name.js";
 import { checkStopNonEmptyUrlPath } from "@/server/config/linting/stop/non-empty-url-path.js";
@@ -24,7 +24,7 @@ export function lintStopConfig(
   checkStopsUniqueNames(issues, stops, options);
   checkStopsAllOrNoneHaveLocations(issues, stops, options);
   checkStopsAllOrNoneHavePositions(issues, stops, options);
-  checkStopsAppearInRoutes(issues, stops, lines, options);
+  checkStopsAppearInDiagrams(issues, stops, lines, options);
 
   for (const [stopIndex, stop] of stops.entries()) {
     checkStopNonEmptyName(issues, stop, stopIndex);

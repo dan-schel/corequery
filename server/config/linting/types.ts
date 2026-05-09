@@ -44,7 +44,7 @@ export type StopLintOptions = {
   /** Ignore this stop missing positions when others have them. */
   readonly ignoreMissingPosition?: boolean;
 
-  /** Ignore this stop not appearing in any route. */
+  /** Ignore this stop not appearing in any diagram. */
   readonly ignoreUnusedStop?: boolean;
 };
 
@@ -55,9 +55,6 @@ export type LineLintOptions = {
   /** Ignore this line sharing the same name as another line. */
   readonly ignoreDuplicatedName?: boolean;
 
-  /** Ignore diagram stops that do not appear in any route for this line. */
-  readonly ignoreDiagramStopNotInRoute?: boolean;
-
   /** Ignore this line having no diagram entries. */
   readonly ignoreMissingDiagramEntries?: boolean;
 
@@ -65,23 +62,6 @@ export type LineLintOptions = {
   readonly ignoreMissingCode?: boolean;
 
   /** Ignore this line missing a color when others have one. */
-  readonly ignoreMissingColor?: boolean;
-
-  /** Ignore this line having no routes. */
-  readonly ignoreMissingRoutes?: boolean;
-
-  /** Options to control the lint rules for routes on this line. */
-  readonly routes?: Record<number, RouteLintOptions>;
-};
-
-type RouteLintOptions = {
-  /** Ignore this route sharing the same name as another route on this line. */
-  readonly ignoreDuplicatedName?: boolean;
-
-  /** Ignore this route missing a mirrored counterpart. */
-  readonly ignoreMissingMirrored?: boolean;
-
-  /** Ignore this route missing a color when others have one. */
   readonly ignoreMissingColor?: boolean;
 };
 
