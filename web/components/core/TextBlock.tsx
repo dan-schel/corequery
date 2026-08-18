@@ -3,16 +3,7 @@ import clsx from "clsx";
 import { TextBoxTrim } from "@/web/components/core/TextBoxTrim";
 
 type TextBlockTag =
-  | "span"
-  | "p"
-  | "h1"
-  | "h2"
-  | "h3"
-  | "h4"
-  | "h5"
-  | "h6"
-  | "pre"
-  | "li";
+  "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "pre" | "li";
 
 const styles = {
   "small": "text-sm text-fg",
