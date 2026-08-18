@@ -56,6 +56,9 @@ type ServiceLegFields = {
 
   readonly tags: Tags;
   readonly color: Color | null;
+
+  // TODO: Why does corequery care about timetable date and stop times given in
+  // the local timezone. Shouldn't it get UTC timestamps instead?
   readonly timetableDate: CoreDate;
   readonly stopTimes: readonly ServiceStopTime[];
 };

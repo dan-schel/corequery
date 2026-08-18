@@ -4,7 +4,7 @@
 /* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
 @theme {
   --*: initial;
-  --default-font-family: "Mona Sans", sans-serif;
+  --default-font-family: "Mona Sans", system-ui, sans-serif;
 
   --spacing: 0.25rem;
 
@@ -89,6 +89,9 @@
 
 body {
   background-color: var(--color-bg-navbar);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 @utility dark-theme {

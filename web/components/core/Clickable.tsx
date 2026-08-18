@@ -7,6 +7,9 @@ type ClickableProps = {
   onClick?: () => void;
   href?: string;
 
+  // TODO: There doesn't seem to be a way to set a title (tooltip). Assorted
+  // tools needs this too!
+
   // Sometimes you want the semantics of an <a> (e.g. open link in new tab), but
   // still want to run a side-effect when it's clicked. E.g. for the navigation
   // menus, we always want to close the menu when a link is clicked, and
