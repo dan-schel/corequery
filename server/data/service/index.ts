@@ -4,7 +4,7 @@ export * from "./service-movement.js";
 export * from "./service-originating-movement.js";
 export * from "./service-passing-movement.js";
 export * from "./service-regular-movement.js";
+export * from "./service-source.js";
 export * from "./service-terminating-movement.js";
 export * from "./service-time-type.js";
-export * from "./service-source.js";
 export * from "./service.js";
