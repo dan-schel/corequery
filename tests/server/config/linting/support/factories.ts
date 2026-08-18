@@ -76,6 +76,7 @@ export function createTagsConfig(
   return {
     stopTagSuccession: {},
     lineTagSuccession: {},
+    serviceTagSuccession: {},
     ...overrides,
   };
 }

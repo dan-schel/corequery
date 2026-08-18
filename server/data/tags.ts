@@ -7,6 +7,10 @@ export class Tags {
     return this._tags.has(tag);
   }
 
+  all(): readonly number[] {
+    return Array.from(this._tags);
+  }
+
   static build(
     explicitTags: readonly number[],
     tagSuccessionConfig: TagSuccessionConfig,
