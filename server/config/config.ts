@@ -11,6 +11,7 @@ import type {
 } from "@/server/config/types/index.js";
 import type { Logger } from "@/server/logger/logger.js";
 import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
+import type { ServiceSourcesConfig } from "@/server/config/types/service-sources-config.js";
 
 export type CorequeryConfig = {
   readonly logger: Logger;
@@ -26,4 +27,5 @@ export type CorequeryConfig = {
   readonly linesPage: LinesPageConfig;
   readonly tags: TagsConfig;
   readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
+  readonly serviceSources: ServiceSourcesConfig;
 };

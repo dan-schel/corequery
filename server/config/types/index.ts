@@ -5,6 +5,7 @@ export * from "./get-canonical-lines-serving-stop-config-func.js";
 export * from "./landing-page-config.js";
 export * from "./line-config.js";
 export * from "./lines-page-config.js";
+export * from "./service-sources-config.js";
 export * from "./stop-config.js";
 export * from "./tags-config.js";
 export * from "./terminology-config.js";

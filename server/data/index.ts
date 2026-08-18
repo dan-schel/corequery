@@ -1,3 +1,5 @@
+export * from "./service/index.js";
+
 export * from "./color.js";
 export * from "./line-collection.js";
 export * from "./line-diagram-entry.js";
