@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "lib": ["es2022"],
+    "lib": ["es2022", "ESNext.Temporal"],
     "paths": {
       "@/*": ["../*"]
     }

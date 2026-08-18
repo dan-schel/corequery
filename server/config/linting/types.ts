@@ -18,6 +18,11 @@ export type LintableConfig = {
   readonly aboutPage: CorequeryConfig["aboutPage"];
   readonly linesPage: CorequeryConfig["linesPage"];
   readonly tags: CorequeryConfig["tags"];
+
+  // TODO: Could we lint service sources (check for at least one, and no
+  // duplicate IDs)? I don't _think_ they need a reference to `ctx` (Corequery),
+  // at least for the GTFS ones I've implemented so far, but I don't know if
+  // some future ServiceSource would need it.
 };
 
 export type LintOptions = {
