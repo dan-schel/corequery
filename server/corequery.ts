@@ -13,10 +13,12 @@ import type {
 import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
 import type { Logger } from "@/server/logger/logger.js";
 
-export type CorequeryConfigBuilder = (corequery: Corequery) => CorequeryConfig;
+export type CorequeryConfigBuilder<CustomContextType> = (
+  corequery: Corequery<CustomContextType>,
+) => CorequeryConfig<CustomContextType>;
 
-export class Corequery {
-  private readonly _config: CorequeryConfig;
+export class Corequery<CustomContextType = unknown> {
+  private readonly _config: CorequeryConfig<CustomContextType>;
   private readonly _webServer: WebServer;
 
   readonly log: Logger;
@@ -34,7 +36,9 @@ export class Corequery {
   readonly aboutPageConfig: AboutPageConfig;
   readonly terminologyConfig: TerminologyConfig;
 
-  constructor(configBuilder: CorequeryConfigBuilder) {
+  readonly custom: CustomContextType;
+
+  constructor(configBuilder: CorequeryConfigBuilder<CustomContextType>) {
     this._config = configBuilder(this);
 
     this._webServer = new WebServer(
@@ -68,6 +72,8 @@ export class Corequery {
     this.footerConfig = this._config.footer;
     this.aboutPageConfig = this._config.aboutPage;
     this.terminologyConfig = this._config.terminology;
+
+    this.custom = this._config.custom;
   }
 
   getCorequeryPackageVersion() {
