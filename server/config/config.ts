@@ -13,7 +13,7 @@ import type { Logger } from "@/server/logger/logger.js";
 import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
 import type { ServiceSourcesConfig } from "@/server/config/types/service-sources-config.js";
 
-export type CorequeryConfig = {
+export type CorequeryConfig<CustomContextType = unknown> = {
   readonly logger: Logger;
   readonly port: number;
   readonly version: string;
@@ -28,4 +28,5 @@ export type CorequeryConfig = {
   readonly tags: TagsConfig;
   readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
   readonly serviceSources: ServiceSourcesConfig;
+  readonly custom: CustomContextType;
 };

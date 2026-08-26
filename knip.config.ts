@@ -12,15 +12,6 @@ const config: KnipConfig = {
     "scripts/demo-app/commands/start.ts",
     "scripts/generate-pwa-assets/main.ts",
   ],
-  ignoreBinaries: [
-    "scripts/build",
-    "scripts/dev",
-    "scripts/lint",
-    "scripts/lint-demo-app",
-    "scripts/setup",
-    "scripts/start",
-    "scripts/test",
-  ],
   ignoreDependencies: ["tsc-alias"],
   ignoreFiles: ["web/components/StatusDot.tsx", "web/hooks/use-mutation.ts"],
 };
