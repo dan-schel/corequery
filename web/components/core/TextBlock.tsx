@@ -16,6 +16,7 @@ const styles = {
   "wordmark": "text-mdlg font-bold text-fg-strong",
   "subtitle": "text-lg font-bold text-fg-strong",
   "title": "text-xl font-bold text-fg-strong",
+  "weak-struckout": "text-md text-fg-weak line-through",
 };
 
 const alignments = {
