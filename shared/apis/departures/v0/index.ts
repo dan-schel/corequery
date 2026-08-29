@@ -52,31 +52,31 @@ import type { Api } from "@/shared/apis/types.js";
 // Sheesh! 😅
 
 const argsSchema = z.object({
-  departureStreams: z
-    .object({
-      stopId: z.string(),
-      count: z.number(),
+  stopId: z.number(),
+  count: z.number(),
 
-      // Things the real v1 API should have:
-      //
-      // instant: z.string(),
-      // direction: z.enum(["forwards", "backwards"]),
-      // filters: z.string().array(),
-      //
-      // // Will be required for infinite scrolling, as two departures can have
-      // // the same time.
-      // skip: z
-      //   .object({
-      //     sourceId: z.string(),
-      //     intrasourceId: z.string(),
-      //   })
-      //   .array(),
-    })
-    .array(),
+  // Remember that the v1 API should accept multiple departure streams, so we'll
+  // need an array of these arguments! The result needs to be an array too, to
+  // compensate.
+  //
+  // Other things the real v1 API should have:
+  //
+  // instant: z.string(),
+  // direction: z.enum(["forwards", "backwards"]),
+  // filters: z.string().array(),
+  //
+  // // Will be required for infinite scrolling, as two departures can have
+  // // the same time.
+  // skip: z
+  //   .object({
+  //     sourceId: z.string(),
+  //     intrasourceId: z.string(),
+  //   })
+  //   .array(),
 });
 
 const resultSchema = z.object({
-  departureStreams: z
+  departures: z
     .object({
       sourceId: z.string(),
       intrasourceId: z.string(),
@@ -108,25 +108,27 @@ const resultSchema = z.object({
       primaryDestinationText: z.string(),
       secondaryDestinationText: z.string().nullable(),
 
-      lineIds: z.string().array(),
-      color: z.object({
-        lightModeHexCode: z.string(),
-        darkModeHexCode: z.string(),
-      }),
+      lineIds: z.number().array().readonly(),
+      color: z
+        .object({
+          lightModeHexCode: z.string(),
+          darkModeHexCode: z.string(),
+        })
+        .nullable(),
+
       isCancelled: z.boolean(),
 
       movement: z.object({
         // So that it can link to a service page.
         index: z.number(),
 
-        positionId: z.string().nullable(),
+        positionId: z.number().nullable(),
 
         // "time" not "departureTime", as for arrivals it'll be the arrival time.
         time: z.string(),
         formerTime: z.string().nullable(),
       }),
     })
-    .array()
     .array(),
 });
 
