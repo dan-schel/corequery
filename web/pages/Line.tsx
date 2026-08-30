@@ -24,7 +24,7 @@ export default function Line() {
   if (line === null)
     return <NotFoundPage afterConfirming="foundational-data-version" />;
 
-  return <LinePageContent line={line} />;
+  return <LinePageContent key={line.id} line={line} />;
 }
 
 type LinePageContentProps = {

@@ -29,7 +29,7 @@ export default function Stop() {
   if (stop === null)
     return <NotFoundPage afterConfirming="foundational-data-version" />;
 
-  return <StopPageContent stop={stop} />;
+  return <StopPageContent key={stop.id} stop={stop} />;
 }
 
 type StopPageContentProps = {
