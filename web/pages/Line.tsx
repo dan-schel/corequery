@@ -21,7 +21,7 @@ export default function Line() {
     [foda.lines, lineUrlPath],
   );
 
-  if (line === null) {
+  if (line == null) {
     return <NotFoundPage afterConfirming="foundational-data-version" />;
   }
 

@@ -21,7 +21,7 @@ export abstract class Collection<IdType extends string | number, T> {
 
   require(id: IdType): T {
     const item = this.get(id);
-    if (item === null) {
+    if (item == null) {
       throw this._getRequireFailError(id);
     }
     return item;
@@ -45,7 +45,7 @@ export abstract class Collection<IdType extends string | number, T> {
 
   requireFirst(predicate: (item: T) => boolean): T {
     const item = this.first(predicate);
-    if (item === null) {
+    if (item == null) {
       throw this._getPredicateFailError();
     }
     return item;

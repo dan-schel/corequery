@@ -11,8 +11,10 @@ import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection
 import { useQuery } from "@/web/hooks/use-query";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
-import type z from "zod";
 import { Strong } from "@/web/components/core/Strong";
+import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
+import type { ResultOf } from "@/shared/apis/types";
+import { OutlinedButtonHousing } from "../components/button/housings/OutlinedButtonHousing";
 
 export default function Stop() {
   const {
@@ -26,7 +28,7 @@ export default function Stop() {
     [foda.stops, stopUrlPath],
   );
 
-  if (stop === null) {
+  if (stop == null) {
     return <NotFoundPage afterConfirming="foundational-data-version" />;
   }
 
@@ -69,7 +71,7 @@ function StopPageContent(props: StopPageContentProps) {
           <TextBlock>No departures found.</TextBlock>
         )}
         {!loading && data != null && data.departures.length > 0 && (
-          <Column class="gap-8">
+          <Column class="gap-4">
             {data.departures.map((d) => (
               <Departure
                 key={`${d.sourceId}/${d.intrasourceId}`}
@@ -83,9 +85,7 @@ function StopPageContent(props: StopPageContentProps) {
   );
 }
 
-type ApiDeparture = z.output<
-  typeof DEPARTURES_V0.resultSchema
->["departures"][number];
+type ApiDeparture = ResultOf<typeof DEPARTURES_V0>["departures"][number];
 
 function Departure({ departure }: { departure: ApiDeparture }) {
   const destinationSuffix =
@@ -95,29 +95,36 @@ function Departure({ departure }: { departure: ApiDeparture }) {
 
   const statusSuffix = departure.isCancelled ? " (Cancelled)" : "";
 
+  const urlSourceId = encodeURIComponent(departure.sourceId);
+  const urlIntrasourceId = encodeURIComponent(departure.intrasourceId);
+  const urlFrom = encodeURIComponent(departure.movement.index.toString());
+  const url = `/service/${urlSourceId}/${urlIntrasourceId}?from=${urlFrom}`;
+
   return (
-    <Column class="gap-4">
-      <Column class="gap-3">
-        <TextBlock>
-          <Strong>{departure.primaryDestinationText}</Strong>
-          {destinationSuffix}
-          {statusSuffix}
-        </TextBlock>
-        <TextBlock>
-          {new Date(Date.parse(departure.movement.time)).toLocaleString()}
-        </TextBlock>
-        {departure.movement.formerTime != null && (
-          <TextBlock style="weak-struckout">
-            {new Date(
-              Date.parse(departure.movement.formerTime),
-            ).toLocaleString()}
+    <OutlinedButtonHousing href={url} class="p-4">
+      <Column class="gap-4">
+        <Column class="gap-3">
+          <TextBlock>
+            <Strong>{departure.primaryDestinationText}</Strong>
+            {destinationSuffix}
+            {statusSuffix}
           </TextBlock>
-        )}
+          <TextBlock>
+            {new Date(Date.parse(departure.movement.time)).toLocaleString()}
+          </TextBlock>
+          {departure.movement.formerTime != null && (
+            <TextBlock style="weak-struckout">
+              {new Date(
+                Date.parse(departure.movement.formerTime),
+              ).toLocaleString()}
+            </TextBlock>
+          )}
+        </Column>
+        <TextBlock style="small-weak">
+          Source: {departure.sourceId}&ensp;&bull;&ensp;ID:{" "}
+          {departure.intrasourceId}
+        </TextBlock>
       </Column>
-      <TextBlock style="small-weak">
-        Source: {departure.sourceId}&ensp;&bull;&ensp;ID:{" "}
-        {departure.intrasourceId}
-      </TextBlock>
-    </Column>
+    </OutlinedButtonHousing>
   );
 }
