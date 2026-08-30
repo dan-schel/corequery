@@ -26,8 +26,9 @@ export default function Stop() {
     [foda.stops, stopUrlPath],
   );
 
-  if (stop === null)
+  if (stop === null) {
     return <NotFoundPage afterConfirming="foundational-data-version" />;
+  }
 
   return <StopPageContent key={stop.id} stop={stop} />;
 }
@@ -105,10 +106,6 @@ function Departure({ departure }: { departure: ApiDeparture }) {
         <TextBlock>
           {new Date(Date.parse(departure.movement.time)).toLocaleString()}
         </TextBlock>
-        {/* TODO: Need to investigate why `formerTime` is seemingly always null.
-        I think it's a race condition or something inside corequery-gtfs, 
-        because I briefly saw all services get realtime data, then refreshed the 
-        page again and it was gone. */}
         {departure.movement.formerTime != null && (
           <TextBlock style="weak-struckout">
             {new Date(
