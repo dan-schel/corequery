@@ -1,6 +1,6 @@
 {
   "name": "corequery",
-  "version": "0.23.0",
+  "version": "0.23.1",
   "type": "module",
   "files": [
     "server/dist",
@@ -29,7 +29,7 @@
     "@dan-schel/js-utils": "^4.14.1",
     "express": "^5.2.1",
     "node-html-parser": "^9.0.1",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.4",
     "temporal-polyfill": "1.0.4",
     "zod": "^4.4.3"
   },
