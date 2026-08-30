@@ -11,7 +11,7 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import type { ResultOf } from "@/shared/apis/types";
-import { Strong } from "../components/core/Strong";
+import { Strong } from "@/web/components/core/Strong";
 
 export default function Service() {
   const {

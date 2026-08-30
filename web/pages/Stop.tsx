@@ -12,9 +12,8 @@ import { useQuery } from "@/web/hooks/use-query";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Strong } from "@/web/components/core/Strong";
-import { HoverButtonHousing } from "@/web/components/button/housings/HoverButtonHousing";
 import type { ResultOf } from "@/shared/apis/types";
-import { OutlinedButtonHousing } from "../components/button/housings/OutlinedButtonHousing";
+import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
 
 export default function Stop() {
   const {
