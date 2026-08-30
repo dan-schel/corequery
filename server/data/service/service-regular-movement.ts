@@ -65,4 +65,20 @@ export class ServiceRegularMovement {
   get isNonTerminal() {
     return true as const;
   }
+
+  get timeTypeRelevantToDeparturesAlgorithm() {
+    return this.departureTimeType;
+  }
+
+  get timeRelevantToDeparturesAlgorithm() {
+    return this.departureTime;
+  }
+
+  get formerTimeRelevantToDeparturesAlgorithm() {
+    return this.formerDepartureTime;
+  }
+
+  get positionId() {
+    return this.updatedPositionId ?? this.originalPositionId;
+  }
 }

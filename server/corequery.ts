@@ -12,6 +12,7 @@ import type {
 } from "@/server/config/index.js";
 import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
 import type { Logger } from "@/server/logger/logger.js";
+import { ServiceRepository } from "@/server/data/service/service-repository.js";
 
 export type CorequeryConfigBuilder<CustomContextType> = (
   corequery: Corequery<CustomContextType>,
@@ -28,6 +29,7 @@ export class Corequery<CustomContextType = unknown> {
 
   readonly stops: StopCollection;
   readonly lines: LineCollection;
+  readonly services: ServiceRepository;
 
   // I'm happy just exposing the config for now. Can be migrated to full classes
   // if and when we want to add helper methods.
@@ -67,6 +69,7 @@ export class Corequery<CustomContextType = unknown> {
       this._config.lines,
       this._config.tags.lineTagSuccession,
     );
+    this.services = ServiceRepository.build(this._config.serviceSources);
 
     this.landingPageConfig = this._config.landingPage;
     this.footerConfig = this._config.footer;

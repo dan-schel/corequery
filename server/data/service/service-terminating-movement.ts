@@ -46,4 +46,20 @@ export class ServiceTerminatingMovement {
   get isNonTerminal() {
     return false as const;
   }
+
+  get timeTypeRelevantToDeparturesAlgorithm() {
+    return this.arrivalTimeType;
+  }
+
+  get timeRelevantToDeparturesAlgorithm() {
+    return this.arrivalTime;
+  }
+
+  get formerTimeRelevantToDeparturesAlgorithm() {
+    return this.formerArrivalTime;
+  }
+
+  get positionId() {
+    return this.updatedPositionId ?? this.originalPositionId;
+  }
 }

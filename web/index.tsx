@@ -19,6 +19,7 @@ const AdminControls = lazy(() => import("./pages/AdminControls.js"));
 const Debug = lazy(() => import("./pages/Debug.js"));
 const Home = lazy(() => import("./pages/Home.js"));
 const Nearby = lazy(() => import("./pages/Nearby.js"));
+const Service = lazy(() => import("./pages/Service.js"));
 const Settings = lazy(() => import("./pages/Settings.js"));
 const Status = lazy(() => import("./pages/Status.js"));
 const ZenMode = lazy(() => import("./pages/ZenMode.js"));
@@ -44,6 +45,10 @@ function App() {
                       <Route path="/debug" component={Debug} />
                       <Route path="/line/:id" component={Line} />
                       <Route path="/nearby" component={Nearby} />
+                      <Route
+                        path="/service/:sourceId/:intrasourceId"
+                        component={Service}
+                      />
                       <Route path="/settings" component={Settings} />
                       <Route path="/status" component={Status} />
                       <Route path="/stop/:id" component={Stop} />

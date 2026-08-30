@@ -29,7 +29,7 @@ export abstract class BaseMapDiagramController<
   }
 
   override onRender(): void {
-    // The strokes can be drawn literally whatever color we want, we use
+    // The strokes can be drawn literally whatever color we want. We use
     // `globalCompositeOperation` below to draw the color over them, and
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";

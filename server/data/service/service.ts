@@ -1,10 +1,10 @@
-import type { Color } from "sharp";
 import type { Tags } from "@/server/data/tags.js";
 import type { ServiceMovement } from "@/server/data/service/service-movement.js";
 import type { ServiceConnection } from "@/server/data/service/service-connection.js";
 import { itsOk } from "@dan-schel/js-utils";
 import type { ServiceOriginatingMovement } from "@/server/data/service/service-originating-movement.js";
 import type { ServiceTerminatingMovement } from "@/server/data/service/service-terminating-movement.js";
+import { getHexCodesForColor, type Color } from "@/server/data/color.js";
 
 type ServiceLiveDataType = "scheduled" | "updated" | "added";
 
@@ -89,5 +89,9 @@ export class Service {
 
   with(fields: Partial<ServiceFields>): Service {
     return new Service({ ...this, ...fields });
+  }
+
+  getColorHexCodes() {
+    return this.color != null ? getHexCodesForColor(this.color) : null;
   }
 }
