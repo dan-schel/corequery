@@ -63,7 +63,7 @@ function toApiResult(app: Corequery, dep: Departure): ApiDeparture {
 
     movement: {
       index: dep.movementIndex,
-      positionId: dep.movement.positionId,
+      positionId: dep.movement.currentPositionId,
       time: dep.movement.timeRelevantToDeparturesAlgorithm.toString(),
 
       formerTime:

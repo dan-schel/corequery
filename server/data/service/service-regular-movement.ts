@@ -3,7 +3,7 @@ import type { ServiceTimeType } from "@/server/data/service/service-time-type.js
 type ServiceRegularMovementFields = {
   readonly stopId: number;
   readonly originalPositionId: number | null;
-  readonly updatedPositionId: number | null;
+  readonly currentPositionId: number | null;
 
   readonly arrivalTimeType: ServiceTimeType;
   readonly arrivalTime: Temporal.Instant;
@@ -20,7 +20,7 @@ type ServiceRegularMovementFields = {
 export class ServiceRegularMovement {
   readonly stopId: number;
   readonly originalPositionId: number | null;
-  readonly updatedPositionId: number | null;
+  readonly currentPositionId: number | null;
 
   readonly arrivalTimeType: ServiceTimeType;
   readonly arrivalTime: Temporal.Instant;
@@ -36,7 +36,7 @@ export class ServiceRegularMovement {
   constructor(fields: ServiceRegularMovementFields) {
     this.stopId = fields.stopId;
     this.originalPositionId = fields.originalPositionId;
-    this.updatedPositionId = fields.updatedPositionId;
+    this.currentPositionId = fields.currentPositionId;
 
     this.arrivalTimeType = fields.arrivalTimeType;
     this.arrivalTime = fields.arrivalTime;
@@ -76,9 +76,5 @@ export class ServiceRegularMovement {
 
   get formerTimeRelevantToDeparturesAlgorithm() {
     return this.formerDepartureTime;
-  }
-
-  get positionId() {
-    return this.updatedPositionId ?? this.originalPositionId;
   }
 }
