@@ -3,6 +3,11 @@ import type { ServiceTimeType } from "@/server/data/service/service-time-type.js
 type ServiceOriginatingMovementFields = {
   readonly stopId: number;
   readonly originalPositionId: number | null;
+
+  // TODO: It should be called `currentPositionId` instead of
+  // `updatedPositionId`, given that every service must give this value
+  // regardless of whether it represents a change to the platform or not. (Goes
+  // for all movement types.)
   readonly updatedPositionId: number | null;
 
   readonly departureTimeType: ServiceTimeType;

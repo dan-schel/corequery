@@ -70,6 +70,12 @@ export class Service {
     const othersOk = this.movements.slice(1, -1).every((m) => m.isNonTerminal);
     if (!othersOk) throw new Error("Some terminal movements in wrong places.");
 
+    // TODO: If `entire-vehicle-forms-service`, then `movementIndex` has to be 0
+    // and `otherServiceMovementIndex` has to # of movements - 1. We can't check
+    // the `otherServiceMovementIndex` because the other service isn't available
+    // to us here. I think we should use a discriminated union to enforce that
+    // movementIndex fields don't exist in this case (but other connection types
+    // might need them)!
     this.previousServiceOfEntireVehicle =
       this.connections.find(
         (c) =>
@@ -78,6 +84,8 @@ export class Service {
           c.movementIndex === 0,
       ) ?? null;
 
+    // TODO: For this one we could check that `otherServiceMovementIndex` is 0,
+    // but as stated above we shouldn't have to.
     this.nextServiceOfEntireVehicle =
       this.connections.find(
         (c) =>
