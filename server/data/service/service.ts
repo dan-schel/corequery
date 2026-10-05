@@ -1,6 +1,7 @@
 import type { Tags } from "@/server/data/tags.js";
 import type { ServiceMovement } from "@/server/data/service/service-movement.js";
-import type { ServiceConnection } from "@/server/data/service/service-connection.js";
+import type { ServiceConnection } from "@/server/data/service/connection/service-connection.js";
+import type { EntireVehicleFormsServiceConnection } from "@/server/data/service/connection/entire-vehicle-forms-service-connection.js";
 import { itsOk } from "@dan-schel/js-utils";
 import type { ServiceOriginatingMovement } from "@/server/data/service/service-originating-movement.js";
 import type { ServiceTerminatingMovement } from "@/server/data/service/service-terminating-movement.js";
@@ -38,8 +39,8 @@ export class Service {
   readonly isCancelled: boolean;
 
   readonly connections: readonly ServiceConnection[];
-  readonly previousServiceOfEntireVehicle: ServiceConnection | null;
-  readonly nextServiceOfEntireVehicle: ServiceConnection | null;
+  readonly previousServiceOfEntireVehicle: EntireVehicleFormsServiceConnection | null;
+  readonly nextServiceOfEntireVehicle: EntireVehicleFormsServiceConnection | null;
 
   constructor(fields: ServiceFields) {
     this.sourceId = fields.sourceId;
@@ -72,18 +73,16 @@ export class Service {
 
     this.previousServiceOfEntireVehicle =
       this.connections.find(
-        (c) =>
+        (c): c is EntireVehicleFormsServiceConnection =>
           c.type === "entire-vehicle-forms-service" &&
-          c.direction === "from-other" &&
-          c.movementIndex === 0,
+          c.direction === "from-other",
       ) ?? null;
 
     this.nextServiceOfEntireVehicle =
       this.connections.find(
-        (c) =>
+        (c): c is EntireVehicleFormsServiceConnection =>
           c.type === "entire-vehicle-forms-service" &&
-          c.direction === "to-other" &&
-          c.movementIndex === this.movements.length - 1,
+          c.direction === "to-other",
       ) ?? null;
   }
 

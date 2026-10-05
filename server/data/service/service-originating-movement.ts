@@ -3,7 +3,7 @@ import type { ServiceTimeType } from "@/server/data/service/service-time-type.js
 type ServiceOriginatingMovementFields = {
   readonly stopId: number;
   readonly originalPositionId: number | null;
-  readonly updatedPositionId: number | null;
+  readonly currentPositionId: number | null;
 
   readonly departureTimeType: ServiceTimeType;
   readonly departureTime: Temporal.Instant;
@@ -13,7 +13,7 @@ type ServiceOriginatingMovementFields = {
 export class ServiceOriginatingMovement {
   readonly stopId: number;
   readonly originalPositionId: number | null;
-  readonly updatedPositionId: number | null;
+  readonly currentPositionId: number | null;
 
   readonly departureTimeType: ServiceTimeType;
   readonly departureTime: Temporal.Instant;
@@ -22,7 +22,7 @@ export class ServiceOriginatingMovement {
   constructor(fields: ServiceOriginatingMovementFields) {
     this.stopId = fields.stopId;
     this.originalPositionId = fields.originalPositionId;
-    this.updatedPositionId = fields.updatedPositionId;
+    this.currentPositionId = fields.currentPositionId;
 
     this.departureTimeType = fields.departureTimeType;
     this.departureTime = fields.departureTime;
@@ -57,9 +57,5 @@ export class ServiceOriginatingMovement {
 
   get formerTimeRelevantToDeparturesAlgorithm() {
     return this.formerDepartureTime;
-  }
-
-  get positionId() {
-    return this.updatedPositionId ?? this.originalPositionId;
   }
 }

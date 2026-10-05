@@ -42,7 +42,7 @@ function toApiMovement(x: ServiceMovement): ApiMovement {
   if (x.type === "originating") {
     return {
       stopId: x.stopId,
-      positionId: x.positionId,
+      positionId: x.currentPositionId,
       arrivalTime: null,
       formerArrivalTime: null,
       departureTime: x.departureTime.toString(),
@@ -51,7 +51,7 @@ function toApiMovement(x: ServiceMovement): ApiMovement {
   } else if (x.type === "regular") {
     return {
       stopId: x.stopId,
-      positionId: x.positionId,
+      positionId: x.currentPositionId,
       arrivalTime: x.arrivalTime.toString(),
       formerArrivalTime: x.formerArrivalTime?.toString() ?? null,
       departureTime: x.departureTime.toString(),
@@ -60,7 +60,7 @@ function toApiMovement(x: ServiceMovement): ApiMovement {
   } else if (x.type === "terminating") {
     return {
       stopId: x.stopId,
-      positionId: x.positionId,
+      positionId: x.currentPositionId,
       arrivalTime: x.arrivalTime.toString(),
       formerArrivalTime: x.formerArrivalTime?.toString() ?? null,
       departureTime: null,

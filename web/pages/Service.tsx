@@ -59,6 +59,16 @@ type ServicePageContentProps = {
 function ServicePageContent(props: ServicePageContentProps) {
   const { foda } = useFoundationalData();
 
+  // TODO: A draft of what the asterisk note could look like:
+  //
+  // "Real-time data has not been provided for all stops. Times marked with *
+  // are estimates, extrapolated from the known times."
+  //
+  // or, alternatively:
+  //
+  // "Real-time data has not been provided for all stops. Times marked with *
+  // are _estimated_ estimates, extrapolated from the _provided_ estimates."
+
   return (
     <Page
       {...useSimpleHeaders({
