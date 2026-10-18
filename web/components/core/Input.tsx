@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ComponentChildren, Ref } from "preact";
+import type { ComponentChildren, Ref, TargetedInputEvent } from "preact";
 
 const styles = {
   regular: "text-fg text-md outline-none border-none placeholder:text-fg-weak",
@@ -20,30 +20,32 @@ type InputProps = {
 
 export function Input(props: InputProps) {
   const style = styles[props.style ?? "regular"];
+  const inputProps = {
+    class: clsx(props.class, style),
+    value: props.value,
+    onInput: (e: TargetedInputEvent<HTMLInputElement>) => {
+      if (
+        e.target == null ||
+        !("value" in e.target) ||
+        typeof e.target.value !== "string"
+      ) {
+        return;
+      }
 
-  return (
-    <SubmitDetector onSubmit={props.onSubmit}>
-      <input
-        class={clsx(props.class, style)}
-        value={props.value}
-        onInput={(e) => {
-          if (
-            e.target == null ||
-            !("value" in e.target) ||
-            typeof e.target.value !== "string"
-          ) {
-            return;
-          }
+      props.onChange(e.target.value);
+    },
+    placeholder: props.placeholder,
+    ref: props.inputRef,
+    autoComplete: "off",
+  };
+  const input =
+    (props.search ?? false) ? (
+      <input {...inputProps} type="search" />
+    ) : (
+      <input {...inputProps} type="text" />
+    );
 
-          props.onChange(e.target.value);
-        }}
-        placeholder={props.placeholder}
-        ref={props.inputRef}
-        autoComplete="off"
-        type={(props.search ?? false) ? "search" : "text"}
-      />
-    </SubmitDetector>
-  );
+  return <SubmitDetector onSubmit={props.onSubmit}>{input}</SubmitDetector>;
 }
 
 type SubmitDetectorProps = {
