@@ -5,7 +5,6 @@ import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import { listifyAnd } from "@dan-schel/js-utils";
 import { useMemo } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 import { useQuery } from "@/web/hooks/use-query";
@@ -14,6 +13,7 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Strong } from "@/web/components/core/Strong";
 import type { ResultOf } from "@/shared/apis/types";
 import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
+import { LinesList } from "@/web/components/LinesList";
 
 export default function Stop() {
   const {
@@ -39,8 +39,6 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
-  const { foda } = useFoundationalData();
-
   const { data, loading, error } = useQuery(DEPARTURES_V0, {
     stopId: props.stop.id,
     count: 10,
@@ -49,18 +47,7 @@ function StopPageContent(props: StopPageContentProps) {
   return (
     <Page {...useSimpleHeaders({ title: props.stop.name })}>
       <Column class="px-4 py-8 gap-8">
-        <TextBlock>
-          {
-            // TODO: This is obviously horrible and temporary! The formatting
-            // needs to respect the terminology.
-            listifyAnd(
-              props.stop.canonicalLinesServingStop
-                .map((x) => foda.lines.require(x).name)
-                .sort((a, b) => a.localeCompare(b)),
-            )
-          }{" "}
-          {props.stop.canonicalLinesServingStop.length === 1 ? "Line" : "lines"}
-        </TextBlock>
+        <LinesList lineIds={props.stop.canonicalLinesServingStop} withLinks />
 
         {loading && <LoadingSpinner />}
         {!loading && (error != null || data == null) && (

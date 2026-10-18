@@ -2,8 +2,9 @@ import clsx from "clsx";
 import type { ComponentChildren } from "preact";
 
 const styles = {
-  default: "text-accent-text underline",
-  subtle: "hover:underline",
+  "default": "text-accent-text underline",
+  "subtle": "hover:underline",
+  "strong-subtle": "font-bold text-fg-strong hover:underline",
 };
 
 type LinkTextProps = {
@@ -12,6 +13,10 @@ type LinkTextProps = {
   style?: keyof typeof styles;
   onClick?: () => void;
   href?: string;
+  colorOverride?: {
+    lightModeHexCode: string;
+    darkModeHexCode: string;
+  } | null;
 };
 
 export function LinkText(props: LinkTextProps) {
