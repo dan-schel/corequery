@@ -84,11 +84,15 @@ export function SearchDrawer(props: SearchDrawerProps) {
             />
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-icon-xl desktop:text-icon-lg" />
           </Grid>
-          <Column class="h-54 py-2 overflow-y-scroll">
+
+          {/* `calc(100vh - 12rem)` leaves a 4rem gap between the search drawer and the mobile navbar. */}
+          <Column class="max-h-[calc(100vh-12rem)] py-2 overflow-y-scroll">
             {results.length === 0 && (
-              <Grid class="h-10 items-center">
+              <Grid class="h-32 items-center">
                 <TextBlock class="px-4" style="weak">
-                  No results.
+                  {query.length === 0
+                    ? "Results will appear here."
+                    : "No results."}
                 </TextBlock>
               </Grid>
             )}

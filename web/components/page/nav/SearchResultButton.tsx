@@ -31,10 +31,8 @@ export function SearchResultButton(props: SearchResultButtonProps) {
         <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
           <props.icon class="text-fg text-icon-lg" />
         </VerticalBleed>
-        <Column class="gap-2">
-          <TextBlock class="shrink min-w-0" style="strong">
-            {props.title}
-          </TextBlock>
+        <Column class="gap-2 shrink">
+          <TextBlock style="strong">{props.title}</TextBlock>
           {props.description}
         </Column>
       </Row>
