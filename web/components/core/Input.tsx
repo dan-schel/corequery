@@ -20,6 +20,7 @@ type InputProps = {
 
 export function Input(props: InputProps) {
   const style = styles[props.style ?? "regular"];
+
   const inputProps = {
     class: clsx(props.class, style),
     value: props.value,
@@ -38,14 +39,25 @@ export function Input(props: InputProps) {
     ref: props.inputRef,
     autoComplete: "off",
   };
-  const input =
-    (props.search ?? false) ? (
-      <input {...inputProps} type="search" />
-    ) : (
-      <input {...inputProps} type="text" />
-    );
 
-  return <SubmitDetector onSubmit={props.onSubmit}>{input}</SubmitDetector>;
+  return (
+    <SubmitDetector onSubmit={props.onSubmit}>
+      {
+        // Preact doesn't like having `type` be dynamic, because of this
+        // discriminated union:
+        //
+        // https://github.com/preactjs/preact/blob/630a87e468fc14eca5a5fd617288b4a606763d9d/src/dom.d.ts#L2189
+        //
+        // I don't set `list` or `role`, so `inputProps` can be identical in
+        // both cases, but TypeScript doesn't realise.
+        (props.search ?? false) ? (
+          <input type="search" {...inputProps} />
+        ) : (
+          <input type="text" {...inputProps} />
+        )
+      }
+    </SubmitDetector>
+  );
 }
 
 type SubmitDetectorProps = {
