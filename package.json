@@ -39,7 +39,7 @@
     "@tailwindcss/vite": "4.3.3",
     "@types/express": "5.0.6",
     "@types/node": "24.19.2",
-    "@vitest/coverage-v8": "4.1.12",
+    "@vitest/coverage-v8": "5.0.5",
     "chalk": "6.0.1",
     "clsx": "2.1.1",
     "eslint": "9.39.5",
@@ -59,7 +59,7 @@
     "typescript-eslint": "8.71.2",
     "vite": "8.3.4",
     "vite-plugin-pwa": "2.0.0",
-    "vitest": "4.1.12"
+    "vitest": "5.0.5"
   },
   "author": "dan-schel",
   "description": "A platform for building web apps serving transit information.",
