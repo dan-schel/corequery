@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { Column } from "@/web/components/core/Column";
 import { usePageSearch } from "@/web/hooks/use-page-search";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
-import { Button } from "@/web/components/button/Button";
 import { Input } from "@/web/components/core/Input";
 import { Grid } from "@/web/components/core/Grid";
 import { MingcuteSearch2Line } from "@/web/components/icons/MingcuteSearch2Line";
@@ -12,6 +11,7 @@ import { useActivationDelay } from "@/web/hooks/use-activation-delay";
 import { search } from "@/web/data/search";
 import { useLocation } from "preact-iso";
 import { itsOk } from "@dan-schel/js-utils";
+import { SearchResultButton } from "@/web/components/page/nav/SearchResultButton";
 
 type SearchDrawerProps = {
   class?: string;
@@ -84,23 +84,26 @@ export function SearchDrawer(props: SearchDrawerProps) {
             />
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-icon-xl desktop:text-icon-lg" />
           </Grid>
-          <Column class="h-54 py-2">
+
+          {/* `calc(100vh - 12rem)` leaves a 4rem gap between the search drawer and the mobile navbar. */}
+          <Column class="max-h-[calc(100vh-12rem)] py-2 overflow-y-scroll">
             {results.length === 0 && (
-              <Grid class="h-10 items-center">
+              <Grid class="h-32 items-center">
                 <TextBlock class="px-4" style="weak">
-                  No results.
+                  {query.length === 0
+                    ? "Results will appear here."
+                    : "No results."}
                 </TextBlock>
               </Grid>
             )}
             {results.map((result) => (
-              <Button
+              <SearchResultButton
                 key={result.url}
-                text={result.name}
+                title={result.title}
+                description={result.description}
                 icon={result.icon}
                 href={result.url}
                 onHrefClick={props.onClose}
-                theme="hover-square"
-                layout="menu-item"
               />
             ))}
           </Column>

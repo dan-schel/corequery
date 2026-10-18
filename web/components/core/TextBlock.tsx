@@ -26,7 +26,7 @@ const alignments = {
   justify: "text-justify",
 };
 
-type TextBlockProps = {
+export type TextBlockProps = {
   class?: string;
   children?: ComponentChildren;
   as?: TextBlockTag;
