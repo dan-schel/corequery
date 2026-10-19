@@ -13,7 +13,7 @@ import { Strong } from "@/web/components/core/Strong";
 import type { ResultOf } from "@/shared/apis/types";
 import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
 import { LinesList } from "@/web/components/LinesList";
-import { useCollapsingHeaders } from "@/web/components/page/use-collapsing-mobile-header";
+import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteLeftLine } from "@/web/components/icons/MingcuteLeftLine";
 

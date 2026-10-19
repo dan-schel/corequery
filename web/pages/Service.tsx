@@ -1,7 +1,7 @@
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
-import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
+import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { parseIntNull } from "@dan-schel/js-utils";

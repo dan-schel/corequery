@@ -2,9 +2,9 @@ import type { ComponentChildren } from "preact";
 import { useNavExemptions } from "@/web/components/page/use-nav-exemptions";
 import { Grid } from "@/web/components/core/Grid";
 import clsx from "clsx";
-import { DesktopHeader } from "@/web/components/page/DesktopHeader";
+import { DesktopHeader } from "@/web/components/page/header/DesktopHeader";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
-import { MobileHeader } from "@/web/components/page/MobileHeader";
+import { MobileHeader } from "@/web/components/page/header/MobileHeader";
 
 type PageProps = {
   class?: string;

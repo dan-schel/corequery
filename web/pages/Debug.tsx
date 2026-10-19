@@ -1,6 +1,6 @@
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
-import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
+import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
 import { Alert } from "@/web/components/Alert";
