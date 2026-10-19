@@ -1,6 +1,6 @@
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
-import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
+import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
@@ -36,7 +36,15 @@ function LinePageContent(props: LinePageContentProps) {
   const { formatLine } = useTerminology();
 
   return (
-    <Page {...useSimpleHeaders({ title: formatLine(props.line.name) })}>
+    <Page
+      {...useSimpleHeaders({
+        title: formatLine(props.line.name),
+        back: {
+          href: "/",
+          text: "Home",
+        },
+      })}
+    >
       <Column class="px-4 py-8 gap-8">
         {props.line.diagram.entries.length > 0 && (
           <DiagramSection diagram={props.line.diagram} />

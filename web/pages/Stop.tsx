@@ -1,7 +1,6 @@
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
-import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
@@ -14,6 +13,7 @@ import { Strong } from "@/web/components/core/Strong";
 import type { ResultOf } from "@/shared/apis/types";
 import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
 import { LinesList } from "@/web/components/LinesList";
+import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 
 export default function Stop() {
   const {
@@ -45,10 +45,19 @@ function StopPageContent(props: StopPageContentProps) {
   });
 
   return (
-    <Page {...useSimpleHeaders({ title: props.stop.name })}>
+    <Page
+      {...useCollapsingHeaders({
+        title: props.stop.name,
+        back: {
+          href: "/",
+          text: "Home",
+        },
+        additionalContent: (
+          <LinesList lineIds={props.stop.canonicalLinesServingStop} withLinks />
+        ),
+      })}
+    >
       <Column class="px-4 py-8 gap-8">
-        <LinesList lineIds={props.stop.canonicalLinesServingStop} withLinks />
-
         {loading && <LoadingSpinner />}
         {!loading && (error != null || data == null) && (
           <TextBlock>Error loading departures.</TextBlock>

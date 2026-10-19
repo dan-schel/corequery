@@ -2,7 +2,7 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { ThemePicker } from "@/web/components/pages/settings/ThemePicker";
 import { Page } from "@/web/components/page/Page";
-import { useSimpleHeaders } from "@/web/components/page/use-simple-headers";
+import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { Divider } from "@/web/components/core/Divider";
 
 export default function Settings() {
