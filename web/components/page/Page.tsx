@@ -9,21 +9,26 @@ import { MobileHeader } from "@/web/components/page/MobileHeader";
 type PageProps = {
   class?: string;
   children?: ComponentChildren;
-  mobileHeader: ComponentChildren | null;
-  desktopHeader: ComponentChildren | null;
+  mobileHeader?: ComponentChildren | null;
+  desktopHeader?: ComponentChildren | null;
+  agnosticHeader?: ComponentChildren | null;
+  hideMobileHeaderWhenScrolledToTop?: boolean;
   centered?: boolean;
 };
 
 export function Page(props: PageProps) {
   const { showMobileNav } = useNavExemptions();
   const centered = props.centered ?? true;
+  const hideMobileHeaderWhenScrolledToTop =
+    props.hideMobileHeaderWhenScrolledToTop ?? false;
 
   return (
     <Grid
       class={clsx(
         "bg-bg min-h-svh relative",
         {
-          "pt-14": props.mobileHeader != null,
+          "pt-14":
+            props.mobileHeader != null && !hideMobileHeaderWhenScrolledToTop,
 
           // Matches the height of the <MobileNav>.
           "not-desktop:pb-18": showMobileNav,
@@ -42,11 +47,17 @@ export function Page(props: PageProps) {
         <DesktopHeader>{props.desktopHeader}</DesktopHeader>
       )}
       {props.mobileHeader != null && (
-        // Intentionally lock the height at 3rem, so that if a page wanted to
+        // Intentionally lock the height at 3.5rem, so that if a page wanted to
         // use a taller header, they'd need to negotiate with the <Page>
-        // component, and then we'd adjust the pt-12 above to match.
-        <MobileHeader class="h-14 z-1">{props.mobileHeader}</MobileHeader>
+        // component, and then we'd adjust the pt-14 above to match.
+        <MobileHeader
+          class="h-14 z-1"
+          hideWhenScrolledToTop={hideMobileHeaderWhenScrolledToTop}
+        >
+          {props.mobileHeader}
+        </MobileHeader>
       )}
+      {props.agnosticHeader != null && props.agnosticHeader}
       <Grid class="z-0">
         {centered ? (
           <PageCenterer>{props.children}</PageCenterer>

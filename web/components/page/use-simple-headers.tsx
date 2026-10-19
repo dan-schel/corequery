@@ -3,7 +3,6 @@ import { Row } from "@/web/components/core/Row";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 
 type SimpleHeadersProps = {
-  class?: string;
   title: string;
 };
 
