@@ -14,8 +14,6 @@ import type { ResultOf } from "@/shared/apis/types";
 import { OutlinedButtonHousing } from "@/web/components/button/housings/OutlinedButtonHousing";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
-import { Button } from "@/web/components/button/Button";
-import { MingcuteLeftLine } from "@/web/components/icons/MingcuteLeftLine";
 
 export default function Stop() {
   const {
@@ -50,7 +48,13 @@ function StopPageContent(props: StopPageContentProps) {
     <Page
       {...useCollapsingHeaders({
         title: props.stop.name,
-        content: <Header stop={props.stop} />,
+        back: {
+          href: "/",
+          text: "Home",
+        },
+        additionalContent: (
+          <LinesList lineIds={props.stop.canonicalLinesServingStop} withLinks />
+        ),
       })}
     >
       <Column class="px-4 py-8 gap-8">
@@ -117,22 +121,5 @@ function Departure({ departure }: { departure: ApiDeparture }) {
         </TextBlock>
       </Column>
     </OutlinedButtonHousing>
-  );
-}
-
-function Header({ stop }: { stop: FodaStop }) {
-  return (
-    <Column class="pt-4 gap-8 pb-6">
-      <Button
-        text="Back"
-        icon={MingcuteLeftLine}
-        class="self-start"
-        layout="narrow-icon"
-      />
-      <Column class="gap-4">
-        <TextBlock style="megatitle">{stop.name}</TextBlock>
-        <LinesList lineIds={stop.canonicalLinesServingStop} withLinks />
-      </Column>
-    </Column>
   );
 }
