@@ -25,13 +25,18 @@ export function SearchResultButton(props: SearchResultButtonProps) {
       class={clsx(props.class)}
     >
       <Row
-        class={clsx(props.class, "gap-2 min-w-0 py-3 px-3 min-h-10")}
+        class={clsx(
+          props.class,
+          // On mobile the search input icon is slightly bigger, hence gap-3,
+          // but only gap-2 on desktop (so it all neatly aligns!).
+          "gap-3 desktop:gap-2 min-w-0 py-3 px-4 min-h-10",
+        )}
         yAlign="center"
       >
         <VerticalBleed heightRem={getTextBoxHeightRem("text-md")}>
           <props.icon class="text-fg text-icon-lg" />
         </VerticalBleed>
-        <Column class="gap-2 shrink">
+        <Column class="gap-3 shrink">
           <TextBlock style="strong">{props.title}</TextBlock>
           {props.description}
         </Column>

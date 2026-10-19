@@ -86,7 +86,7 @@ export function SearchDrawer(props: SearchDrawerProps) {
           </Grid>
 
           {/* `calc(100vh - 12rem)` leaves a 4rem gap between the search drawer and the mobile navbar. */}
-          <Column class="max-h-[calc(100vh-12rem)] py-2 overflow-y-scroll">
+          <Column class="max-h-[calc(100vh-12rem)] py-3 overflow-y-scroll">
             {results.length === 0 && (
               <Grid class="h-32 items-center">
                 <TextBlock class="px-4" style="weak">
