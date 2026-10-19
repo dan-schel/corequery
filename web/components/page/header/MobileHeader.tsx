@@ -12,9 +12,7 @@ type MobileHeaderProps = {
 const scrollHideThresholdPx = 32;
 
 export function MobileHeader(props: MobileHeaderProps) {
-  const [collapsed, setCollapsed] = useState(
-    window.scrollY < scrollHideThresholdPx,
-  );
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
     function onScrollChanged() {
@@ -22,6 +20,7 @@ export function MobileHeader(props: MobileHeaderProps) {
     }
 
     document.addEventListener("scroll", onScrollChanged);
+    onScrollChanged();
 
     return () => {
       document.removeEventListener("scroll", onScrollChanged);
@@ -34,7 +33,7 @@ export function MobileHeader(props: MobileHeaderProps) {
         props.class,
         "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border desktop:hidden transition-opacity duration-200",
         {
-          "opacity-0": props.hideWhenScrolledToTop && collapsed,
+          "invisible opacity-0": props.hideWhenScrolledToTop && collapsed,
         },
       )}
     >

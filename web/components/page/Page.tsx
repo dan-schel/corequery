@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { DesktopHeader } from "@/web/components/page/header/DesktopHeader";
 import { PageCenterer } from "@/web/components/page/PageCenterer";
 import { MobileHeader } from "@/web/components/page/header/MobileHeader";
+import { Column } from "@/web/components/core/Column";
 
 type PageProps = {
   class?: string;
@@ -23,7 +24,7 @@ export function Page(props: PageProps) {
     props.hideMobileHeaderWhenScrolledToTop ?? false;
 
   return (
-    <Grid
+    <Column
       class={clsx(
         "bg-bg min-h-svh relative",
         {
@@ -65,6 +66,6 @@ export function Page(props: PageProps) {
           props.children
         )}
       </Grid>
-    </Grid>
+    </Column>
   );
 }
