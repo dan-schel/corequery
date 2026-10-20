@@ -13,9 +13,9 @@ type DepartureProps = {
 export function Departure(props: DepartureProps) {
   // Departures are fixed at h-14.
   return (
-    <Column class={clsx(props.class, "h-14")} yAlign="space-between">
-      <Row xAlign="space-between" class="gap-2">
-        <Row yAlign="bottom" class="gap-1 shrink">
+    <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
+      <Row xAlign="space-between" class="gap-2 ">
+        <Row yAlign="bottom" class="gap-1 shrink min-w-0">
           <TextBlock style="strong" dynamicColor={props.departure.color}>
             {props.departure.primaryDestinationText}
           </TextBlock>
@@ -35,14 +35,14 @@ export function Departure(props: DepartureProps) {
         />
       </Row>
       <Row xAlign="space-between" yAlign="bottom">
-        <Column class="gap-3">
-          <TextBlock style="small-narrow">
+        <Column class="gap-3 min-w-0 shrink">
+          <TextBlock style="small-narrow" oneLine>
             The stopping pattern goes here
           </TextBlock>
           <Row class="gap-1">
             <TextBlock style="small-narrow-strong-success">Solid</TextBlock>
             <TextBlock style="small-narrow">&bull;</TextBlock>
-            <TextBlock style="small-narrow">
+            <TextBlock style="small-narrow" class="shrink min-w-0" oneLine>
               And then this row shows all sorts of stuff
             </TextBlock>
           </Row>
