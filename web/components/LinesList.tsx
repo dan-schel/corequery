@@ -112,7 +112,7 @@ function LineName({
       <LinkText
         href={data.href}
         style="strong-subtle"
-        colorOverride={data.color}
+        dynamicColor={data.color}
       >
         {data.name}
       </LinkText>

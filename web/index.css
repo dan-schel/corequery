@@ -9,6 +9,7 @@
   --spacing: 0.25rem;
 
   /* If changing, update `textSizes` in web/components/core/TextBoxTrim.tsx. */
+  --text-xs: 0.6rem;
   --text-sm: 0.75rem;
   --text-md: 0.9rem;
   --text-mdlg: 1rem;
@@ -24,6 +25,7 @@
   --font-weight-bold: 700;
 
   --radius-sm: 0.25rem;
+  --radius-lg: 0.75rem;
 
   --breakpoint-desktop: 48rem;
   --breakpoint-widescreen: 64rem;
