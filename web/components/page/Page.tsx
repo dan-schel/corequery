@@ -61,7 +61,7 @@ export function Page(props: PageProps) {
       {props.agnosticHeader != null && (
         <Grid class="z-0">{props.agnosticHeader}</Grid>
       )}
-      <Grid class="z-0">
+      <Grid class="z-0 grow">
         {centered ? (
           <PageCenterer>{props.children}</PageCenterer>
         ) : (
