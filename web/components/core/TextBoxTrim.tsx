@@ -25,15 +25,17 @@ export function TextBoxTrim(props: TextBoxTrimProps) {
   // My devicePixelRatio is 1.5, so if it rounds 10.656 to the nearest device
   // pixel (15.984 -> 16), then that works out to 10.6667px.
 
-  return <span class="block -mt-[0.38em] -mb-[0.38em]">{props.children}</span>;
+  return <span class="block mt-[-0.38em] mb-[-0.38em]">{props.children}</span>;
 }
 
 const textSizes = {
+  "text-xs": 0.6,
   "text-sm": 0.75,
   "text-md": 0.9,
   "text-mdlg": 1,
   "text-lg": 1.1,
   "text-xl": 1.25,
+  "text-2xl": 1.75,
 };
 
 export function getTextBoxHeightRem(fontSize: number | keyof typeof textSizes) {

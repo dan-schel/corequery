@@ -9,6 +9,8 @@ const styles = {
   "small": "text-sm text-fg",
   "small-weak": "text-sm text-fg-weak",
   "small-strong-accent": "text-sm text-accent-text font-bold",
+  "small-narrow": "text-sm text-fg font-stretch-semi-condensed",
+  "tiny-narrow": "text-xs text-fg font-stretch-semi-condensed",
   "regular": "text-md text-fg",
   "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
