@@ -12,7 +12,8 @@ type ColoredTextProps = {
   color?: TextColor | null;
 };
 
-export function ColoredText(props: ColoredTextProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function ColoredText(props: ColoredTextProps) {
   if (props.color === null && props.class === null) {
     return props.children;
   }
