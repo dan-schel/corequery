@@ -45,7 +45,7 @@ export function Page(props: PageProps) {
       {props.desktopHeader != null && (
         // Desktop header is not fixed (it scrolls with the page, so can be as
         // tall as it wants).
-        <DesktopHeader>{props.desktopHeader}</DesktopHeader>
+        <DesktopHeader class="z-0">{props.desktopHeader}</DesktopHeader>
       )}
       {props.mobileHeader != null && (
         // Intentionally lock the height at 3.5rem, so that if a page wanted to
@@ -58,7 +58,9 @@ export function Page(props: PageProps) {
           {props.mobileHeader}
         </MobileHeader>
       )}
-      {props.agnosticHeader != null && props.agnosticHeader}
+      {props.agnosticHeader != null && (
+        <Grid class="z-0">{props.agnosticHeader}</Grid>
+      )}
       <Grid class="z-0">
         {centered ? (
           <PageCenterer>{props.children}</PageCenterer>
