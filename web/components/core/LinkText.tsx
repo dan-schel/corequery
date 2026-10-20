@@ -17,7 +17,7 @@ type LinkTextProps = {
   style?: keyof typeof styles;
   onClick?: () => void;
   href?: string;
-  colorOverride?: TextColor | null;
+  dynamicColor?: TextColor | null;
 };
 
 export function LinkText(props: LinkTextProps) {
@@ -28,7 +28,7 @@ export function LinkText(props: LinkTextProps) {
     return (
       <span
         class={_class}
-        style={generateColoredTextCss(props.colorOverride)}
+        style={generateColoredTextCss(props.dynamicColor)}
         onClick={props.onClick}
       >
         {props.children}
@@ -38,7 +38,7 @@ export function LinkText(props: LinkTextProps) {
     return (
       <a
         class={_class}
-        style={generateColoredTextCss(props.colorOverride)}
+        style={generateColoredTextCss(props.dynamicColor)}
         href={props.href}
       >
         {props.children}
@@ -46,7 +46,7 @@ export function LinkText(props: LinkTextProps) {
     );
   } else {
     return (
-      <span class={_class} style={generateColoredTextCss(props.colorOverride)}>
+      <span class={_class} style={generateColoredTextCss(props.dynamicColor)}>
         {props.children}
       </span>
     );

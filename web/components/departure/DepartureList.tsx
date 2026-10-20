@@ -4,6 +4,7 @@ import type { DepartureData } from "@/web/components/departure/types";
 import { DepartureListItem } from "@/web/components/departure/DepartureListItem";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { TextBlock } from "@/web/components/core/TextBlock";
+import { Grid } from "@/web/components/core/Grid";
 
 type DepartureListProps = {
   class?: string;
@@ -35,12 +36,12 @@ export function DepartureList(props: DepartureListProps) {
       )}
     >
       {props.departures.map((departure, i) => (
-        <>
+        <Grid class="relative">
           <DepartureListItem key={createKey(departure)} departure={departure} />
           {i < props.departures.length - 1 && (
-            <hr class="border-soft-border mx-4" />
+            <hr class="border-soft-border absolute bottom-0 left-0 right-0 mx-4" />
           )}
-        </>
+        </Grid>
       ))}
     </Column>
   );

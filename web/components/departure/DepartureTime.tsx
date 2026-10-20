@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { ColoredText, type TextColor } from "@/web/components/core/ColoredText";
+import { type TextColor } from "@/web/components/core/ColoredText";
 
 type DepartureTimeProps = {
   class?: string;
@@ -14,8 +14,8 @@ type DepartureTimeProps = {
 export function DepartureTime(props: DepartureTimeProps) {
   return (
     <Row class={clsx(props.class)}>
-      <TextBlock style="strong">
-        <ColoredText color={props.serviceColor}>{props.time}</ColoredText>
+      <TextBlock style="strong" dynamicColor={props.serviceColor}>
+        {props.time}
       </TextBlock>
     </Row>
   );
