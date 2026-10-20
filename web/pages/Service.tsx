@@ -28,7 +28,7 @@ export default function Service() {
   const movementIndex = parseIntNull(from ?? "");
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <ServiceLoadingPage />;
   } else if (
     error != null ||
     data == null ||
@@ -36,8 +36,7 @@ export default function Service() {
     movementIndex < 0 ||
     (data.service != null && movementIndex > data.service.movements.length - 1)
   ) {
-    // TODO: Use something prettier!
-    return <TextBlock>Failed to load service.</TextBlock>;
+    return <ServiceErrorPage />;
   } else if (data.service == null) {
     return <ServiceNotFoundPage />;
   } else {
@@ -75,6 +74,10 @@ function ServicePageContent(props: ServicePageContentProps) {
         // TODO: Replace "service" with whatever the terminology is in the FODA
         // (will be "train" for trainquery-melbourne).
         title: `${props.service.primaryDestinationText} service`,
+        back: {
+          href: "/",
+          text: "Home",
+        },
       })}
     >
       <Column class="px-4 py-8 gap-8">
@@ -138,6 +141,39 @@ function ServicePageContent(props: ServicePageContentProps) {
           })}
         </Column>
       </Column>
+    </Page>
+  );
+}
+
+function ServiceLoadingPage() {
+  return (
+    <Page
+      {...useSimpleHeaders({
+        title: `Loading...`,
+        back: {
+          href: "/",
+          text: "Home",
+        },
+      })}
+    >
+      <LoadingSpinner />
+    </Page>
+  );
+}
+
+function ServiceErrorPage() {
+  // TODO: Use something prettier!
+  return (
+    <Page
+      {...useSimpleHeaders({
+        title: `Error`,
+        back: {
+          href: "/",
+          text: "Home",
+        },
+      })}
+    >
+      <TextBlock>Failed to load service.</TextBlock>
     </Page>
   );
 }
