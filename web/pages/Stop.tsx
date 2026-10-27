@@ -10,6 +10,7 @@ import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
+import { DepartureControls } from "@/web/components/departure/DepartureControls";
 
 export default function Stop() {
   const {
@@ -71,7 +72,8 @@ function StopPageContent(props: StopPageContentProps) {
         ),
       })}
     >
-      <Column class="">
+      <Column>
+        <DepartureControls />
         <DepartureFeeds feeds={feeds} />
       </Column>
     </Page>
