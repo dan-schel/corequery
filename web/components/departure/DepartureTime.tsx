@@ -14,7 +14,9 @@ type DepartureTimeProps = {
 export function DepartureTime(props: DepartureTimeProps) {
   return (
     <Row class={clsx(props.class)}>
-      <TextBlock style="strong">{props.time}</TextBlock>
+      <TextBlock style="strong" dynamicColor={props.serviceColor}>
+        {props.time}
+      </TextBlock>
     </Row>
   );
 }

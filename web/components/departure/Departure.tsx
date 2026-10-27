@@ -13,26 +13,18 @@ type DepartureProps = {
 export function Departure(props: DepartureProps) {
   // Departures are fixed at h-14.
   return (
-    <Column
-      class={clsx(props.class, "h-14 min-w-0 pl-4 relative")}
-      yAlign="space-between"
-    >
-      <div
-        class="absolute left-0 -top-3 -bottom-3 w-1 bg-soft-border"
-        style={
-          props.departure.color != null
-            ? {
-                backgroundColor: `light-dark(${props.departure.color.lightModeHexCode}, ${props.departure.color.darkModeHexCode})`,
-              }
-            : undefined
-        }
-      ></div>
-      <Row xAlign="space-between" class="gap-2">
+    <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
+      <Row xAlign="space-between" class="gap-2 ">
         <Row yAlign="bottom" class="gap-1 shrink min-w-0">
-          <TextBlock style="strong">
+          <TextBlock style="strong" dynamicColor={props.departure.color}>
             {props.departure.primaryDestinationText}
           </TextBlock>
-          <TextBlock style="small-narrow" class="shrink min-w-0" oneLine>
+          <TextBlock
+            style="small-narrow"
+            class="shrink min-w-0"
+            dynamicColor={props.departure.color}
+            oneLine
+          >
             via Train Tracks
           </TextBlock>
         </Row>
