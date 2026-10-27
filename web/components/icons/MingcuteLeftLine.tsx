@@ -12,9 +12,9 @@ export function MingcuteLeftLine(props: SVGAttributes<SVGSVGElement>) {
       <path
         fill="none"
         stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
         d="M14.657 17.657L9 12l5.657-5.657"
       />
     </svg>

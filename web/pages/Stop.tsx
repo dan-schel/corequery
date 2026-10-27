@@ -9,7 +9,7 @@ import { useQuery } from "@/web/hooks/use-query";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
-import { DepartureList } from "@/web/components/departure/DepartureList";
+import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 
 export default function Stop() {
   const {
@@ -40,6 +40,24 @@ function StopPageContent(props: StopPageContentProps) {
     count: 10,
   });
 
+  const feeds = useMemo(
+    () => [
+      {
+        title: "Citybound trains",
+        departures: data?.departures ?? [],
+        loading,
+        isError: error != null,
+      },
+      {
+        title: "Outbound trains",
+        departures: data?.departures ?? [],
+        loading,
+        isError: error != null,
+      },
+    ],
+    [data?.departures, loading, error],
+  );
+
   return (
     <Page
       {...useCollapsingHeaders({
@@ -53,12 +71,8 @@ function StopPageContent(props: StopPageContentProps) {
         ),
       })}
     >
-      <Column class="px-4 py-8 gap-8">
-        <DepartureList
-          departures={data?.departures ?? []}
-          loading={loading}
-          isError={error != null}
-        />
+      <Column class="">
+        <DepartureFeeds feeds={feeds} />
       </Column>
     </Page>
   );
