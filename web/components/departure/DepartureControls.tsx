@@ -15,7 +15,7 @@ type DepartureControlsProps = {
 
 export function DepartureControls(props: DepartureControlsProps) {
   return (
-    <Grid class="desktop:pt-8 desktop:px-4">
+    <Grid class="desktop:pt-6 desktop:px-4">
       <Grid
         class={clsx(
           props.class,
