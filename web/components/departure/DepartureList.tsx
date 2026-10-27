@@ -29,12 +29,7 @@ export function DepartureList(props: DepartureListProps) {
   }
 
   return (
-    <Column
-      class={clsx(
-        props.class,
-        "bg-bg-raised border border-soft-border rounded-lg overflow-hidden",
-      )}
-    >
+    <Column class={clsx(props.class)}>
       {props.departures.map((departure, i) => (
         <Grid class="relative">
           <DepartureListItem key={createKey(departure)} departure={departure} />

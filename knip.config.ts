@@ -13,7 +13,12 @@ const config: KnipConfig = {
     "scripts/generate-pwa-assets/main.ts",
   ],
   ignoreDependencies: ["tsc-alias"],
-  ignoreFiles: ["web/components/StatusDot.tsx", "web/hooks/use-mutation.ts"],
+  ignoreFiles: [
+    "web/components/StatusDot.tsx",
+    "web/hooks/use-mutation.ts",
+    "web/components/icons/MajesticonsPin.tsx",
+    "web/components/icons/MingcuteExternalLinkLine.tsx",
+  ],
 };
 
 export default config;
