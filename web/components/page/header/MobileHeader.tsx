@@ -31,7 +31,7 @@ export function MobileHeader(props: MobileHeaderProps) {
     <Grid
       class={clsx(
         props.class,
-        "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border desktop:hidden transition-opacity duration-200",
+        "fixed top-0 left-0 right-0 bg-bg-navbar border-b border-soft-border desktop:hidden transition-[opacity,visibility] duration-200",
         {
           "invisible opacity-0": props.hideWhenScrolledToTop && collapsed,
         },
