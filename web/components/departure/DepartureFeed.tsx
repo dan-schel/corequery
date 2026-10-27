@@ -19,7 +19,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
       <Row
         xAlign="space-between"
         yAlign="center"
-        class="gap-2 not-desktop:pl-4 not-desktop:pr-2 not-desktop:border-b not-desktop:border-soft-border not-desktop:pt-6 pb-2"
+        class="gap-2 not-desktop:pl-4 not-desktop:pr-2 not-desktop:pt-6 pb-2"
       >
         <TextBlock style="subtitle" class="shrink min-w-0" oneLine>
           {props.feed.title}
@@ -30,7 +30,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         </Row>
       </Row>
       <DepartureList
-        class="bg-bg-raised desktop:border desktop:border-soft-border desktop:rounded-lg overflow-hidden"
+        class="bg-bg-raised desktop:border desktop:border-soft-border desktop:rounded-lg overflow-hidden not-desktop:border-t not-desktop:border-soft-border"
         departures={props.feed.departures}
         loading={props.feed.loading}
         isError={props.feed.isError}

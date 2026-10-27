@@ -49,8 +49,8 @@
   --color-soft: hsla(220, 100%, 17.6%, 12%);
   --color-soft-hover: hsla(220, 100%, 18.4%, 8%);
   --color-soft-active: hsla(220, 100%, 16.8%, 16%);
-  --color-soft-border: hsla(220, 100%, 16%, 20%);
-  --color-soft-border-disabled: hsla(220, 100%, 17.6%, 12%);
+  --color-soft-border: hsl(220, 20%, 80%);
+  --color-soft-border-disabled: hsl(220, 20%, 85%);
 
   --color-placeholder: hsla(220, 100%, 14%, 30%);
   --color-field-border: hsla(220, 100%, 10%, 50%);
@@ -118,8 +118,8 @@ body {
   --color-soft: hsla(220, 100%, 82.4%, 12%);
   --color-soft-hover: hsla(220, 100%, 83.2%, 16%);
   --color-soft-active: hsla(220, 100%, 81.6%, 8%);
-  --color-soft-border: hsla(220, 100%, 84%, 20%);
-  --color-soft-border-disabled: hsla(220, 100%, 82.4%, 12%);
+  --color-soft-border: hsl(220, 18%, 30%);
+  --color-soft-border-disabled: hsl(220, 18%, 25%);
 
   --color-placeholder: hsla(220, 100%, 86%, 30%);
   --color-field-border: hsla(220, 100%, 90%, 50%);
