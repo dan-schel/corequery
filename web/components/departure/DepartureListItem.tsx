@@ -16,7 +16,7 @@ export function DepartureListItem(props: DepartureListItemProps) {
       class={clsx(props.class)}
       href={createServicePageUrl(props.departure)}
     >
-      <Grid class="grid-cols-[1fr_auto] p-4 items-center pr-2 gap-2">
+      <Grid class="grid-cols-[1fr_auto] py-4 items-center pl-0 pr-2 gap-2">
         <Departure departure={props.departure} />
         <MingcuteRightLine class="text-icon-lg text-fg" />
       </Grid>
