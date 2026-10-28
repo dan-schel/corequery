@@ -30,7 +30,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         </Row>
       </Row>
       <DepartureList
-        class="bg-bg-raised desktop:border desktop:border-soft-border desktop:rounded-lg overflow-hidden not-desktop:border-t not-desktop:border-soft-border"
+        class="bg-bg-raised desktop:border not-desktop:border-y border-soft-border desktop:rounded-lg overflow-hidden "
         departures={props.feed.departures}
         loading={props.feed.loading}
         isError={props.feed.isError}
