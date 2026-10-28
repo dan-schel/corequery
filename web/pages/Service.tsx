@@ -3,7 +3,6 @@ import { Column } from "@/web/components/core/Column";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { useRoute } from "preact-iso";
-import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { parseIntNull } from "@dan-schel/js-utils";
 import { useQuery } from "@/web/hooks/use-query";
 import { SERVICE_V0 } from "@/shared/apis";
@@ -11,7 +10,7 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import type { ResultOf } from "@/shared/apis/types";
-import { Strong } from "@/web/components/core/Strong";
+import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 
 export default function Service() {
   const {
@@ -56,18 +55,6 @@ type ServicePageContentProps = {
 };
 
 function ServicePageContent(props: ServicePageContentProps) {
-  const { foda } = useFoundationalData();
-
-  // TODO: A draft of what the asterisk note could look like:
-  //
-  // "Real-time data has not been provided for all stops. Times marked with *
-  // are estimates, extrapolated from the known times."
-  //
-  // or, alternatively:
-  //
-  // "Real-time data has not been provided for all stops. Times marked with *
-  // are _estimated_ estimates, extrapolated from the _provided_ estimates."
-
   return (
     <Page
       {...useSimpleHeaders({
@@ -81,65 +68,14 @@ function ServicePageContent(props: ServicePageContentProps) {
       })}
     >
       <Column class="px-4 py-8 gap-8">
-        <Column class="gap-6">
-          {props.service.movements.map((m, i) => {
-            const arrivalTime =
-              m.arrivalTime != null
-                ? new Date(Date.parse(m.arrivalTime)).toLocaleString()
-                : null;
+        {/* TODO: Collapse (and show faded ) */}
+        <ServiceDiagram service={props.service} />
 
-            const departureTime =
-              m.departureTime != null
-                ? new Date(Date.parse(m.departureTime)).toLocaleString()
-                : null;
-
-            if (arrivalTime == null && departureTime == null) {
-              return (
-                <TextBlock key={i} style="small">
-                  Skips {foda.stops.require(m.stopId).name}
-                </TextBlock>
-              );
-            }
-
-            const time = departureTime ?? arrivalTime;
-
-            const formerArrivalTime =
-              m.formerArrivalTime != null
-                ? new Date(Date.parse(m.formerArrivalTime)).toLocaleString()
-                : null;
-
-            const formerDepartureTime =
-              m.formerDepartureTime != null
-                ? new Date(Date.parse(m.formerDepartureTime)).toLocaleString()
-                : null;
-
-            const formerTime =
-              departureTime != null
-                ? formerDepartureTime
-                : arrivalTime != null
-                  ? formerArrivalTime
-                  : null;
-
-            const formerTimePrefix =
-              formerTime != null ? (
-                <>
-                  <span class="line-through text-fg-weak">
-                    {formerTime}
-                  </span>{" "}
-                </>
-              ) : (
-                ""
-              );
-
-            return (
-              <TextBlock key={i}>
-                <Strong>{foda.stops.require(m.stopId).name}</Strong>
-                &ensp;&bull;&ensp;{formerTimePrefix}
-                {time}
-              </TextBlock>
-            );
-          })}
-        </Column>
+        {/* TODO: Only show if applicable. */}
+        <TextBlock style="small-narrow">
+          (Real-time data has not been provided for all stops. Times marked with
+          * are estimates, extrapolated from the available data.)
+        </TextBlock>
       </Column>
     </Page>
   );
