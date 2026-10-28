@@ -41,7 +41,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
   );
 }
 
-export function buildStopStructures(
+function buildStopStructures(
   foda: FoundationalData,
   movements: readonly MovementData[],
 ) {
