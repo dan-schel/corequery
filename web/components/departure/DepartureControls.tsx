@@ -19,7 +19,7 @@ export function DepartureControls(props: DepartureControlsProps) {
       <Grid
         class={clsx(
           props.class,
-          "grid-cols-[1fr_1fr] max-w-150 bg-bg-raised divide-x divide-soft-border desktop:border not-desktop:border-b border-soft-border desktop:rounded-lg overflow-hidden",
+          "grid-cols-[1fr_1fr] desktop:max-w-150 bg-bg-raised divide-x divide-soft-border desktop:border not-desktop:border-b border-soft-border desktop:rounded-lg overflow-hidden",
         )}
       >
         <HoverSquareButtonHousing>

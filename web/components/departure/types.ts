@@ -6,7 +6,13 @@ export type DepartureData = ResultOf<
 >["departures"][number];
 
 export type DepartureFeedData = {
-  title: string;
+  query: {
+    // In the future, this will probably be an array of filters, and we'll
+    // calculate the title from that.
+    title: string;
+
+    count: number;
+  };
   departures: DepartureData[];
   loading: boolean;
   isError: boolean;

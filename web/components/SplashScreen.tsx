@@ -23,7 +23,9 @@ export function SplashScreen(props: SplashScreenProps) {
         </Column>
         {props.error ? (
           <Column class="gap-4" xAlign="center">
-            <TextBlock>Failed to load data :(</TextBlock>
+            <TextBlock>
+              An error occurred while loading foundational data
+            </TextBlock>
             <Button
               text="Retry"
               icon={MingcuteRefresh3Line}

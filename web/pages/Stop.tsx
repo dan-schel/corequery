@@ -38,19 +38,25 @@ type StopPageContentProps = {
 function StopPageContent(props: StopPageContentProps) {
   const { data, loading, error } = useQuery(DEPARTURES_V0, {
     stopId: props.stop.id,
-    count: 10,
+    count: 5,
   });
 
   const feeds = useMemo(
     () => [
       {
-        title: "Citybound trains",
+        query: {
+          title: "Citybound trains",
+          count: 5,
+        },
         departures: data?.departures ?? [],
         loading,
         isError: error != null,
       },
       {
-        title: "Outbound trains",
+        query: {
+          title: "Outbound trains",
+          count: 5,
+        },
         departures: data?.departures ?? [],
         loading,
         isError: error != null,

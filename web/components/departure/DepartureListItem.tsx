@@ -2,13 +2,18 @@ import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import { HoverSquareButtonHousing } from "@/web/components/button/housings/HoverSquareButtonHousing";
 import type { DepartureData } from "@/web/components/departure/types";
-import { Departure } from "@/web/components/departure/Departure";
+import {
+  Departure,
+  DEPARTURE_HEIGHT_REM,
+} from "@/web/components/departure/Departure";
 import { MingcuteRightLine } from "@/web/components/icons/MingcuteRightLine";
 
 type DepartureListItemProps = {
   class?: string;
   departure: DepartureData;
 };
+
+export const DEPARTURE_LIST_ITEM_HEIGHT_REM = DEPARTURE_HEIGHT_REM + 2;
 
 export function DepartureListItem(props: DepartureListItemProps) {
   return (

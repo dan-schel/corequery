@@ -20,7 +20,14 @@ export function DepartureFeeds(props: DepartureFeedsProps) {
         <DepartureFeed
           key={index}
           feed={feed}
-          class="not-desktop:not-last:border-b not-desktop:not-last:border-soft-border"
+
+          // All feeds have a bottom border, but usually on mobile the page is
+          // scrollable and the bottom of the last feed is flush against the
+          // bottom of the page (well, the bottom nav). The bottom border still
+          // needs to be there in case the screen is really tall, but otherwise
+          // this 1px negative margin should hide it underneath the bottom nav
+          // and prevent an ugly double thickness border.
+          class="not-desktop:last:-mb-px"
         />
       ))}
     </Grid>
