@@ -151,6 +151,7 @@ export const lineFodaSchema = z.object({
 const terminologySchema = z.object({
   stop: z.enum(["stop", "station"]),
   line: z.enum(["line", "route"]),
+  service: z.enum(["service", "trip", "train", "tram", "bus"]),
 
   // Not sure if this is really needed yet. It will be if stop filters are
   // included in the foundational data, as they're not pre-formatted by the

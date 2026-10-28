@@ -10,8 +10,10 @@ type DepartureProps = {
   departure: DepartureData;
 };
 
+export const DEPARTURE_HEIGHT_REM = 3.5;
+
 export function Departure(props: DepartureProps) {
-  // Departures are fixed at h-14.
+  // Departures are fixed at h-14 (3.5rem).
   return (
     <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
       <Row xAlign="space-between" class="gap-2 ">

@@ -21,6 +21,14 @@ const pluralLinesTerms = {
   route: "routes",
 };
 
+const pluralServicesTerms = {
+  service: "services",
+  trip: "trips",
+  train: "trains",
+  tram: "trams",
+  bus: "buses",
+};
+
 export function useTerminology() {
   const { foda } = useFoundationalData();
 
@@ -30,6 +38,7 @@ export function useTerminology() {
       formatLine: lineFormattingSchemes[foda.terminology.line],
       pluralStopsTerm: pluralStopsTerms[foda.terminology.stop],
       pluralLinesTerm: pluralLinesTerms[foda.terminology.line],
+      pluralServicesTerm: pluralServicesTerms[foda.terminology.service],
     };
   }, [foda.terminology]);
 }

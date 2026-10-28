@@ -44,13 +44,19 @@ function StopPageContent(props: StopPageContentProps) {
   const feeds = useMemo(
     () => [
       {
-        title: "Citybound trains",
+        query: {
+          title: "Citybound trains",
+          count: 5,
+        },
         departures: data?.departures ?? [],
         loading,
         isError: error != null,
       },
       {
-        title: "Outbound trains",
+        query: {
+          title: "Outbound trains",
+          count: 5,
+        },
         departures: data?.departures ?? [],
         loading,
         isError: error != null,

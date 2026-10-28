@@ -44,6 +44,7 @@ export class FoundationalDataV1Builder {
       terminology: {
         stop: this._app.terminologyConfig.stop,
         line: this._app.terminologyConfig.line,
+        service: this._app.terminologyConfig.service,
       },
     };
   }

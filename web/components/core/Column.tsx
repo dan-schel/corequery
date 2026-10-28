@@ -23,6 +23,7 @@ type ColumnProps = {
   xAlign?: "stretch" | "left" | "center" | "right";
   yAlign?: "top" | "center" | "bottom" | "space-between";
   wrap?: boolean;
+  dynamicMinHeightRem?: number;
 };
 
 export function Column(props: ColumnProps) {
@@ -39,8 +40,20 @@ export function Column(props: ColumnProps) {
         { "flex-wrap": props.wrap },
         props.class,
       )}
+      style={generateDynamicCss(props)}
     >
       {props.children}
     </Tag>
   );
+}
+
+type DynamicColumnCssProps = {
+  dynamicMinHeightRem?: number;
+};
+
+function generateDynamicCss(props: DynamicColumnCssProps) {
+  if (props.dynamicMinHeightRem != null) {
+    return { minHeight: `${props.dynamicMinHeightRem}rem` };
+  }
+  return undefined;
 }
