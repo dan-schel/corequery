@@ -38,7 +38,7 @@ type StopPageContentProps = {
 function StopPageContent(props: StopPageContentProps) {
   const { data, loading, error } = useQuery(DEPARTURES_V0, {
     stopId: props.stop.id,
-    count: 10,
+    count: 5,
   });
 
   const feeds = useMemo(

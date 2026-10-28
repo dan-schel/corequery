@@ -24,7 +24,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         <TextBlock style="subtitle" class="shrink min-w-0" oneLine>
           {props.feed.title}
         </TextBlock>
-        <Row>
+        <Row class="gap-2">
           <Button theme="hover" icon={MajesticonsPinLine} />
           <Button theme="hover" icon={MingcuteFullscreen2Line} />
         </Row>
