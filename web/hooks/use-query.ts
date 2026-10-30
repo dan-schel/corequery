@@ -1,11 +1,14 @@
-import type { ApiClient } from "@/shared/apis/types";
+import type {
+  ApiClient,
+  ClientArgsOf,
+  ClientResultOf,
+} from "@/shared/apis/types";
 import { useState } from "preact/hooks";
-import type { z } from "zod";
 import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
 import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
 
 export type UseQueryResult<T extends ApiClient<unknown, unknown>> = ReturnType<
-  typeof useQuery<z.input<T["argsSchema"]>, z.output<T["resultSchema"]>>
+  typeof useQuery<ClientArgsOf<T>, ClientResultOf<T>>
 >;
 
 export function useQuery<Args, Result>(
