@@ -36,6 +36,27 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     [cache, revalidateSettings],
   );
 
+  const forceFodaUpdate = useCallback(async () => {
+    // This function gets call if:
+    //
+    // - We're on a "Not found" page that called the versions API, and noticed
+    //   that the foundational data is outdated.
+    //
+    // - We called a FODA-synced query, and the result came back indicating that
+    //   the foundational data is outdated.
+    //
+    // Therefore, in either case, there's no point passing the current FODA hash
+    // as we already know it's outdated. (And given the name of the function is
+    // "force update", it would be misleading not to re-retrieve the full FODA
+    // value and store it.)
+    const response = await callApi(FOUNDATIONAL_DATA_V1, { hash: null });
+
+    // Can't happen as we didn't give a hash!
+    if (response.result === "up-to-date") throw new Error();
+
+    updateFoda(new FoundationalData(response.foundationalData));
+  }, [callApi, updateFoda]);
+
   const triggerLoadData = useCallback(() => {
     setError(false);
     void loadData({
@@ -73,8 +94,8 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
 
   const value = useMemo(() => {
     if (foda == null) return null;
-    return { foda, updateFoda };
-  }, [foda, updateFoda]);
+    return { foda, forceFodaUpdate };
+  }, [foda, forceFodaUpdate]);
 
   if (value == null) {
     return <SplashScreen error={error} onRetry={triggerLoadData} />;

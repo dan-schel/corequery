@@ -4,7 +4,7 @@ import type { FoundationalData } from "@/web/data/foundational-data";
 
 type FoundationalDataContextValue = {
   readonly foda: FoundationalData;
-  readonly updateFoda: (newFoda: FoundationalData) => void;
+  readonly forceFodaUpdate: () => Promise<void>;
 };
 
 export const foundationalDataContext =
