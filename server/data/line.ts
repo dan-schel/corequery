@@ -1,8 +1,6 @@
 import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
-import type { lineFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
-import type z from "zod";
-import { getHexCodesForColor, type Color } from "@/server/data/color.js";
+import { type Color } from "@/server/data/color.js";
 import { LineDiagram } from "@/server/data/line-diagram.js";
 
 type LineFields = {
@@ -43,16 +41,6 @@ export class Line {
       color: lineConfig.color,
       diagram: LineDiagram.build(lineConfig.diagram),
     });
-  }
-
-  toFoda(): z.input<typeof lineFodaSchema> {
-    return {
-      id: this.id,
-      name: this.name,
-      urlPath: this.urlPath,
-      color: this.color != null ? getHexCodesForColor(this.color) : null,
-      diagram: this.diagram.toFoda(),
-    };
   }
 
   with(newValues: Partial<LineFields>): Line {

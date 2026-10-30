@@ -1,7 +1,5 @@
 import type { StopConfig, TagSuccessionConfig } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
-import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
-import type z from "zod";
 import { Location } from "@/server/data/location.js";
 
 type StopFields = {
@@ -47,16 +45,6 @@ export class Stop {
 
   with(newValues: Partial<StopFields>): Stop {
     return new Stop({ ...this, ...newValues });
-  }
-
-  toFoda(): z.input<typeof stopFodaSchema> {
-    return {
-      id: this.id,
-      name: this.name,
-      urlPath: this.urlPath,
-      canonicalLinesServingStop: this.canonicalLinesServingStop,
-      location: this.location?.toFoda() ?? null,
-    };
   }
 
   /** e.g. `"Sandringham" (#1)` */

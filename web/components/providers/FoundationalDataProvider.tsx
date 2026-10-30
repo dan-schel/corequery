@@ -10,7 +10,7 @@ import { useSettings } from "@/web/hooks/use-settings";
 
 // The frontend is currently configured to query for V1 of the foundational
 // data. To change that, you should only need to change:
-// - these three variables, and
+// - these two variables, and
 // - the one used in FoundationalData.json.
 //
 // Anytime data in the cache fails to validate, it'll just get thrown out and
@@ -19,7 +19,6 @@ import { useSettings } from "@/web/hooks/use-settings";
 // You might not need to change `foundationalDataResponseSchema` if the new
 // version of the API only changes stuff within `foundationalData`.
 const foundationalDataApi = FOUNDATIONAL_DATA_V1;
-const fodaApiVersion = "1";
 const responseSchema = z.union([
   z.object({
     result: z.literal("outdated"),
@@ -157,18 +156,9 @@ async function loadData({
   onUseCachedFoda: (cachedData: FoundationalData) => void;
   onFailure: () => void;
 }) {
-  // The chances of `cachedData.fodaApiVersion === fodaApiVersion` actually
-  // coming into account are extremely low, but if cached v1 FODA looks just
-  // enough like v2 FODA to satisfy the schema, and yet ISN'T v2 FODA, then we
-  // still don't wanna just end up using it anyway.
-  //
-  // I guess I'm imagining some sort of situation where a field's value changes
-  // in such a way that it's not compatible with old frontends, so we declare
-  // a new major FODA version update, but technically the schema is still
-  // identical (maybe it's a string value, e.g. filters like `platform-1` and
-  // they change format to `position=#1` or something, but they're still
-  // strings). That could cause problems.
-  if (cachedData != null && cachedData.fodaApiVersion === fodaApiVersion) {
+  // No need to check the cachedData's version, as the version is hardcoded as
+  // a literal in the schema.
+  if (cachedData != null) {
     try {
       const response = await fetchFoda(cachedData.hash, cacheFallbackTimeoutMs);
 
