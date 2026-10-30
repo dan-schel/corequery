@@ -7,38 +7,34 @@ export class FoundationalData {
   readonly stops: FodaStopCollection;
   readonly lines: FodaLineCollection;
 
-  constructor(private readonly _raw: z.infer<typeof fodaSchema>) {
-    this.stops = new FodaStopCollection(_raw.stops);
-    this.lines = new FodaLineCollection(_raw.lines);
-  }
-
-  get hash() {
-    return this._raw.metadata.hash;
-  }
-
-  get fodaApiVersion() {
-    return this._raw.metadata.fodaApiVersion;
-  }
-
-  get serverVersion() {
-    return this._raw.metadata.serverVersion;
-  }
-
-  get footerPrimaryMarkdown() {
-    return this._raw.footer.primaryMarkdown;
-  }
-
-  get terminology() {
-    return this._raw.terminology;
-  }
-
-  get landingPage() {
-    return this._raw.landingPage;
+  constructor(private readonly _obj: z.infer<typeof fodaSchema>) {
+    this.stops = new FodaStopCollection(_obj.stops);
+    this.lines = new FodaLineCollection(_obj.lines);
   }
 
   static readonly json = fodaSchema.transform((x) => new FoundationalData(x));
 
-  toJson(): z.input<typeof fodaSchema> {
-    return this._raw;
+  get hash() {
+    return this._obj.metadata.hash;
+  }
+
+  get fodaApiVersion() {
+    return this._obj.metadata.fodaApiVersion;
+  }
+
+  get serverVersion() {
+    return this._obj.metadata.serverVersion;
+  }
+
+  get footerPrimaryMarkdown() {
+    return this._obj.footer.primaryMarkdown;
+  }
+
+  get terminology() {
+    return this._obj.terminology;
+  }
+
+  get landingPage() {
+    return this._obj.landingPage;
   }
 }

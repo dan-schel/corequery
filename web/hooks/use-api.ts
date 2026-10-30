@@ -7,8 +7,6 @@ export type CallApiOptions = {
   debugError?: boolean;
 };
 
-export type CallApiFunction = typeof callApi;
-
 export function useApi() {
   return { callApi };
 }
