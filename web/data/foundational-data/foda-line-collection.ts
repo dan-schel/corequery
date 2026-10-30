@@ -5,8 +5,8 @@ import type {
 import { Collection } from "@/shared/data/collection";
 import type z from "zod";
 
-export type FodaLine = z.infer<typeof lineFodaSchema>;
-export type FodaLineDiagramEntry = z.infer<typeof lineDiagramEntryFodaSchema>;
+export type FodaLine = z.output<typeof lineFodaSchema>;
+export type FodaLineDiagramEntry = z.output<typeof lineDiagramEntryFodaSchema>;
 
 export class FodaLineCollection extends Collection<number, FodaLine> {
   protected override _getID(item: FodaLine): number {

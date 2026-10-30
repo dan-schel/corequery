@@ -7,7 +7,7 @@ export class FoundationalData {
   readonly stops: FodaStopCollection;
   readonly lines: FodaLineCollection;
 
-  constructor(private readonly _obj: z.infer<typeof fodaSchema>) {
+  constructor(private readonly _obj: z.output<typeof fodaSchema>) {
     this.stops = new FodaStopCollection(_obj.stops);
     this.lines = new FodaLineCollection(_obj.lines);
   }

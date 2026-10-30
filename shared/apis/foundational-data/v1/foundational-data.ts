@@ -97,7 +97,7 @@ export const lineDiagramEntryFodaSchema = z.union([
 ]);
 
 // TODO: Time to split up this huge file.
-type UnderstoodLineDiagramEntryType = z.infer<
+type UnderstoodLineDiagramEntryType = z.output<
   typeof lineDiagramEntryFodaSchema
 >["type"];
 

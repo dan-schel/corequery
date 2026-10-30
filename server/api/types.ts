@@ -11,5 +11,5 @@ export type ApiContext = {
 
 export type ApiHandler<Args extends ZodType, Result extends ZodType> = (
   ctx: ApiContext,
-  args: z.infer<Args>,
-) => Promise<z.infer<Result>>;
+  args: z.output<Args>,
+) => Promise<z.input<Result>>;

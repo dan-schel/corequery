@@ -6,7 +6,7 @@ export const setupArgsSchema = z.object({
   branch: z.string().nullable(),
 });
 
-export type SetupArgs = z.infer<typeof setupArgsSchema>;
+export type SetupArgs = z.output<typeof setupArgsSchema>;
 
 export function formatSetupArgs(args: SetupArgs): string {
   return `${args.gitRepoUrl} (${args.branch ?? "default branch"})`;

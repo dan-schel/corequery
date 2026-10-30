@@ -8,7 +8,7 @@ export type Api<Args extends ZodType, Result extends ZodType> = {
 
 export type ArgsOf<ApiType> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ApiType extends Api<infer Args, any> ? z.infer<Args> : never;
+  ApiType extends Api<infer Args, any> ? z.output<Args> : never;
 
 export type ResultOf<ApiType> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

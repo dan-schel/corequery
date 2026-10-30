@@ -7,7 +7,7 @@ import type z from "zod";
 
 export function buildStopStructures(
   foda: FoundationalData,
-  stops: readonly z.infer<typeof lineDiagramStopFodaSchema>[],
+  stops: readonly z.output<typeof lineDiagramStopFodaSchema>[],
 ) {
   return stops.map((stop) => {
     const stopData = foda.stops.require(stop.stopId);
