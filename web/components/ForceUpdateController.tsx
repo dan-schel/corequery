@@ -11,6 +11,10 @@ type ForceUpdateControllerProps = {
   children?: ComponentChildren;
 };
 
+// This component controls the mechanism to force a PWA version (a.k.a. frontend
+// version) update. This is not to be confused for forcing a foundational data
+// update - checkout FoundationalDataProvider for that mechanism.
+
 export function ForceUpdateController(props: ForceUpdateControllerProps) {
   const { isHotReloadingEnabled } = useEnvironment();
   const { frontendVersion, versionsOnLastUpdate } = useStaticData();
