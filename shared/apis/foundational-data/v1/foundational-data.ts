@@ -201,6 +201,7 @@ const footerFodaSchema = z.object({
 export const fodaSchema = z.object({
   metadata: z.object({
     hash: z.string(),
+    fodaApiVersion: z.string(),
     serverVersion: z.string(),
   }),
 

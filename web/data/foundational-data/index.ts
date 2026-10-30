@@ -16,6 +16,10 @@ export class FoundationalData {
     return this._raw.metadata.hash;
   }
 
+  get fodaApiVersion() {
+    return this._raw.metadata.fodaApiVersion;
+  }
+
   get serverVersion() {
     return this._raw.metadata.serverVersion;
   }
