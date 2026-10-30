@@ -1,7 +1,7 @@
 import { VERSIONS_V1 } from "@/shared/apis";
 import { useEnvironment } from "@/web/hooks/use-environment";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import { useQuery, type UseQueryResult } from "@/web/hooks/use-query";
+import { useQuery, type UseQueryResult } from "@/web/hooks/api/use-query";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useEffect, useState } from "preact/hooks";

@@ -1,5 +1,5 @@
 import { createContext } from "preact";
-import type { UseQueryResult } from "@/web/hooks/use-query";
+import type { UseQueryResult } from "@/web/hooks/api/use-query";
 import { VERSIONS_V1 } from "@/shared/apis";
 import { useContext } from "preact/hooks";
 

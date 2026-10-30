@@ -1,6 +1,6 @@
 import type { DEPARTURES_V0 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { Departure } from "@/server/data/service/departure.js";
 import type { Corequery } from "@/server/corequery.js";
 

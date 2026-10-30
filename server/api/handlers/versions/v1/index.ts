@@ -1,6 +1,6 @@
 import type { VERSIONS_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
 export function handle(

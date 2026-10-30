@@ -1,7 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
-import { useQuery } from "@/web/hooks/use-query";
+import { useQuery } from "@/web/hooks/api/use-query";
 import { VERSION_CHECK_V1 } from "@/shared/apis";
 import { useEffect } from "preact/hooks";
 import { useEnvironment } from "@/web/hooks/use-environment";

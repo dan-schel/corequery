@@ -1,4 +1,4 @@
-import type { ApiClient } from "@/shared/apis/types";
+import type { ApiClient } from "@/web/hooks/api/types";
 import { z } from "zod";
 
 export type CallApiOptions = {

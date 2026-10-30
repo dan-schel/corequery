@@ -1,6 +1,6 @@
 import type { SERVICE_V0 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { ServiceMovement } from "@/server/data/index.js";
 import { assertNever } from "@dan-schel/js-utils";
 

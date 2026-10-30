@@ -1,6 +1,6 @@
 import type { ABOUT_PAGE_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 
 export function handle(
   ctx: ApiContext,

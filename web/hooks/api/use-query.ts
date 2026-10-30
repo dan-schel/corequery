@@ -2,10 +2,10 @@ import type {
   ApiClient,
   ClientArgsOf,
   ClientResultOf,
-} from "@/shared/apis/types";
+} from "@/web/hooks/api/types";
 import { useState } from "preact/hooks";
 import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
-import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
+import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
 
 export type UseQueryResult<T extends ApiClient<unknown, unknown>> = ReturnType<
   typeof useQuery<ClientArgsOf<T>, ClientResultOf<T>>

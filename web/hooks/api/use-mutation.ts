@@ -1,6 +1,6 @@
-import type { ApiClient } from "@/shared/apis/types";
+import type { ApiClient } from "@/web/hooks/api/types";
 import { useState } from "preact/hooks";
-import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
+import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
 
 /** @knipignore */
 export function useMutation<Args, Result>(

@@ -4,12 +4,12 @@ import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { parseIntNull } from "@dan-schel/js-utils";
-import { useQuery } from "@/web/hooks/use-query";
+import { useQuery } from "@/web/hooks/api/use-query";
 import { SERVICE_V0 } from "@/shared/apis";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
-import type { ClientResultOf } from "@/shared/apis/types";
+import type { ClientResultOf } from "@/web/hooks/api/types";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 
 export default function Service() {

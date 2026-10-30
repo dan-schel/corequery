@@ -2,8 +2,7 @@ import type { Corequery } from "@/server/corequery.js";
 import { Router } from "express";
 import * as apis from "@/shared/apis/index.js";
 import * as handlers from "@/server/api/handlers/index.js";
-import type { ApiServer } from "@/shared/apis/types.js";
-import type { ApiHandler } from "@/server/api/types.js";
+import type { ApiServer, ApiHandler } from "@/server/api/types.js";
 
 export function createApiRouter(app: Corequery) {
   const router = Router();
