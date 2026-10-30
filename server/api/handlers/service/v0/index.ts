@@ -1,17 +1,17 @@
 import type { SERVICE_V0 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
 import type { ServiceMovement } from "@/server/data/index.js";
 import { assertNever } from "@dan-schel/js-utils";
 
 type ApiMovement = NonNullable<
-  ResultOf<typeof SERVICE_V0>["service"]
+  ServerResultOf<typeof SERVICE_V0>["service"]
 >["movements"][number];
 
 export async function handle(
   ctx: ApiContext,
-  args: ArgsOf<typeof SERVICE_V0>,
-): Promise<ResultOf<typeof SERVICE_V0>> {
+  args: ServerArgsOf<typeof SERVICE_V0>,
+): Promise<ServerResultOf<typeof SERVICE_V0>> {
   const service = await ctx.app.services.getService(
     args.sourceId,
     args.intrasourceId,

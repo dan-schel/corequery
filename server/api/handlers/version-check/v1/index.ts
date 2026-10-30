@@ -1,11 +1,11 @@
 import type { VERSION_CHECK_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
 
 export function handle(
   _ctx: ApiContext,
-  _args: ArgsOf<typeof VERSION_CHECK_V1>,
-): Promise<ResultOf<typeof VERSION_CHECK_V1>> {
+  _args: ServerArgsOf<typeof VERSION_CHECK_V1>,
+): Promise<ServerResultOf<typeof VERSION_CHECK_V1>> {
   return Promise.resolve({
     // In theory, one day we might want a way to ensure old versions of the app
     // are updated automatically upon loading, e.g. to deprecate an old version

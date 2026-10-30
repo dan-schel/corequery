@@ -9,7 +9,7 @@ import { SERVICE_V0 } from "@/shared/apis";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
-import type { ResultOf } from "@/shared/apis/types";
+import type { ServerResultOf } from "@/shared/apis/types";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 
 export default function Service() {
@@ -50,7 +50,7 @@ export default function Service() {
 }
 
 type ServicePageContentProps = {
-  service: NonNullable<ResultOf<typeof SERVICE_V0>["service"]>;
+  service: NonNullable<ServerResultOf<typeof SERVICE_V0>["service"]>;
   movementIndex: number;
 };
 

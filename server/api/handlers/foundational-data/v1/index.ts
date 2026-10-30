@@ -1,12 +1,12 @@
 import type { FOUNDATIONAL_DATA_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/shared/apis/types.js";
 import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
 export function handle(
   ctx: ApiContext,
-  args: ArgsOf<typeof FOUNDATIONAL_DATA_V1>,
-): Promise<ResultOf<typeof FOUNDATIONAL_DATA_V1>> {
+  args: ServerArgsOf<typeof FOUNDATIONAL_DATA_V1>,
+): Promise<ServerResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   // await new Promise((resolve) => setTimeout(resolve, 500));
 
   // We should probably consider memoizing the multiversional FODA object on

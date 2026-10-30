@@ -1,7 +1,7 @@
 import type { DEPARTURES_V0 } from "@/shared/apis";
-import type { ResultOf } from "@/shared/apis/types";
+import type { ServerResultOf } from "@/shared/apis/types";
 
-export type DepartureData = ResultOf<
+export type DepartureData = ServerResultOf<
   typeof DEPARTURES_V0
 >["departures"][number];
 
