@@ -5,17 +5,17 @@ import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
 import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
 
 export type UseQueryResult<T extends Api<ZodType, ZodType>> = ReturnType<
-  typeof useQuery<T["argsSchema"], T["resultSchema"]>
+  typeof useQuery<z.input<T["argsSchema"]>, z.output<T["resultSchema"]>>
 >;
 
-export function useQuery<Args extends ZodType, Result extends ZodType>(
-  api: Api<Args, Result>,
-  args: z.input<Args>,
+export function useQuery<Args, Result>(
+  api: Api<ZodType<unknown, Args>, ZodType<Result>>,
+  args: Args,
   options: CallApiOptions = {},
 ) {
   const { callApi } = useApi();
 
-  const [data, setData] = useState<z.infer<Result> | null>(null);
+  const [data, setData] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 

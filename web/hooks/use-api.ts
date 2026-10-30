@@ -1,5 +1,5 @@
 import type { Api } from "@/shared/apis/types";
-import type { z, ZodType } from "zod";
+import { z, type ZodType } from "zod";
 
 export type CallApiOptions = {
   timeout?: number | null;
@@ -11,11 +11,11 @@ export function useApi() {
   return { callApi };
 }
 
-async function callApi<Args extends ZodType, Result extends ZodType>(
-  api: Api<Args, Result>,
-  args: z.input<Args>,
+async function callApi<Args, Result>(
+  api: Api<ZodType<unknown, Args>, ZodType<Result>>,
+  args: Args,
   options: CallApiOptions = {},
-): Promise<z.infer<Result>> {
+): Promise<Result> {
   const { timeout, debugDelay, debugError } = options;
 
   if (debugDelay != null) {
@@ -40,4 +40,27 @@ async function callApi<Args extends ZodType, Result extends ZodType>(
   }
 
   return api.resultSchema.parse(await res.json());
+}
+
+async function callFodaSyncedApi<Args, Result>(
+  api: Api<ZodType<unknown, Args>, ZodType<Result>>,
+  args: Args,
+  options: CallApiOptions = {},
+): Promise<{ innerResult: Result; foundationalDataHash: string }> {
+  const resultSchema = z.object({
+    innerResult: api.resultSchema,
+    foundationalDataHash: z.string(),
+  });
+
+  const newApi = {
+    ...api,
+    resultSchema,
+  };
+
+  const result = await callApi(newApi, args, options);
+
+  return {
+    innerResult: result.innerResult,
+    foundationalDataHash: result.foundationalDataHash,
+  };
 }
