@@ -4,6 +4,10 @@ import type { z, ZodType } from "zod";
 import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
 import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
 
+export type UseQueryResult<T extends Api<ZodType, ZodType>> = ReturnType<
+  typeof useQuery<T["argsSchema"], T["resultSchema"]>
+>;
+
 export function useQuery<Args extends ZodType, Result extends ZodType>(
   api: Api<Args, Result>,
   args: z.input<Args>,
