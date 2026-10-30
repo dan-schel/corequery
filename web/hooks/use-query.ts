@@ -13,7 +13,10 @@ export type UseQueryResult<T extends ApiClient<unknown, unknown>> = ReturnType<
 
 export function useQuery<Args, Result>(
   api: ApiClient<Args, Result>,
-  args: Args,
+
+  // NoInfer ensures that the types are inferred purely from the `api` type.
+  args: NoInfer<Args>,
+
   options: CallApiOptions = {},
 ) {
   const { callApi } = useApi();

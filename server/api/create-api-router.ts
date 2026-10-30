@@ -15,7 +15,9 @@ export function createApiRouter(app: Corequery) {
 
   function setup<Args, Result>(
     api: ApiServer<Args, Result>,
-    handler: ApiHandler<Args, Result>,
+
+    // NoInfer ensures that the types are inferred purely from the `api` type.
+    handler: ApiHandler<NoInfer<Args>, NoInfer<Result>>,
   ) {
     router.post(api.path, async (req, res) => {
       try {

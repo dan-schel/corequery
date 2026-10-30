@@ -13,7 +13,10 @@ export function useApi() {
 
 async function callApi<Args, Result>(
   api: ApiClient<Args, Result>,
-  args: Args,
+
+  // NoInfer ensures that the types are inferred purely from the `api` type.
+  args: NoInfer<Args>,
+
   options: CallApiOptions = {},
 ): Promise<Result> {
   const { timeout, debugDelay, debugError } = options;
@@ -44,7 +47,7 @@ async function callApi<Args, Result>(
 
 async function callFodaSyncedApi<Args, Result>(
   api: ApiClient<Args, Result>,
-  args: Args,
+  args: NoInfer<Args>,
   options: CallApiOptions = {},
 ): Promise<{ innerResult: Result; foundationalDataHash: string }> {
   const resultSchema = z.object({
