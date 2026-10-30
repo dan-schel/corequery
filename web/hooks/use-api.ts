@@ -1,5 +1,5 @@
-import type { Api } from "@/shared/apis/types";
-import { z, type ZodType } from "zod";
+import type { ApiClient } from "@/shared/apis/types";
+import { z } from "zod";
 
 export type CallApiOptions = {
   timeout?: number | null;
@@ -12,7 +12,7 @@ export function useApi() {
 }
 
 async function callApi<Args, Result>(
-  api: Api<ZodType<unknown, Args>, ZodType<Result>>,
+  api: ApiClient<Args, Result>,
   args: Args,
   options: CallApiOptions = {},
 ): Promise<Result> {
@@ -43,7 +43,7 @@ async function callApi<Args, Result>(
 }
 
 async function callFodaSyncedApi<Args, Result>(
-  api: Api<ZodType<unknown, Args>, ZodType<Result>>,
+  api: ApiClient<Args, Result>,
   args: Args,
   options: CallApiOptions = {},
 ): Promise<{ innerResult: Result; foundationalDataHash: string }> {

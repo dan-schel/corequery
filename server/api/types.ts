@@ -1,5 +1,4 @@
 import type { Corequery } from "@/server/corequery.js";
-import type { z, ZodType } from "zod";
 
 export type ApiContext = {
   readonly app: Corequery;
@@ -9,7 +8,7 @@ export type ApiContext = {
   // readonly token: string | null;
 };
 
-export type ApiHandler<Args extends ZodType, Result extends ZodType> = (
+export type ApiHandler<Args, Result> = (
   ctx: ApiContext,
-  args: z.output<Args>,
-) => Promise<z.input<Result>>;
+  args: Args,
+) => Promise<Result>;

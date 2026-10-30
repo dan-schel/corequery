@@ -1,9 +1,8 @@
 import type { Corequery } from "@/server/corequery.js";
-import type { ZodType } from "zod";
 import { Router } from "express";
 import * as apis from "@/shared/apis/index.js";
 import * as handlers from "@/server/api/handlers/index.js";
-import type { Api } from "@/shared/apis/types.js";
+import type { ApiServer } from "@/shared/apis/types.js";
 import type { ApiHandler } from "@/server/api/types.js";
 
 export function createApiRouter(app: Corequery) {
@@ -14,8 +13,8 @@ export function createApiRouter(app: Corequery) {
   // cross-origin requests bydefault, unless the server explicitly opts-in to
   // allowing JS from another domain accessing it.
 
-  function setup<Args extends ZodType, Result extends ZodType>(
-    api: Api<Args, Result>,
+  function setup<Args, Result>(
+    api: ApiServer<Args, Result>,
     handler: ApiHandler<Args, Result>,
   ) {
     router.post(api.path, async (req, res) => {
