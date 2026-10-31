@@ -3,15 +3,23 @@ import type { ApiContext } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { Departure } from "@/server/data/service/departure.js";
 import type { Corequery } from "@/server/corequery.js";
+import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
-type ApiDeparture = ServerResultOf<typeof DEPARTURES_V0>["departures"][number];
+type ApiDeparture = ServerResultOf<
+  typeof DEPARTURES_V0
+>["innerResult"]["departures"][number];
 
 export async function handle(
   ctx: ApiContext,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
+  const foundationalDataHash = MultiversionalFoda.build(
+    ctx.app,
+  ).calculateHash();
+
   // TODO: The v1 API should return some sort of error object.
-  if (args.count < 1 || args.count > 50) return { departures: [] };
+  if (args.count < 1 || args.count > 50)
+    return { foundationalDataHash, innerResult: { departures: [] } };
 
   const now = getStartOfCurrentMinute();
 
@@ -29,7 +37,10 @@ export async function handle(
   }
 
   return {
-    departures: results.map((x) => toApiResult(ctx.app, x)),
+    foundationalDataHash,
+    innerResult: {
+      departures: results.map((x) => toApiResult(ctx.app, x)),
+    },
   };
 }
 

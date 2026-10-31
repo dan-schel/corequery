@@ -3,7 +3,7 @@ import type { ClientResultOf } from "@/web/hooks/api/types";
 
 export type DepartureData = ClientResultOf<
   typeof DEPARTURES_V0
->["departures"][number];
+>["innerResult"]["departures"][number];
 
 export type DepartureFeedData = {
   query: {
