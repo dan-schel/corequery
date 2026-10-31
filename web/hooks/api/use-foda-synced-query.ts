@@ -1,4 +1,8 @@
-import type { ApiClient } from "@/web/hooks/api/types";
+import type {
+  ApiClient,
+  ClientArgsOf,
+  ClientResultOf,
+} from "@/web/hooks/api/types";
 import { useState } from "preact/hooks";
 import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
 import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
@@ -8,6 +12,11 @@ type FodaSyncedResult = {
   innerResult: unknown;
   foundationalDataHash: string;
 };
+
+/** @knipignore */
+export type UseFodaSyncedQueryResult<
+  T extends ApiClient<unknown, FodaSyncedResult>,
+> = ReturnType<typeof useFodaSyncedQuery<ClientArgsOf<T>, ClientResultOf<T>>>;
 
 export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
   api: ApiClient<Args, Result>,
