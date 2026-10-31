@@ -36,6 +36,7 @@ export function useQuery<Args, Result>(
         const result = await callApi(api, args, options);
         if (!cancelled) setData(result);
       } catch (e) {
+        console.warn(e);
         if (!cancelled) setError(e);
       } finally {
         if (!cancelled) setLoading(false);

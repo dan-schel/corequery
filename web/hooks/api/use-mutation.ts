@@ -11,6 +11,7 @@ export function useMutation<Args, Result>(
   const [loading, setLoading] = useState(false);
 
   async function call(args: Args) {
+    // Don't catch the error here, let the caller deal with it.
     try {
       setLoading(true);
       return await callApi(api, args, options);

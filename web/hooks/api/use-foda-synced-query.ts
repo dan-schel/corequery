@@ -81,6 +81,7 @@ export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
           setData(result.innerResult);
         }
       } catch (e) {
+        console.warn(e);
         if (!cancelled) setError(e);
       } finally {
         if (!cancelled) setLoading(false);
