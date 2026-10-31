@@ -4,16 +4,12 @@ import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
 import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 
-type FodaSyncedResult<InnerResult> = {
-  innerResult: InnerResult;
+type FodaSyncedResult = {
+  innerResult: unknown;
   foundationalDataHash: string;
 };
 
-export function useFodaSyncedQuery<
-  Args,
-  Result extends FodaSyncedResult<InnerResult>,
-  InnerResult,
->(
+export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
   api: ApiClient<Args, Result>,
 
   // NoInfer ensures that the types are inferred purely from the `api` type.
@@ -24,7 +20,7 @@ export function useFodaSyncedQuery<
   const { callApi } = useApi();
   const { foda, forceFodaUpdate } = useFoundationalData();
 
-  const [data, setData] = useState<InnerResult | null>(null);
+  const [data, setData] = useState<Result["innerResult"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 
