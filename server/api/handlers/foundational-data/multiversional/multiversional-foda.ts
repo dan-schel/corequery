@@ -22,11 +22,22 @@ import type z from "zod";
 // differ.
 
 export class MultiversionalFoda {
+  readonly hash: string;
+
   // The obj which will ultimately be used to calculate the hash is the ONLY
   // allowable input for this class. Methods like `toFodaV1` cannot be allowed
   // to use anything else as an input, otherwise values which should be
   // considered during hash calculation will be missed.
-  constructor(readonly obj: ReturnType<typeof MultiversionalFoda._buildObj>) {}
+  constructor(readonly obj: ReturnType<typeof MultiversionalFoda._buildObj>) {
+    // Notice how this is not versioned. Every version of the FODA API, and all
+    // FODA-synced APIs return the same hash. This means a client won't get
+    // conflicting results from whichever FODA API version it's configured to
+    // call vs when it gets the hash back from a FODA-synced API.
+    this.hash = crypto
+      .createHash("sha256")
+      .update(JSON.stringify(this.obj))
+      .digest("hex");
+  }
 
   static build(app: Corequery) {
     return new MultiversionalFoda(MultiversionalFoda._buildObj(app));
@@ -69,15 +80,6 @@ export class MultiversionalFoda {
         service: app.terminologyConfig.service,
       },
     };
-  }
-
-  // Notice how this is not versioned. Every version of the FODA API, and all
-  // FODA-synced APIs call this same calculateHash() method.
-  calculateHash() {
-    return crypto
-      .createHash("sha256")
-      .update(JSON.stringify(this.obj))
-      .digest("hex");
   }
 
   toFodaV1(hash: string): z.input<typeof fodaV1Schema> {

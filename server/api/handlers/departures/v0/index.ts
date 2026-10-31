@@ -3,7 +3,6 @@ import type { ApiContext } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { Departure } from "@/server/data/service/departure.js";
 import type { Corequery } from "@/server/corequery.js";
-import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
 type ApiDeparture = ServerResultOf<
   typeof DEPARTURES_V0
@@ -13,9 +12,7 @@ export async function handle(
   ctx: ApiContext,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
-  const foundationalDataHash = MultiversionalFoda.build(
-    ctx.app,
-  ).calculateHash();
+  const foundationalDataHash = ctx.app.foda.hash;
 
   // TODO: The v1 API should return some sort of error object.
   if (args.count < 1 || args.count > 50)

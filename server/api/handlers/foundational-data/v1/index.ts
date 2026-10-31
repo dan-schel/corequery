@@ -1,7 +1,6 @@
 import type { FOUNDATIONAL_DATA_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
-import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
 export function handle(
   ctx: ApiContext,
@@ -9,12 +8,7 @@ export function handle(
 ): Promise<ServerResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   // await new Promise((resolve) => setTimeout(resolve, 500));
 
-  // We should probably consider memoizing the multiversional FODA object on
-  // ctx.app or something, as right now, only a server configuration change
-  // would cause it to change. I don't know if that'll always be true going
-  // forward.
-  const foda = MultiversionalFoda.build(ctx.app);
-  const hash = foda.calculateHash();
+  const hash = ctx.app.foda.hash;
 
   if (args.hash === hash) {
     return Promise.resolve({ result: "up-to-date" });
@@ -22,6 +16,6 @@ export function handle(
 
   return Promise.resolve({
     result: "outdated",
-    foundationalData: foda.toFodaV1(hash),
+    foundationalData: ctx.app.foda.toFodaV1(hash),
   });
 }
