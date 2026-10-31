@@ -94,6 +94,8 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
       // THIS solution also solves the double fetching issue I mention above,
       // and eliminates this whole CLASS of errors, so I think it's good!)
       cache.set(newRawFoda as z.input<typeof FoundationalData.json>);
+
+      return newFoda.hash;
     },
     [updateFoda, cache],
   );
@@ -116,7 +118,9 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     // Can't happen as we didn't give a hash!
     if (response.result === "up-to-date") throw new Error();
 
-    handleNewRawFoda(response.foundationalData);
+    const hash = handleNewRawFoda(response.foundationalData);
+
+    return hash;
   }, [handleNewRawFoda]);
 
   const triggerLoadData = useCallback(() => {

@@ -42,47 +42,53 @@ export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
         setError(null);
 
         const result = await callApi(api, args, options);
+        if (cancelled) return;
 
-        if (!cancelled && result.foundationalDataHash !== foda.hash) {
-          await forceFodaUpdate();
+        // `foda.hash` will remain constant throughout this function, but we'll
+        // want to track how it has effectively changed once `forceFodaUpdate()`
+        // completes.
+        let fodaHash = foda.hash;
+
+        if (result.foundationalDataHash !== fodaHash) {
+          fodaHash = await forceFodaUpdate();
+          if (cancelled) return;
         }
 
-        if (!cancelled) {
-          if (result.foundationalDataHash !== foda.hash) {
-            // The forced update might receive even newer FODA (with a different
-            // hash than what the API result contained), or maybe we're
-            // mid-deploy in a horizontally scaled environment, and some
-            // requests are going to updated instances with newer FODA, and
-            // others not.
-            //
-            // Either way, this is a known issue, and was traded-off against
-            // returning the full FODA object in every FODA-synced API response,
-            // and dealing with the versioning cascade that would occur anytime
-            // a breaking change occurred in the foundational data.
-            //
-            // (See docs/foda-synced-queries-adr.md.)
-            throw new Error(
-              "Foundational data hash still mismatches after forced update.",
-            );
-          }
-
-          // It should be fine to set the new data straight away.
+        if (result.foundationalDataHash !== fodaHash) {
+          // The forced update might receive even newer FODA (with a different
+          // hash than what the API result contained), or maybe we're mid-deploy
+          // in a horizontally scaled environment, and some requests are going
+          // to updated instances with newer FODA, and others not.
           //
-          // Initially, I had a different implemention in mind, where the FODA
-          // would be updated asynchronously after this result came back. In
-          // that situation, I'd need to implement some mechanism to return
-          // `null` for `data` until I'd seen that the `foda` from
-          // `useFoundationalData` now matched the hash from the API result.
+          // Either way, this is a known issue, and was traded-off against
+          // returning the full FODA object in every FODA-synced API response,
+          // and dealing with the versioning cascade that would occur anytime a
+          // breaking change occurred in the foundational data.
           //
-          // However, since `forceFodaUpdate` is a promise that I'm awaiting,
-          // and it directly calls `setFoda` (the state the provider for
-          // `useFoundationalData` hook uses), I can't imagine a world where
-          // Preact would render with updated `data` but not updated `foda`.
-          setData(result.innerResult);
+          // (See docs/foda-synced-queries-adr.md.)
+          throw new Error(
+            "Foundational data hash still mismatches after forced update.",
+          );
         }
+
+        // It should be fine to set the new data straight away.
+        //
+        // Initially, I had a different implemention in mind, where the FODA
+        // would be updated asynchronously after this result came back. In that
+        // situation, I'd need to implement some mechanism to return `null` for
+        // `data` until I'd seen that the `foda` from `useFoundationalData` now
+        // matched the hash from the API result.
+        //
+        // However, since `forceFodaUpdate` is a promise that I'm awaiting, and
+        // it directly calls `setFoda` (the state the provider for
+        // `useFoundationalData` hook uses), I can't imagine a world where
+        // Preact would render with updated `data` but not updated `foda`.
+        setData(result.innerResult);
       } catch (e) {
+        if (cancelled) return;
+
         console.warn(e);
-        if (!cancelled) setError(e);
+        setError(e);
       } finally {
         if (!cancelled) setLoading(false);
       }

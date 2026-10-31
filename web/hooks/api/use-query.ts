@@ -34,10 +34,14 @@ export function useQuery<Args, Result>(
         setError(null);
 
         const result = await callApi(api, args, options);
-        if (!cancelled) setData(result);
+        if (cancelled) return;
+
+        setData(result);
       } catch (e) {
+        if (cancelled) return;
+
         console.warn(e);
-        if (!cancelled) setError(e);
+        setError(e);
       } finally {
         if (!cancelled) setLoading(false);
       }
