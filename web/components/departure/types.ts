@@ -1,9 +1,9 @@
 import type { DEPARTURES_V0 } from "@/shared/apis";
-import type { ClientResultOf } from "@/web/hooks/api/types";
+import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
 
-export type DepartureData = ClientResultOf<
+export type DepartureData = ClientFodaSyncedResultOf<
   typeof DEPARTURES_V0
->["innerResult"]["departures"][number];
+>["departures"][number];
 
 export type DepartureFeedData = {
   query: {

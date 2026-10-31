@@ -11,3 +11,8 @@ export type ClientArgsOf<ApiType> =
 
 export type ClientResultOf<ApiType> =
   ApiType extends Api<ZodType, ZodType<infer Result>> ? Result : never;
+
+export type ClientFodaSyncedResultOf<ApiType> =
+  ApiType extends Api<ZodType, ZodType<{ innerResult: infer Result }>>
+    ? Result
+    : never;

@@ -1,41 +1,47 @@
 import type { SERVICE_V0 } from "@/shared/apis/index.js";
-import type { ApiContext } from "@/server/api/types.js";
+import type {
+  ApiContext,
+  ServerFodaSyncedResultOf,
+} from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { ServiceMovement } from "@/server/data/index.js";
 import { assertNever } from "@dan-schel/js-utils";
+import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 
 type ApiMovement = NonNullable<
-  ServerResultOf<typeof SERVICE_V0>["service"]
+  ServerFodaSyncedResultOf<typeof SERVICE_V0>["service"]
 >["movements"][number];
 
 export async function handle(
   ctx: ApiContext,
   args: ServerArgsOf<typeof SERVICE_V0>,
 ): Promise<ServerResultOf<typeof SERVICE_V0>> {
-  const service = await ctx.app.services.getService(
-    args.sourceId,
-    args.intrasourceId,
-  );
+  return applyFodaSyncedResult(ctx, async () => {
+    const service = await ctx.app.services.getService(
+      args.sourceId,
+      args.intrasourceId,
+    );
 
-  if (service == null) return { service: null };
+    if (service == null) return { service: null };
 
-  const lastStop = ctx.app.stops.require(service.termination.stopId).name;
+    const lastStop = ctx.app.stops.require(service.termination.stopId).name;
 
-  return {
-    service: {
-      sourceId: service.sourceId,
-      intrasourceId: service.intrasourceId,
+    return {
+      service: {
+        sourceId: service.sourceId,
+        intrasourceId: service.intrasourceId,
 
-      primaryDestinationText: lastStop,
+        primaryDestinationText: lastStop,
 
-      lineIds: service.lineIds,
-      color: service.getColorHexCodes(),
+        lineIds: service.lineIds,
+        color: service.getColorHexCodes(),
 
-      isCancelled: service.isCancelled,
+        isCancelled: service.isCancelled,
 
-      movements: service.movements.map((x) => toApiMovement(x)),
-    },
-  };
+        movements: service.movements.map((x) => toApiMovement(x)),
+      },
+    };
+  });
 }
 
 function toApiMovement(x: ServiceMovement): ApiMovement {

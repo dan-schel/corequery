@@ -66,6 +66,18 @@ export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
             );
           }
 
+          // It should be fine to set the new data straight away.
+          //
+          // Initially, I had a different implemention in mind, where the FODA
+          // would be updated asynchronously after this result came back. In
+          // that situation, I'd need to implement some mechanism to return
+          // `null` for `data` until I'd seen that the `foda` from
+          // `useFoundationalData` now matched the hash from the API result.
+          //
+          // However, since `forceFodaUpdate` is a promise that I'm awaiting,
+          // and it directly calls `setFoda` (the state the provider for
+          // `useFoundationalData` hook uses), I can't imagine a world where
+          // Preact would render with updated `data` but not updated `foda`.
           setData(result.innerResult);
         }
       } catch (e) {
