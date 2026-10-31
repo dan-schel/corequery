@@ -1,5 +1,4 @@
 import type { ApiClient } from "@/web/hooks/api/types";
-import { z } from "zod";
 
 export type CallApiOptions = {
   timeout?: number | null;
@@ -43,27 +42,4 @@ async function callApi<Args, Result>(
   }
 
   return api.resultSchema.parse(await res.json());
-}
-
-async function callFodaSyncedApi<Args, Result>(
-  api: ApiClient<Args, Result>,
-  args: NoInfer<Args>,
-  options: CallApiOptions = {},
-): Promise<{ innerResult: Result; foundationalDataHash: string }> {
-  const resultSchema = z.object({
-    innerResult: api.resultSchema,
-    foundationalDataHash: z.string(),
-  });
-
-  const newApi = {
-    ...api,
-    resultSchema,
-  };
-
-  const result = await callApi(newApi, args, options);
-
-  return {
-    innerResult: result.innerResult,
-    foundationalDataHash: result.foundationalDataHash,
-  };
 }
