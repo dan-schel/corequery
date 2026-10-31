@@ -16,8 +16,8 @@ import { useSettings } from "@/web/hooks/use-settings";
 // Anytime data in the cache fails to validate, it'll just get thrown out and
 // refetched, so you don't need to worry about that.
 //
-// You might not need to change `foundationalDataResponseSchema` if the new
-// version of the API only changes stuff within `foundationalData`.
+// You might not need to change `responseSchema` if the new version of the API
+// only changes stuff within `foundationalData`.
 const foundationalDataApi = FOUNDATIONAL_DATA_V1;
 const responseSchema = z.union([
   z.object({

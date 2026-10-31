@@ -82,10 +82,17 @@ export class MultiversionalFoda {
     };
   }
 
-  toFodaV1(hash: string): z.input<typeof fodaV1Schema> {
+  // Just like `hash`, this value can also be memoized in this class if we want.
+  // If the FODA changes, this whole class (the `obj`) needs to be recreated
+  // anyway. I can sort of imagine the number of possible versions of FODA
+  // blowing up in future though (i.e. there'll be a v1, v2, v3, etc.), so we
+  // probably don't want to memoize all of them. But memoizing the latest
+  // version (which is presumably the one that updated clients are fetching all
+  // the time) probably always makes sense.
+  toFodaV1(): z.input<typeof fodaV1Schema> {
     return {
       metadata: {
-        hash,
+        hash: this.hash,
         fodaApiVersion: "1",
         serverVersion: this.obj.serverVersion,
       },

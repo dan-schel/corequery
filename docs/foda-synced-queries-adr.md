@@ -10,13 +10,13 @@ Like all APIs, FODA is versioned though. If a breaking change in the FODA schema
 
 If other queries are able to return FODA, then a breaking change in the FODA schema would require those queries to ALSO bump to a new version.
 
-You might think allowing the foda part of the response to be type-less/schema-less would solve this problem (option 3), but I think it makes it worse, because then clients which only understand FODA v1 will begin to recieve FODA v2 via these FODA-synced queries (even though when requesting FODA directly from the FODA v1 query - as they would normally do - would give them back FODA v1). Those clients will completely break.
+You might think allowing the foda part of the response to be type-less/schema-less would solve this problem (option 3), but I think it makes it worse, because then clients which only understand FODA v1 will begin to receive FODA v2 via these FODA-synced queries (even though when requesting FODA directly from the FODA v1 query - as they would normally do - would give them back FODA v1). Those clients will completely break.
 
 ## Options
 
 So there's my three options.
 
-(1) FODA-synced queries return the latest FODA hash, but the client is then required to refresh the FODA itself, using it's regular mechanism, because it can use the response.
+(1) FODA-synced queries return the latest FODA hash, but the client is then required to refresh the FODA itself, using its regular mechanism, before it can use the response.
 
     Con: Suffers from the thrashing issue. FODA-synced queries may occasionally fail during new deployments in horizontally-scaled environments, unless those deployments can be carefully coordinated.
 
@@ -34,4 +34,4 @@ So there's my three options.
 
 I have chosen option 1.
 
-Thrashing is an edge case. Flaky networks are common on PT, but one additional request everytime the FODA changes (which should be infrequent, probably only as the result of a commit) is ultimately trivial. Option 2 survives the thrashing, but only if that user isn't one a page where it's visible (i.e. if new stop is added, thrashing could cause the stop page to be intermittently "not found"), which is to say that thrashing is a bad experience regardless of the option chosen here, and would ideally be mitigated at the infra level so that it just doesn't happen. The DX issues are concrete and long-lived (I'd want to keep old API version around for a while).
+Thrashing is an edge case. Flaky networks are common on PT, but one additional request everytime the FODA changes (which should be infrequent, probably only as the result of a commit) is ultimately trivial. Option 2 survives the thrashing, but only if that user isn't on a page where it's visible (i.e. if new stop is added, thrashing could cause the stop page to be intermittently "not found"), which is to say that thrashing is a bad experience regardless of the option chosen here, and would ideally be mitigated at the infra level so that it just doesn't happen. The DX issues are concrete and long-lived (I'd want to keep old API version around for a while).

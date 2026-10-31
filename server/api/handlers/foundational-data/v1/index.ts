@@ -16,6 +16,6 @@ export function handle(
 
   return Promise.resolve({
     result: "outdated",
-    foundationalData: ctx.app.foda.toFodaV1(hash),
+    foundationalData: ctx.app.foda.toFodaV1(),
   });
 }

@@ -1,6 +1,6 @@
 import z from "zod";
 import type { Api } from "@/shared/apis/types.js";
-import { createFodaSyncedResponse } from "@/shared/apis/foda-synced-result.js";
+import { createFodaSyncedResultSchema } from "@/shared/apis/foda-synced-result.js";
 
 // NOTE: This is a "v0" API, i.e. its not intended to be used by anyone except
 // me, during the "beta" phase. When we switch to "v1" it'll break compatibility
@@ -11,7 +11,7 @@ const argsSchema = z.object({
   intrasourceId: z.string(),
 });
 
-const resultSchema = createFodaSyncedResponse(
+const resultSchema = createFodaSyncedResultSchema(
   z.object({
     service: z
       .object({

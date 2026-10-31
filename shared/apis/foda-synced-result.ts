@@ -1,6 +1,6 @@
 import { z, type ZodType } from "zod";
 
-export function createFodaSyncedResponse<T extends ZodType>(
+export function createFodaSyncedResultSchema<T extends ZodType>(
   innerResultSchema: T,
 ) {
   return z.object({
