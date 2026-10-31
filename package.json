@@ -55,7 +55,7 @@
     "tailwindcss": "4.3.3",
     "tsc-alias": "1.9.8",
     "tsx": "4.23.15",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "typescript-eslint": "8.71.2",
     "vite": "8.3.4",
     "vite-plugin-pwa": "2.0.0",
