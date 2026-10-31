@@ -1,5 +1,5 @@
 import type { Api } from "@/shared/apis/types";
-import type z from "zod";
+import type { z, ZodType } from "zod";
 
 export type ApiClient<Args, Result> = Api<
   z.ZodType<unknown, Args>,
@@ -7,9 +7,7 @@ export type ApiClient<Args, Result> = Api<
 >;
 
 export type ClientArgsOf<ApiType> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ApiType extends Api<infer Args, any> ? z.input<Args> : never;
+  ApiType extends Api<ZodType<unknown, infer Args>, ZodType> ? Args : never;
 
 export type ClientResultOf<ApiType> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ApiType extends Api<any, infer Result> ? z.output<Result> : never;
+  ApiType extends Api<ZodType, ZodType<infer Result>> ? Result : never;

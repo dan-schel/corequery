@@ -1,6 +1,6 @@
 import type { Corequery } from "@/server/corequery.js";
 import type { Api } from "@/shared/apis/types.js";
-import type z from "zod";
+import type { z, ZodType } from "zod";
 
 export type ApiServer<Args, Result> = Api<
   z.ZodType<Args>,
@@ -8,12 +8,15 @@ export type ApiServer<Args, Result> = Api<
 >;
 
 export type ServerArgsOf<ApiType> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ApiType extends Api<infer Args, any> ? z.output<Args> : never;
+  ApiType extends Api<ZodType<infer Args>, ZodType> ? Args : never;
 
 export type ServerResultOf<ApiType> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ApiType extends Api<any, infer Result> ? z.input<Result> : never;
+  ApiType extends Api<ZodType, ZodType<unknown, infer Result>> ? Result : never;
+
+export type ServerFodaSyncedResultOf<ApiType> =
+  ApiType extends Api<ZodType, ZodType<unknown, { innerResult: infer Result }>>
+    ? Result
+    : never;
 
 export type ApiContext = {
   readonly app: Corequery;
