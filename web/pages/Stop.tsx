@@ -5,12 +5,12 @@ import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
 import { useMemo } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
-import { useQuery } from "@/web/hooks/use-query";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
+import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
 
 export default function Stop() {
   const {
@@ -36,7 +36,7 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
-  const { data, loading, error } = useQuery(DEPARTURES_V0, {
+  const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
     stopId: props.stop.id,
     count: 5,
   });

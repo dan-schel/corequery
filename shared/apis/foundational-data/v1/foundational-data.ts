@@ -23,7 +23,7 @@ import z from "zod";
 // doesn't need to be backwards compatible (we won't be running an old version
 // of the SERVER)!
 
-export const locationFodaSchema = z.object({
+const locationFodaSchema = z.object({
   latitude: z.number(),
   longitude: z.number(),
 });
@@ -41,12 +41,7 @@ export const stopFodaSchema = z.object({
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.
-  location: z
-    .object({
-      latitude: z.number(),
-      longitude: z.number(),
-    })
-    .nullable(),
+  location: locationFodaSchema.nullable(),
 
   // Considering whether things like the list of supported filters and default
   // departure feeds would go in a `/stop-page/v1` API (which would also return
@@ -102,7 +97,7 @@ export const lineDiagramEntryFodaSchema = z.union([
 ]);
 
 // TODO: Time to split up this huge file.
-type UnderstoodLineDiagramEntryType = z.infer<
+type UnderstoodLineDiagramEntryType = z.output<
   typeof lineDiagramEntryFodaSchema
 >["type"];
 
@@ -201,6 +196,7 @@ const footerFodaSchema = z.object({
 export const fodaSchema = z.object({
   metadata: z.object({
     hash: z.string(),
+    fodaApiVersion: z.literal("1"),
     serverVersion: z.string(),
   }),
 

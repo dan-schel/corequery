@@ -4,13 +4,13 @@ import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
 import { useRoute } from "preact-iso";
 import { parseIntNull } from "@dan-schel/js-utils";
-import { useQuery } from "@/web/hooks/use-query";
+import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
 import { SERVICE_V0 } from "@/shared/apis";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
-import type { ResultOf } from "@/shared/apis/types";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
+import type { ServiceData } from "@/web/components/pages/service/types";
 
 export default function Service() {
   const {
@@ -19,7 +19,7 @@ export default function Service() {
   } = useRoute();
 
   // TODO: Should I use zod to parse URL/query params?
-  const { data, loading, error } = useQuery(SERVICE_V0, {
+  const { data, loading, error } = useFodaSyncedQuery(SERVICE_V0, {
     sourceId: sourceId ?? "",
     intrasourceId: intrasourceId ?? "",
   });
@@ -50,7 +50,7 @@ export default function Service() {
 }
 
 type ServicePageContentProps = {
-  service: NonNullable<ResultOf<typeof SERVICE_V0>["service"]>;
+  service: ServiceData;
   movementIndex: number;
 };
 

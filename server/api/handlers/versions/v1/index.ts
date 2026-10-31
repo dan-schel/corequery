@@ -1,19 +1,16 @@
 import type { VERSIONS_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
-import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
-import { FoundationalDataV1Builder } from "@/server/api/handlers/foundational-data/v1/builder.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 
 export function handle(
   ctx: ApiContext,
-  _args: ArgsOf<typeof VERSIONS_V1>,
-): Promise<ResultOf<typeof VERSIONS_V1>> {
-  const foda = new FoundationalDataV1Builder(ctx.app).build();
-
+  _args: ServerArgsOf<typeof VERSIONS_V1>,
+): Promise<ServerResultOf<typeof VERSIONS_V1>> {
   return Promise.resolve({
     serverVersion: ctx.app.serverVersion,
     frontendVersion: ctx.app.getFrontendVersion(),
     corequeryPackageVersion: ctx.app.getCorequeryPackageVersion(),
-    foundationalDataHash: foda.metadata.hash,
+    foundationalDataHash: ctx.app.foda.hash,
 
     // Deprecated, but kept for backwards compatibility.
     version: ctx.app.serverVersion,

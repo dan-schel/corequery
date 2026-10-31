@@ -1,17 +1,27 @@
-import type { Api } from "@/shared/apis/types";
+import type {
+  ApiClient,
+  ClientArgsOf,
+  ClientResultOf,
+} from "@/web/hooks/api/types";
 import { useState } from "preact/hooks";
-import type { z, ZodType } from "zod";
 import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
-import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
+import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
 
-export function useQuery<Args extends ZodType, Result extends ZodType>(
-  api: Api<Args, Result>,
-  args: z.input<Args>,
+export type UseQueryResult<T extends ApiClient<unknown, unknown>> = ReturnType<
+  typeof useQuery<ClientArgsOf<T>, ClientResultOf<T>>
+>;
+
+export function useQuery<Args, Result>(
+  api: ApiClient<Args, Result>,
+
+  // NoInfer ensures that the types are inferred purely from the `api` type.
+  args: NoInfer<Args>,
+
   options: CallApiOptions = {},
 ) {
   const { callApi } = useApi();
 
-  const [data, setData] = useState<z.infer<Result> | null>(null);
+  const [data, setData] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 
@@ -24,9 +34,14 @@ export function useQuery<Args extends ZodType, Result extends ZodType>(
         setError(null);
 
         const result = await callApi(api, args, options);
-        if (!cancelled) setData(result);
+        if (cancelled) return;
+
+        setData(result);
       } catch (e) {
-        if (!cancelled) setError(e);
+        if (cancelled) return;
+
+        console.warn(e);
+        setError(e);
       } finally {
         if (!cancelled) setLoading(false);
       }

@@ -1,0 +1,105 @@
+import type {
+  ApiClient,
+  ClientArgsOf,
+  ClientResultOf,
+} from "@/web/hooks/api/types";
+import { useState } from "preact/hooks";
+import { useDeepCompareEffect } from "@/web/hooks/use-deep-compare-effect";
+import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
+
+type FodaSyncedResult = {
+  innerResult: unknown;
+  foundationalDataHash: string;
+};
+
+/** @knipignore */
+export type UseFodaSyncedQueryResult<
+  T extends ApiClient<unknown, FodaSyncedResult>,
+> = ReturnType<typeof useFodaSyncedQuery<ClientArgsOf<T>, ClientResultOf<T>>>;
+
+export function useFodaSyncedQuery<Args, Result extends FodaSyncedResult>(
+  api: ApiClient<Args, Result>,
+
+  // NoInfer ensures that the types are inferred purely from the `api` type.
+  args: NoInfer<Args>,
+
+  options: CallApiOptions = {},
+) {
+  const { callApi } = useApi();
+  const { foda, forceFodaUpdate } = useFoundationalData();
+
+  const [data, setData] = useState<Result["innerResult"] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<unknown>(null);
+
+  useDeepCompareEffect(() => {
+    let cancelled = false;
+
+    async function fetchData() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const result = await callApi(api, args, options);
+        if (cancelled) return;
+
+        // `foda.hash` will remain constant throughout this function, but we'll
+        // want to track how it has effectively changed once `forceFodaUpdate()`
+        // completes.
+        let fodaHash = foda.hash;
+
+        if (result.foundationalDataHash !== fodaHash) {
+          fodaHash = await forceFodaUpdate();
+          if (cancelled) return;
+        }
+
+        if (result.foundationalDataHash !== fodaHash) {
+          // The forced update might receive even newer FODA (with a different
+          // hash than what the API result contained), or maybe we're mid-deploy
+          // in a horizontally scaled environment, and some requests are going
+          // to updated instances with newer FODA, and others not.
+          //
+          // Either way, this is a known issue, and was traded-off against
+          // returning the full FODA object in every FODA-synced API response,
+          // and dealing with the versioning cascade that would occur anytime a
+          // breaking change occurred in the foundational data.
+          //
+          // (See docs/foda-synced-queries-adr.md.)
+          throw new Error(
+            "Foundational data hash still mismatches after forced update.",
+          );
+        }
+
+        // It should be fine to set the new data straight away.
+        //
+        // Initially, I had a different implemention in mind, where the FODA
+        // would be updated asynchronously after this result came back. In that
+        // situation, I'd need to implement some mechanism to return `null` for
+        // `data` until I'd seen that the `foda` from `useFoundationalData` now
+        // matched the hash from the API result.
+        //
+        // However, since `forceFodaUpdate` is a promise that I'm awaiting, and
+        // it directly calls `setFoda` (the state the provider for
+        // `useFoundationalData` hook uses), I can't imagine a world where
+        // Preact would render with updated `data` but not updated `foda`.
+        setData(result.innerResult);
+      } catch (e) {
+        if (cancelled) return;
+
+        console.warn(e);
+        setError(e);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [api, args, options]);
+
+  return { data, loading, error };
+}

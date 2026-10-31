@@ -1,17 +1,17 @@
-import type { Api } from "@/shared/apis/types";
+import type { ApiClient } from "@/web/hooks/api/types";
 import { useState } from "preact/hooks";
-import type { z, ZodType } from "zod";
-import { useApi, type CallApiOptions } from "@/web/hooks/use-api";
+import { useApi, type CallApiOptions } from "@/web/hooks/api/use-api";
 
 /** @knipignore */
-export function useMutation<Args extends ZodType, Result extends ZodType>(
-  api: Api<Args, Result>,
+export function useMutation<Args, Result>(
+  api: ApiClient<Args, Result>,
   options: CallApiOptions = {},
 ) {
   const { callApi } = useApi();
   const [loading, setLoading] = useState(false);
 
-  async function call(args: z.input<Args>) {
+  async function call(args: Args) {
+    // Don't catch the error here, let the caller deal with it.
     try {
       setLoading(true);
       return await callApi(api, args, options);

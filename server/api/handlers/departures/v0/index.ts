@@ -1,36 +1,44 @@
 import type { DEPARTURES_V0 } from "@/shared/apis/index.js";
-import type { ApiContext } from "@/server/api/types.js";
-import type { ArgsOf, ResultOf } from "@/shared/apis/types.js";
+import type {
+  ApiContext,
+  ServerFodaSyncedResultOf,
+} from "@/server/api/types.js";
+import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import type { Departure } from "@/server/data/service/departure.js";
 import type { Corequery } from "@/server/corequery.js";
+import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 
-type ApiDeparture = ResultOf<typeof DEPARTURES_V0>["departures"][number];
+type ApiDeparture = ServerFodaSyncedResultOf<
+  typeof DEPARTURES_V0
+>["departures"][number];
 
 export async function handle(
   ctx: ApiContext,
-  args: ArgsOf<typeof DEPARTURES_V0>,
-): Promise<ResultOf<typeof DEPARTURES_V0>> {
-  // TODO: The v1 API should return some sort of error object.
-  if (args.count < 1 || args.count > 50) return { departures: [] };
+  args: ServerArgsOf<typeof DEPARTURES_V0>,
+): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
+  return applyFodaSyncedResult(ctx, async () => {
+    // TODO: The v1 API should return some sort of error object.
+    if (args.count < 1 || args.count > 50) return { departures: [] };
 
-  const now = getStartOfCurrentMinute();
+    const now = getStartOfCurrentMinute();
 
-  const iterator = ctx.app.services.getDeparturesIterator(
-    args.stopId,
-    now,
-    "forwards",
-  );
+    const iterator = ctx.app.services.getDeparturesIterator(
+      args.stopId,
+      now,
+      "forwards",
+    );
 
-  const results: Departure[] = [];
+    const results: Departure[] = [];
 
-  while ((await iterator.peek()) != null && results.length < args.count) {
-    const dep = await iterator.take();
-    results.push(dep);
-  }
+    while ((await iterator.peek()) != null && results.length < args.count) {
+      const dep = await iterator.take();
+      results.push(dep);
+    }
 
-  return {
-    departures: results.map((x) => toApiResult(ctx.app, x)),
-  };
+    return {
+      departures: results.map((x) => toApiResult(ctx.app, x)),
+    };
+  });
 }
 
 function getStartOfCurrentMinute() {

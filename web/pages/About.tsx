@@ -5,7 +5,7 @@ import { InlineMarkdown } from "@/web/components/markdown/InlineMarkdown";
 import { Markdown } from "@/web/components/markdown/Markdown";
 import { Page } from "@/web/components/page/Page";
 import { useSimpleHeaders } from "@/web/components/page/header/use-simple-headers";
-import { useQuery } from "@/web/hooks/use-query";
+import { useQuery } from "@/web/hooks/api/use-query";
 import { ABOUT_PAGE_V1 } from "@/shared/apis";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { Divider } from "@/web/components/core/Divider";

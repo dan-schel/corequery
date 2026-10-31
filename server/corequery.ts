@@ -13,6 +13,7 @@ import type {
 import { getCorequeryPackageVersion } from "@/server/get-corequery-package-version.js";
 import type { Logger } from "@/server/logger/logger.js";
 import { ServiceRepository } from "@/server/data/service/service-repository.js";
+import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
 
 export type CorequeryConfigBuilder<CustomContextType> = (
   corequery: Corequery<CustomContextType>,
@@ -39,6 +40,8 @@ export class Corequery<CustomContextType = unknown> {
   readonly terminologyConfig: TerminologyConfig;
 
   readonly custom: CustomContextType;
+
+  readonly foda: MultiversionalFoda;
 
   constructor(configBuilder: CorequeryConfigBuilder<CustomContextType>) {
     this._config = configBuilder(this);
@@ -77,6 +80,17 @@ export class Corequery<CustomContextType = unknown> {
     this.terminologyConfig = this._config.terminology;
 
     this.custom = this._config.custom;
+
+    // Right now, FODA is completely static (it only changes if the server
+    // config changes) and relies purely on the data which is already available
+    // above. Because of that, I'm able to construct it here and memoize it for
+    // the life of the server. If that ever changes, and it may (this is why the
+    // FODA hash is NOT based on the server version, and it actually calculated
+    // from the data itself - in case it becomes dynamic in the future), then
+    // this strategy won't work anymore. I'll still want to find a way to
+    // memoize the FODA though, so that the hash is only recalculated when the
+    // FODA actually changes, instead of on every API request.
+    this.foda = MultiversionalFoda.build(this);
   }
 
   getCorequeryPackageVersion() {

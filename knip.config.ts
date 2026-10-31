@@ -15,7 +15,7 @@ const config: KnipConfig = {
   ignoreDependencies: ["tsc-alias"],
   ignoreFiles: [
     "web/components/StatusDot.tsx",
-    "web/hooks/use-mutation.ts",
+    "web/hooks/api/use-mutation.ts",
     "web/components/icons/MajesticonsPin.tsx",
     "web/components/icons/MingcuteExternalLinkLine.tsx",
   ],

@@ -2,7 +2,7 @@ import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundati
 import { Collection } from "@/shared/data/collection";
 import type z from "zod";
 
-export type FodaStop = z.infer<typeof stopFodaSchema>;
+export type FodaStop = z.output<typeof stopFodaSchema>;
 
 export class FodaStopCollection extends Collection<number, FodaStop> {
   protected override _getID(item: FodaStop): number {

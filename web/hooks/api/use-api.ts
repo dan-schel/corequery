@@ -1,5 +1,4 @@
-import type { Api } from "@/shared/apis/types";
-import type { z, ZodType } from "zod";
+import type { ApiClient } from "@/web/hooks/api/types";
 
 export type CallApiOptions = {
   timeout?: number | null;
@@ -7,17 +6,18 @@ export type CallApiOptions = {
   debugError?: boolean;
 };
 
-export type CallApiFunction = typeof callApi;
-
 export function useApi() {
   return { callApi };
 }
 
-async function callApi<Args extends ZodType, Result extends ZodType>(
-  api: Api<Args, Result>,
-  args: z.input<Args>,
+async function callApi<Args, Result>(
+  api: ApiClient<Args, Result>,
+
+  // NoInfer ensures that the types are inferred purely from the `api` type.
+  args: NoInfer<Args>,
+
   options: CallApiOptions = {},
-): Promise<z.infer<Result>> {
+): Promise<Result> {
   const { timeout, debugDelay, debugError } = options;
 
   if (debugDelay != null) {
