@@ -6,19 +6,25 @@ export function useLocalStorage<Schema extends ZodType>(
   schema: Schema,
 ) {
   const get = useCallback((): z.output<Schema> | null => {
-    const item = localStorage.getItem(key);
-    if (item == null) return null;
     try {
+      const item = localStorage.getItem(key);
+      if (item == null) return null;
+
       return schema.parse(JSON.parse(item));
     } catch {
+      console.warn(`Failed to parse "${key}" in local storage.`);
       return null;
     }
   }, [key, schema]);
 
   const set = useCallback(
     (value: z.input<Schema>) => {
-      const stringified = JSON.stringify(value);
-      localStorage.setItem(key, stringified);
+      try {
+        const stringified = JSON.stringify(value);
+        localStorage.setItem(key, stringified);
+      } catch (e) {
+        console.warn(`Failed to write "${key}" to local storage.`, e);
+      }
     },
     [key],
   );

@@ -4,7 +4,6 @@ import { useEnvironment } from "@/web/hooks/use-environment";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { HeaderWithPill } from "@/web/components/pages/debug/HeaderWithPill";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
@@ -12,6 +11,8 @@ import { OutdatedPwaControls } from "@/web/components/pages/debug/OutdatedPwaCon
 
 type AppVersionSectionProps = {
   class?: string;
+  latestVersion: string | null;
+  loading: boolean;
 };
 
 export function AppVersionSection(props: AppVersionSectionProps) {
@@ -25,8 +26,6 @@ export function AppVersionSection(props: AppVersionSectionProps) {
 }
 
 function HotReloadingModeContent(props: AppVersionSectionProps) {
-  const { data, loading } = useVersionsApiResponse();
-
   return (
     <Column class={clsx(props.class, "gap-6")}>
       <HeaderWithPill
@@ -41,8 +40,8 @@ function HotReloadingModeContent(props: AppVersionSectionProps) {
       <CurrentVersions />
       <AsyncFieldValue
         prefix="Latest version"
-        value={data?.frontendVersion.slice(0, 8) ?? null}
-        loading={loading}
+        value={props.latestVersion?.slice(0, 8) ?? null}
+        loading={props.loading}
       />
     </Column>
   );
@@ -50,28 +49,27 @@ function HotReloadingModeContent(props: AppVersionSectionProps) {
 
 function ProductionModeContent(props: AppVersionSectionProps) {
   const { frontendVersion } = useStaticData();
-  const { data, loading } = useVersionsApiResponse();
 
   const showOutdatedPwaControls =
-    !loading && data != null && data?.frontendVersion !== frontendVersion;
+    !props.loading &&
+    props.latestVersion != null &&
+    props.latestVersion !== frontendVersion;
 
   return (
-    <Column class={clsx(props.class, "gap-8")}>
-      <Column class="gap-6">
-        <ComparisonHeader
-          header="App version"
-          currentValue={frontendVersion}
-          latestValue={data?.frontendVersion ?? null}
-          loading={loading}
-        />
-        <CurrentVersions />
-        <AsyncFieldValue
-          prefix="Latest version"
-          value={trimIfHash(data?.frontendVersion)}
-          loading={loading}
-        />
-        {showOutdatedPwaControls && <OutdatedPwaControls />}
-      </Column>
+    <Column class={clsx(props.class, "gap-6")}>
+      <ComparisonHeader
+        header="App version"
+        currentValue={frontendVersion}
+        latestValue={props.latestVersion}
+        loading={props.loading}
+      />
+      <CurrentVersions />
+      <AsyncFieldValue
+        prefix="Latest version"
+        value={trimIfHash(props.latestVersion)}
+        loading={props.loading}
+      />
+      {showOutdatedPwaControls && <OutdatedPwaControls />}
     </Column>
   );
 }

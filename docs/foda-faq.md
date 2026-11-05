@@ -29,6 +29,6 @@ And then, for the **arguments schema**:
 
 ## What happens to the cached foundational data when I add a new field?
 
-This is the situation where the frontend (PWA) version updates, and the value in local storage is missing a field it wants.
+This is the situation where the frontend (PWA) version updates, and the value in the browser cache is missing a field it wants.
 
-The frontend will expect the cached foundational data to include the new field, as some pages, presumably, will want to start using it immediately. When it tries to load the FODA from the cache, it'll fail to parse, and therefore the frontend will ignore the cached value and will re-fetch it from the server.
+The frontend will expect the cached foundational data to include the new field, as some pages, presumably, will want to start using it immediately. When it tries to load the FODA from the browser cache, it'll fail to parse, and therefore the frontend will ignore the cached value and will re-fetch it from the server.

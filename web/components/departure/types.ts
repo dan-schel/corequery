@@ -15,5 +15,5 @@ export type DepartureFeedData = {
   };
   departures: DepartureData[];
   loading: boolean;
-  isError: boolean;
+  hadError: boolean;
 };

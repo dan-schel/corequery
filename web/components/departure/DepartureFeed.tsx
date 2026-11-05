@@ -42,7 +42,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         departures={props.feed.departures}
         queryCount={props.feed.query.count}
         loading={props.feed.loading}
-        isError={props.feed.isError}
+        hadError={props.feed.hadError}
       />
     </Column>
   );

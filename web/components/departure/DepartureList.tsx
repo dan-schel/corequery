@@ -17,7 +17,7 @@ type DepartureListProps = {
   departures: DepartureData[];
   queryCount: number;
   loading: boolean;
-  isError: boolean;
+  hadError: boolean;
 };
 
 export function DepartureList(props: DepartureListProps) {
@@ -35,7 +35,7 @@ export function DepartureList(props: DepartureListProps) {
     );
   }
 
-  if (props.isError) {
+  if (props.hadError) {
     return (
       <Container
         class={clsx(props.class, "gap-2")}

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import z from "zod";
 import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
 import { FoundationalData } from "@/web/data/foundational-data";
-import { useLocalStorage } from "@/web/hooks/use-local-storage";
+import { useBrowserCache } from "@/web/hooks/use-browser-cache";
 import { SplashScreen } from "@/web/components/SplashScreen";
 import { foundationalDataContext } from "@/web/hooks/use-foundational-data";
 import { useSettings } from "@/web/hooks/use-settings";
@@ -39,9 +39,7 @@ type FoundationalDataProviderProps = {
 export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const { Provider } = foundationalDataContext;
   const { revalidateSettings } = useSettings();
-
-  const cache = useLocalStorage(cacheKey, FoundationalData.json);
-  const [cachedData] = useState(() => cache.get());
+  const cache = useBrowserCache(cacheKey, FoundationalData.json);
 
   const [foda, setFoda] = useState<FoundationalData | null>(null);
   const [error, setError] = useState(false);
@@ -55,7 +53,7 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   );
 
   const handleNewRawFoda = useCallback(
-    (newRawFoda: unknown) => {
+    async (newRawFoda: unknown) => {
       const newFoda = FoundationalData.json.parse(newRawFoda);
 
       updateFoda(newFoda);
@@ -93,7 +91,7 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
       // re-fetched. I ended up implement a specific fix for that situation, but
       // THIS solution also solves the double fetching issue I mention above,
       // and eliminates this whole CLASS of errors, so I think it's good!)
-      cache.set(newRawFoda as z.input<typeof FoundationalData.json>);
+      await cache.set(newRawFoda as z.input<typeof FoundationalData.json>);
 
       return newFoda.hash;
     },
@@ -118,7 +116,7 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
     // Can't happen as we didn't give a hash!
     if (response.result === "up-to-date") throw new Error();
 
-    const hash = handleNewRawFoda(response.foundationalData);
+    const hash = await handleNewRawFoda(response.foundationalData);
 
     return hash;
   }, [handleNewRawFoda]);
@@ -126,12 +124,12 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const triggerLoadData = useCallback(() => {
     setError(false);
     void loadData({
-      cachedData,
-      onFreshFoda: (data) => handleNewRawFoda(data),
+      getCachedData: async () => await cache.get(),
+      onFreshFoda: async (data) => await handleNewRawFoda(data),
       onUseCachedFoda: (data) => updateFoda(data),
       onFailure: () => setError(true),
     });
-  }, [cachedData, handleNewRawFoda, updateFoda]);
+  }, [cache, handleNewRawFoda, updateFoda]);
 
   useEffect(() => {
     triggerLoadData();
@@ -150,16 +148,18 @@ export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
 }
 
 async function loadData({
-  cachedData,
+  getCachedData,
   onFreshFoda,
   onUseCachedFoda,
   onFailure,
 }: {
-  cachedData: FoundationalData | null;
-  onFreshFoda: (rawFoda: unknown) => void;
+  getCachedData: () => Promise<FoundationalData | null>;
+  onFreshFoda: (rawFoda: unknown) => Promise<string>;
   onUseCachedFoda: (cachedData: FoundationalData) => void;
   onFailure: () => void;
 }) {
+  const cachedData = await getCachedData();
+
   // No need to check the cachedData's version, as the version is hardcoded as
   // a literal in the schema.
   if (cachedData != null) {
@@ -169,7 +169,7 @@ async function loadData({
       if (response.result === "up-to-date") {
         onUseCachedFoda(cachedData);
       } else {
-        onFreshFoda(response.foundationalData);
+        await onFreshFoda(response.foundationalData);
       }
     } catch (err) {
       console.warn("Foundational data refresh failed - using cache.", err);
@@ -182,7 +182,7 @@ async function loadData({
       // Can't happen as we didn't give a hash!
       if (response.result === "up-to-date") throw new Error();
 
-      onFreshFoda(response.foundationalData);
+      await onFreshFoda(response.foundationalData);
     } catch {
       onFailure();
     }
