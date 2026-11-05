@@ -56,22 +56,20 @@ function ProductionModeContent(props: AppVersionSectionProps) {
     !loading && data != null && data?.frontendVersion !== frontendVersion;
 
   return (
-    <Column class={clsx(props.class, "gap-8")}>
-      <Column class="gap-6">
-        <ComparisonHeader
-          header="App version"
-          currentValue={frontendVersion}
-          latestValue={data?.frontendVersion ?? null}
-          loading={loading}
-        />
-        <CurrentVersions />
-        <AsyncFieldValue
-          prefix="Latest version"
-          value={trimIfHash(data?.frontendVersion)}
-          loading={loading}
-        />
-        {showOutdatedPwaControls && <OutdatedPwaControls />}
-      </Column>
+    <Column class={clsx(props.class, "gap-6")}>
+      <ComparisonHeader
+        header="App version"
+        currentValue={frontendVersion}
+        latestValue={data?.frontendVersion ?? null}
+        loading={loading}
+      />
+      <CurrentVersions />
+      <AsyncFieldValue
+        prefix="Latest version"
+        value={trimIfHash(data?.frontendVersion)}
+        loading={loading}
+      />
+      {showOutdatedPwaControls && <OutdatedPwaControls />}
     </Column>
   );
 }

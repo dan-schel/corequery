@@ -14,22 +14,20 @@ export function ServerVersionSection(props: ServerVersionSectionProps) {
   const { data, loading } = useVersionsApiResponse();
 
   return (
-    <Column class={clsx(props.class, "gap-8")}>
-      <Column class="gap-6">
-        <TextBlock style="strong">Server</TextBlock>
-        <ErrorBanner />
-        <Column class="gap-4">
-          <AsyncFieldValue
-            prefix="Server version"
-            value={trimIfHash(data?.serverVersion)}
-            loading={loading}
-          />
-          <AsyncFieldValue
-            prefix="CoreQuery version"
-            value={data?.corequeryPackageVersion ?? null}
-            loading={loading}
-          />
-        </Column>
+    <Column class={clsx(props.class, "gap-6")}>
+      <TextBlock style="strong">Server</TextBlock>
+      <ErrorBanner />
+      <Column class="gap-4">
+        <AsyncFieldValue
+          prefix="Server version"
+          value={trimIfHash(data?.serverVersion)}
+          loading={loading}
+        />
+        <AsyncFieldValue
+          prefix="CoreQuery version"
+          value={data?.corequeryPackageVersion ?? null}
+          loading={loading}
+        />
       </Column>
     </Column>
   );
@@ -43,7 +41,8 @@ function ErrorBanner() {
   return (
     <Alert type="error">
       <TextBlock>
-        Unable to fetch the latest version info from the server.
+        An error occurred while fetching the latest version info from the
+        server.
       </TextBlock>
     </Alert>
   );

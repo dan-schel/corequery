@@ -54,7 +54,9 @@ export default function About() {
       <Page {...headers}>
         <Column class="px-4 py-8">
           <Alert type="error">
-            <TextBlock>Unable to load the about page.</TextBlock>
+            <TextBlock>
+              An error occurred while loading the about page.
+            </TextBlock>
           </Alert>
         </Column>
       </Page>
