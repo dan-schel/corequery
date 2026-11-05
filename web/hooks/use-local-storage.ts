@@ -6,9 +6,10 @@ export function useLocalStorage<Schema extends ZodType>(
   schema: Schema,
 ) {
   const get = useCallback((): z.output<Schema> | null => {
-    const item = localStorage.getItem(key);
-    if (item == null) return null;
     try {
+      const item = localStorage.getItem(key);
+      if (item == null) return null;
+
       return schema.parse(JSON.parse(item));
     } catch {
       return null;
