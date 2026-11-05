@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 npx tsx --tsconfig scripts/demo-app/tsconfig.json scripts/demo-app/commands/setup.ts

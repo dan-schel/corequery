@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Helps find issues in the demo app, e.g. when I make config breaking changes to
 # the CoreQuery package and forget to update the demo app, this should help me
