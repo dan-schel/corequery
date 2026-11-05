@@ -41,7 +41,7 @@ export function StorageSection() {
           </TextBlock>
         </Alert>
       )}
-      <Column class="gap-4">
+      <Column class="gap-4 empty:hidden">
         <AsyncFieldValue
           prefix="Storage used"
           value={usage}

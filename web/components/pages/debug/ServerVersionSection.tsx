@@ -25,7 +25,7 @@ export function ServerVersionSection(props: ServerVersionSectionProps) {
           </TextBlock>
         </Alert>
       )}
-      <Column class="gap-4">
+      <Column class="gap-4 empty:hidden">
         <AsyncFieldValue
           prefix="Server version"
           value={trimIfHash(props.serverVersion)}
