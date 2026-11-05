@@ -11,6 +11,7 @@ import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsin
 import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
 import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
+import type { DepartureFeedData } from "@/web/components/departure/types";
 
 export default function Stop() {
   const {
@@ -41,7 +42,7 @@ function StopPageContent(props: StopPageContentProps) {
     count: 5,
   });
 
-  const feeds = useMemo(
+  const feeds = useMemo<DepartureFeedData[]>(
     () => [
       {
         query: {
@@ -50,7 +51,7 @@ function StopPageContent(props: StopPageContentProps) {
         },
         departures: data?.departures ?? [],
         loading,
-        isError: error != null,
+        hadError: error != null,
       },
       {
         query: {
@@ -59,7 +60,7 @@ function StopPageContent(props: StopPageContentProps) {
         },
         departures: data?.departures ?? [],
         loading,
-        isError: error != null,
+        hadError: error != null,
       },
     ],
     [data?.departures, loading, error],
