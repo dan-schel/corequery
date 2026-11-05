@@ -1,8 +1,11 @@
 import { useCallback, useMemo } from "preact/hooks";
 import type { z, ZodType } from "zod";
 
-const storeName = "cache";
-const cacheKey = "data";
+// Neither of these are the top-level database name, the `key` passed to the
+// hook is. Within each database is a single table ("cache"), with a single row
+// ("data").
+const tableName = "cache";
+const rowId = "data";
 
 export function useIndexedDb<Schema extends ZodType>(
   key: string,
@@ -39,9 +42,9 @@ async function read(key: string) {
 
   try {
     return await new Promise<unknown>((resolve, reject) => {
-      const transaction = database.transaction(storeName, "readonly");
-      const store = transaction.objectStore(storeName);
-      const request = store.get(cacheKey);
+      const transaction = database.transaction(tableName, "readonly");
+      const store = transaction.objectStore(tableName);
+      const request = store.get(rowId);
       transaction.oncomplete = () => resolve(request.result);
       transaction.onabort = () => reject(transaction.error ?? new Error());
     });
@@ -55,9 +58,9 @@ async function write(key: string, value: unknown): Promise<void> {
 
   try {
     await new Promise<void>((resolve, reject) => {
-      const transaction = database.transaction(storeName, "readwrite");
-      const store = transaction.objectStore(storeName);
-      store.put(value, cacheKey);
+      const transaction = database.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
+      store.put(value, rowId);
       transaction.oncomplete = () => resolve();
       transaction.onabort = () => reject(transaction.error ?? new Error());
     });
@@ -71,7 +74,7 @@ function openDatabase(key: string): Promise<IDBDatabase> {
     const request = indexedDB.open(key);
 
     // Runs when the DB is first created.
-    request.onupgradeneeded = () => request.result.createObjectStore(storeName);
+    request.onupgradeneeded = () => request.result.createObjectStore(tableName);
 
     // There's a world of version numbers and upgrade scenarios in IndexedDB
     // which I'm ignoring here. We're not using versioning at all (our
