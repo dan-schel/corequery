@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import z from "zod";
 import { FOUNDATIONAL_DATA_V1 } from "@/shared/apis";
 import { FoundationalData } from "@/web/data/foundational-data";
-import { useIndexedDb } from "@/web/hooks/use-indexed-db";
+import { useBrowserCache } from "@/web/hooks/use-browser-cache";
 import { SplashScreen } from "@/web/components/SplashScreen";
 import { foundationalDataContext } from "@/web/hooks/use-foundational-data";
 import { useSettings } from "@/web/hooks/use-settings";
@@ -39,7 +39,7 @@ type FoundationalDataProviderProps = {
 export function FoundationalDataProvider(props: FoundationalDataProviderProps) {
   const { Provider } = foundationalDataContext;
   const { revalidateSettings } = useSettings();
-  const cache = useIndexedDb(cacheKey, FoundationalData.json);
+  const cache = useBrowserCache(cacheKey, FoundationalData.json);
 
   const [foda, setFoda] = useState<FoundationalData | null>(null);
   const [error, setError] = useState(false);

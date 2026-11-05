@@ -24,7 +24,7 @@ This strategy is used for things like:
 - about page content
 - landing page content
 
-This data is fetched from the server when the app first loads, and the app isn't functional until it loads (we show a splash screen). Once fetched, it's cached in IndexedDB. Upon subsequent app loads the app will still attempt to load the foundational data from the server again, but will fallback to its cached version after a short timeout.
+This data is fetched from the server when the app first loads, and the app isn't functional until it loads (we show a splash screen). Once fetched, it's stored in the browser cache. Upon subsequent app loads the app will still attempt to load the foundational data from the server again, but will fallback to its cached version after a short timeout.
 
 The idea is to enable a user browsing on a flaky connection (or entirely offline) to navigate around the site (searching stop/line names, etc.) without issue, and only need to rely on the server to supply live data. It helps apps powered by CoreQuery work in an "offline-first" manner.
 

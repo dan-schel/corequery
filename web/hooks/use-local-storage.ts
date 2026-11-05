@@ -12,7 +12,7 @@ export function useLocalStorage<Schema extends ZodType>(
 
       return schema.parse(JSON.parse(item));
     } catch {
-      console.warn(`Failed to read "${key}" from local storage.`);
+      console.warn(`Failed to parse "${key}" in local storage.`);
       return null;
     }
   }, [key, schema]);
