@@ -9,6 +9,7 @@ import { AppVersionSection } from "@/web/components/pages/debug/AppVersionSectio
 import { VersionsApiResponseProvider } from "@/web/components/pages/debug/utils/VersionsApiResponseProvider";
 import { FoundationalDataSection } from "@/web/components/pages/debug/FoundationalDataSection";
 import { ServerVersionSection } from "@/web/components/pages/debug/ServerVersionSection";
+import { StorageSection } from "@/web/components/pages/debug/StorageSection";
 
 export default function Debug() {
   return (
@@ -21,6 +22,8 @@ export default function Debug() {
           <FoundationalDataSection />
           <Divider />
           <ServerVersionSection />
+          <Divider />
+          <StorageSection />
           <Divider />
         </Column>
       </VersionsApiResponseProvider>
@@ -36,7 +39,8 @@ function ErrorBanner() {
   return (
     <Alert type="error">
       <TextBlock>
-        Unable to fetch the latest version info from the server.
+        An error occurred while fetching the latest version info from the
+        server.
       </TextBlock>
     </Alert>
   );
