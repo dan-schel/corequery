@@ -1,49 +1,42 @@
 import clsx from "clsx";
 import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
 import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
 import { Alert } from "@/web/components/Alert";
 
 type ServerVersionSectionProps = {
   class?: string;
+  serverVersion: string | null;
+  corequeryPackageVersion: string | null;
+  loading: boolean;
+  error: unknown;
 };
 
 export function ServerVersionSection(props: ServerVersionSectionProps) {
-  const { data, loading } = useVersionsApiResponse();
-
   return (
     <Column class={clsx(props.class, "gap-6")}>
       <TextBlock style="strong">Server</TextBlock>
-      <ErrorBanner />
+      {props.error != null && (
+        <Alert type="error">
+          <TextBlock>
+            An error occurred while fetching the latest version info from the
+            server.
+          </TextBlock>
+        </Alert>
+      )}
       <Column class="gap-4">
         <AsyncFieldValue
           prefix="Server version"
-          value={trimIfHash(data?.serverVersion)}
-          loading={loading}
+          value={trimIfHash(props.serverVersion)}
+          loading={props.loading}
         />
         <AsyncFieldValue
           prefix="CoreQuery version"
-          value={data?.corequeryPackageVersion ?? null}
-          loading={loading}
+          value={props.corequeryPackageVersion}
+          loading={props.loading}
         />
       </Column>
     </Column>
-  );
-}
-
-function ErrorBanner() {
-  const { error } = useVersionsApiResponse();
-
-  if (error == null) return null;
-
-  return (
-    <Alert type="error">
-      <TextBlock>
-        An error occurred while fetching the latest version info from the
-        server.
-      </TextBlock>
-    </Alert>
   );
 }

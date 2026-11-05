@@ -4,44 +4,47 @@ import { useSimpleHeaders } from "@/web/components/page/header/use-simple-header
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Divider } from "@/web/components/core/Divider";
 import { Alert } from "@/web/components/Alert";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
+import { VERSIONS_V1 } from "@/shared/apis";
+import { useQuery } from "@/web/hooks/api/use-query";
 import { AppVersionSection } from "@/web/components/pages/debug/AppVersionSection";
-import { VersionsApiResponseProvider } from "@/web/components/pages/debug/utils/VersionsApiResponseProvider";
 import { FoundationalDataSection } from "@/web/components/pages/debug/FoundationalDataSection";
 import { ServerVersionSection } from "@/web/components/pages/debug/ServerVersionSection";
 import { StorageSection } from "@/web/components/pages/debug/StorageSection";
 
 export default function Debug() {
+  const { data, loading, error } = useQuery(VERSIONS_V1, {});
+
   return (
     <Page {...useSimpleHeaders({ title: "Developer info" })}>
-      <VersionsApiResponseProvider>
-        <Column class="px-4 py-8 gap-8">
-          <ErrorBanner />
-          <AppVersionSection />
-          <Divider />
-          <FoundationalDataSection />
-          <Divider />
-          <ServerVersionSection />
-          <Divider />
-          <StorageSection />
-          <Divider />
-        </Column>
-      </VersionsApiResponseProvider>
+      <Column class="px-4 py-8 gap-8">
+        {error != null && (
+          <Alert type="error">
+            <TextBlock>
+              An error occurred while fetching the latest version info from the
+              server.
+            </TextBlock>
+          </Alert>
+        )}
+        <AppVersionSection
+          latestVersion={data?.frontendVersion ?? null}
+          loading={loading}
+        />
+        <Divider />
+        <FoundationalDataSection
+          latestVersion={data?.foundationalDataHash ?? null}
+          loading={loading}
+        />
+        <Divider />
+        <ServerVersionSection
+          serverVersion={data?.serverVersion ?? null}
+          corequeryPackageVersion={data?.corequeryPackageVersion ?? null}
+          loading={loading}
+          error={error}
+        />
+        <Divider />
+        <StorageSection />
+        <Divider />
+      </Column>
     </Page>
-  );
-}
-
-function ErrorBanner() {
-  const { error } = useVersionsApiResponse();
-
-  if (error == null) return null;
-
-  return (
-    <Alert type="error">
-      <TextBlock>
-        An error occurred while fetching the latest version info from the
-        server.
-      </TextBlock>
-    </Alert>
   );
 }

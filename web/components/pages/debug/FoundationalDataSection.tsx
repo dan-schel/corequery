@@ -1,6 +1,5 @@
 import { Column } from "@/web/components/core/Column";
 import { ComparisonHeader } from "@/web/components/pages/debug/ComparisonHeader";
-import { useVersionsApiResponse } from "@/web/components/pages/debug/utils/use-versions-api-response";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { AsyncFieldValue } from "@/web/components/pages/debug/AsyncFieldValue";
@@ -9,10 +8,11 @@ import { trimIfHash } from "@/web/components/pages/debug/utils/trim-if-hash";
 
 type FoundationalDataSectionProps = {
   class?: string;
+  latestVersion: string | null;
+  loading: boolean;
 };
 
 export function FoundationalDataSection(props: FoundationalDataSectionProps) {
-  const { data, loading } = useVersionsApiResponse();
   const { foda } = useFoundationalData();
 
   return (
@@ -20,8 +20,8 @@ export function FoundationalDataSection(props: FoundationalDataSectionProps) {
       <ComparisonHeader
         header="Foundational data"
         currentValue={foda.hash}
-        latestValue={data?.foundationalDataHash ?? null}
-        loading={loading}
+        latestValue={props.latestVersion}
+        loading={props.loading}
       />
       <Column class="gap-4">
         <TextBlock>Current version: {trimIfHash(foda.hash)}</TextBlock>
@@ -31,8 +31,8 @@ export function FoundationalDataSection(props: FoundationalDataSectionProps) {
       </Column>
       <AsyncFieldValue
         prefix="Latest version"
-        value={trimIfHash(data?.foundationalDataHash)}
-        loading={loading}
+        value={trimIfHash(props.latestVersion)}
+        loading={props.loading}
       />
     </Column>
   );
