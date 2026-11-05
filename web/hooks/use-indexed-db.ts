@@ -7,6 +7,23 @@ import type { z, ZodType } from "zod";
 const tableName = "cache";
 const rowId = "data";
 
+// TODO: This works, but I'm definitely not using IndexedDB for its intended
+// purpose, I'm just shoving a massive JSON object into a single row and hoping
+// there's no size limit other than the global storage limit (usually of several
+// GBs). While I can't find it documented, it wouldn't be crazy for browsers to
+// assume that rows in IndexedDB won't be storing tens of MBs in a single row.
+//
+// Probably a better fit would be the window.caches API for this use case. It's
+// still not perfect, as it expects a request/response pair rather than just
+// storing data by key, but I think I can fudge it with Cache.put(), and it's
+// probably a closer fit than this IndexedDB approach. Unfortunately, it also
+// requires a secure context (HTTPS), which is fine for everything except when I
+// want to visit the site on my phone over LAN (localhost is considered secure,
+// but not a 192.168.X.X address). Luckily, caching foundational data is not a
+// critical path, so as long as we're happy to let it quietly fail (both in
+// reading and writing the cache) as we currently do, then it won't impact that
+// situation.
+
 export function useIndexedDb<Schema extends ZodType>(
   key: string,
   schema: Schema,
