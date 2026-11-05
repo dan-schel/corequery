@@ -148,6 +148,7 @@
           <ol class="gap-2">
             <li>Unregister all service workers for this web app</li>
             <li>Clear all local storage entries for this web app</li>
+            <li>Clear all IndexedDB data for this web app</li>
             <li>Then, navigate you back to the homepage</li>
           </ol>
         </div>
@@ -173,7 +174,7 @@
         try {
           localStorage.clear();
         } catch (error) {
-          alert("Error while clearing local storage.", error);
+          alert(`An error occurred while clearing local storage.\n\n${error}`);
           anyFailures = true;
         }
 
@@ -184,7 +185,9 @@
             await registration.unregister();
           }
         } catch (error) {
-          alert("Error while unregistering service worker.", error);
+          alert(
+            `An error occurred while unregistering the service worker.\n\n${error}`,
+          );
           anyFailures = true;
         }
 
@@ -193,7 +196,7 @@
             await window.caches.delete(cacheName);
           }
         } catch (error) {
-          alert("Error while clearing caches.", error);
+          alert(`An error occurred while clearing caches.\n\n${error}`);
           anyFailures = true;
         }
 
