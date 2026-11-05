@@ -146,9 +146,10 @@
         <div class="gap-2">
           <p>When you click "Factory reset", it will:</p>
           <ol class="gap-2">
-            <li>Unregister all service workers for this web app</li>
             <li>Clear all local storage entries for this web app</li>
             <li>Clear all IndexedDB data for this web app</li>
+            <li>Unregister all service workers for this web app</li>
+            <li>Clear all caches for this web app</li>
             <li>Then, navigate you back to the homepage</li>
           </ol>
         </div>
@@ -168,6 +169,7 @@
     </section>
     <script>
       const resetButton = document.getElementById("reset-button");
+
       resetButton.addEventListener("click", async () => {
         let anyFailures = false;
 
@@ -175,6 +177,26 @@
           localStorage.clear();
         } catch (error) {
           alert(`An error occurred while clearing local storage.\n\n${error}`);
+          anyFailures = true;
+        }
+
+        try {
+          const databases = await indexedDB.databases();
+          await Promise.all(
+            databases.map(({ name }) => {
+              if (name == null) throw new Error("A DB had no name.");
+              return new Promise((resolve, reject) => {
+                const request = indexedDB.deleteDatabase(name);
+                const blockedMsg =
+                  "If the app is open in another tab, close it and try again.";
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+                request.onblocked = () => reject(new Error(blockedMsg));
+              });
+            }),
+          );
+        } catch (error) {
+          alert(`An error occurred while clearing IndexedDB data.\n\n${error}`);
           anyFailures = true;
         }
 
