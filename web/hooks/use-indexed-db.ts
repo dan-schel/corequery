@@ -14,14 +14,19 @@ export function useIndexedDb<Schema extends ZodType>(
       if (item == null) return null;
 
       return schema.parse(item);
-    } catch {
+    } catch (e) {
+      console.warn(`Failed to read "${key}" from IndexedDB.`, e);
       return null;
     }
   }, [key, schema]);
 
   const set = useCallback(
     async (value: z.input<Schema>): Promise<void> => {
-      await write(key, value);
+      try {
+        await write(key, value);
+      } catch (e) {
+        console.warn(`Failed to write "${key}" to IndexedDB.`, e);
+      }
     },
     [key],
   );
