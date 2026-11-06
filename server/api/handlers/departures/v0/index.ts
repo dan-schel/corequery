@@ -4,79 +4,106 @@ import type {
   ServerFodaSyncedResultOf,
 } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
-import type { Departure } from "@/server/data/service/departure.js";
-import type { Corequery } from "@/server/corequery.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
+import { ArgsError } from "@/server/api/args-error.js";
+import { itsOk, repeat } from "@dan-schel/js-utils";
+import type { Departure } from "@/server/data/index.js";
+import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
 
-type ApiDeparture = ServerFodaSyncedResultOf<
-  typeof DEPARTURES_V0
->["departures"][number];
+type DeparturesV0ApiResult = ServerFodaSyncedResultOf<typeof DEPARTURES_V0>;
+type DeparturesV0ApiFeedResult = DeparturesV0ApiResult["feeds"][number];
+export type DeparturesV0ApiDeparture =
+  DeparturesV0ApiFeedResult["departures"][number];
+
+type DeparturesV0ApiArgs = ServerArgsOf<typeof DEPARTURES_V0>;
+type DeparturesV0ApiFeedArgs = DeparturesV0ApiArgs["feeds"][number];
+type DeparturesV0ApiSkips = DeparturesV0ApiFeedArgs["skips"][number];
 
 export async function handle(
   ctx: ApiContext,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
   return applyFodaSyncedResult(ctx, async () => {
-    // TODO: The v1 API should return some sort of error object.
-    if (args.count < 1 || args.count > 50) return { departures: [] };
-
-    const now = getStartOfCurrentMinute();
+    ensureFeedsReasonable(args.feeds);
+    const instant = parseInstant(args.instant);
 
     const iterator = ctx.app.services.getDeparturesIterator(
       args.stopId,
-      now,
-      "forwards",
+      instant,
+      args.direction,
     );
 
-    const results: Departure[] = [];
+    const results: Departure[][] = repeat([], args.feeds.length);
 
-    while ((await iterator.peek()) != null && results.length < args.count) {
+    while (
+      (await iterator.peek()) != null &&
+      !allFeedsSatisfied(results, args.feeds)
+    ) {
       const dep = await iterator.take();
-      results.push(dep);
+
+      for (let i = 0; i < args.feeds.length; i++) {
+        const feed = itsOk(args.feeds[i]);
+        const resultsSubarray = itsOk(results[i]);
+
+        if (resultsSubarray.length >= feed.desiredCount) continue;
+        if (!matchesFilter(dep, feed.filterIds)) continue;
+        if (skipped(dep, feed.skips)) continue;
+
+        resultsSubarray.push(dep);
+      }
     }
 
     return {
-      departures: results.map((x) => toApiResult(ctx.app, x)),
+      feeds: results.map((x) => ({
+        departures: x.map((y) => toApiResult(ctx.app, y)),
+      })),
     };
   });
 }
 
-function getStartOfCurrentMinute() {
-  return Temporal.Now.zonedDateTimeISO("UTC")
-    .round({
-      smallestUnit: "minute",
-      roundingMode: "floor",
-    })
-    .toInstant();
+function ensureFeedsReasonable(feeds: DeparturesV0ApiFeedArgs[]) {
+  if (feeds.length < 1) throw new ArgsError("No feeds provided.");
+  if (feeds.length > 4) throw new ArgsError("Too many feeds.");
+
+  for (const feed of feeds) {
+    if (feed.desiredCount < 1) throw new ArgsError("Desired count too low.");
+    if (feed.desiredCount > 50) throw new ArgsError("Desired count too high.");
+  }
 }
 
-function toApiResult(app: Corequery, dep: Departure): ApiDeparture {
-  const terminusName = app.stops.require(dep.service.termination.stopId).name;
+function parseInstant(instant: string) {
+  try {
+    return Temporal.Instant.from(instant);
+  } catch {
+    throw new ArgsError(`Couldn't convert "${instant}" to an instant.`);
+  }
+}
 
-  return {
-    sourceId: dep.service.sourceId,
-    intrasourceId: dep.service.intrasourceId,
+function allFeedsSatisfied(
+  results: Departure[][],
+  feeds: DeparturesV0ApiFeedArgs[],
+) {
+  for (let i = 0; i < feeds.length; i++) {
+    const resultsCount = itsOk(results[i]).length;
+    const desiredCount = itsOk(feeds[i]).desiredCount;
 
-    // TODO: Crawl the connections until either the chain ends, or we find a
-    // servicing movement at a stop which was already serviced. Once we find
-    // that repeated servicing movement, we use the previous servicing movement
-    // as the "destination".
-    primaryDestinationText: terminusName,
-    secondaryDestinationText: null,
+    if (resultsCount < desiredCount) return false;
+  }
+  return true;
+}
 
-    lineIds: dep.service.lineIds,
-    color: dep.service.getColorHexCodes(),
+function matchesFilter(_x: Departure, _filterIds: string[]) {
+  // I'll also have to pass the list of filters for this stop, and some logic
+  // that knows what they mean.
 
-    isCancelled: dep.service.isCancelled,
+  // TODO: Implement this.
+  return true;
+}
 
-    movement: {
-      index: dep.movementIndex,
-      positionId: dep.movement.currentPositionId,
-      time: dep.movement.timeRelevantToDeparturesAlgorithm.toString(),
-
-      formerTime:
-        dep.movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ??
-        null,
-    },
-  };
+function skipped(x: Departure, skips: DeparturesV0ApiSkips[]) {
+  return skips.some(
+    (s) =>
+      s.sourceId === x.service.sourceId &&
+      s.intrasourceId === x.service.intrasourceId,
+  );
 }

@@ -3,7 +3,7 @@ import { Page } from "@/web/components/page/Page";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import { useMemo } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
@@ -37,9 +37,35 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
+  // TODO: useNow() - Also is the frontend supposed to be using Temporal? The
+  // polyfill isn't currently installed for the frontend. If we're gonna use it
+  // on the frontend, it'll need to be, since no versions of Safari support it
+  // yet (as of November 2026).
+  const [instant] = useState(() =>
+    Temporal.Now.zonedDateTimeISO("UTC")
+      .round({
+        smallestUnit: "minute",
+        roundingMode: "floor",
+      })
+      .toInstant(),
+  );
+
   const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
     stopId: props.stop.id,
-    count: 5,
+    instant: instant.toString(),
+    direction: "forwards",
+    feeds: [
+      {
+        desiredCount: 5,
+        filterIds: [],
+        skips: [],
+      },
+      {
+        desiredCount: 5,
+        filterIds: [],
+        skips: [],
+      },
+    ],
   });
 
   const feeds = useMemo<DepartureFeedData[]>(
@@ -47,23 +73,23 @@ function StopPageContent(props: StopPageContentProps) {
       {
         query: {
           title: "Citybound trains",
-          count: 5,
+          desiredCount: 5,
         },
-        departures: data?.departures ?? [],
+        departures: data?.feeds[0]?.departures ?? [],
         loading,
         hadError: error != null,
       },
       {
         query: {
           title: "Outbound trains",
-          count: 5,
+          desiredCount: 5,
         },
-        departures: data?.departures ?? [],
+        departures: data?.feeds[1]?.departures ?? [],
         loading,
         hadError: error != null,
       },
     ],
-    [data?.departures, loading, error],
+    [data, loading, error],
   );
 
   return (
