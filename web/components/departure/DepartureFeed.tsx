@@ -40,7 +40,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         class="bg-bg-raised desktop:border not-desktop:border-y border-soft-border desktop:rounded-lg overflow-hidden box-content"
 
         departures={props.feed.departures}
-        queryCount={props.feed.query.count}
+        queryCount={props.feed.query.desiredCount}
         loading={props.feed.loading}
         hadError={props.feed.hadError}
       />

@@ -43,6 +43,51 @@ export const stopFodaSchema = z.object({
   // locations of each stop to them instead, and do the maths client-side.
   location: locationFodaSchema.nullable(),
 
+  defaultDepartureFeeds: z
+    .object({
+      // Name can be derived from the filter IDs. If we wanted use a compound
+      // filter, and were worried that it'll end up with an ugly name, we could
+      // always add a custom filter (and therefore avoid needing the compound
+      // filter) for it, and maybe add a `hidden: true` to it's entry in
+      // `availableFilterGroups` if it shouldn't appear in the filter popover.
+      //
+      // name: z.string(),
+
+      desiredCount: z.number(),
+      filterIds: z.string().array(),
+    })
+    .array(),
+
+  // Filters which are grouped:
+  //
+  // - Display together in a group in the filters popover.
+  //
+  // - Logically OR instead of AND.
+  //   - `platform-1 platform-2` means a train on either platform 1 _OR_ 2.
+  //   - `line-1 platform-2` means a train on line 1 _AND_ on platform 2.
+  //
+  // In the above example you could use id prefixes (platform-, line-) to
+  // distinguish groups, but let's assume the IDs are arbitrary.
+  //
+  // This couples UI presentation and filter logic together, which gives me a
+  // slightly tingly feeling, but I think makes sense. I can't imagine it'll be
+  // a hard decision to reverse if need be. (This `availableFilterGroups` is
+  // what the frontend uses for its UI layout. The logical AND/OR is pure
+  // server-side logic, so it can move to a different system if it likes without
+  // even needing a breaking change in the FODA schema.)
+  availableFilterGroups: z
+    .object({
+      name: z.string(),
+      items: z.object({
+        // id = "position-51"
+        id: z.string(),
+
+        // name = "Platform 1"
+        name: z.string(),
+      }),
+    })
+    .array(),
+
   // Considering whether things like the list of supported filters and default
   // departure feeds would go in a `/stop-page/v1` API (which would also return
   // the departures themselves, even though subsequent refreshes would still use

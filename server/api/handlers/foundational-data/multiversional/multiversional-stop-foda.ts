@@ -34,6 +34,10 @@ export class MultiversionalStopFoda {
       urlPath: this.obj.urlPath,
       canonicalLinesServingStop: this.obj.canonicalLinesServingStop,
       location: this.obj.location,
+
+      // TODO: Need to define how these are configured by the server.
+      defaultDepartureFeeds: [],
+      availableFilterGroups: [],
     };
   }
 }
