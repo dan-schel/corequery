@@ -1,6 +1,7 @@
 import z from "zod";
 
 export const feedSchema = z.object({
+  stopId: z.number(),
   desiredCount: z.number(),
   filterIds: z.string().array(),
 

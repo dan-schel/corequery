@@ -6,7 +6,7 @@ import type {
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 import { ArgsError } from "@/server/api/args-error.js";
-import { itsOk, repeat } from "@dan-schel/js-utils";
+import { itsOk } from "@dan-schel/js-utils";
 import type { Departure } from "@/server/data/index.js";
 import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
 
@@ -27,29 +27,33 @@ export async function handle(
     ensureFeedsReasonable(args.feeds);
     const instant = parseInstant(args.instant);
 
-    const iterator = ctx.app.services.getDeparturesIterator(
-      args.stopId,
-      instant,
-      args.direction,
-    );
+    const results: Departure[][] = args.feeds.map(() => []);
+    const stopIds = new Set(args.feeds.map((feed) => feed.stopId));
 
-    const results: Departure[][] = repeat([], args.feeds.length);
+    for (const stopId of stopIds) {
+      const iterator = ctx.app.services.getDeparturesIterator(
+        stopId,
+        instant,
+        args.direction,
+      );
 
-    while (
-      (await iterator.peek()) != null &&
-      !allFeedsSatisfied(results, args.feeds)
-    ) {
-      const dep = await iterator.take();
+      while (
+        !allFeedsSatisfied(results, args.feeds, stopId) &&
+        (await iterator.peek()) != null
+      ) {
+        const dep = await iterator.take();
 
-      for (let i = 0; i < args.feeds.length; i++) {
-        const feed = itsOk(args.feeds[i]);
-        const resultsSubarray = itsOk(results[i]);
+        for (let i = 0; i < args.feeds.length; i++) {
+          const feed = itsOk(args.feeds[i]);
+          const resultsSubarray = itsOk(results[i]);
 
-        if (resultsSubarray.length >= feed.desiredCount) continue;
-        if (!matchesFilter(dep, feed.filterIds)) continue;
-        if (skipped(dep, feed.skips)) continue;
+          if (feed.stopId !== stopId) continue;
+          if (resultsSubarray.length >= feed.desiredCount) continue;
+          if (!matchesFilter(dep, feed.filterIds)) continue;
+          if (skipped(dep, feed.skips)) continue;
 
-        resultsSubarray.push(dep);
+          resultsSubarray.push(dep);
+        }
       }
     }
 
@@ -82,10 +86,14 @@ function parseInstant(instant: string) {
 function allFeedsSatisfied(
   results: Departure[][],
   feeds: DeparturesV0ApiFeedArgs[],
+  stopId: number,
 ) {
   for (let i = 0; i < feeds.length; i++) {
+    const feed = itsOk(feeds[i]);
+    if (feed.stopId !== stopId) continue;
+
     const resultsCount = itsOk(results[i]).length;
-    const desiredCount = itsOk(feeds[i]).desiredCount;
+    const desiredCount = feed.desiredCount;
 
     if (resultsCount < desiredCount) return false;
   }

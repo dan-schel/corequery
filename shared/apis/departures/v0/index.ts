@@ -9,7 +9,6 @@ import { feedSchema } from "@/shared/apis/departures/v0/feed.js";
 // with frontends that only understand the v0 API, and that's A-OK.
 
 const argsSchema = z.object({
-  stopId: z.number(),
   instant: z.string(),
   direction: z.enum(["forwards", "backwards"]),
 

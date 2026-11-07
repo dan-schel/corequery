@@ -51,16 +51,17 @@ function StopPageContent(props: StopPageContentProps) {
   );
 
   const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
-    stopId: props.stop.id,
     instant: instant.toString(),
     direction: "forwards",
     feeds: [
       {
+        stopId: props.stop.id,
         desiredCount: 5,
         filterIds: [],
         skips: [],
       },
       {
+        stopId: props.stop.id,
         desiredCount: 5,
         filterIds: [],
         skips: [],
