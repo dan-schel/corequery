@@ -8,6 +8,5 @@
   },
 
   // Configures VSCode's auto import to use "@/..." paths.
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.preferences.importModuleSpecifier": "non-relative"
+  "js/ts.preferences.importModuleSpecifier": "non-relative"
 }
