@@ -49,7 +49,7 @@ export async function handle(
 
           if (feed.stopId !== stopId) continue;
           if (resultsSubarray.length >= feed.desiredCount) continue;
-          if (!matchesFilter(dep, feed.filterTokens)) continue;
+          if (!isAcceptedByFilter(dep, feed.filterTokens)) continue;
           if (skipped(dep, feed.skips)) continue;
 
           resultsSubarray.push(dep);
@@ -100,7 +100,7 @@ function allFeedsSatisfied(
   return true;
 }
 
-function matchesFilter(_x: Departure, _filterTokens: string[]) {
+function isAcceptedByFilter(_x: Departure, _filterTokens: string[]) {
   // I'll also have to pass the list of filters for this stop, and some logic
   // that knows what they mean.
 
