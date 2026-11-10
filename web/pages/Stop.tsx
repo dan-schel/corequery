@@ -57,13 +57,13 @@ function StopPageContent(props: StopPageContentProps) {
       {
         stopId: props.stop.id,
         desiredCount: 5,
-        filterIds: [],
+        filterTokens: [],
         skips: [],
       },
       {
         stopId: props.stop.id,
         desiredCount: 5,
-        filterIds: [],
+        filterTokens: [],
         skips: [],
       },
     ],

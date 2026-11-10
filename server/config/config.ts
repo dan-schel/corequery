@@ -10,8 +10,9 @@ import type {
   TerminologyConfig,
 } from "@/server/config/types/index.js";
 import type { Logger } from "@/server/logger/logger.js";
-import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
+import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config.js";
 import type { ServiceSourcesConfig } from "@/server/config/types/service-sources-config.js";
+import type { GetFiltersForStopConfig } from "@/server/config/types/get-filters-for-stop-config.js";
 
 export type CorequeryConfig<CustomContextType = unknown> = {
   readonly logger: Logger;
@@ -27,6 +28,7 @@ export type CorequeryConfig<CustomContextType = unknown> = {
   readonly linesPage: LinesPageConfig;
   readonly tags: TagsConfig;
   readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
+  readonly getFiltersForStop: GetFiltersForStopConfig;
   readonly serviceSources: ServiceSourcesConfig;
   readonly custom: CustomContextType;
 };

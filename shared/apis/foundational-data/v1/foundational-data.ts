@@ -8,13 +8,6 @@ import z from "zod";
 // isn't necessarily a good idea anyway, since old versions of these schemas
 // need to stick around for the server to continue using.
 //
-// NOTE: Despite these schemas living inside `apis/foundational-data/v1`,
-// they'll be reused in a lot of APIs, due to the force update mechanism. When a
-// breaking change occurs to the foundational data, it causes a breaking change
-// to all those APIs too. E.g. we might have `/depatures/v2` API serving this V1
-// version of the foundational data, and `/departures/v3` serving a V2 version
-// of the foundational data.
-//
 // The class in /web that wraps these schemas and provides helper methods should
 // hopefully be the only touch-point in the frontend for these schemas, so when
 // a new version happens, there shouldn't be a million places to change. Only
@@ -54,61 +47,65 @@ export const stopFodaSchema = z.object({
       // name: z.string(),
 
       desiredCount: z.number(),
-      filterIds: z.string().array(),
+      filterTokens: z.string().array(),
     })
     .array(),
 
-  // Filters which are grouped:
-  //
-  // - Display together in a group in the filters popover.
-  //
-  // - Logically OR instead of AND.
-  //   - `platform-1 platform-2` means a train on either platform 1 _OR_ 2.
-  //   - `line-1 platform-2` means a train on line 1 _AND_ on platform 2.
-  //
-  // In the above example you could use id prefixes (platform-, line-) to
-  // distinguish groups, but let's assume the IDs are arbitrary.
-  //
-  // This couples UI presentation and filter logic together, which gives me a
-  // slightly tingly feeling, but I think makes sense. I can't imagine it'll be
-  // a hard decision to reverse if need be. (This `availableFilterGroups` is
-  // what the frontend uses for its UI layout. The logical AND/OR is pure
-  // server-side logic, so it can move to a different system if it likes without
-  // even needing a breaking change in the FODA schema.)
-  availableFilterGroups: z
-    .object({
-      name: z.string(),
-      items: z.object({
-        // id = "position-51"
-        id: z.string(),
+  availableFilters: z.object({
+    // The names `customGroups` and `token` were very deliberate choices.
+    //
+    // - `customGroups` implies that a list of filters supplied by the server
+    //    might not always be the exclusive list of filters the client can use.
+    //    For example, if we want to enable users to filter by "all the trains
+    //    which stop at X", it would be impractical (esp. at a big station like
+    //    Flinders Street) to have the server enumerate all the possible
+    //    filters. So, instead, we'd have a second property like
+    //   `autoFutureStopsGroup: "enabled"`.
+    //
+    // - `token` is a unique identifier for a filter, but it's not necessarily
+    //   atomic, i.e. it might be parsed rather than looked up, and therefore
+    //   the term `id` feels inappropriate. It's for the same reasons as above.
+    //   We won't generate IDs for all possible filters, they'll have a token of
+    //   `future-stop-217` meaning the train stops at stop #217 in the future.
+    //
+    // Note that filters which are grouped:
+    //
+    // - Display together in a group in the filters popover.
+    //
+    // - Logically OR instead of AND.
+    //   - `platform-1 platform-2` means a train on either platform 1 _OR_ 2.
+    //   - `line-1 platform-2` means a train on line 1 _AND_ on platform 2.
+    customGroups: z
+      .object({
+        label: z.string(), // "By platform"
+        items: z.object({
+          token: z.string(), // "position-51"
+          name: z.string(), // "Platform 1"
+          labelWithinGroup: z.string(), // "1"
+        }),
+      })
+      .array(),
 
-        // name = "Platform 1"
-        name: z.string(),
-      }),
-    })
-    .array(),
-
-  // Considering whether things like the list of supported filters and default
-  // departure feeds would go in a `/stop-page/v1` API (which would also return
-  // the departures themselves, even though subsequent refreshes would still use
-  // a `/departures/v1` API). I suppose it seems a little heavy to include them
-  // all in the foundational data. How many MB is this gonna add up to?
-  //
-  // That said, since foundational data only needs to be fully refetched when
-  // the hash changes (which would only be due to a commit, as I don't think
-  // there'll be anything dynamic in it), and the only time it will restrict
-  // navigation (longer than like 1 second) is on the first load (even though
-  // APIs have the force update mechanism, APIs are called to load dynamic data
-  // on pages, and nothing prevents you navigating away while it loads), so
-  // maybe it really doesn't matter.
-  //
-  // Consider that people on a slow connection might want to navigate to a stop
-  // page and set their filters before having to wait for a response from the
-  // server. Making them wait for one request to complete before they can adjust
-  // the filters might be kinda frustrating. I assume most connections are
-  // "choppy" anyway, rather than slow, so it's better to minimise the number of
-  // requests rather than the size of each one, as when the internet is
-  // available, it's fast anyway!
+    // Similar to `futureStops` mentioned above, we could have these:
+    //
+    // autoLinesGroup: z.enum(["disabled", "canonical"]),
+    // autoPositionsGroup: z.enum(["disabled", "enabled"]),
+    //
+    // The only reason I haven't bothered is that TrainQuery won't use either
+    // (at least, not for every stop, so why bother? - well I suppose it could
+    // cut down on FODA size...).
+    //
+    // - It can't use `lines` for North Melbourne, because Flemington Racecourse
+    //   is not a canonical line, and we still want to be able to filter by it.
+    //   Right now I'll just achieve that with custom groups. I could consider
+    //   making `lines: [1, 2, 3, 4]` a valid configuration option though.
+    //
+    // - It can't use `positions` for Southern Cross, as we want to combine the
+    //   filter for platforms "16A", "16B", and just plain "16" into a single
+    //   "Platform 16" filter.
+    //
+    // So I'd only be adding them for some future other theoretical consumer.
+  }),
 });
 
 export const lineDiagramStopFodaSchema = z.object({
