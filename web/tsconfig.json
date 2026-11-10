@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.paths.json",
   "include": ["./**/*", "../shared/**/*"],
   "compilerOptions": {
     "esModuleInterop": true,
@@ -18,9 +19,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "types": ["vite-plugin-pwa/client", "vite/client"],
-    "paths": {
-      "@/*": ["../*"]
-    },
     "rootDir": "../"
   }
 }

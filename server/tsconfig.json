@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.paths.json",
   "include": ["./**/*", "../shared/**/*"],
   "compilerOptions": {
     "esModuleInterop": true,
@@ -17,9 +18,6 @@
     "sourceMap": true,
     "declaration": true,
     "lib": ["es2025", "ESNext.Temporal"],
-    "paths": {
-      "@/*": ["../*"]
-    },
     "rootDir": "../"
   }
 }
