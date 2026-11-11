@@ -19,8 +19,8 @@ type DeparturesV0ApiArgs = ServerArgsOf<typeof DEPARTURES_V0>;
 type DeparturesV0ApiFeedArgs = DeparturesV0ApiArgs["feeds"][number];
 type DeparturesV0ApiSkips = DeparturesV0ApiFeedArgs["skips"][number];
 
-export async function handle(
-  ctx: ApiContext,
+export async function handle<CustomContextType>(
+  ctx: ApiContext<CustomContextType>,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
   return applyFodaSyncedResult(ctx, async () => {
@@ -49,7 +49,7 @@ export async function handle(
 
           if (feed.stopId !== stopId) continue;
           if (resultsSubarray.length >= feed.desiredCount) continue;
-          if (!isAcceptedByFilter(dep, feed.filterTokens)) continue;
+          if (!isAcceptedByFilter(dep, feed.filterExpression)) continue;
           if (skipped(dep, feed.skips)) continue;
 
           resultsSubarray.push(dep);
@@ -61,6 +61,7 @@ export async function handle(
       feeds: results.map((x) => ({
         departures: x.map((y) => toApiResult(ctx.app, y)),
       })),
+      invalidFilterTokens: [],
     };
   });
 }
@@ -100,11 +101,39 @@ function allFeedsSatisfied(
   return true;
 }
 
-function isAcceptedByFilter(_x: Departure, _filterTokens: string[]) {
+function isAcceptedByFilter(_x: Departure, _filterExpression: string) {
   // I'll also have to pass the list of filters for this stop, and some logic
   // that knows what they mean.
 
   // TODO: Implement this.
+
+  // Filter types:
+  //
+  // - `arr`: Movement is an arrival (typically used as `!arr`).
+  //
+  // - `sdo`: Movement is set down only (typically used as `!sdo`).
+  //
+  // - `line-X`: Line X is in the departure's lines array.
+  //
+  // - `position-X`: Movement is at position X.
+  //
+  // - `service-tag-X`: Service tag X is in the departure's service tags array.
+  //
+  // - `stops-at-X`: Future movements of this service stop at stop X. (It's
+  //   unclear whether transfers should be followed, and whether stops after the
+  //   "relevancy cutoff" should be included.)
+  //
+  // Filter expression syntax:
+  //
+  // - "!" to negate, e.g. "!line-10".
+  //
+  // - "|" for OR, e.g. "line-10|line-15".
+  //
+  // - " " for AND, e.g. "line-10 line-15".
+  //
+  // - Filters are expected to be in CNF, so "a|b c|d", and therefore
+  //   parentheses are not allowed.
+
   return true;
 }
 

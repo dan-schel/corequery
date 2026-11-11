@@ -13,6 +13,8 @@ import type { Logger } from "@/server/logger/logger.js";
 import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config.js";
 import type { ServiceSourcesConfig } from "@/server/config/types/service-sources-config.js";
 import type { GetFiltersForStopConfig } from "@/server/config/types/get-filters-for-stop-config.js";
+import type { GetDefaultDepartureFeedsForStopConfig } from "@/server/config/types/get-default-departure-feeds-for-stop-config.js";
+import type { CustomFilterFunctionConfig } from "@/server/config/types/custom-filter-function-config.js";
 
 export type CorequeryConfig<CustomContextType = unknown> = {
   readonly logger: Logger;
@@ -29,6 +31,8 @@ export type CorequeryConfig<CustomContextType = unknown> = {
   readonly tags: TagsConfig;
   readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
   readonly getFiltersForStop: GetFiltersForStopConfig;
+  readonly getDefaultDepartureFeedsForStop: GetDefaultDepartureFeedsForStopConfig;
+  readonly customFilterFunctions?: readonly CustomFilterFunctionConfig<CustomContextType>[];
   readonly serviceSources: ServiceSourcesConfig;
   readonly custom: CustomContextType;
 };

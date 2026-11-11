@@ -21,7 +21,7 @@ export type CorequeryConfigBuilder<CustomContextType> = (
 
 export class Corequery<CustomContextType = unknown> {
   private readonly _config: CorequeryConfig<CustomContextType>;
-  private readonly _webServer: WebServer;
+  private readonly _webServer: WebServer<CustomContextType>;
 
   readonly log: Logger;
   readonly serverVersion: string;

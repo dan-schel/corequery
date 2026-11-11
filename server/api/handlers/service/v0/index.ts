@@ -12,8 +12,8 @@ type ApiMovement = NonNullable<
   ServerFodaSyncedResultOf<typeof SERVICE_V0>["service"]
 >["movements"][number];
 
-export async function handle(
-  ctx: ApiContext,
+export async function handle<CustomContextType>(
+  ctx: ApiContext<CustomContextType>,
   args: ServerArgsOf<typeof SERVICE_V0>,
 ): Promise<ServerResultOf<typeof SERVICE_V0>> {
   return applyFodaSyncedResult(ctx, async () => {

@@ -3,7 +3,7 @@ import z from "zod";
 export const feedSchema = z.object({
   stopId: z.number(),
   desiredCount: z.number(),
-  filterTokens: z.string().array(),
+  filterExpression: z.string(),
 
   // Will be required for infinite scrolling, as two departures can have the
   // same time.

@@ -37,7 +37,11 @@ export class MultiversionalStopFoda {
 
       // TODO: Need to define how these are configured by the server.
       defaultDepartureFeeds: [],
-      availableFilterGroups: [],
+      departureFilters: {
+        lines: "canonical",
+        positions: "all",
+        customGroups: [],
+      },
     };
   }
 }

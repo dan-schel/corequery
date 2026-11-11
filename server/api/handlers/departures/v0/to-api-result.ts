@@ -2,8 +2,8 @@ import type { DeparturesV0ApiDeparture } from "@/server/api/handlers/departures/
 import type { Corequery } from "@/server/corequery.js";
 import type { Departure } from "@/server/data/index.js";
 
-export function toApiResult(
-  app: Corequery,
+export function toApiResult<CustomContextType>(
+  app: Corequery<CustomContextType>,
   dep: Departure,
 ): DeparturesV0ApiDeparture {
   const terminusName = app.stops.require(dep.service.termination.stopId).name;

@@ -1,16 +1,6 @@
-import type { Departure } from "@/server/data/service/departure.js";
-
 export type GetFiltersForStopConfig = (stopId: number) => {
-  readonly defaultDepartureFeeds: DefaultDepartureFeedConfig;
-  readonly availableFilters: AvailableFiltersConfig;
-};
-
-export type DefaultDepartureFeedConfig = {
-  readonly desiredCount: number;
-  readonly filterTokens: readonly string[];
-}[];
-
-export type AvailableFiltersConfig = {
+  readonly lines: "off" | "canonical" | readonly number[];
+  readonly positions: "off" | "all" | readonly number[];
   readonly customGroups: readonly CustomFilterGroupConfig[];
 };
 
@@ -20,12 +10,7 @@ export type CustomFilterGroupConfig = {
 };
 
 export type CustomFilterConfig = {
-  readonly token: string;
   readonly name: string;
   readonly labelWithinGroup: string;
-
-  // Maybe Corequery<T> should be available as an arg here, but I'll wait to see
-  // if it's needed first because it means all these types would become generic
-  // too :/
-  readonly isAccepted: (departure: Departure) => boolean;
+  readonly filterExpression: string;
 };

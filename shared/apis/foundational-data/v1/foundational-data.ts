@@ -38,73 +38,52 @@ export const stopFodaSchema = z.object({
 
   defaultDepartureFeeds: z
     .object({
-      // Name can be derived from the filter IDs. If we wanted use a compound
-      // filter, and were worried that it'll end up with an ugly name, we could
-      // always add a custom filter (and therefore avoid needing the compound
-      // filter) for it, and maybe add a `hidden: true` to it's entry in
-      // `availableFilterGroups` if it shouldn't appear in the filter popover.
-      //
-      // name: z.string(),
-
+      name: z.string(),
       desiredCount: z.number(),
-      filterTokens: z.string().array(),
+      filterExpression: z.string(),
     })
     .array(),
 
-  availableFilters: z.object({
-    // The names `customGroups` and `token` were very deliberate choices.
+  departureFilters: z.object({
+    lines: z.union([
+      z.literal("off"),
+      z.literal("canonical"),
+
+      // North Melbourne is an example of a stop that will want to define custom
+      // lines instead of using canonical lines, as the Flemington Racecourse is
+      // not a canonical line.
+      z.number().array(),
+    ]),
+
+    positions: z.union([
+      // Southern Cross is an example of a stop that will not want positional
+      // filters to be created automatically (it'll use a custom group for
+      // them).
+      z.literal("off"),
+
+      z.literal("all"),
+      z.number().array(),
+    ]),
+
+    // Note that custom filter are given as a list of groups. Grouped filters:
     //
-    // - `customGroups` implies that a list of filters supplied by the server
-    //    might not always be the exclusive list of filters the client can use.
-    //    For example, if we want to enable users to filter by "all the trains
-    //    which stop at X", it would be impractical (esp. at a big station like
-    //    Flinders Street) to have the server enumerate all the possible
-    //    filters. So, instead, we'd have a second property like
-    //   `autoFutureStopsGroup: "enabled"`.
+    // - Display together under a shared heading in the filters popover.
     //
-    // - `token` is a unique identifier for a filter, but it's not necessarily
-    //   atomic, i.e. it might be parsed rather than looked up, and therefore
-    //   the term `id` feels inappropriate. It's for the same reasons as above.
-    //   We won't generate IDs for all possible filters, they'll have a token of
-    //   `future-stop-217` meaning the train stops at stop #217 in the future.
-    //
-    // Note that filters which are grouped:
-    //
-    // - Display together in a group in the filters popover.
-    //
-    // - Logically OR instead of AND.
-    //   - `platform-1 platform-2` means a train on either platform 1 _OR_ 2.
-    //   - `line-1 platform-2` means a train on line 1 _AND_ on platform 2.
+    // - Logically OR instead of AND, meaning if two from the same group are
+    //   selected, they'll be sent to the departures query as `a|b` instead of
+    //   `a b`. We can allow arbitrary filter expressions to be combined, as
+    //   every boolean expressions can be converted to conjunctive normal form,
+    //   which is what the server supports, e.g. `(a b)|c` = `a|c b|c`.
     customGroups: z
       .object({
         label: z.string(), // "By platform"
         items: z.object({
-          token: z.string(), // "position-51"
           name: z.string(), // "Platform 1"
           labelWithinGroup: z.string(), // "1"
+          filterExpression: z.string(), // "position-51"
         }),
       })
       .array(),
-
-    // Similar to `futureStops` mentioned above, we could have these:
-    //
-    // autoLinesGroup: z.enum(["disabled", "canonical"]),
-    // autoPositionsGroup: z.enum(["disabled", "enabled"]),
-    //
-    // The only reason I haven't bothered is that TrainQuery won't use either
-    // (at least, not for every stop, so why bother? - well I suppose it could
-    // cut down on FODA size...).
-    //
-    // - It can't use `lines` for North Melbourne, because Flemington Racecourse
-    //   is not a canonical line, and we still want to be able to filter by it.
-    //   Right now I'll just achieve that with custom groups. I could consider
-    //   making `lines: [1, 2, 3, 4]` a valid configuration option though.
-    //
-    // - It can't use `positions` for Southern Cross, as we want to combine the
-    //   filter for platforms "16A", "16B", and just plain "16" into a single
-    //   "Platform 16" filter.
-    //
-    // So I'd only be adding them for some future other theoretical consumer.
   }),
 });
 

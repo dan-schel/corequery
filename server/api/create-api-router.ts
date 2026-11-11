@@ -5,7 +5,9 @@ import * as handlers from "@/server/api/handlers/index.js";
 import type { ApiServer, ApiHandler } from "@/server/api/types.js";
 import { ArgsError } from "@/server/api/args-error.js";
 
-export function createApiRouter(app: Corequery) {
+export function createApiRouter<CustomContextType>(
+  app: Corequery<CustomContextType>,
+) {
   const router = Router();
 
   // No CORS middleware needed. The API is served from the same origin as the
@@ -17,7 +19,7 @@ export function createApiRouter(app: Corequery) {
     api: ApiServer<Args, Result>,
 
     // NoInfer ensures that the types are inferred purely from the `api` type.
-    handler: ApiHandler<NoInfer<Args>, NoInfer<Result>>,
+    handler: ApiHandler<CustomContextType, NoInfer<Args>, NoInfer<Result>>,
   ) {
     router.post(api.path, async (req, res) => {
       try {

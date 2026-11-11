@@ -18,6 +18,13 @@ const argsSchema = z.object({
 const resultSchema = createFodaSyncedResultSchema(
   z.object({
     feeds: z.object({ departures: departureSchema.array() }).array(),
+
+    // If the client calls the departures API when its FODA is outdated, it
+    // might include filter tokens that aren't valid, e.g. `stops-at-123` after
+    // stop #123 is gone. In that case, the server will pretend the tokens
+    // evaluate to true, and return them here so the frontend knows to show a
+    // toast saying the filters were modified, or whatever.
+    invalidFilterTokens: z.string().array(),
   }),
 );
 
