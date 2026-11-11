@@ -4,13 +4,14 @@ import type { Departure } from "@/server/data/index.js";
 
 export function toApiResult<CustomContextType>(
   app: Corequery<CustomContextType>,
-  dep: Departure,
+  departure: Departure,
 ): DeparturesV0ApiDeparture {
-  const terminusName = app.stops.require(dep.service.termination.stopId).name;
+  const { service, movement } = departure;
+  const terminusName = app.stops.require(service.termination.stopId).name;
 
   return {
-    sourceId: dep.service.sourceId,
-    intrasourceId: dep.service.intrasourceId,
+    sourceId: service.sourceId,
+    intrasourceId: service.intrasourceId,
 
     // TODO: Crawl the connections until either the chain ends, or we find a
     // servicing movement at a stop which was already serviced. Once we find
@@ -19,19 +20,18 @@ export function toApiResult<CustomContextType>(
     primaryDestinationText: terminusName,
     secondaryDestinationText: null,
 
-    lineIds: dep.service.lineIds,
-    color: dep.service.getColorHexCodes(),
+    lineIds: service.lineIds,
+    color: service.getColorHexCodes(),
 
-    isCancelled: dep.service.isCancelled,
+    isCancelled: service.isCancelled,
 
     movement: {
-      index: dep.movementIndex,
-      positionId: dep.movement.currentPositionId,
-      time: dep.movement.timeRelevantToDeparturesAlgorithm.toString(),
+      index: departure.movementIndex,
+      positionId: movement.currentPositionId,
+      time: movement.timeRelevantToDeparturesAlgorithm.toString(),
 
       formerTime:
-        dep.movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ??
-        null,
+        movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ?? null,
     },
   };
 }

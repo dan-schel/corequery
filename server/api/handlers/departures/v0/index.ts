@@ -41,7 +41,7 @@ export async function handle<CustomContextType>(
         !allFeedsSatisfied(results, args.feeds, stopId) &&
         (await iterator.peek()) != null
       ) {
-        const dep = await iterator.take();
+        const departure = await iterator.take();
 
         for (let i = 0; i < args.feeds.length; i++) {
           const feed = itsOk(args.feeds[i]);
@@ -49,10 +49,10 @@ export async function handle<CustomContextType>(
 
           if (feed.stopId !== stopId) continue;
           if (resultsSubarray.length >= feed.desiredCount) continue;
-          if (!isAcceptedByFilter(dep, feed.filterExpression)) continue;
-          if (skipped(dep, feed.skips)) continue;
+          if (!isAcceptedByFilter(departure, feed.filterExpression)) continue;
+          if (isSkipped(departure, feed.skips)) continue;
 
-          resultsSubarray.push(dep);
+          resultsSubarray.push(departure);
         }
       }
     }
@@ -113,23 +113,23 @@ function isAcceptedByFilter(_x: Departure, _filterExpression: string) {
   //
   // - `sdo`: Movement is set down only (typically used as `!sdo`).
   //
-  // - `line-X`: Line X is in the departure's lines array.
+  // - `line:X`: Line X is in the departure's lines array.
   //
-  // - `position-X`: Movement is at position X.
+  // - `position:X`: Movement is at position X.
   //
-  // - `service-tag-X`: Service tag X is in the departure's service tags array.
+  // - `service-tag:X`: Service tag X is in the departure's service tags array.
   //
-  // - `stops-at-X`: Future movements of this service stop at stop X. (It's
+  // - `stops-at:X`: Future movements of this service stop at stop X. (It's
   //   unclear whether transfers should be followed, and if so, whether stops
   //   after the "relevancy cutoff" should be included.)
   //
   // Filter expression syntax:
   //
-  // - "!" to negate, e.g. "!line-10".
+  // - "!" to negate, e.g. "!line:10".
   //
-  // - "|" for OR, e.g. "line-10|line-15".
+  // - "|" for OR, e.g. "line:10|line:15".
   //
-  // - " " for AND, e.g. "line-10 line-15".
+  // - " " for AND, e.g. "line:10 line:15".
   //
   // - Filters are expected to be in CNF, so "a|b c|d", and therefore
   //   parentheses are not allowed.
@@ -137,10 +137,10 @@ function isAcceptedByFilter(_x: Departure, _filterExpression: string) {
   return true;
 }
 
-function skipped(x: Departure, skips: DeparturesV0ApiSkips[]) {
+function isSkipped(departure: Departure, skips: DeparturesV0ApiSkips[]) {
   return skips.some(
     (s) =>
-      s.sourceId === x.service.sourceId &&
-      s.intrasourceId === x.service.intrasourceId,
+      s.sourceId === departure.service.sourceId &&
+      s.intrasourceId === departure.service.intrasourceId,
   );
 }
