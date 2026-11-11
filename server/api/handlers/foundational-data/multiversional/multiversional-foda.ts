@@ -39,7 +39,7 @@ export class MultiversionalFoda {
       .digest("hex");
   }
 
-  static build(app: Corequery) {
+  static build<CustomContextType>(app: Corequery<CustomContextType>) {
     return new MultiversionalFoda(MultiversionalFoda._buildObj(app));
   }
 
@@ -47,7 +47,9 @@ export class MultiversionalFoda {
   // plain object (i.e. doesn't contain any class instances or other
   // non-serializable values). I remember doing something in ItIsBuses that did
   // this (a `JsonSerializable` type or something).
-  private static _buildObj(app: Corequery) {
+  private static _buildObj<CustomContextType>(
+    app: Corequery<CustomContextType>,
+  ) {
     return {
       // TODO: Can I remember the rationale behind having serverVersion in the
       // hash calculation? Was it just so foda.metadata.serverVersion remains up

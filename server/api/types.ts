@@ -18,15 +18,15 @@ export type ServerFodaSyncedResultOf<ApiType> =
     ? Result
     : never;
 
-export type ApiContext = {
-  readonly app: Corequery;
+export type ApiContext<CustomContextType> = {
+  readonly app: Corequery<CustomContextType>;
 
   // Other stuff specific to the request, e.g. the auth token could also go
   // here.
   // readonly token: string | null;
 };
 
-export type ApiHandler<Args, Result> = (
-  ctx: ApiContext,
+export type ApiHandler<CustomContextType, Args, Result> = (
+  ctx: ApiContext<CustomContextType>,
   args: Args,
 ) => Promise<Result>;

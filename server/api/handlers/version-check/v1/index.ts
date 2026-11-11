@@ -2,8 +2,8 @@ import type { VERSION_CHECK_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 
-export function handle(
-  _ctx: ApiContext,
+export function handle<CustomContextType>(
+  _ctx: ApiContext<CustomContextType>,
   _args: ServerArgsOf<typeof VERSION_CHECK_V1>,
 ): Promise<ServerResultOf<typeof VERSION_CHECK_V1>> {
   return Promise.resolve({
