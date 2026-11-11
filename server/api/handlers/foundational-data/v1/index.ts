@@ -2,8 +2,8 @@ import type { FOUNDATIONAL_DATA_V1 } from "@/shared/apis/index.js";
 import type { ApiContext } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 
-export function handle(
-  ctx: ApiContext,
+export function handle<CustomContextType>(
+  ctx: ApiContext<CustomContextType>,
   args: ServerArgsOf<typeof FOUNDATIONAL_DATA_V1>,
 ): Promise<ServerResultOf<typeof FOUNDATIONAL_DATA_V1>> {
   // await new Promise((resolve) => setTimeout(resolve, 500));

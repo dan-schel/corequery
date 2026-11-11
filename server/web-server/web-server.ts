@@ -8,11 +8,11 @@ import { createApiRouter } from "@/server/api/create-api-router.js";
 
 type ClientMode = "dist-folder" | "vite-middleware";
 
-export class WebServer {
+export class WebServer<CustomContextType> {
   private _frontendVersion: string | null;
 
   constructor(
-    private readonly _app: Corequery,
+    private readonly _app: Corequery<CustomContextType>,
     private readonly _port: number,
     private readonly _assetConfig: AssetConfig,
     private readonly _clientMode: ClientMode,

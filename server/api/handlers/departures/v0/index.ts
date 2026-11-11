@@ -12,8 +12,8 @@ type ApiDeparture = ServerFodaSyncedResultOf<
   typeof DEPARTURES_V0
 >["departures"][number];
 
-export async function handle(
-  ctx: ApiContext,
+export async function handle<CustomContextType>(
+  ctx: ApiContext<CustomContextType>,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
   return applyFodaSyncedResult(ctx, async () => {

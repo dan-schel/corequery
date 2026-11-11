@@ -1,0 +1,19 @@
+{
+  // Defining a path like...
+  //
+  // "@/*": ["../*"]   <-- Points to higher directory.
+  //
+  // ...doesn't work with VS Code's Typescript integration. Everytime you "Quick
+  // Fix", it reverts to the relative path despite the `.vscode/settings.json`
+  // setting.
+  //
+  // Therefore, I can't define these aliases in the `server/tsconfig.json`,
+  // `web/tsconfig.json`, etc.. I have to define it in a file at the top level
+  // so that `../*` isn't necessary and it can be `./*` instead. Or at least,
+  // this seems to work, and what I had before this didn't :/
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
