@@ -1,4 +1,9 @@
-import type { StopConfig, TagSuccessionConfig } from "@/server/config/index.js";
+import type {
+  DefaultDepartureFeedsConfig,
+  DepartureFiltersConfig,
+  StopConfig,
+  TagSuccessionConfig,
+} from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
 import { Location } from "@/server/data/location.js";
 
@@ -32,6 +37,8 @@ export class Stop {
     stopConfig: StopConfig,
     stopTagSuccession: TagSuccessionConfig,
     canonicalLinesServingStop: readonly number[],
+    departuresFilters: DepartureFiltersConfig,
+    defaultDepartureFeeds: DefaultDepartureFeedsConfig,
   ): Stop {
     return new Stop({
       id: stopConfig.id,

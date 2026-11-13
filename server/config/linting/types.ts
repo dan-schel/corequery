@@ -19,8 +19,8 @@ export type LintableConfig = {
   readonly linesPage: CorequeryConfig["linesPage"];
   readonly tags: CorequeryConfig["tags"];
   readonly getCanonicalLinesServingStop: CorequeryConfig["getCanonicalLinesServingStop"];
-  readonly getFiltersForStop: CorequeryConfig["getFiltersForStop"];
   readonly getDefaultDepartureFeedsForStop: CorequeryConfig["getDefaultDepartureFeedsForStop"];
+  readonly getDepartureFiltersForStop: CorequeryConfig["getDepartureFiltersForStop"];
 };
 
 export type LintOptions = {

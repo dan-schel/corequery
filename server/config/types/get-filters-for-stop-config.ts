@@ -1,4 +1,8 @@
-export type GetFiltersForStopConfig = (stopId: number) => {
+export type GetDepartureFiltersForStopConfig = (
+  stopId: number,
+) => DepartureFiltersConfig;
+
+export type DepartureFiltersConfig = {
   readonly lines: "off" | "canonical" | readonly number[];
   readonly positions: "off" | "all" | readonly number[];
   readonly customGroups: readonly CustomFilterGroupConfig[];

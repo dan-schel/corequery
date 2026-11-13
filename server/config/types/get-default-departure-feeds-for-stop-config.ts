@@ -1,6 +1,8 @@
 export type GetDefaultDepartureFeedsForStopConfig = (
   stopId: number,
-) => readonly DefaultDepartureFeedConfig[];
+) => DefaultDepartureFeedsConfig;
+
+export type DefaultDepartureFeedsConfig = readonly DefaultDepartureFeedConfig[];
 
 export type DefaultDepartureFeedConfig = {
   readonly name: string;

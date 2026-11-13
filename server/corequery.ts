@@ -67,6 +67,8 @@ export class Corequery<CustomContextType = unknown> {
       this._config.stops,
       this._config.tags.stopTagSuccession,
       this._config.getCanonicalLinesServingStop,
+      this._config.getDepartureFiltersForStop,
+      this._config.getDefaultDepartureFeedsForStop,
     );
     this.lines = LineCollection.build(
       this._config.lines,
