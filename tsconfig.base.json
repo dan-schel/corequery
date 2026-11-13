@@ -1,10 +1,7 @@
 {
-  "extends": "../../tsconfig.paths.json",
-  "include": ["./**/*"],
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "es2022",
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
@@ -13,9 +10,8 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "module": "preserve",
-    "noEmit": true,
-    "lib": ["es2022"],
-    "types": ["node"]
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }
