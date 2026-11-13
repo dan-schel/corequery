@@ -1,0 +1,19 @@
+{
+  // Tests, dev scripts, and config files. All of these run in Node.
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "tests",
+    "scripts/demo-app",
+    "web/vite.config.ts",
+    "knip.config.ts"
+  ],
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "preserve",
+    "lib": ["es2022", "ESNext.Temporal"],
+    "types": ["node"],
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  }
+}

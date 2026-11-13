@@ -68,6 +68,33 @@ const customRules = [
       "no-console": ["warn", { allow: ["warn"] }],
     },
   },
+  {
+    files: ["web/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    rules: {
+      // Only allow imports from /web and /shared in /web code.
+      "no-restricted-imports": [
+        "warn",
+        { patterns: ["@/*", "!@/web", "!@/shared"] },
+      ],
+    },
+  },
+  {
+    files: ["server/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    rules: {
+      // Only allow imports from /server and /shared in /server code.
+      "no-restricted-imports": [
+        "warn",
+        { patterns: ["@/*", "!@/server", "!@/shared"] },
+      ],
+    },
+  },
+  {
+    files: ["shared/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    rules: {
+      // Only allow imports from /shared in /shared code.
+      "no-restricted-imports": ["warn", { patterns: ["@/*", "!@/shared"] }],
+    },
+  },
 ];
 
 const reactConfig = [
@@ -124,7 +151,7 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        project: "./tsconfig.eslint.json",
+        projectService: true,
       },
     },
   },
