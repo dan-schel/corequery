@@ -4,7 +4,9 @@
   "include": ["scripts/generate-pwa-assets"],
   "exclude": ["scripts/generate-pwa-assets/dist"],
   "compilerOptions": {
+    "target": "es2022",
     "module": "nodenext",
+    "lib": ["es2022"],
     "types": ["node"],
     "noEmit": false,
     "rootDir": "scripts/generate-pwa-assets",

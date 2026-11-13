@@ -8,9 +8,12 @@
     "knip.config.ts"
   ],
   "compilerOptions": {
+    "target": "es2022",
+    "module": "preserve",
     "lib": ["es2022", "ESNext.Temporal"],
+    "types": ["node"],
+    "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-    "types": ["node"]
+    "jsxImportSource": "preact"
   }
 }

@@ -7,9 +7,12 @@
   "exclude": ["web/dist", "web/vite.config.ts"],
 
   "compilerOptions": {
+    "target": "es2022",
+    "module": "preserve",
     "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["vite-plugin-pwa/client", "vite/client"],
+    "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-    "types": ["vite-plugin-pwa/client", "vite/client"]
+    "jsxImportSource": "preact"
   }
 }
