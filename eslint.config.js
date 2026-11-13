@@ -71,28 +71,28 @@ const customRules = [
   {
     files: ["web/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     rules: {
-      // Block imports from /server in /web code.
+      // Only allow imports from /web and /shared in /web code.
       "no-restricted-imports": [
         "warn",
-        { patterns: ["@/server", "@/server/**"] },
+        { patterns: ["@/*", "!@/web", "!@/shared"] },
       ],
     },
   },
   {
     files: ["server/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     rules: {
-      // Block imports from /web in /server code.
-      "no-restricted-imports": ["warn", { patterns: ["@/web", "@/web/**"] }],
+      // Only allow imports from /server and /shared in /server code.
+      "no-restricted-imports": [
+        "warn",
+        { patterns: ["@/*", "!@/server", "!@/shared"] },
+      ],
     },
   },
   {
     files: ["shared/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     rules: {
-      // Block imports from /server and /web in /shared code.
-      "no-restricted-imports": [
-        "warn",
-        { patterns: ["@/server", "@/server/**", "@/web", "@/web/**"] },
-      ],
+      // Only allow imports from /shared in /shared code.
+      "no-restricted-imports": ["warn", { patterns: ["@/*", "!@/shared"] }],
     },
   },
 ];
