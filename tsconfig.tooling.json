@@ -1,5 +1,4 @@
 {
-  // Tests, dev scripts, and config files. All of these run in Node.
   "extends": "./tsconfig.base.json",
   "include": [
     "tests",

@@ -1,5 +1,4 @@
 {
-  // Also used to build `server/dist`.
   "extends": "./tsconfig.base.json",
   "include": ["server", "shared"],
   "exclude": ["server/dist"],

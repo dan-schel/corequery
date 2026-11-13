@@ -1,13 +1,4 @@
 {
-  // This file only exists so that editors (and typescript-eslint's project
-  // service) can find the right config for each file. When a file is opened,
-  // the first referenced config which includes it is used, so order matters,
-  // e.g. shared code is opened in the server environment in editors (but `npm
-  // run lint` checks it against both the server and web environments).
-  //
-  // All configs live in the root folder so that the `@/*` path alias (defined
-  // in `tsconfig.base.json`) never needs to point "up" a folder, which confuses
-  // VS Code's auto-imports and tsc-alias.
   "files": [],
   "references": [
     { "path": "./tsconfig.server.json" },
