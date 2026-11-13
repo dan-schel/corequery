@@ -37,10 +37,7 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
-  // TODO: useNow() - Also is the frontend supposed to be using Temporal? The
-  // polyfill isn't currently installed for the frontend. If we're gonna use it
-  // on the frontend, it'll need to be, since no versions of Safari support it
-  // yet (as of November 2026).
+  // TODO: Use useNow().
   const [instant] = useState(() =>
     Temporal.Now.zonedDateTimeISO("UTC")
       .round({
