@@ -1,0 +1,16 @@
+{
+  // Also used to build `server/dist`.
+  "extends": "./tsconfig.base.json",
+  "include": ["server", "shared"],
+  "exclude": ["server/dist"],
+  "compilerOptions": {
+    "target": "es2025",
+    "module": "nodenext",
+    "lib": ["es2025", "ESNext.Temporal"],
+    "types": ["node"],
+    "noEmit": false,
+    "outDir": "server/dist",
+    "sourceMap": true,
+    "declaration": true
+  }
+}

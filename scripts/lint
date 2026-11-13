@@ -2,11 +2,10 @@
 
 set -euo pipefail
 
-npx tsc -p server/tsconfig.json --noEmit
-npx tsc -p web/tsconfig.json --noEmit
-npx tsc -p tests/tsconfig.json --noEmit
-npx tsc -p scripts/demo-app/tsconfig.json --noEmit
-npx tsc -p scripts/generate-pwa-assets/tsconfig.json --noEmit
+npx tsc -p tsconfig.server.json --noEmit
+npx tsc -p tsconfig.web.json
+npx tsc -p tsconfig.tooling.json
+npx tsc -p tsconfig.generate-pwa-assets.json --noEmit
 
 if [[ "${1:-}" == "--fix" ]]; then
   npx eslint . --max-warnings 0 --fix

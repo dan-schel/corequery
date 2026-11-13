@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-npx tsc -p server/tsconfig.build.json
-npx tsc-alias -p server/tsconfig.build.json
-npx tsc -p scripts/generate-pwa-assets/tsconfig.json
-npx tsc-alias -p scripts/generate-pwa-assets/tsconfig.json
+npx tsc -p tsconfig.server.json
+npx tsc-alias -p tsconfig.server.json
+npx tsc -p tsconfig.generate-pwa-assets.json
+npx tsc-alias -p tsconfig.generate-pwa-assets.json
 npx vite build web
 cp web/reset.html web/dist/reset.html

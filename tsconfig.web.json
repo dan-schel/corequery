@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["web", "shared"],
+
+  // The Vite config runs in Node, and pulls in Node's types, so it's checked
+  // by `tsconfig.tooling.json` instead.
+  "exclude": ["web/dist", "web/vite.config.ts"],
+
+  "compilerOptions": {
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "types": ["vite-plugin-pwa/client", "vite/client"]
+  }
+}
