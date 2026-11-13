@@ -27,7 +27,7 @@ if (devScriptName != null) {
   //   changes to its code or the code within its inner
   //   `node_modules/corequery/server/dist` folder.
 
-  const tsconfigPath = "server/tsconfig.json";
+  const tsconfigPath = "server/tsconfig.build.json";
   const tsc = spawn("npx", ["tsc", "-p", tsconfigPath, "--watch"]);
   const tscAlias = spawn("npx", ["tsc-alias", "-p", tsconfigPath, "--watch"]);
 
