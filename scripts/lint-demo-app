@@ -18,5 +18,6 @@
 # requirements!
 
 set -euo pipefail
+scripts/build
 npx tsc -p demo-app/tsconfig.json --noEmit
 (cd demo-app; npx eslint . --max-warnings 0)
