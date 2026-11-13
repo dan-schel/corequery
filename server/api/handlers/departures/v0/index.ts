@@ -119,6 +119,8 @@ function isAcceptedByFilter(_x: Departure, _filterExpression: string) {
   //
   // - `service-tag:X`: Service tag X is in the departure's service tags array.
   //
+  // - `line-tag:X`: A line in the departure's lines array has tag X.
+  //
   // - `stops-at:X`: Future movements of this service stop at stop X. (It's
   //   unclear whether transfers should be followed, and if so, whether stops
   //   after the "relevancy cutoff" should be included.)
