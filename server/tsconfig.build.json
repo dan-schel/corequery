@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+
+  // The paths thing that makes VS Code happy makes tsc-alias unhappy. Arghhhhh!
+  // Anyway, this is the fix. Just override the paths alias back.
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["../*"]
+    }
+  }
+}
