@@ -3,8 +3,8 @@
 set -euo pipefail
 
 npx tsc -p tsconfig.server.json --noEmit
-npx tsc -p tsconfig.web.json
-npx tsc -p tsconfig.tooling.json
+npx tsc -p tsconfig.web.json --noEmit
+npx tsc -p tsconfig.tooling.json --noEmit
 npx tsc -p tsconfig.generate-pwa-assets.json --noEmit
 
 if [[ "${1:-}" == "--fix" ]]; then
