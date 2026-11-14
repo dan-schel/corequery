@@ -31,10 +31,13 @@ export const stopFodaSchema = z.object({
   name: z.string(),
   urlPath: z.string(),
   canonicalLinesServingStop: z.number().array().readonly(),
-  positions: z.object({
-    id: z.number(),
-    name: z.string(),
-  }),
+  positions: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+    })
+    .array()
+    .readonly(),
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.
@@ -46,11 +49,12 @@ export const stopFodaSchema = z.object({
       desiredCount: z.number(),
       filterExpression: z.string(),
     })
-    .array(),
+    .array()
+    .readonly(),
 
   departureFilters: z.object({
-    lines: z.number().array(),
-    positions: z.number().array(),
+    lines: z.number().array().readonly(),
+    positions: z.number().array().readonly(),
 
     // Note that custom filter are given as a list of groups. Grouped filters:
     //
@@ -64,13 +68,17 @@ export const stopFodaSchema = z.object({
     customGroups: z
       .object({
         label: z.string(), // "By platform"
-        items: z.object({
-          name: z.string(), // "Platform 1"
-          labelWithinGroup: z.string(), // "1"
-          filterExpression: z.string(), // "position-51"
-        }),
+        items: z
+          .object({
+            name: z.string(), // "Platform 1"
+            labelWithinGroup: z.string(), // "1"
+            filterExpression: z.string(), // "position-51"
+          })
+          .array()
+          .readonly(),
       })
-      .array(),
+      .array()
+      .readonly(),
   }),
 });
 
