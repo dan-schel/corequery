@@ -6,7 +6,7 @@ import type {
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 import { ArgsError } from "@/server/api/args-error.js";
-import { itsOk, nonNull, parseIntNull, unique } from "@dan-schel/js-utils";
+import { itsOk, nonNull, unique } from "@dan-schel/js-utils";
 import type { Departure } from "@/server/data/index.js";
 import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
 import type { Corequery } from "@/server/corequery.js";
@@ -127,74 +127,6 @@ function allFeedsSatisfied(
 
     if (resultsCount < desiredCount) return false;
   }
-  return true;
-}
-
-function isAcceptedByFilter<CustomContextType>(
-  departure: Departure,
-  filterExpression: string,
-  app: Corequery<CustomContextType>,
-) {
-  // TODO: We certainly don't want to be parsing filter expressions here, as
-  // this function is called for each departure.
-
-  if (filterExpression.includes(" ") || filterExpression.includes("|")) {
-    throw new Error("TODO: Not implemented yet!");
-  }
-
-  if (filterExpression.startsWith("service-tag:")) {
-    const serviceTag = parseIntNull(filterExpression.slice(12));
-    if (serviceTag == null) throw new Error("Invalid service tag.");
-
-    return departure.service.tags.has(serviceTag);
-  }
-
-  if (filterExpression.startsWith("line-tag:")) {
-    const lineTag = parseIntNull(filterExpression.slice(9));
-    if (lineTag == null) throw new Error("Invalid line tag.");
-
-    const serviceLineIds = departure.service.lineIds;
-    const serviceLines = serviceLineIds.map((l) => app.lines.require(l));
-
-    return serviceLines.some((line) => line.tags.has(lineTag));
-  }
-
-  throw new Error("TODO: Not implemented yet!");
-
-  // I'll also have to pass the list of filters for this stop, and some logic
-  // that knows what they mean.
-
-  // TODO: Implement this.
-
-  // Filter types:
-  //
-  // - `arr`: Movement is an arrival (typically used as `!arr`).
-  //
-  // - `sdo`: Movement is set down only (typically used as `!sdo`).
-  //
-  // - `line:X`: Line X is in the departure's lines array.
-  //
-  // - `position:X`: Movement is at position X.
-  //
-  // - `service-tag:X`: Service tag X is in the departure's service tags array.
-  //
-  // - `line-tag:X`: A line in the departure's lines array has tag X.
-  //
-  // - `stops-at:X`: Future movements of this service stop at stop X. (It's
-  //   unclear whether transfers should be followed, and if so, whether stops
-  //   after the "relevancy cutoff" should be included.)
-  //
-  // Filter expression syntax:
-  //
-  // - "!" to negate, e.g. "!line:10".
-  //
-  // - "|" for OR, e.g. "line:10|line:15".
-  //
-  // - " " for AND, e.g. "line:10 line:15".
-  //
-  // - Filters are expected to be in CNF, so "a|b c|d", and therefore
-  //   parentheses are not allowed.
-
   return true;
 }
 
