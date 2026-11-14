@@ -1,4 +1,4 @@
-import type { LineDiagram } from "@/server/data/line-diagram.js";
+import type { LineDiagram } from "@/server/data/line/line-diagram.js";
 import type { lineDiagramFodaSchema as lineDiagramFodaV1Schema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { MultiversionalLineDiagramEntryFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-line-diagram-entry-foda.js";

@@ -2,8 +2,8 @@ import type { CorequeryConfig } from "@/server/config/config.js";
 import { serverFolderPath } from "@/server/dirname.js";
 import { env } from "@/server/env.js";
 import { WebServer } from "@/server/web-server/web-server.js";
-import { StopCollection } from "@/server/data/stop-collection.js";
-import { LineCollection } from "@/server/data/line-collection.js";
+import { StopCollection } from "@/server/data/stop/stop-collection.js";
+import { LineCollection } from "@/server/data/line/line-collection.js";
 import type {
   AboutPageConfig,
   FooterConfig,

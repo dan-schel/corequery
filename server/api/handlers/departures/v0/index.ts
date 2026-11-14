@@ -66,6 +66,8 @@ export async function handle<CustomContextType>(
       feeds: results.map((x) => ({
         departures: x.map((y) => toApiResult(ctx.app, y)),
       })),
+
+      // TODO: I won't forget to use these on the frontend, right?
       invalidFilterTokens: collectInvalidFilterTokens(compiledFilters),
     };
   });
@@ -133,6 +135,8 @@ function allFeedsSatisfied(
 }
 
 function isSkipped(departure: Departure, skips: DeparturesV0ApiSkips[]) {
+  // TODO: Should consider `movementIndex`, as looping services might appear
+  // multiple times in the same departures list.
   return skips.some(
     (s) =>
       s.sourceId === departure.service.sourceId &&

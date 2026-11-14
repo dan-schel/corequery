@@ -6,9 +6,9 @@ import type {
 } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
 import { Location } from "@/server/data/location.js";
-import { StopDefaultDepartureFeed } from "@/server/data/stop-default-departure-feed.js";
-import { StopDepartureFilters } from "@/server/data/stop-departure-filters.js";
-import { StopPosition } from "@/server/data/stop-position.js";
+import { StopDefaultDepartureFeed } from "@/server/data/stop/stop-default-departure-feed.js";
+import { StopDepartureFilters } from "@/server/data/stop/stop-departure-filters.js";
+import { StopPosition } from "@/server/data/stop/stop-position.js";
 
 type StopFields = {
   readonly id: number;

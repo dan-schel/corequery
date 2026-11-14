@@ -1,4 +1,4 @@
-import type { LineDiagramEntry } from "@/server/data/line-diagram-entry.js";
+import type { LineDiagramEntry } from "@/server/data/line/line-diagram-entry.js";
 import type { lineDiagramEntryFodaSchema as lineDiagramEntryFodaV1Schema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 import { getHexCodesForColor } from "@/server/data/color.js";

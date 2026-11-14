@@ -1,4 +1,4 @@
-import type { Stop } from "@/server/data/stop.js";
+import type { Stop } from "@/server/data/stop/stop.js";
 import type { stopFodaSchema as stopFodaV1Schema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
 

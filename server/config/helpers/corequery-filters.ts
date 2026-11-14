@@ -1,3 +1,6 @@
+// TODO: I don't think I like this idea. Shouldn't we use DepartureFilterTokens
+// instead of raw strings? Why can't the consumer app configure filters using
+// tokens?
 export class CorequeryFilters {
   static readonly arr = "arr";
   static readonly sdo = "sdo";
