@@ -1,8 +1,13 @@
 import type { CustomDepartureFilterTypesConfig } from "@/server/config/types/custom-filter-function-type.js";
 import type { Corequery } from "@/server/corequery.js";
 import type { DepartureFilterType } from "@/server/data/departure-filters/departure-filter-type.js";
+import { ArrivalDepartureFilterType } from "@/server/data/departure-filters/types/arrival.js";
 import { CustomDepartureFilterType } from "@/server/data/departure-filters/types/custom.js";
+import { LineTagDepartureFilterType } from "@/server/data/departure-filters/types/line-tag.js";
+import { LineDepartureFilterType } from "@/server/data/departure-filters/types/line.js";
+import { PositionDepartureFilterType } from "@/server/data/departure-filters/types/position.js";
 import { ServiceTagDepartureFilterType } from "@/server/data/departure-filters/types/service-tag.js";
+import { SetDownOnlyDepartureFilterType } from "@/server/data/departure-filters/types/set-down-only.js";
 import type { Departure } from "@/server/data/service/departure.js";
 import {
   DepartureFilterExpression,
@@ -44,7 +49,14 @@ export class DepartureFilters<CustomContextType> {
   static createBuiltInFunctions<CustomContextType>(
     app: Corequery<CustomContextType>,
   ): DepartureFilterType<CustomContextType>[] {
-    return [new ServiceTagDepartureFilterType(app)];
+    return [
+      new ArrivalDepartureFilterType(app),
+      new LineTagDepartureFilterType(app),
+      new LineDepartureFilterType(app),
+      new PositionDepartureFilterType(app),
+      new ServiceTagDepartureFilterType(app),
+      new SetDownOnlyDepartureFilterType(app),
+    ];
   }
 
   /**
