@@ -50,44 +50,26 @@ function StopPageContent(props: StopPageContentProps) {
   const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
     instant: instant.toString(),
     direction: "forwards",
-    feeds: [
-      {
-        stopId: props.stop.id,
-        desiredCount: 5,
-        filterExpression: "",
-        skips: [],
-      },
-      {
-        stopId: props.stop.id,
-        desiredCount: 5,
-        filterExpression: "",
-        skips: [],
-      },
-    ],
+    feeds: props.stop.defaultDepartureFeeds.map((x) => ({
+      stopId: props.stop.id,
+      desiredCount: x.desiredCount,
+      filterExpression: x.filterExpression,
+      skips: [],
+    })),
   });
 
   const feeds = useMemo<DepartureFeedData[]>(
-    () => [
-      {
+    () =>
+      props.stop.defaultDepartureFeeds.map((x, i) => ({
         query: {
-          title: "Citybound trains",
-          desiredCount: 5,
+          title: x.name,
+          desiredCount: x.desiredCount,
         },
-        departures: data?.feeds[0]?.departures ?? [],
+        departures: data?.feeds[i]?.departures ?? [],
         loading,
         hadError: error != null,
-      },
-      {
-        query: {
-          title: "Outbound trains",
-          desiredCount: 5,
-        },
-        departures: data?.feeds[1]?.departures ?? [],
-        loading,
-        hadError: error != null,
-      },
-    ],
-    [data, loading, error],
+      })),
+    [props.stop.defaultDepartureFeeds, data, loading, error],
   );
 
   return (
