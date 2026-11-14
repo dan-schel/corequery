@@ -53,7 +53,7 @@ function StopPageContent(props: StopPageContentProps) {
     feeds: props.stop.defaultDepartureFeeds.map((x) => ({
       stopId: props.stop.id,
       desiredCount: x.desiredCount,
-      filterExpression: `${x.filterExpression} !arr !sdo`,
+      filterExpression: `${x.filterExpression} !arr !sdo`.trim(),
       skips: [],
     })),
   });
