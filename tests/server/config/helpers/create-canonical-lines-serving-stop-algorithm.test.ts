@@ -4,6 +4,7 @@ import {
   createDiagramWithStops,
   createLine,
 } from "@/tests/server/config/linting/support/factories.js";
+import { Tags } from "@/server/data/tags.js";
 
 describe("createCanonicalLinesServingStopAlgorithm", () => {
   it("returns all matching lines when no tiers are configured", () => {
@@ -26,7 +27,7 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
         lineTagSuccession: {},
       });
 
-    expect(getCanonicalLinesServingStop(1)).toEqual([10, 20]);
+    expect(getCanonicalLinesServingStop(1, Tags.EMPTY)).toEqual([10, 20]);
   });
 
   it("only returns lines from the highest-priority populated tier", () => {
@@ -61,7 +62,7 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
         tierLinesByTag: [HIGH_PRIORITY, LOW_PRIORITY],
       });
 
-    expect(getCanonicalLinesServingStop(77)).toEqual([1]);
+    expect(getCanonicalLinesServingStop(77, Tags.EMPTY)).toEqual([1]);
   });
 
   it("includes untiered lines alongside first-tier lines", () => {
@@ -85,7 +86,7 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
         tierLinesByTag: [TIERED_TAG],
       });
 
-    expect(getCanonicalLinesServingStop(5)).toEqual([100, 200]);
+    expect(getCanonicalLinesServingStop(5, Tags.EMPTY)).toEqual([100, 200]);
   });
 
   it("doesn't count stops which are always express", () => {
@@ -115,7 +116,7 @@ describe("createCanonicalLinesServingStopAlgorithm", () => {
         lineTagSuccession: {},
       });
 
-    expect(getCanonicalLinesServingStop(1)).toEqual([10]);
-    expect(getCanonicalLinesServingStop(2)).toEqual([]);
+    expect(getCanonicalLinesServingStop(1, Tags.EMPTY)).toEqual([10]);
+    expect(getCanonicalLinesServingStop(2, Tags.EMPTY)).toEqual([]);
   });
 });

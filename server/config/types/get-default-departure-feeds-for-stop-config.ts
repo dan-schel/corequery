@@ -1,5 +1,8 @@
+import type { Tags } from "@/server/data/tags.js";
+
 export type GetDefaultDepartureFeedsForStopConfig = (
   stopId: number,
+  stopTags: Tags,
 ) => StopDefaultDepartureFeedsConfig;
 
 export type StopDefaultDepartureFeedsConfig =

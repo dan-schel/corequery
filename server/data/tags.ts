@@ -1,6 +1,8 @@
 import type { TagSuccessionConfig } from "@/server/config/index.js";
 
 export class Tags {
+  static readonly EMPTY = new Tags(new Set());
+
   constructor(private readonly _tags: Set<number>) {}
 
   has(tag: number): boolean {

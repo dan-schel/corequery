@@ -1,8 +1,9 @@
 import type {
-  StopDefaultDepartureFeedsConfig,
-  StopDepartureFiltersConfig,
   StopConfig,
   TagSuccessionConfig,
+  GetCanonicalLinesServingStopConfig,
+  GetDepartureFiltersForStopConfig,
+  GetDefaultDepartureFeedsForStopConfig,
 } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
 import { Location } from "@/server/data/location.js";
@@ -51,15 +52,26 @@ export class Stop {
   static build(
     stopConfig: StopConfig,
     stopTagSuccession: TagSuccessionConfig,
-    canonicalLinesServingStop: readonly number[],
-    departureFilters: StopDepartureFiltersConfig,
-    defaultDepartureFeeds: StopDefaultDepartureFeedsConfig,
+    getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig,
+    getDepartureFiltersForStop: GetDepartureFiltersForStopConfig,
+    getDefaultDepartureFeedsForStop: GetDefaultDepartureFeedsForStopConfig,
   ): Stop {
+    const positions = StopPosition.buildAll(stopConfig.positions);
+    const tags = Tags.build(stopConfig.tags, stopTagSuccession);
+
+    const canonicalLinesServingStop = getCanonicalLinesServingStop(
+      stopConfig.id,
+      tags,
+    );
+    const departureFilters = getDepartureFiltersForStop(stopConfig.id, tags);
+
+    const defaultDepartureFeeds = getDefaultDepartureFeedsForStop(
+      stopConfig.id,
+      tags,
+    );
     if (defaultDepartureFeeds.length === 0) {
       throw new Error(`Stop #${stopConfig.id} has no default departure feeds.`);
     }
-
-    const positions = StopPosition.buildAll(stopConfig.positions);
 
     return new Stop({
       id: stopConfig.id,
