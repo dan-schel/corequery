@@ -31,6 +31,10 @@ export const stopFodaSchema = z.object({
   name: z.string(),
   urlPath: z.string(),
   canonicalLinesServingStop: z.number().array().readonly(),
+  positions: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.
@@ -45,25 +49,8 @@ export const stopFodaSchema = z.object({
     .array(),
 
   departureFilters: z.object({
-    lines: z.union([
-      z.literal("off"),
-      z.literal("canonical"),
-
-      // North Melbourne is an example of a stop that will want to define custom
-      // lines instead of using canonical lines, as the Flemington Racecourse is
-      // not a canonical line.
-      z.number().array(),
-    ]),
-
-    positions: z.union([
-      // Southern Cross is an example of a stop that will not want positional
-      // filters to be created automatically (it'll use a custom group for
-      // them).
-      z.literal("off"),
-
-      z.literal("all"),
-      z.number().array(),
-    ]),
+    lines: z.number().array(),
+    positions: z.number().array(),
 
     // Note that custom filter are given as a list of groups. Grouped filters:
     //
