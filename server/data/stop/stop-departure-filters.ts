@@ -3,7 +3,7 @@ import type {
   CustomStopDepartureFilterGroupConfig,
   StopDepartureFiltersConfig,
 } from "@/server/config/types/get-filters-for-stop-config.js";
-import type { StopPosition } from "@/server/data/stop-position.js";
+import type { StopPosition } from "@/server/data/stop/stop-position.js";
 
 type StopDepartureFiltersFields = {
   readonly lines: readonly number[];

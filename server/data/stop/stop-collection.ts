@@ -1,5 +1,5 @@
 import { Collection } from "@/shared/data/collection.js";
-import { Stop } from "@/server/data/stop.js";
+import { Stop } from "@/server/data/stop/stop.js";
 import type {
   GetCanonicalLinesServingStopConfig,
   GetDefaultDepartureFeedsForStopConfig,

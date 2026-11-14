@@ -1,12 +1,8 @@
-export * from "./service/index.js";
 export * from "./departure-filters/index.js";
+export * from "./line/index.js";
+export * from "./service/index.js";
+export * from "./stop/index.js";
 
 export * from "./color.js";
-export * from "./line-collection.js";
-export * from "./line-diagram-entry.js";
-export * from "./line-diagram.js";
-export * from "./line.js";
 export * from "./location.js";
-export * from "./stop-collection.js";
-export * from "./stop.js";
 export * from "./tags.js";

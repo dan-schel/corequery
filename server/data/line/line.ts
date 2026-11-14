@@ -1,7 +1,7 @@
 import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
 import { type Color } from "@/server/data/color.js";
-import { LineDiagram } from "@/server/data/line-diagram.js";
+import { LineDiagram } from "@/server/data/line/line-diagram.js";
 
 type LineFields = {
   readonly id: number;

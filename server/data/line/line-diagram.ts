@@ -1,4 +1,4 @@
-import { LineDiagramEntry } from "@/server/data/line-diagram-entry.js";
+import { LineDiagramEntry } from "@/server/data/line/line-diagram-entry.js";
 import { unique } from "@dan-schel/js-utils";
 import type { LineDiagramConfig } from "@/server/config/index.js";
 

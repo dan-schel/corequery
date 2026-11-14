@@ -1,5 +1,5 @@
 import { Collection } from "@/shared/data/collection.js";
-import { Line } from "@/server/data/line.js";
+import { Line } from "@/server/data/line/line.js";
 import type { LineConfig, TagSuccessionConfig } from "@/server/config/index.js";
 
 export class LineCollection extends Collection<number, Line> {

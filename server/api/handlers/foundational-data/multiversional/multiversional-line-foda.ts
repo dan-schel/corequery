@@ -1,4 +1,4 @@
-import type { Line } from "@/server/data/line.js";
+import type { Line } from "@/server/data/line/line.js";
 import { getHexCodesForColor } from "@/server/data/color.js";
 import type { lineFodaSchema as lineFodaV1Schema } from "@/shared/apis/foundational-data/v1/foundational-data.js";
 import type z from "zod";
