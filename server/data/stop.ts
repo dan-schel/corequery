@@ -6,8 +6,8 @@ import type {
 } from "@/server/config/index.js";
 import { Tags } from "@/server/data/tags.js";
 import { Location } from "@/server/data/location.js";
-import { DefaultDepartureFeed } from "@/server/data/default-departure-feed.js";
-import { DepartureFilters } from "@/server/data/departure-filters.js";
+import { StopDefaultDepartureFeed } from "@/server/data/stop-default-departure-feed.js";
+import { StopDepartureFilters } from "@/server/data/stop-departure-filters.js";
 import { StopPosition } from "@/server/data/stop-position.js";
 
 type StopFields = {
@@ -19,8 +19,8 @@ type StopFields = {
   readonly positions: readonly StopPosition[];
 
   readonly canonicalLinesServingStop: readonly number[];
-  readonly departureFilters: DepartureFilters;
-  readonly defaultDepartureFeeds: readonly DefaultDepartureFeed[];
+  readonly departureFilters: StopDepartureFilters;
+  readonly defaultDepartureFeeds: readonly StopDefaultDepartureFeed[];
 };
 
 export class Stop {
@@ -32,8 +32,8 @@ export class Stop {
   readonly positions: readonly StopPosition[];
 
   readonly canonicalLinesServingStop: readonly number[];
-  readonly departureFilters: DepartureFilters;
-  readonly defaultDepartureFeeds: readonly DefaultDepartureFeed[];
+  readonly departureFilters: StopDepartureFilters;
+  readonly defaultDepartureFeeds: readonly StopDefaultDepartureFeed[];
 
   constructor(fields: StopFields) {
     this.id = fields.id;
@@ -70,12 +70,12 @@ export class Stop {
       positions: positions,
 
       canonicalLinesServingStop,
-      departureFilters: DepartureFilters.build(
+      departureFilters: StopDepartureFilters.build(
         departureFilters,
         canonicalLinesServingStop,
         positions,
       ),
-      defaultDepartureFeeds: DefaultDepartureFeed.buildAll(
+      defaultDepartureFeeds: StopDefaultDepartureFeed.buildAll(
         defaultDepartureFeeds,
       ),
     });

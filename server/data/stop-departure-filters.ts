@@ -5,18 +5,18 @@ import type {
 } from "@/server/config/types/get-filters-for-stop-config.js";
 import type { StopPosition } from "@/server/data/stop-position.js";
 
-type DepartureFiltersFields = {
+type StopDepartureFiltersFields = {
   readonly lines: readonly number[];
   readonly positions: readonly number[];
-  readonly customGroups: readonly DepartureFiltersCustomGroup[];
+  readonly customGroups: readonly StopDepartureFiltersCustomGroup[];
 };
 
-export class DepartureFilters {
+export class StopDepartureFilters {
   readonly lines: readonly number[];
   readonly positions: readonly number[];
-  readonly customGroups: readonly DepartureFiltersCustomGroup[];
+  readonly customGroups: readonly StopDepartureFiltersCustomGroup[];
 
-  constructor(fields: DepartureFiltersFields) {
+  constructor(fields: StopDepartureFiltersFields) {
     this.lines = fields.lines;
     this.positions = fields.positions;
     this.customGroups = fields.customGroups;
@@ -27,17 +27,17 @@ export class DepartureFilters {
     canonicalLinesServingStop: readonly number[],
     stopPositions: readonly StopPosition[],
   ) {
-    return new DepartureFilters({
-      lines: DepartureFilters._buildLines(
+    return new StopDepartureFilters({
+      lines: StopDepartureFilters._buildLines(
         config.lines,
         canonicalLinesServingStop,
       ),
-      positions: DepartureFilters._buildPositions(
+      positions: StopDepartureFilters._buildPositions(
         config.positions,
         stopPositions,
       ),
       customGroups: config.customGroups.map((x) =>
-        DepartureFiltersCustomGroup.build(x),
+        StopDepartureFiltersCustomGroup.build(x),
       ),
     });
   }
@@ -61,47 +61,49 @@ export class DepartureFilters {
   }
 }
 
-type DepartureFiltersCustomGroupFields = {
+type StopDepartureFiltersCustomGroupFields = {
   readonly label: string;
-  readonly items: DepartureFiltersCustomGroupItemFields[];
+  readonly items: StopDepartureFiltersCustomGroupItemFields[];
 };
 
-export class DepartureFiltersCustomGroup {
+export class StopDepartureFiltersCustomGroup {
   readonly label: string;
-  readonly items: DepartureFiltersCustomGroupItem[];
+  readonly items: StopDepartureFiltersCustomGroupItem[];
 
-  constructor(fields: DepartureFiltersCustomGroupFields) {
+  constructor(fields: StopDepartureFiltersCustomGroupFields) {
     this.label = fields.label;
     this.items = fields.items;
   }
 
   static build(config: CustomFilterGroupConfig) {
-    return new DepartureFiltersCustomGroup({
+    return new StopDepartureFiltersCustomGroup({
       label: config.label,
-      items: config.items.map((x) => DepartureFiltersCustomGroupItem.build(x)),
+      items: config.items.map((x) =>
+        StopDepartureFiltersCustomGroupItem.build(x),
+      ),
     });
   }
 }
 
-type DepartureFiltersCustomGroupItemFields = {
+type StopDepartureFiltersCustomGroupItemFields = {
   readonly name: string;
   readonly labelWithinGroup: string;
   readonly filterExpression: string;
 };
 
-export class DepartureFiltersCustomGroupItem {
+export class StopDepartureFiltersCustomGroupItem {
   readonly name: string;
   readonly labelWithinGroup: string;
   readonly filterExpression: string;
 
-  constructor(fields: DepartureFiltersCustomGroupItemFields) {
+  constructor(fields: StopDepartureFiltersCustomGroupItemFields) {
     this.name = fields.name;
     this.labelWithinGroup = fields.labelWithinGroup;
     this.filterExpression = fields.filterExpression;
   }
 
   static build(config: CustomFilterConfig) {
-    return new DepartureFiltersCustomGroupItem({
+    return new StopDepartureFiltersCustomGroupItem({
       name: config.name,
       labelWithinGroup: config.labelWithinGroup,
       filterExpression: config.filterExpression,
