@@ -7,6 +7,7 @@ import { itsOk } from "@dan-schel/js-utils";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { LinkText } from "@/web/components/core/LinkText";
 import { useMemo } from "preact/hooks";
+import { Fragment } from "preact";
 import type { FoundationalData } from "@/web/data/foundational-data";
 
 type LinesListProps = {
@@ -86,9 +87,9 @@ function LineNames({
     return (
       <>
         {lineData.slice(0, -1).map((x, i) => (
-          <>
-            <LineName key={i} data={itsOk(x)} withLink={withLinks} />,{" "}
-          </>
+          <Fragment key={i}>
+            <LineName data={itsOk(x)} withLink={withLinks} />,{" "}
+          </Fragment>
         ))}
         {" and "}
         <LineName

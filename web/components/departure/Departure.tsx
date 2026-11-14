@@ -21,14 +21,16 @@ export function Departure(props: DepartureProps) {
           <TextBlock style="strong" dynamicColor={props.departure.color}>
             {props.departure.primaryDestinationText}
           </TextBlock>
-          <TextBlock
-            style="small-narrow"
-            class="shrink min-w-0"
-            dynamicColor={props.departure.color}
-            oneLine
-          >
-            via Train Tracks
-          </TextBlock>
+          {props.departure.secondaryDestinationText != null && (
+            <TextBlock
+              style="small-narrow"
+              class="shrink min-w-0"
+              dynamicColor={props.departure.color}
+              oneLine
+            >
+              {props.departure.secondaryDestinationText}
+            </TextBlock>
+          )}
         </Row>
         <DepartureTime
           time={props.departure.movement.time}

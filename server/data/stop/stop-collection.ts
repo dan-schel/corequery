@@ -21,9 +21,9 @@ export class StopCollection extends Collection<number, Stop> {
         Stop.build(
           s,
           stopTagSuccession,
-          getCanonicalLinesServingStop(s.id),
-          getDepartureFiltersForStop(s.id),
-          getDefaultDepartureFeedsForStop(s.id),
+          getCanonicalLinesServingStop,
+          getDepartureFiltersForStop,
+          getDefaultDepartureFeedsForStop,
         ),
       ),
     );

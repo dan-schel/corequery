@@ -2,23 +2,20 @@ import type { DeparturesV0ApiDeparture } from "@/server/api/handlers/departures/
 import type { Corequery } from "@/server/corequery.js";
 import type { Departure } from "@/server/data/index.js";
 
-export function toApiResult<CustomContextType>(
+export async function toApiResult<CustomContextType>(
   app: Corequery<CustomContextType>,
   departure: Departure,
-): DeparturesV0ApiDeparture {
+): Promise<DeparturesV0ApiDeparture> {
   const { service, movement } = departure;
-  const terminusName = app.stops.require(service.termination.stopId).name;
+
+  const destinationTexts = await computeDestinationTexts(app, service);
 
   return {
     sourceId: service.sourceId,
     intrasourceId: service.intrasourceId,
 
-    // TODO: Crawl the connections until either the chain ends, or we find a
-    // servicing movement at a stop which was already serviced. Once we find
-    // that repeated servicing movement, we use the previous servicing movement
-    // as the "destination".
-    primaryDestinationText: terminusName,
-    secondaryDestinationText: null,
+    primaryDestinationText: destinationTexts.primary,
+    secondaryDestinationText: destinationTexts.secondary,
 
     lineIds: service.lineIds,
     color: service.getColorHexCodes(),
@@ -34,4 +31,40 @@ export function toApiResult<CustomContextType>(
         movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ?? null,
     },
   };
+}
+
+async function computeDestinationTexts<CustomContextType>(
+  app: Corequery<CustomContextType>,
+  service: Departure["service"],
+) {
+  const myTerminus = app.stops.require(service.termination.stopId).name;
+
+  const nextService = await getNextServiceIfApplicable(app, service);
+  if (nextService == null) {
+    return { primary: myTerminus, secondary: null };
+  }
+
+  // TODO: Crawl the connections until either the chain ends, or we find a
+  // servicing movement at a stop which was already serviced. Once we find
+  // that repeated servicing movement, we use the previous servicing movement
+  // as the "destination".
+  const nextTerminus = app.stops.require(nextService.termination.stopId).name;
+
+  return {
+    primary: nextTerminus,
+    secondary: `via ${myTerminus}`,
+  };
+}
+
+async function getNextServiceIfApplicable<CustomContextType>(
+  app: Corequery<CustomContextType>,
+  service: Departure["service"],
+) {
+  if (service.nextServiceOfEntireVehicle == null) return null;
+
+  const connection = service.nextServiceOfEntireVehicle;
+  const sourceId = connection.direction;
+  const intrasourceId = connection.otherServiceIntrasourceId;
+  const other = await app.services.requireService(sourceId, intrasourceId);
+  return other.isCancelled ? null : other;
 }

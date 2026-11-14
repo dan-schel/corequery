@@ -30,7 +30,7 @@ export async function handle<CustomContextType>(
     const compiledFilters = ensureValidFeedFilters(ctx.app, args.feeds);
     const instant = parseInstant(args.instant);
 
-    const results: Departure[][] = args.feeds.map(() => []);
+    const results: DeparturesV0ApiDeparture[][] = args.feeds.map(() => []);
     const stopIds = new Set(args.feeds.map((feed) => feed.stopId));
     const feedFilters = compiledFilters.map((x) => x.filterFunction);
 
@@ -57,15 +57,16 @@ export async function handle<CustomContextType>(
           if (!passesFilter(departure)) continue;
           if (isSkipped(departure, feed.skips)) continue;
 
-          resultsSubarray.push(departure);
+          // TODO: corequery-gtfs is synchronous here, but future service
+          // sources might not be. For that reason, while it doesn't matter
+          // right now, doing this in series is not ideal.
+          resultsSubarray.push(await toApiResult(ctx.app, departure));
         }
       }
     }
 
     return {
-      feeds: results.map((x) => ({
-        departures: x.map((y) => toApiResult(ctx.app, y)),
-      })),
+      feeds: results.map((x) => ({ departures: x })),
 
       // TODO: I won't forget to use these on the frontend, right?
       invalidFilterTokens: collectInvalidFilterTokens(compiledFilters),
@@ -118,7 +119,7 @@ function parseInstant(instant: string) {
 }
 
 function allFeedsSatisfied(
-  results: Departure[][],
+  results: unknown[][],
   feeds: DeparturesV0ApiFeedArgs[],
   stopId: number,
 ) {

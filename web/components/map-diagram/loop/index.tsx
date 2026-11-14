@@ -71,8 +71,8 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
         xAlign="right"
         yAlign="center"
       >
-        {props.structure.loopLeftStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.loopLeftStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
       <Column
@@ -80,8 +80,8 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
         xAlign="left"
         yAlign="center"
       >
-        {props.structure.loopRightStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.loopRightStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
       <Column
@@ -90,8 +90,8 @@ export function LoopMapDiagram(props: LoopMapDiagramProps) {
         })}
         xAlign="left"
       >
-        {props.structure.mainStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.mainStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
     </Grid>

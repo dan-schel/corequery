@@ -51,8 +51,8 @@ export function FallbackStopListSection(props: FallbackStopListSectionProps) {
         </Column>
       </Alert>
       <ul class="flex-col flex list-disc list-inside gap-4">
-        {sortedStops.map((stop) => (
-          <TextBlock>
+        {sortedStops.map((stop, i) => (
+          <TextBlock key={i}>
             <li>
               <LinkText href={`/stop/${stop.urlPath}`}>{stop.name}</LinkText>
             </li>

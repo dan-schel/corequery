@@ -59,8 +59,8 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
         data={data}
       />
       <Column class={clsx("gap-6", STOPS_SECTION_CLASS)}>
-        {props.structure.stops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.stops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
     </Grid>
