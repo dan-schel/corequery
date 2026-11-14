@@ -5,10 +5,19 @@ import { updatePackageJson } from "@/scripts/demo-app/setup/package-json.js";
 import path from "path";
 import { assertNever } from "@dan-schel/js-utils";
 import { type SetupArgs } from "@/scripts/demo-app/setup/setup-args.js";
+import {
+  readEnvFile,
+  writeEnvFile,
+} from "@/scripts/demo-app/setup/env-file.js";
 
 export async function doSetup(args: SetupArgs) {
+  const envContent = await readEnvFile();
+
   await prepareEmptyDemoAppFolder();
   await loadCodeIntoFolder(args);
+  if (envContent != null) {
+    await writeEnvFile(envContent);
+  }
   await updatePackageJson(args);
 
   logInfo("Installing dependencies...");
