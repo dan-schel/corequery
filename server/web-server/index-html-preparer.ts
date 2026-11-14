@@ -39,17 +39,26 @@ export class IndexHtmlPreparer {
     tags.description.setAttribute("content", this._config.description);
     tags.appName.setAttribute("content", this._config.appName);
 
-    if (!partial) {
-      tags.frontendVersion.setAttribute("content", frontendVersion);
-      tags.packageVersionOnLastUpdate.setAttribute(
-        "content",
-        this._config.corequeryPackageVersion,
-      );
-      tags.serverVersionOnLastUpdate.setAttribute(
-        "content",
-        this._config.serverVersion,
-      );
-    }
+    // In local development, we often end up rewriting the same `/dist` files
+    // multiple times without a rebuild in-between. We don't want the old
+    // version values to interfere with the new we calculate, so even though we
+    // aren't ready to write these values when `partial = true` (we do that
+    // after the hash is calculated), we'll still clear out any old content.
+    //
+    // In prod we'd be starting from fresh files every time, so this was only an
+    // issue in local development.
+    tags.frontendVersion.setAttribute(
+      "content",
+      partial ? "" : frontendVersion,
+    );
+    tags.packageVersionOnLastUpdate.setAttribute(
+      "content",
+      partial ? "" : this._config.corequeryPackageVersion,
+    );
+    tags.serverVersionOnLastUpdate.setAttribute(
+      "content",
+      partial ? "" : this._config.serverVersion,
+    );
 
     return tags.indexHtml.toString();
   }
