@@ -101,8 +101,10 @@ function collectInvalidFilterTokens<CustomContextType>(
   >,
 ): string[] {
   return unique(
-    compilationResults.flatMap((x) => Array.from(x.invalidTokens)),
-  ).map((x) => x.toString());
+    compilationResults
+      .flatMap((x) => Array.from(x.invalidTokens))
+      .map((x) => x.toString()),
+  );
 }
 
 function parseInstant(instant: string) {

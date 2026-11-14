@@ -6,6 +6,8 @@ export class DepartureFilterExpression {
   ) {}
 
   static parse(input: string): DepartureFilterExpression | null {
+    if (input.length === 0) return new DepartureFilterExpression([]);
+
     const disjunctionStrs = input.split(" ");
 
     const disjunctions: DepartureFilterToken[][] = [];
@@ -55,7 +57,7 @@ export class DepartureFilterToken {
     args: string | null,
     negated: boolean,
   ): DepartureFilterToken {
-    if (!/^[a-z0-9-]+$/.test(prefix)) {
+    if (!DepartureFilterToken.isValidPrefix(prefix)) {
       throw new Error(`Invalid prefix: ${prefix}`);
     }
 
@@ -75,6 +77,10 @@ export class DepartureFilterToken {
     const args = match[4] ?? null;
 
     return new DepartureFilterToken(prefix, args, negated);
+  }
+
+  static isValidPrefix(prefix: string): boolean {
+    return /^[a-z0-9-]+$/.test(prefix);
   }
 
   toString() {

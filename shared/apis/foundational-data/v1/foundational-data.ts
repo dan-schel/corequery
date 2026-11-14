@@ -72,7 +72,7 @@ export const stopFodaSchema = z.object({
           .object({
             name: z.string(), // "Platform 1"
             labelWithinGroup: z.string(), // "1"
-            filterExpression: z.string(), // "position-51"
+            filterExpression: z.string(), // "position:51"
           })
           .array()
           .readonly(),

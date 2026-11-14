@@ -21,10 +21,6 @@ export class CorequeryFilters {
     return `line-tag:${lineTag}`;
   }
 
-  static stopsAt(stopId: number) {
-    return `stops-at:${stopId}`;
-  }
-
   static not(filterExpression: string) {
     return `!${filterExpression}`;
   }

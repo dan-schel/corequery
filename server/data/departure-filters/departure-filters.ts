@@ -17,7 +17,6 @@ import { nonNull } from "@dan-schel/js-utils";
 
 export class DepartureFilters<CustomContextType> {
   constructor(
-    private readonly _app: Corequery<CustomContextType>,
     private readonly _types: Map<
       string,
       DepartureFilterType<CustomContextType>
@@ -28,11 +27,11 @@ export class DepartureFilters<CustomContextType> {
     app: Corequery<CustomContextType>,
     customDepartureFilterTypes: CustomDepartureFilterTypesConfig<CustomContextType>,
   ) {
-    const custom = customDepartureFilterTypes ?? [];
-
     const typesArray = [
       ...this.createBuiltInFunctions(app),
-      ...custom.map((x) => CustomDepartureFilterType.build(app, x)),
+      ...customDepartureFilterTypes.map((x) =>
+        CustomDepartureFilterType.build(app, x),
+      ),
     ];
 
     const typesMap = new Map<string, DepartureFilterType<CustomContextType>>();
@@ -43,7 +42,7 @@ export class DepartureFilters<CustomContextType> {
       typesMap.set(type.prefix, type);
     }
 
-    return new DepartureFilters(app, typesMap);
+    return new DepartureFilters(typesMap);
   }
 
   static createBuiltInFunctions<CustomContextType>(

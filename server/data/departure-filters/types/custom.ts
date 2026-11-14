@@ -7,6 +7,7 @@ import {
   DepartureFilterType,
   type DepartureFilterFunction,
 } from "@/server/data/departure-filters/departure-filter-type.js";
+import { DepartureFilterToken } from "@/shared/data/departure-filter-expression.js";
 
 export class CustomDepartureFilterType<
   CustomContextType,
@@ -23,6 +24,10 @@ export class CustomDepartureFilterType<
     app: Corequery<CustomContextType>,
     config: CustomDepartureFilterTypeConfig<CustomContextType>,
   ) {
+    if (!DepartureFilterToken.isValidPrefix(config.prefix)) {
+      throw new Error(`Invalid prefix: ${config.prefix}`);
+    }
+
     return new CustomDepartureFilterType(
       app,
       config.prefix,

@@ -35,7 +35,6 @@ export function createApiRouter<CustomContextType>(
       } catch (err) {
         if (err instanceof ArgsError) {
           res.status(400).json({ message: err.message });
-          return;
         } else {
           app.log.general.apiError(api.path, err);
           res.sendStatus(500);
