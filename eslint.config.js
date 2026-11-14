@@ -1,8 +1,8 @@
 import eslint from "@eslint/js";
 import prettier from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
-import reactHooks from "eslint-plugin-react-hooks";
-import react from "eslint-plugin-react/configs/recommended.js";
+import eslintReact from "@eslint-react/eslint-plugin";
+import stylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 import custom from "./scripts/eslint/index.js";
 
@@ -97,37 +97,42 @@ const customRules = [
   },
 ];
 
-const reactConfig = [
-  {
-    files: ["web/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
-    ...react,
-    languageOptions: {
-      ...react.languageOptions,
-      globals: {
-        ...globals.serviceworker,
-        ...globals.browser,
-      },
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-    rules: {
-      // Warn if <Thing></Thing> can be changed to <Thing />.
-      "react/self-closing-comp": "warn",
+const reactRecommendedConfig = eslintReact.configs["recommended-typescript"];
+const reactConfig = {
+  files: ["web/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+  ...reactRecommendedConfig,
+  languageOptions: {
+    ...reactRecommendedConfig.languageOptions,
+    globals: {
+      ...globals.serviceworker,
+      ...globals.browser,
     },
   },
-  {
-    plugins: {
-      "react-hooks": reactHooks,
-    },
-    rules: {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+  plugins: {
+    ...reactRecommendedConfig.plugins,
+    "@stylistic": stylistic,
+  },
+  settings: {
+    ...reactRecommendedConfig.settings,
+    "react-x": {
+      ...reactRecommendedConfig.settings["react-x"],
+      importSource: "preact",
     },
   },
-];
+  rules: {
+    ...reactRecommendedConfig.rules,
+
+    // Warn if <Thing></Thing> can be changed to <Thing />.
+    "@stylistic/jsx-self-closing-comp": "warn",
+
+    // TODO: Let's see if we can remove some of these overrides!
+    "@eslint-react/no-array-index-key": "off",
+    "@eslint-react/no-unnecessary-use-prefix": "off",
+    "@eslint-react/no-use-context": "off",
+    "@eslint-react/naming-convention-context-name": "off",
+    "@eslint-react/set-state-in-effect": "off",
+  },
+};
 
 export default tseslint.config(
   {

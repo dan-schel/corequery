@@ -73,24 +73,24 @@ export function BranchMapDiagram(props: BranchMapDiagramProps) {
         class={clsx("gap-6 col-3 row-1 -ml-4", COMMON_STOPS_CLASS)}
         xAlign="left"
       >
-        {props.structure.commonStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.commonStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
       <Column
         class={clsx("gap-6 col-1 row-2", BRANCH_A_STOPS_CLASS)}
         xAlign="right"
       >
-        {props.structure.branchAStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.branchAStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
       <Column
         class={clsx("gap-6 col-3 row-2", BRANCH_B_STOPS_CLASS)}
         xAlign="left"
       >
-        {props.structure.branchBStops.map((stop) => (
-          <Grid>{stop.content}</Grid>
+        {props.structure.branchBStops.map((stop, i) => (
+          <Grid key={i}>{stop.content}</Grid>
         ))}
       </Column>
     </Grid>

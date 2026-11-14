@@ -16,9 +16,9 @@ export function DepartureFeeds(props: DepartureFeedsProps) {
         "desktop:grid-cols-[1fr_1fr] desktop:gap-6 desktop:px-4 desktop:py-8",
       )}
     >
-      {props.feeds.map((feed, index) => (
+      {props.feeds.map((feed, i) => (
         <DepartureFeed
-          key={index}
+          key={i}
           feed={feed}
 
           // All feeds have a bottom border, but usually on mobile the page is

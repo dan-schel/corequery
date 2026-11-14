@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @eslint-react/exhaustive-deps */
 
 // Code adapted from: https://www.usehooks.io/docs/use-deep-compare-effect
 
