@@ -6,9 +6,10 @@ import type {
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 import { ArgsError } from "@/server/api/args-error.js";
-import { itsOk } from "@dan-schel/js-utils";
+import { itsOk, parseIntNull } from "@dan-schel/js-utils";
 import type { Departure } from "@/server/data/index.js";
 import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
+import type { Corequery } from "@/server/corequery.js";
 
 type DeparturesV0ApiResult = ServerFodaSyncedResultOf<typeof DEPARTURES_V0>;
 type DeparturesV0ApiFeedResult = DeparturesV0ApiResult["feeds"][number];
@@ -49,7 +50,8 @@ export async function handle<CustomContextType>(
 
           if (feed.stopId !== stopId) continue;
           if (resultsSubarray.length >= feed.desiredCount) continue;
-          if (!isAcceptedByFilter(departure, feed.filterExpression)) continue;
+          if (!isAcceptedByFilter(departure, feed.filterExpression, ctx.app))
+            continue;
           if (isSkipped(departure, feed.skips)) continue;
 
           resultsSubarray.push(departure);
@@ -101,7 +103,37 @@ function allFeedsSatisfied(
   return true;
 }
 
-function isAcceptedByFilter(_x: Departure, _filterExpression: string) {
+function isAcceptedByFilter<CustomContextType>(
+  departure: Departure,
+  filterExpression: string,
+  app: Corequery<CustomContextType>,
+) {
+  // TODO: We certainly don't want to be parsing filter expressions here, as
+  // this function is called for each departure.
+
+  if (filterExpression.includes(" ") || filterExpression.includes("|")) {
+    throw new Error("TODO: Not implemented yet!");
+  }
+
+  if (filterExpression.startsWith("service-tag:")) {
+    const serviceTag = parseIntNull(filterExpression.slice(12));
+    if (serviceTag == null) throw new Error("Invalid service tag.");
+
+    return departure.service.tags.has(serviceTag);
+  }
+
+  if (filterExpression.startsWith("line-tag:")) {
+    const lineTag = parseIntNull(filterExpression.slice(9));
+    if (lineTag == null) throw new Error("Invalid line tag.");
+
+    const serviceLineIds = departure.service.lineIds;
+    const serviceLines = serviceLineIds.map((l) => app.lines.require(l));
+
+    return serviceLines.some((line) => line.tags.has(lineTag));
+  }
+
+  throw new Error("TODO: Not implemented yet!");
+
   // I'll also have to pass the list of filters for this stop, and some logic
   // that knows what they mean.
 
