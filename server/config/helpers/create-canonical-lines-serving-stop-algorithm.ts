@@ -41,7 +41,7 @@ export function createCanonicalLinesServingStopAlgorithm(
 
   const tierLinesByTag = options.tierLinesByTag ?? [];
 
-  return (stopId) => {
+  return (stopId, _tags) => {
     const allCandidateLines = lines.filter((line) =>
       isStopInDiagram(stopId, line.diagram),
     );
