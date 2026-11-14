@@ -11,7 +11,7 @@ async function main() {
   const setupArgs = await askSetupArgs(existingSetupArgs);
 
   console.log();
-  await doSetup(setupArgs);
+  await doSetup(setupArgs, existingSetupArgs);
   logInfo("✅ Setup complete!");
   console.log();
 }

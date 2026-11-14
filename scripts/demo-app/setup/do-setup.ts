@@ -10,8 +10,8 @@ import {
   writeEnvFile,
 } from "@/scripts/demo-app/setup/env-file.js";
 
-export async function doSetup(args: SetupArgs) {
-  const envContent = await readEnvFile();
+export async function doSetup(args: SetupArgs, oldArgs: SetupArgs | null) {
+  const envContent = isSameRepo(args, oldArgs) ? await readEnvFile() : null;
 
   await prepareEmptyDemoAppFolder();
   await loadCodeIntoFolder(args);
@@ -53,4 +53,9 @@ async function loadCodeFromGit(gitRepoUrl: string, branch: string | null) {
   });
 
   console.log();
+}
+
+function isSameRepo(args: SetupArgs, oldArgs: SetupArgs | null) {
+  if (oldArgs == null) return false;
+  return oldArgs.gitRepoUrl === args.gitRepoUrl;
 }
