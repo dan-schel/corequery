@@ -63,7 +63,7 @@ async function getNextServiceIfApplicable<CustomContextType>(
   if (service.nextServiceOfEntireVehicle == null) return null;
 
   const connection = service.nextServiceOfEntireVehicle;
-  const sourceId = connection.direction;
+  const sourceId = connection.otherServiceSourceId;
   const intrasourceId = connection.otherServiceIntrasourceId;
   const other = await app.services.requireService(sourceId, intrasourceId);
   return other.isCancelled ? null : other;
