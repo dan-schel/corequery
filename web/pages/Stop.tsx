@@ -3,7 +3,7 @@ import { Page } from "@/web/components/page/Page";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import { useMemo } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
@@ -37,33 +37,39 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
+  // TODO: Use useNow().
+  const [instant] = useState(() =>
+    Temporal.Now.zonedDateTimeISO("UTC")
+      .round({
+        smallestUnit: "minute",
+        roundingMode: "floor",
+      })
+      .toInstant(),
+  );
+
   const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
-    stopId: props.stop.id,
-    count: 5,
+    instant: instant.toString(),
+    direction: "forwards",
+    feeds: props.stop.defaultDepartureFeeds.map((x) => ({
+      stopId: props.stop.id,
+      desiredCount: x.desiredCount,
+      filterExpression: `${x.filterExpression} !arr !sdo`,
+      skips: [],
+    })),
   });
 
   const feeds = useMemo<DepartureFeedData[]>(
-    () => [
-      {
+    () =>
+      props.stop.defaultDepartureFeeds.map((x, i) => ({
         query: {
-          title: "Citybound trains",
-          count: 5,
+          title: x.name,
+          desiredCount: x.desiredCount,
         },
-        departures: data?.departures ?? [],
+        departures: data?.feeds[i]?.departures ?? [],
         loading,
         hadError: error != null,
-      },
-      {
-        query: {
-          title: "Outbound trains",
-          count: 5,
-        },
-        departures: data?.departures ?? [],
-        loading,
-        hadError: error != null,
-      },
-    ],
-    [data?.departures, loading, error],
+      })),
+    [props.stop.defaultDepartureFeeds, data, loading, error],
   );
 
   return (

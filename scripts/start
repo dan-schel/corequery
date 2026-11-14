@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+scripts/build
 npx tsx --tsconfig tsconfig.tooling.json scripts/demo-app/commands/start.ts

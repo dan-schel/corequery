@@ -1,3 +1,5 @@
+import "temporal-polyfill/global";
+
 import {
   LocationProvider,
   ErrorBoundary,

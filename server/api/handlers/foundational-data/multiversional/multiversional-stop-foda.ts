@@ -17,6 +17,10 @@ export class MultiversionalStopFoda {
       name: stop.name,
       urlPath: stop.urlPath,
       canonicalLinesServingStop: stop.canonicalLinesServingStop,
+      positions: stop.positions.map((position) => ({
+        id: position.id,
+        name: position.name,
+      })),
       location:
         stop.location != null
           ? {
@@ -24,6 +28,23 @@ export class MultiversionalStopFoda {
               longitude: stop.location.longitude,
             }
           : null,
+      defaultDepartureFeeds: stop.defaultDepartureFeeds.map((feed) => ({
+        name: feed.name,
+        desiredCount: feed.desiredCount,
+        filterExpression: feed.filterExpression,
+      })),
+      departureFilters: {
+        lines: stop.departureFilters.lines,
+        positions: stop.departureFilters.positions,
+        customGroups: stop.departureFilters.customGroups.map((group) => ({
+          label: group.label,
+          items: group.items.map((item) => ({
+            name: item.name,
+            labelWithinGroup: item.labelWithinGroup,
+            filterExpression: item.filterExpression,
+          })),
+        })),
+      },
     };
   }
 
@@ -33,7 +54,10 @@ export class MultiversionalStopFoda {
       name: this.obj.name,
       urlPath: this.obj.urlPath,
       canonicalLinesServingStop: this.obj.canonicalLinesServingStop,
+      positions: this.obj.positions,
       location: this.obj.location,
+      defaultDepartureFeeds: this.obj.defaultDepartureFeeds,
+      departureFilters: this.obj.departureFilters,
     };
   }
 }

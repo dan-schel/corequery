@@ -3,7 +3,7 @@ import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
 
 export type DepartureData = ClientFodaSyncedResultOf<
   typeof DEPARTURES_V0
->["departures"][number];
+>["feeds"][number]["departures"][number];
 
 export type DepartureFeedData = {
   query: {
@@ -11,7 +11,7 @@ export type DepartureFeedData = {
     // calculate the title from that.
     title: string;
 
-    count: number;
+    desiredCount: number;
   };
   departures: DepartureData[];
   loading: boolean;

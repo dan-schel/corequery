@@ -8,13 +8,6 @@ import z from "zod";
 // isn't necessarily a good idea anyway, since old versions of these schemas
 // need to stick around for the server to continue using.
 //
-// NOTE: Despite these schemas living inside `apis/foundational-data/v1`,
-// they'll be reused in a lot of APIs, due to the force update mechanism. When a
-// breaking change occurs to the foundational data, it causes a breaking change
-// to all those APIs too. E.g. we might have `/depatures/v2` API serving this V1
-// version of the foundational data, and `/departures/v3` serving a V2 version
-// of the foundational data.
-//
 // The class in /web that wraps these schemas and provides helper methods should
 // hopefully be the only touch-point in the frontend for these schemas, so when
 // a new version happens, there shouldn't be a million places to change. Only
@@ -38,32 +31,55 @@ export const stopFodaSchema = z.object({
   name: z.string(),
   urlPath: z.string(),
   canonicalLinesServingStop: z.number().array().readonly(),
+  positions: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+    })
+    .array()
+    .readonly(),
 
   // To avoid users needing to send their location to the server, we send the
   // locations of each stop to them instead, and do the maths client-side.
   location: locationFodaSchema.nullable(),
 
-  // Considering whether things like the list of supported filters and default
-  // departure feeds would go in a `/stop-page/v1` API (which would also return
-  // the departures themselves, even though subsequent refreshes would still use
-  // a `/departures/v1` API). I suppose it seems a little heavy to include them
-  // all in the foundational data. How many MB is this gonna add up to?
-  //
-  // That said, since foundational data only needs to be fully refetched when
-  // the hash changes (which would only be due to a commit, as I don't think
-  // there'll be anything dynamic in it), and the only time it will restrict
-  // navigation (longer than like 1 second) is on the first load (even though
-  // APIs have the force update mechanism, APIs are called to load dynamic data
-  // on pages, and nothing prevents you navigating away while it loads), so
-  // maybe it really doesn't matter.
-  //
-  // Consider that people on a slow connection might want to navigate to a stop
-  // page and set their filters before having to wait for a response from the
-  // server. Making them wait for one request to complete before they can adjust
-  // the filters might be kinda frustrating. I assume most connections are
-  // "choppy" anyway, rather than slow, so it's better to minimise the number of
-  // requests rather than the size of each one, as when the internet is
-  // available, it's fast anyway!
+  defaultDepartureFeeds: z
+    .object({
+      name: z.string(),
+      desiredCount: z.number(),
+      filterExpression: z.string(),
+    })
+    .array()
+    .readonly(),
+
+  departureFilters: z.object({
+    lines: z.number().array().readonly(),
+    positions: z.number().array().readonly(),
+
+    // Note that custom filter are given as a list of groups. Grouped filters:
+    //
+    // - Display together under a shared heading in the filters popover.
+    //
+    // - Logically OR instead of AND, meaning if two from the same group are
+    //   selected, they'll be sent to the departures query as `a|b` instead of
+    //   `a b`. We can allow arbitrary filter expressions to be combined, as
+    //   every boolean expressions can be converted to conjunctive normal form,
+    //   which is what the server supports, e.g. `(a b)|c` = `a|c b|c`.
+    customGroups: z
+      .object({
+        label: z.string(), // "By platform"
+        items: z
+          .object({
+            name: z.string(), // "Platform 1"
+            labelWithinGroup: z.string(), // "1"
+            filterExpression: z.string(), // "position:51"
+          })
+          .array()
+          .readonly(),
+      })
+      .array()
+      .readonly(),
+  }),
 });
 
 export const lineDiagramStopFodaSchema = z.object({

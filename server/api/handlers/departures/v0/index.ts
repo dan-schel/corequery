@@ -4,79 +4,138 @@ import type {
   ServerFodaSyncedResultOf,
 } from "@/server/api/types.js";
 import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
-import type { Departure } from "@/server/data/service/departure.js";
-import type { Corequery } from "@/server/corequery.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
+import { ArgsError } from "@/server/api/args-error.js";
+import { itsOk, nonNull, unique } from "@dan-schel/js-utils";
+import type { Departure } from "@/server/data/index.js";
+import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
+import type { Corequery } from "@/server/corequery.js";
 
-type ApiDeparture = ServerFodaSyncedResultOf<
-  typeof DEPARTURES_V0
->["departures"][number];
+type DeparturesV0ApiResult = ServerFodaSyncedResultOf<typeof DEPARTURES_V0>;
+type DeparturesV0ApiFeedResult = DeparturesV0ApiResult["feeds"][number];
+export type DeparturesV0ApiDeparture =
+  DeparturesV0ApiFeedResult["departures"][number];
+
+type DeparturesV0ApiArgs = ServerArgsOf<typeof DEPARTURES_V0>;
+type DeparturesV0ApiFeedArgs = DeparturesV0ApiArgs["feeds"][number];
+type DeparturesV0ApiSkips = DeparturesV0ApiFeedArgs["skips"][number];
 
 export async function handle<CustomContextType>(
   ctx: ApiContext<CustomContextType>,
   args: ServerArgsOf<typeof DEPARTURES_V0>,
 ): Promise<ServerResultOf<typeof DEPARTURES_V0>> {
   return applyFodaSyncedResult(ctx, async () => {
-    // TODO: The v1 API should return some sort of error object.
-    if (args.count < 1 || args.count > 50) return { departures: [] };
+    // Parse everything and throw if its invalid.
+    ensureFeedsReasonable(args.feeds);
+    const compiledFilters = ensureValidFeedFilters(ctx.app, args.feeds);
+    const instant = parseInstant(args.instant);
 
-    const now = getStartOfCurrentMinute();
+    const results: Departure[][] = args.feeds.map(() => []);
+    const stopIds = new Set(args.feeds.map((feed) => feed.stopId));
+    const feedFilters = compiledFilters.map((x) => x.filterFunction);
 
-    const iterator = ctx.app.services.getDeparturesIterator(
-      args.stopId,
-      now,
-      "forwards",
-    );
+    for (const stopId of stopIds) {
+      const iterator = ctx.app.services.getDeparturesIterator(
+        stopId,
+        instant,
+        args.direction,
+      );
 
-    const results: Departure[] = [];
+      while (
+        !allFeedsSatisfied(results, args.feeds, stopId) &&
+        (await iterator.peek()) != null
+      ) {
+        const departure = await iterator.take();
 
-    while ((await iterator.peek()) != null && results.length < args.count) {
-      const dep = await iterator.take();
-      results.push(dep);
+        for (let i = 0; i < args.feeds.length; i++) {
+          const feed = itsOk(args.feeds[i]);
+          const passesFilter = itsOk(feedFilters[i]);
+          const resultsSubarray = itsOk(results[i]);
+
+          if (feed.stopId !== stopId) continue;
+          if (resultsSubarray.length >= feed.desiredCount) continue;
+          if (!passesFilter(departure)) continue;
+          if (isSkipped(departure, feed.skips)) continue;
+
+          resultsSubarray.push(departure);
+        }
+      }
     }
 
     return {
-      departures: results.map((x) => toApiResult(ctx.app, x)),
+      feeds: results.map((x) => ({
+        departures: x.map((y) => toApiResult(ctx.app, y)),
+      })),
+      invalidFilterTokens: collectInvalidFilterTokens(compiledFilters),
     };
   });
 }
 
-function getStartOfCurrentMinute() {
-  return Temporal.Now.zonedDateTimeISO("UTC")
-    .round({
-      smallestUnit: "minute",
-      roundingMode: "floor",
-    })
-    .toInstant();
+function ensureFeedsReasonable(feeds: DeparturesV0ApiFeedArgs[]) {
+  if (feeds.length < 1) throw new ArgsError("No feeds provided.");
+  if (feeds.length > 4) throw new ArgsError("Too many feeds.");
+
+  for (const feed of feeds) {
+    if (feed.desiredCount < 1) throw new ArgsError("Desired count too low.");
+    if (feed.desiredCount > 50) throw new ArgsError("Desired count too high.");
+  }
 }
 
-function toApiResult(app: Corequery, dep: Departure): ApiDeparture {
-  const terminusName = app.stops.require(dep.service.termination.stopId).name;
+function ensureValidFeedFilters<CustomContextType>(
+  app: Corequery<CustomContextType>,
+  feeds: DeparturesV0ApiFeedArgs[],
+) {
+  const successfullyCompiled = feeds
+    .map((f) => app.departureFilters.compile(f.filterExpression))
+    .filter(nonNull);
 
-  return {
-    sourceId: dep.service.sourceId,
-    intrasourceId: dep.service.intrasourceId,
+  const someInvalid = successfullyCompiled.length < feeds.length;
+  if (someInvalid) throw new ArgsError("Some feed filters were invalid.");
 
-    // TODO: Crawl the connections until either the chain ends, or we find a
-    // servicing movement at a stop which was already serviced. Once we find
-    // that repeated servicing movement, we use the previous servicing movement
-    // as the "destination".
-    primaryDestinationText: terminusName,
-    secondaryDestinationText: null,
+  return successfullyCompiled;
+}
 
-    lineIds: dep.service.lineIds,
-    color: dep.service.getColorHexCodes(),
+function collectInvalidFilterTokens<CustomContextType>(
+  compilationResults: ReturnType<
+    typeof ensureValidFeedFilters<CustomContextType>
+  >,
+): string[] {
+  return unique(
+    compilationResults
+      .flatMap((x) => Array.from(x.invalidTokens))
+      .map((x) => x.toString()),
+  );
+}
 
-    isCancelled: dep.service.isCancelled,
+function parseInstant(instant: string) {
+  try {
+    return Temporal.Instant.from(instant);
+  } catch {
+    throw new ArgsError(`Couldn't convert "${instant}" to an instant.`);
+  }
+}
 
-    movement: {
-      index: dep.movementIndex,
-      positionId: dep.movement.currentPositionId,
-      time: dep.movement.timeRelevantToDeparturesAlgorithm.toString(),
+function allFeedsSatisfied(
+  results: Departure[][],
+  feeds: DeparturesV0ApiFeedArgs[],
+  stopId: number,
+) {
+  for (let i = 0; i < feeds.length; i++) {
+    const feed = itsOk(feeds[i]);
+    if (feed.stopId !== stopId) continue;
 
-      formerTime:
-        dep.movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ??
-        null,
-    },
-  };
+    const resultsCount = itsOk(results[i]).length;
+    const desiredCount = feed.desiredCount;
+
+    if (resultsCount < desiredCount) return false;
+  }
+  return true;
+}
+
+function isSkipped(departure: Departure, skips: DeparturesV0ApiSkips[]) {
+  return skips.some(
+    (s) =>
+      s.sourceId === departure.service.sourceId &&
+      s.intrasourceId === departure.service.intrasourceId,
+  );
 }

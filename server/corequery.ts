@@ -14,6 +14,7 @@ import { getCorequeryPackageVersion } from "@/server/get-corequery-package-versi
 import type { Logger } from "@/server/logger/logger.js";
 import { ServiceRepository } from "@/server/data/service/service-repository.js";
 import { MultiversionalFoda } from "@/server/api/handlers/foundational-data/multiversional/multiversional-foda.js";
+import { DepartureFilters } from "@/server/data/departure-filters/index.js";
 
 export type CorequeryConfigBuilder<CustomContextType> = (
   corequery: Corequery<CustomContextType>,
@@ -31,6 +32,7 @@ export class Corequery<CustomContextType = unknown> {
   readonly stops: StopCollection;
   readonly lines: LineCollection;
   readonly services: ServiceRepository;
+  readonly departureFilters: DepartureFilters<CustomContextType>;
 
   // I'm happy just exposing the config for now. Can be migrated to full classes
   // if and when we want to add helper methods.
@@ -67,12 +69,18 @@ export class Corequery<CustomContextType = unknown> {
       this._config.stops,
       this._config.tags.stopTagSuccession,
       this._config.getCanonicalLinesServingStop,
+      this._config.getDepartureFiltersForStop,
+      this._config.getDefaultDepartureFeedsForStop,
     );
     this.lines = LineCollection.build(
       this._config.lines,
       this._config.tags.lineTagSuccession,
     );
     this.services = ServiceRepository.build(this._config.serviceSources);
+    this.departureFilters = DepartureFilters.build(
+      this,
+      this._config.customDepartureFilterTypes ?? [],
+    );
 
     this.landingPageConfig = this._config.landingPage;
     this.footerConfig = this._config.footer;

@@ -1,4 +1,4 @@
-import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config-func.js";
+import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/get-canonical-lines-serving-stop-config.js";
 import type {
   LineConfig,
   LineDiagramConfig,

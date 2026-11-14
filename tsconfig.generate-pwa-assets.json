@@ -1,5 +1,4 @@
 {
-  // Builds the `corequery-generate-pwa-assets` CLI.
   "extends": "./tsconfig.base.json",
   "include": ["scripts/generate-pwa-assets"],
   "exclude": ["scripts/generate-pwa-assets/dist"],
