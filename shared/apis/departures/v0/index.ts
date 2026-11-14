@@ -21,8 +21,8 @@ const resultSchema = createFodaSyncedResultSchema(
 
     // If the client calls the departures API when its FODA is outdated, it
     // might include filter tokens that aren't valid, e.g. `stops-at:123` after
-    // stop #123 is gone. In that case, the server will pretend the tokens
-    // evaluate to true, and return them here so the frontend knows to show a
+    // stop #123 is gone. In that case, the server will pretend the invalid
+    // tokens don't exist, and return them here so the frontend knows to show a
     // toast saying the filters were modified, or whatever.
     invalidFilterTokens: z.string().array(),
   }),

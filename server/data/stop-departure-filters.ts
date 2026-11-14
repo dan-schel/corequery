@@ -1,7 +1,7 @@
 import type {
-  CustomFilterConfig,
-  CustomFilterGroupConfig,
-  DepartureFiltersConfig,
+  CustomStopDepartureFilterConfig,
+  CustomStopDepartureFilterGroupConfig,
+  StopDepartureFiltersConfig,
 } from "@/server/config/types/get-filters-for-stop-config.js";
 import type { StopPosition } from "@/server/data/stop-position.js";
 
@@ -23,7 +23,7 @@ export class StopDepartureFilters {
   }
 
   static build(
-    config: DepartureFiltersConfig,
+    config: StopDepartureFiltersConfig,
     canonicalLinesServingStop: readonly number[],
     stopPositions: readonly StopPosition[],
   ) {
@@ -43,7 +43,7 @@ export class StopDepartureFilters {
   }
 
   private static _buildLines(
-    linesConfig: DepartureFiltersConfig["lines"],
+    linesConfig: StopDepartureFiltersConfig["lines"],
     canonicalLinesServingStop: readonly number[],
   ) {
     if (linesConfig === "off") return [];
@@ -52,7 +52,7 @@ export class StopDepartureFilters {
   }
 
   private static _buildPositions(
-    positionsConfig: DepartureFiltersConfig["positions"],
+    positionsConfig: StopDepartureFiltersConfig["positions"],
     stopPositions: readonly StopPosition[],
   ) {
     if (positionsConfig === "off") return [];
@@ -75,7 +75,7 @@ export class StopDepartureFiltersCustomGroup {
     this.items = fields.items;
   }
 
-  static build(config: CustomFilterGroupConfig) {
+  static build(config: CustomStopDepartureFilterGroupConfig) {
     return new StopDepartureFiltersCustomGroup({
       label: config.label,
       items: config.items.map((x) =>
@@ -102,7 +102,7 @@ export class StopDepartureFiltersCustomGroupItem {
     this.filterExpression = fields.filterExpression;
   }
 
-  static build(config: CustomFilterConfig) {
+  static build(config: CustomStopDepartureFilterConfig) {
     return new StopDepartureFiltersCustomGroupItem({
       name: config.name,
       labelWithinGroup: config.labelWithinGroup,

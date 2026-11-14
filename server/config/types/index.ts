@@ -1,6 +1,6 @@
 export * from "./about-page-config.js";
 export * from "./asset-config.js";
-export * from "./custom-filter-function-config.js";
+export * from "./custom-filter-function-type.js";
 export * from "./footer-config.js";
 export * from "./get-canonical-lines-serving-stop-config.js";
 export * from "./get-default-departure-feeds-for-stop-config.js";

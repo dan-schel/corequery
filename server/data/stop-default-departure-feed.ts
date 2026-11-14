@@ -1,4 +1,4 @@
-import type { DefaultDepartureFeedConfig } from "@/server/config/index.js";
+import type { StopDefaultDepartureFeedConfig } from "@/server/config/index.js";
 
 type StopDefaultDepartureFeedFields = {
   readonly name: string;
@@ -17,11 +17,11 @@ export class StopDefaultDepartureFeed {
     this.filterExpression = fields.filterExpression;
   }
 
-  static buildAll(configs: readonly DefaultDepartureFeedConfig[]) {
+  static buildAll(configs: readonly StopDefaultDepartureFeedConfig[]) {
     return configs.map((x) => StopDefaultDepartureFeed.build(x));
   }
 
-  static build(config: DefaultDepartureFeedConfig) {
+  static build(config: StopDefaultDepartureFeedConfig) {
     return new StopDefaultDepartureFeed({
       name: config.name,
       desiredCount: config.desiredCount,

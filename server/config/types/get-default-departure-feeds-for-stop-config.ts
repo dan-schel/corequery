@@ -1,10 +1,11 @@
 export type GetDefaultDepartureFeedsForStopConfig = (
   stopId: number,
-) => DefaultDepartureFeedsConfig;
+) => StopDefaultDepartureFeedsConfig;
 
-export type DefaultDepartureFeedsConfig = readonly DefaultDepartureFeedConfig[];
+export type StopDefaultDepartureFeedsConfig =
+  readonly StopDefaultDepartureFeedConfig[];
 
-export type DefaultDepartureFeedConfig = {
+export type StopDefaultDepartureFeedConfig = {
   readonly name: string;
   readonly desiredCount: number;
   readonly filterExpression: string;

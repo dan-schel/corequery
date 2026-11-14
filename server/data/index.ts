@@ -1,4 +1,5 @@
 export * from "./service/index.js";
+export * from "./departure-filters/index.js";
 
 export * from "./color.js";
 export * from "./line-collection.js";

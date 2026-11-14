@@ -1,6 +1,6 @@
 import type {
-  DefaultDepartureFeedsConfig,
-  DepartureFiltersConfig,
+  StopDefaultDepartureFeedsConfig,
+  StopDepartureFiltersConfig,
   StopConfig,
   TagSuccessionConfig,
 } from "@/server/config/index.js";
@@ -52,8 +52,8 @@ export class Stop {
     stopConfig: StopConfig,
     stopTagSuccession: TagSuccessionConfig,
     canonicalLinesServingStop: readonly number[],
-    departureFilters: DepartureFiltersConfig,
-    defaultDepartureFeeds: DefaultDepartureFeedsConfig,
+    departureFilters: StopDepartureFiltersConfig,
+    defaultDepartureFeeds: StopDefaultDepartureFeedsConfig,
   ): Stop {
     if (defaultDepartureFeeds.length === 0) {
       throw new Error(`Stop #${stopConfig.id} has no default departure feeds.`);

@@ -14,7 +14,7 @@ import type { GetCanonicalLinesServingStopConfig } from "@/server/config/types/g
 import type { ServiceSourcesConfig } from "@/server/config/types/service-sources-config.js";
 import type { GetDepartureFiltersForStopConfig } from "@/server/config/types/get-filters-for-stop-config.js";
 import type { GetDefaultDepartureFeedsForStopConfig } from "@/server/config/types/get-default-departure-feeds-for-stop-config.js";
-import type { CustomFilterFunctionConfig } from "@/server/config/types/custom-filter-function-config.js";
+import type { CustomDepartureFilterTypesConfig } from "@/server/config/types/custom-filter-function-type.js";
 
 export type CorequeryConfig<CustomContextType = unknown> = {
   readonly logger: Logger;
@@ -32,7 +32,7 @@ export type CorequeryConfig<CustomContextType = unknown> = {
   readonly getCanonicalLinesServingStop: GetCanonicalLinesServingStopConfig;
   readonly getDefaultDepartureFeedsForStop: GetDefaultDepartureFeedsForStopConfig;
   readonly getDepartureFiltersForStop: GetDepartureFiltersForStopConfig;
-  readonly customFilterFunctions?: readonly CustomFilterFunctionConfig<CustomContextType>[];
+  readonly customDepartureFilterTypes?: CustomDepartureFilterTypesConfig<CustomContextType>;
   readonly serviceSources: ServiceSourcesConfig;
   readonly custom: CustomContextType;
 };
