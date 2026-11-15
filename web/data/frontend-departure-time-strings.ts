@@ -83,7 +83,7 @@ export class FrontendDepartureTimeStrings {
       };
     } else if (minutes === 0) {
       return {
-        text: `${formatted} on time`,
+        text: `On time`,
         color: "green",
       };
     } else {
@@ -105,7 +105,7 @@ export class FrontendDepartureTimeStrings {
   }
 
   private static _formatDurationWithNow(duration: Temporal.Duration) {
-    if (duration.sign >= 0 && duration.total({ unit: "minutes" }) < 0) {
+    if (duration.sign >= 0 && duration.total({ unit: "minutes" }) < 1) {
       return "Now";
     } else {
       return formatDuration(duration);

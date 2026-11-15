@@ -15,7 +15,12 @@ type DepartureTimeProps = {
 
 export function DepartureTime(props: DepartureTimeProps) {
   return (
-    <Row class={clsx(props.class, "relative")}>
+    <Row class={clsx(props.class, "relative gap-1")}>
+      {props.timeStrings.struckout != null && (
+        <TextBlock style="struckout-on-raised">
+          {props.timeStrings.struckout}
+        </TextBlock>
+      )}
       <TextBlock style="strong" dynamicColor={props.serviceColor}>
         {props.timeStrings.primary}
       </TextBlock>

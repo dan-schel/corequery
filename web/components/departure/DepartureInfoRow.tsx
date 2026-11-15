@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import { type TextColor } from "@/web/components/core/ColoredText";
 import type {
   FrontendDepartureTimeStrings,
   FrontendDepartureTimeStringsDelay,
@@ -19,7 +18,7 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
     <Row class={clsx(props.class, "gap-1")}>
       {props.timeStrings.delay != null && (
         <>
-          <DelayText delay={{ color: "green", text: "On time" }} />
+          <DelayText delay={props.timeStrings.delay} />
           <TextBlock style="small-narrow">&bull;</TextBlock>
         </>
       )}

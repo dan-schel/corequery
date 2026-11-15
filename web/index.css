@@ -41,6 +41,9 @@
   --color-fg-strong: hsla(220, 100%, 0%, 100%);
   --color-fg-weak: hsla(220, 100%, 8%, 60%);
 
+  /* Used for struckout text (can't use semi-transparent colors). */
+  --color-fg-weak-on-raised: #626a7d;
+
   --color-accent: hsl(210, 80%, 45%);
   --color-accent-hover: hsl(210, 80%, 50%);
   --color-accent-active: hsl(210, 80%, 40%);
@@ -109,6 +112,9 @@ body {
   --color-fg: hsla(220, 100%, 96%, 80%);
   --color-fg-strong: hsla(220, 100%, 100%, 100%);
   --color-fg-weak: hsla(220, 100%, 92%, 60%);
+
+  /* Used for struckout text (can't use semi-transparent colors). */
+  --color-fg-weak-on-raised: #8a94a7;
 
   --color-accent: hsl(210, 80%, 65%);
   --color-accent-hover: hsl(210, 80%, 70%);

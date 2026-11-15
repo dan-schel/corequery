@@ -18,6 +18,7 @@ const styles = {
   "regular": "text-md text-fg",
   "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
+  "struckout-on-raised": "text-md text-fg-weak-on-raised line-through",
   "strong-accent": "text-md font-bold text-accent-text",
   "wordmark": "text-mdlg font-bold text-fg-strong",
   "subtitle": "text-lg font-bold text-fg-strong",
