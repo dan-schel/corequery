@@ -40,6 +40,7 @@ export class Corequery<CustomContextType = unknown> {
   readonly footerConfig: FooterConfig;
   readonly aboutPageConfig: AboutPageConfig;
   readonly terminologyConfig: TerminologyConfig;
+  readonly formatTimezone: string;
 
   readonly custom: CustomContextType;
 
@@ -86,6 +87,7 @@ export class Corequery<CustomContextType = unknown> {
     this.footerConfig = this._config.footer;
     this.aboutPageConfig = this._config.aboutPage;
     this.terminologyConfig = this._config.terminology;
+    this.formatTimezone = this._config.formatTimezone;
 
     this.custom = this._config.custom;
 

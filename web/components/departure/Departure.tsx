@@ -1,18 +1,30 @@
 import clsx from "clsx";
-import type { DepartureData } from "@/web/components/departure/types";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
 import { DepartureTime } from "@/web/components/departure/DepartureTime";
+import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import { useMemo } from "preact/hooks";
+import { useNow } from "@/web/hooks/use-now";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
+import { DepartureInfoRow } from "@/web/components/departure/DepartureInfoRow";
 
 type DepartureProps = {
   class?: string;
-  departure: DepartureData;
+  departure: FrontendDeparture;
 };
 
 export const DEPARTURE_HEIGHT_REM = 3.5;
 
 export function Departure(props: DepartureProps) {
+  const { currentMinute } = useNow();
+  const { foda } = useFoundationalData();
+
+  const timeStrings = useMemo(
+    () => props.departure.getTimeStrings(currentMinute, foda.formatTimezone),
+    [props.departure, currentMinute, foda.formatTimezone],
+  );
+
   // Departures are fixed at h-14 (3.5rem).
   return (
     <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
@@ -33,8 +45,8 @@ export function Departure(props: DepartureProps) {
           )}
         </Row>
         <DepartureTime
-          time={props.departure.movement.time}
-          formerTime={props.departure.movement.formerTime}
+          timeType={props.departure.timeType}
+          timeStrings={timeStrings}
           serviceColor={props.departure.color}
         />
       </Row>
@@ -43,13 +55,10 @@ export function Departure(props: DepartureProps) {
           <TextBlock style="small-narrow" oneLine>
             The stopping pattern goes here
           </TextBlock>
-          <Row class="gap-1">
-            <TextBlock style="small-narrow-strong-success">Solid</TextBlock>
-            <TextBlock style="small-narrow">&bull;</TextBlock>
-            <TextBlock style="small-narrow" class="shrink min-w-0" oneLine>
-              And then this row shows all sorts of stuff
-            </TextBlock>
-          </Row>
+          <DepartureInfoRow
+            timeStrings={timeStrings}
+            lineIds={props.departure.lineIds}
+          />
         </Column>
         <Column
           yAlign="space-between"

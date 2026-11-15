@@ -13,6 +13,7 @@ export type LintableConfig = {
   readonly stops: CorequeryConfig["stops"];
   readonly lines: CorequeryConfig["lines"];
   readonly terminology: CorequeryConfig["terminology"];
+  readonly formatTimezone: CorequeryConfig["formatTimezone"];
   readonly landingPage: CorequeryConfig["landingPage"];
   readonly footer: CorequeryConfig["footer"];
   readonly aboutPage: CorequeryConfig["aboutPage"];

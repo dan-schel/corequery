@@ -15,6 +15,7 @@ import { SettingsProvider } from "@/web/components/providers/SettingsProvider";
 import { PageContainer } from "@/web/components/page/PageContainer";
 import { ServiceWorkerProvider } from "@/web/components/providers/ServiceWorkerProvider";
 import { ForceUpdateController } from "@/web/components/ForceUpdateController";
+import { NowProvider } from "@/web/components/providers/NowProvider.js";
 
 const About = lazy(() => import("./pages/About.js"));
 const AdminControls = lazy(() => import("./pages/AdminControls.js"));
@@ -37,29 +38,31 @@ function App() {
         <ForceUpdateController>
           <SettingsProvider>
             <FoundationalDataProvider>
-              <LocationProvider>
-                <PageContainer>
-                  <ErrorBoundary>
-                    <Router>
-                      <Route path="/" component={Home} />
-                      <Route path="/about" component={About} />
-                      <Route path="/admin" component={AdminControls} />
-                      <Route path="/debug" component={Debug} />
-                      <Route path="/line/:id" component={Line} />
-                      <Route path="/nearby" component={Nearby} />
-                      <Route
-                        path="/service/:sourceId/:intrasourceId"
-                        component={Service}
-                      />
-                      <Route path="/settings" component={Settings} />
-                      <Route path="/status" component={Status} />
-                      <Route path="/stop/:id" component={Stop} />
-                      <Route path="/zen" component={ZenMode} />
-                      <Route default component={NotFound} />
-                    </Router>
-                  </ErrorBoundary>
-                </PageContainer>
-              </LocationProvider>
+              <NowProvider>
+                <LocationProvider>
+                  <PageContainer>
+                    <ErrorBoundary>
+                      <Router>
+                        <Route path="/" component={Home} />
+                        <Route path="/about" component={About} />
+                        <Route path="/admin" component={AdminControls} />
+                        <Route path="/debug" component={Debug} />
+                        <Route path="/line/:id" component={Line} />
+                        <Route path="/nearby" component={Nearby} />
+                        <Route
+                          path="/service/:sourceId/:intrasourceId"
+                          component={Service}
+                        />
+                        <Route path="/settings" component={Settings} />
+                        <Route path="/status" component={Status} />
+                        <Route path="/stop/:id" component={Stop} />
+                        <Route path="/zen" component={ZenMode} />
+                        <Route default component={NotFound} />
+                      </Router>
+                    </ErrorBoundary>
+                  </PageContainer>
+                </LocationProvider>
+              </NowProvider>
             </FoundationalDataProvider>
           </SettingsProvider>
         </ForceUpdateController>

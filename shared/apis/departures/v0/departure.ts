@@ -48,6 +48,11 @@ export const departureSchema = z.object({
     positionId: z.number().nullable(),
 
     // "time" not "departureTime", as for arrivals it'll be the arrival time.
+    timeType: z.enum([
+      "scheduled-time",
+      "provided-live-time",
+      "interpolated-live-time",
+    ]),
     time: z.string(),
     formerTime: z.string().nullable(),
   }),

@@ -24,6 +24,7 @@ export type CorequeryConfig<CustomContextType = unknown> = {
   readonly stops: readonly StopConfig[];
   readonly lines: readonly LineConfig[];
   readonly terminology: TerminologyConfig;
+  readonly formatTimezone: string;
   readonly landingPage: LandingPageConfig;
   readonly footer: FooterConfig;
   readonly aboutPage: AboutPageConfig;

@@ -18,6 +18,7 @@ const styles = {
   "regular": "text-md text-fg",
   "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
+  "struckout-on-raised": "text-md text-fg-weak-on-raised line-through",
   "strong-accent": "text-md font-bold text-accent-text",
   "wordmark": "text-mdlg font-bold text-fg-strong",
   "subtitle": "text-lg font-bold text-fg-strong",
@@ -26,6 +27,10 @@ const styles = {
   "weak-struckout": "text-md text-fg-weak line-through",
   "small-narrow-strong-success":
     "text-sm text-success-text font-bold font-stretch-semi-condensed",
+  "small-narrow-strong-warning":
+    "text-sm text-warning-text font-bold font-stretch-semi-condensed",
+  "small-narrow-strong-error":
+    "text-sm text-error-text font-bold font-stretch-semi-condensed",
 };
 
 const alignments = {

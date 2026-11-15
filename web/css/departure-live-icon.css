@@ -1,0 +1,23 @@
+._dynamic-live-icon > :nth-child(1) {
+  animation: dynamic-live-icon-pulse 2s linear 0.25s infinite;
+  stroke-opacity: 0%;
+}
+._dynamic-live-icon > :nth-child(2) {
+  animation: dynamic-live-icon-pulse 2s linear 0s infinite;
+  stroke-opacity: 0%;
+}
+
+@keyframes dynamic-live-icon-pulse {
+  0% {
+    stroke-opacity: 0%;
+  }
+  20% {
+    stroke-opacity: 100%;
+  }
+  40% {
+    stroke-opacity: 0%;
+  }
+  100% {
+    stroke-opacity: 0%;
+  }
+}

@@ -1,5 +1,4 @@
 import { Column } from "@/web/components/core/Column";
-import type { DepartureData } from "@/web/components/departure/types";
 import {
   DEPARTURE_LIST_ITEM_HEIGHT_REM,
   DepartureListItem,
@@ -11,10 +10,11 @@ import clsx from "clsx";
 import { ErrorMessage } from "@/web/components/ErrorMessage";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { MingcuteCalendarXLine } from "@/web/components/icons/MingcuteCalendarXLine";
+import type { FrontendDeparture } from "@/web/data/frontend-departure";
 
 type DepartureListProps = {
   class?: string;
-  departures: DepartureData[];
+  departures: FrontendDeparture[];
   queryCount: number;
   loading: boolean;
   hadError: boolean;
@@ -99,6 +99,6 @@ function Container(props: ContainerProps) {
   );
 }
 
-function createKey(departure: DepartureData) {
-  return `${departure.sourceId}/${departure.intrasourceId}/${departure.movement.index}`;
+function createKey(departure: FrontendDeparture) {
+  return `${departure.sourceId}/${departure.intrasourceId}/${departure.movementIndex}`;
 }

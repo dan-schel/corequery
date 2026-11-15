@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./css/loading-spinner.css" layer(base);
+@import "./css/departure-live-icon.css" layer(base);
 
 /* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
 @theme {
@@ -17,6 +18,7 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.75rem;
 
+  --text-icon-xs: 0.7rem;
   --text-icon-md: 1rem;
   --text-icon-lg: 1.25rem;
   --text-icon-xl: 1.5rem;
@@ -38,6 +40,9 @@
   --color-fg: hsla(220, 100%, 4%, 80%);
   --color-fg-strong: hsla(220, 100%, 0%, 100%);
   --color-fg-weak: hsla(220, 100%, 8%, 60%);
+
+  /* Used for struckout text (can't use semi-transparent colors). */
+  --color-fg-weak-on-raised: #626a7d;
 
   --color-accent: hsl(210, 80%, 45%);
   --color-accent-hover: hsl(210, 80%, 50%);
@@ -107,6 +112,9 @@ body {
   --color-fg: hsla(220, 100%, 96%, 80%);
   --color-fg-strong: hsla(220, 100%, 100%, 100%);
   --color-fg-weak: hsla(220, 100%, 92%, 60%);
+
+  /* Used for struckout text (can't use semi-transparent colors). */
+  --color-fg-weak-on-raised: #8a94a7;
 
   --color-accent: hsl(210, 80%, 65%);
   --color-accent-hover: hsl(210, 80%, 70%);

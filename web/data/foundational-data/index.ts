@@ -34,6 +34,10 @@ export class FoundationalData {
     return this._obj.terminology;
   }
 
+  get formatTimezone() {
+    return this._obj.formatTimezone;
+  }
+
   get landingPage() {
     return this._obj.landingPage;
   }
