@@ -21,6 +21,6 @@ export class LineTagDepartureFilterType<
       .map((x) => x.id);
 
     return (departure) =>
-      departure.service.lineIds.some((id) => taggedLines.includes(id));
+      departure.lineIds.some((id) => taggedLines.includes(id));
   }
 }

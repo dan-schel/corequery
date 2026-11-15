@@ -16,6 +16,6 @@ export class LineDepartureFilterType<
     const lineId = parseIntNull(args);
     if (lineId === null) return null;
 
-    return (departure) => departure.service.lineIds.includes(lineId);
+    return (departure) => departure.lineIds.includes(lineId);
   }
 }

@@ -16,6 +16,6 @@ export class ServiceTagDepartureFilterType<
     const serviceTag = parseIntNull(args);
     if (serviceTag === null) return null;
 
-    return (departure) => departure.service.tags.has(serviceTag);
+    return (departure) => departure.serviceTags.has(serviceTag);
   }
 }

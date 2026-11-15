@@ -1,4 +1,5 @@
 import type {
+  LightweightDeparture,
   DeparturesIterationDirection,
   DeparturesIterator,
 } from "@/server/data/service/service-source.js";
@@ -17,10 +18,20 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
     this._isInitialized = false;
   }
 
-  async peek(): Promise<Departure | null> {
+  async peek(): Promise<LightweightDeparture | null> {
     await this._ensureSetup();
     if (this._nextIterator == null) return null;
     return await this._nextIterator.peek();
+  }
+
+  async skip(): Promise<void> {
+    await this._ensureSetup();
+
+    const iterator = this._nextIterator;
+    if (iterator == null) throw new Error("Nothing to skip.");
+
+    await iterator.skip();
+    this._nextIterator = await this._determineBestIterator();
   }
 
   async take(): Promise<Departure> {
@@ -44,7 +55,7 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
   }
 
   private async _determineBestIterator() {
-    let best: Departure | null = null;
+    let best: LightweightDeparture | null = null;
     let bestIterator: DeparturesIterator | null = null;
 
     for (const iterator of this._iterators) {

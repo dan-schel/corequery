@@ -7,7 +7,7 @@ import type { ServerArgsOf, ServerResultOf } from "@/server/api/types.js";
 import { applyFodaSyncedResult } from "@/server/api/handlers/foda-synced-handler.js";
 import { ArgsError } from "@/server/api/args-error.js";
 import { itsOk, nonNull, unique } from "@dan-schel/js-utils";
-import type { Departure } from "@/server/data/index.js";
+import type { LightweightDeparture } from "@/server/data/index.js";
 import { toApiResult } from "@/server/api/handlers/departures/v0/to-api-result.js";
 import type { Corequery } from "@/server/corequery.js";
 
@@ -41,12 +41,11 @@ export async function handle<CustomContextType>(
         args.direction,
       );
 
-      while (
-        !allFeedsSatisfied(results, args.feeds, stopId) &&
-        (await iterator.peek()) != null
-      ) {
-        const departure = await iterator.take();
+      while (!allFeedsSatisfied(results, args.feeds, stopId)) {
+        const candidate = await iterator.peek();
+        if (candidate == null) break;
 
+        const matchingResults: DeparturesV0ApiDeparture[][] = [];
         for (let i = 0; i < args.feeds.length; i++) {
           const feed = itsOk(args.feeds[i]);
           const passesFilter = itsOk(feedFilters[i]);
@@ -54,9 +53,19 @@ export async function handle<CustomContextType>(
 
           if (feed.stopId !== stopId) continue;
           if (resultsSubarray.length >= feed.desiredCount) continue;
-          if (!passesFilter(departure)) continue;
-          if (isSkipped(departure, feed.skips)) continue;
+          if (!passesFilter(candidate)) continue;
+          if (isSkipped(candidate, feed.skips)) continue;
 
+          matchingResults.push(resultsSubarray);
+        }
+
+        if (matchingResults.length === 0) {
+          await iterator.skip();
+          continue;
+        }
+
+        const departure = await iterator.take();
+        for (const resultsSubarray of matchingResults) {
           // TODO: corequery-gtfs is synchronous here, but future service
           // sources might not be. For that reason, while it doesn't matter
           // right now, doing this in series is not ideal.
@@ -135,12 +144,15 @@ function allFeedsSatisfied(
   return true;
 }
 
-function isSkipped(departure: Departure, skips: DeparturesV0ApiSkips[]) {
+function isSkipped(
+  departure: LightweightDeparture,
+  skips: DeparturesV0ApiSkips[],
+) {
   // TODO: Should consider `movementIndex`, as looping services might appear
   // multiple times in the same departures list.
   return skips.some(
     (s) =>
-      s.sourceId === departure.service.sourceId &&
-      s.intrasourceId === departure.service.intrasourceId,
+      s.sourceId === departure.sourceId &&
+      s.intrasourceId === departure.intrasourceId,
   );
 }

@@ -1,7 +1,9 @@
 import type { Corequery } from "@/server/corequery.js";
-import type { Departure } from "@/server/data/service/departure.js";
+import type { LightweightDeparture } from "@/server/data/service/service-source.js";
 
-export type DepartureFilterFunction = (departure: Departure) => boolean;
+export type DepartureFilterFunction = (
+  departure: LightweightDeparture,
+) => boolean;
 
 export abstract class DepartureFilterType<CustomContextType> {
   constructor(
