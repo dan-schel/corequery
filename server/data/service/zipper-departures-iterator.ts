@@ -74,16 +74,6 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
       }
     }
 
-    // TODO: Should we be storing the `best` value we're finding here, so that
-    // we don't have to call `peek` again on the subiterator? Or is it the
-    // subiterator's responsibility to cache its own `peek` value?
-    //
-    // A: It should probably be the subiterator's responsibility, because unless
-    // we cache the best value for each subiterator, we have to `peek` them all
-    // again everytime we `take`, so I think we're making the assumption that
-    // while `peek` has to be async for the first call, all subsequent calls
-    // should be free.
-
     return bestIterator;
   }
 
