@@ -25,8 +25,9 @@ export async function toApiResult<CustomContextType>(
     movement: {
       index: departure.movementIndex,
       positionId: movement.currentPositionId,
-      time: movement.timeRelevantToDeparturesAlgorithm.toString(),
 
+      timeType: movement.timeTypeRelevantToDeparturesAlgorithm,
+      time: movement.timeRelevantToDeparturesAlgorithm.toString(),
       formerTime:
         movement.formerTimeRelevantToDeparturesAlgorithm?.toString() ?? null,
     },

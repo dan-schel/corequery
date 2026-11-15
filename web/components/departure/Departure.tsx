@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import type { DepartureData } from "@/web/components/departure/types";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
 import { DepartureTime } from "@/web/components/departure/DepartureTime";
+import type { FrontendDeparture } from "@/web/data/frontend-departure";
 
 type DepartureProps = {
   class?: string;
-  departure: DepartureData;
+  departure: FrontendDeparture;
 };
 
 export const DEPARTURE_HEIGHT_REM = 3.5;
@@ -33,8 +33,9 @@ export function Departure(props: DepartureProps) {
           )}
         </Row>
         <DepartureTime
-          time={props.departure.movement.time}
-          formerTime={props.departure.movement.formerTime}
+          timeType={props.departure.timeType}
+          time={props.departure.time}
+          formerTime={props.departure.formerTime}
           serviceColor={props.departure.color}
         />
       </Row>

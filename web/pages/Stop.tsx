@@ -5,13 +5,10 @@ import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
 import { useMemo } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
-import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
-import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
-import type { DepartureFeedData } from "@/web/components/departure/types";
 import { useNow } from "@/web/hooks/use-now";
 
 export default function Stop() {
@@ -40,30 +37,12 @@ type StopPageContentProps = {
 function StopPageContent(props: StopPageContentProps) {
   const { currentMinute } = useNow();
 
-  const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
-    instant: currentMinute.toString(),
-    direction: "forwards",
-    feeds: props.stop.defaultDepartureFeeds.map((x) => ({
-      stopId: props.stop.id,
-      desiredCount: x.desiredCount,
-      filterExpression: `${x.filterExpression} !arr !sdo`.trim(),
-      skips: [],
-    })),
-  });
-
-  const feeds = useMemo<DepartureFeedData[]>(
-    () =>
-      props.stop.defaultDepartureFeeds.map((x, i) => ({
-        query: {
-          title: x.name,
-          desiredCount: x.desiredCount,
-        },
-        departures: data?.feeds[i]?.departures ?? [],
-        loading,
-        hadError: error != null,
-      })),
-    [props.stop.defaultDepartureFeeds, data, loading, error],
-  );
+  const feeds = props.stop.defaultDepartureFeeds.map((x) => ({
+    title: x.name,
+    stopId: props.stop.id,
+    desiredCount: x.desiredCount,
+    filterExpression: `${x.filterExpression} !arr !sdo`.trim(),
+  }));
 
   return (
     <Page
@@ -80,7 +59,7 @@ function StopPageContent(props: StopPageContentProps) {
     >
       <Column>
         <DepartureControls />
-        <DepartureFeeds feeds={feeds} />
+        <DepartureFeeds feeds={feeds} instant={currentMinute} />
       </Column>
     </Page>
   );

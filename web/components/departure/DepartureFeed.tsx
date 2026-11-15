@@ -1,16 +1,22 @@
 import clsx from "clsx";
 import { Column } from "@/web/components/core/Column";
-import type { DepartureFeedData } from "@/web/components/departure/types";
 import { DepartureList } from "@/web/components/departure/DepartureList";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Row } from "@/web/components/core/Row";
 import { Button } from "@/web/components/button/Button";
 import { MajesticonsPinLine } from "@/web/components/icons/MajesticonsPinLine";
 import { MingcuteFullscreen2Line } from "@/web/components/icons/MingcuteFullscreen2Line";
+import type { FrontendDeparture } from "@/web/data/frontend-departure";
 
 type DepartureFeedProps = {
   class?: string;
-  feed: DepartureFeedData;
+  feed: {
+    title: string;
+    desiredCount: number;
+  };
+  departures: FrontendDeparture[];
+  loading: boolean;
+  hadError: boolean;
 };
 
 export function DepartureFeed(props: DepartureFeedProps) {
@@ -22,7 +28,7 @@ export function DepartureFeed(props: DepartureFeedProps) {
         class="gap-2 not-desktop:pl-4 not-desktop:pr-2 not-desktop:pt-6 pb-2"
       >
         <TextBlock style="subtitle" class="shrink min-w-0" oneLine>
-          {props.feed.query.title}
+          {props.feed.title}
         </TextBlock>
         <Row class="gap-2">
           <Button theme="hover" icon={MajesticonsPinLine} />
@@ -39,10 +45,10 @@ export function DepartureFeed(props: DepartureFeedProps) {
         // this container, not any of its children.
         class="bg-bg-raised desktop:border not-desktop:border-y border-soft-border desktop:rounded-lg overflow-hidden box-content"
 
-        departures={props.feed.departures}
-        queryCount={props.feed.query.desiredCount}
-        loading={props.feed.loading}
-        hadError={props.feed.hadError}
+        departures={props.departures}
+        queryCount={props.feed.desiredCount}
+        loading={props.loading}
+        hadError={props.hadError}
       />
     </Column>
   );

@@ -1,14 +1,40 @@
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
-import type { DepartureFeedData } from "@/web/components/departure/types";
 import { DepartureFeed } from "@/web/components/departure/DepartureFeed";
+import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
+import { DEPARTURES_V0 } from "@/shared/apis";
+import { useMemo } from "preact/hooks";
+import { FrontendDeparture } from "@/web/data/frontend-departure";
 
 type DepartureFeedsProps = {
   class?: string;
-  feeds: DepartureFeedData[];
+  instant: Temporal.Instant;
+  feeds: {
+    title: string;
+
+    stopId: number;
+    desiredCount: number;
+    filterExpression: string;
+  }[];
 };
 
 export function DepartureFeeds(props: DepartureFeedsProps) {
+  // TODO: Discard data if feeds changes at all.
+  const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
+    instant: props.instant.toString(),
+    direction: "forwards",
+    feeds: props.feeds.map((x) => ({ ...x, skips: [] })),
+  });
+
+  const departureArrayMapping = useMemo(
+    () =>
+      props.feeds.map((x, i) => ({
+        feed: x,
+        departures: FrontendDeparture.wrapAll(data?.feeds[i]?.departures),
+      })),
+    [props.feeds, data],
+  );
+
   return (
     <Grid
       class={clsx(
@@ -16,10 +42,13 @@ export function DepartureFeeds(props: DepartureFeedsProps) {
         "desktop:grid-cols-[1fr_1fr] desktop:gap-6 desktop:px-4 desktop:py-8",
       )}
     >
-      {props.feeds.map((feed, i) => (
+      {departureArrayMapping.map((x, i) => (
         <DepartureFeed
           key={i}
-          feed={feed}
+          feed={x.feed}
+          departures={x.departures}
+          loading={loading}
+          hadError={error != null}
 
           // All feeds have a bottom border, but usually on mobile the page is
           // scrollable and the bottom of the last feed is flush against the
