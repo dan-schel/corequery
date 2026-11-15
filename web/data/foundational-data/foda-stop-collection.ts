@@ -1,8 +1,7 @@
-import type { stopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
+import type { fodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import { Collection } from "@/shared/data/collection";
+import { FodaStop } from "@/web/data/foundational-data/foda-stop";
 import type z from "zod";
-
-export type FodaStop = z.output<typeof stopFodaSchema>;
 
 export class FodaStopCollection extends Collection<number, FodaStop> {
   protected override _getID(item: FodaStop): number {
@@ -19,5 +18,9 @@ export class FodaStopCollection extends Collection<number, FodaStop> {
 
   getByUrlPath(urlPath: string): FodaStop | null {
     return this.first((stop) => stop.urlPath === urlPath);
+  }
+
+  static build(raw: z.output<typeof fodaSchema>["stops"]) {
+    return new FodaStopCollection(raw.map((x) => FodaStop.build(x)));
   }
 }

@@ -30,7 +30,10 @@ export function DepartureFeeds(props: DepartureFeedsProps) {
     () =>
       props.feeds.map((x, i) => ({
         feed: x,
-        departures: FrontendDeparture.wrapAll(data?.feeds[i]?.departures),
+        departures: FrontendDeparture.wrapAll(
+          x.stopId,
+          data?.feeds[i]?.departures,
+        ),
       })),
     [props.feeds, data],
   );

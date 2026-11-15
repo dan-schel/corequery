@@ -4,12 +4,12 @@ import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
 import { useMemo } from "preact/hooks";
-import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 import { LinesList } from "@/web/components/LinesList";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
 import { useNow } from "@/web/hooks/use-now";
+import type { FodaStop } from "@/web/data/foundational-data/foda-stop";
 
 export default function Stop() {
   const {

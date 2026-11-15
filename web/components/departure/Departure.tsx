@@ -8,6 +8,7 @@ import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { DepartureInfoRow } from "@/web/components/departure/DepartureInfoRow";
+import { DeparturePlatformIndicator } from "@/web/components/departure/DeparturePlatformIndicator";
 
 type DepartureProps = {
   class?: string;
@@ -60,17 +61,11 @@ export function Departure(props: DepartureProps) {
             lineIds={props.departure.lineIds}
           />
         </Column>
-        <Column
-          yAlign="space-between"
-          class="border-2 px-1.5 py-1 border-soft-border rounded-sm -mb-0.5 h-8.5"
-        >
-          <TextBlock style="tiny-narrow" align="center">
-            Platform
-          </TextBlock>
-          <TextBlock style="strong" align="center">
-            X
-          </TextBlock>
-        </Column>
+        <DeparturePlatformIndicator
+          class="-mb-0.5"
+          stopId={props.departure.stopId}
+          positionId={props.departure.positionId}
+        />
       </Row>
     </Column>
   );
