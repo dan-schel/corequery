@@ -3,7 +3,7 @@ import { Page } from "@/web/components/page/Page";
 import { useRoute } from "preact-iso";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { NotFoundPage } from "@/web/components/NotFoundPage";
-import { useMemo, useState } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop-collection";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { LinesList } from "@/web/components/LinesList";
@@ -12,6 +12,7 @@ import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
 import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
 import type { DepartureFeedData } from "@/web/components/departure/types";
+import { useNow } from "@/web/hooks/use-now";
 
 export default function Stop() {
   const {
@@ -37,18 +38,10 @@ type StopPageContentProps = {
 };
 
 function StopPageContent(props: StopPageContentProps) {
-  // TODO: Use useNow().
-  const [instant] = useState(() =>
-    Temporal.Now.zonedDateTimeISO("UTC")
-      .round({
-        smallestUnit: "minute",
-        roundingMode: "floor",
-      })
-      .toInstant(),
-  );
+  const { currentMinute } = useNow();
 
   const { data, loading, error } = useFodaSyncedQuery(DEPARTURES_V0, {
-    instant: instant.toString(),
+    instant: currentMinute.toString(),
     direction: "forwards",
     feeds: props.stop.defaultDepartureFeeds.map((x) => ({
       stopId: props.stop.id,
