@@ -16,6 +16,7 @@ type SettingsProviderProps = {
 export function SettingsProvider(props: SettingsProviderProps) {
   const { Provider } = settingsContext;
 
+  // TODO: Load and migrate settings from TrainQuery v3 if present.
   const cache = useLocalStorage("corequery-settings", Settings.json);
 
   const [settings, setSettings] = useState<Settings>(() => {

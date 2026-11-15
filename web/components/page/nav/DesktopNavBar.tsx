@@ -9,6 +9,7 @@ import { Favicon } from "@/web/components/icons/Favicon";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
+import { DebugPwaStatusIndicator } from "@/web/components/page/nav/DebugPwaStatusIndicator";
 
 type DesktopNavBarProps = {
   class?: string;
@@ -26,33 +27,36 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
     <PageCenterer
       class={clsx(props.class, "h-12 bg-bg-navbar border-b border-soft-border")}
     >
-      <Row class="gap-2">
-        <HoverButtonHousing class="self-center" href="/">
-          <Row class="px-4 gap-2 h-8" xAlign="center" yAlign="center">
-            <Favicon class="text-icon-md" />
-            <TextBlock style="wordmark">{appName}</TextBlock>
+      <Row xAlign="space-between">
+        <Row class="gap-2">
+          <HoverButtonHousing class="self-center" href="/">
+            <Row class="px-4 gap-2 h-8" xAlign="center" yAlign="center">
+              <Favicon class="text-icon-md" />
+              <TextBlock style="wordmark">{appName}</TextBlock>
+            </Row>
+          </HoverButtonHousing>
+          <Row>
+            {navItems.map((item) => (
+              <DesktopNavButton
+                key={item.name}
+                text={item.name}
+                regularIcon={"icon" in item ? item.icon : item.regularIcon}
+                activeIcon={"icon" in item ? item.icon : item.activeIcon}
+                active={"isActive" in item ? item.isActive(url) : false}
+                href={"href" in item ? item.href : undefined}
+                onClick={
+                  item.opensMoreDrawer
+                    ? props.onOpenMoreDrawerRequest
+                    : item.opensSearchDrawer
+                      ? props.onOpenSearchDrawerRequest
+                      : undefined
+                }
+                showBadge={isUpdateAvailable && item.opensMoreDrawer}
+              />
+            ))}
           </Row>
-        </HoverButtonHousing>
-        <Row>
-          {navItems.map((item) => (
-            <DesktopNavButton
-              key={item.name}
-              text={item.name}
-              regularIcon={"icon" in item ? item.icon : item.regularIcon}
-              activeIcon={"icon" in item ? item.icon : item.activeIcon}
-              active={"isActive" in item ? item.isActive(url) : false}
-              href={"href" in item ? item.href : undefined}
-              onClick={
-                item.opensMoreDrawer
-                  ? props.onOpenMoreDrawerRequest
-                  : item.opensSearchDrawer
-                    ? props.onOpenSearchDrawerRequest
-                    : undefined
-              }
-              showBadge={isUpdateAvailable && item.opensMoreDrawer}
-            />
-          ))}
         </Row>
+        <DebugPwaStatusIndicator class="self-center mr-4" />
       </Row>
     </PageCenterer>
   );

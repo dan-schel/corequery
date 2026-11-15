@@ -47,7 +47,12 @@ export function DepartureFeeds(props: DepartureFeedsProps) {
           key={i}
           feed={x.feed}
           departures={x.departures}
+
+          // TODO: Continue showing only data while loading, slightly faded.
+          // Also consider blocking clicks for ~500ms after loading ends, to
+          // prevent accidental misclicks after data updates.
           loading={loading}
+
           hadError={error != null}
 
           // All feeds have a bottom border, but usually on mobile the page is
