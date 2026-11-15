@@ -11,7 +11,6 @@ import { LineDepartureFilterType } from "@/server/data/departure-filters/types/l
 import { PositionDepartureFilterType } from "@/server/data/departure-filters/types/position.js";
 import { ServiceTagDepartureFilterType } from "@/server/data/departure-filters/types/service-tag.js";
 import { SetDownOnlyDepartureFilterType } from "@/server/data/departure-filters/types/set-down-only.js";
-import type { LightweightDeparture } from "@/server/data/service/service-source.js";
 import {
   DepartureFilterExpression,
   DepartureFilterToken,
