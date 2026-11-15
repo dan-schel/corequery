@@ -80,6 +80,7 @@ export class MultiversionalFoda {
         stop: app.terminologyConfig.stop,
         line: app.terminologyConfig.line,
         service: app.terminologyConfig.service,
+        stopPosition: app.terminologyConfig.stopPosition,
       },
       formatTimezone: app.formatTimezone,
     };
@@ -116,6 +117,7 @@ export class MultiversionalFoda {
         stop: this.obj.terminology.stop,
         line: this.obj.terminology.line,
         service: this.obj.terminology.service,
+        stopPosition: this.obj.terminology.stopPosition,
       },
       formatTimezone: this.obj.formatTimezone,
     };

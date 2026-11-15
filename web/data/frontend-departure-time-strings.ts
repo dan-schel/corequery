@@ -46,8 +46,8 @@ export class FrontendDepartureTimeStrings {
       });
     }
 
-    const durationFromNow = now.until(time);
-    const delay = this._getDelay(formerTime.until(time));
+    const durationFromNow = time.since(now);
+    const delay = this._getDelay(time.since(formerTime));
 
     if (durationFromNow.total({ unit: "minutes" }) > 60) {
       return new FrontendDepartureTimeStrings({
@@ -58,7 +58,7 @@ export class FrontendDepartureTimeStrings {
       });
     }
 
-    const formerDurationFromNow = now.until(formerTime);
+    const formerDurationFromNow = formerTime.since(now);
     const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 

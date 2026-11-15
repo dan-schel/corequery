@@ -29,6 +29,15 @@ const pluralServicesTerms = {
   bus: "buses",
 };
 
+const positionIndicatorHeaders = {
+  "platform": "Platform",
+  "track": "Track",
+  "bay": "Bay",
+  "wharf": "Wharf",
+  "wharf-and-side": "Wharf/Side",
+  "stand": "Stand",
+};
+
 export function useTerminology() {
   const { foda } = useFoundationalData();
 
@@ -39,6 +48,8 @@ export function useTerminology() {
       pluralStopsTerm: pluralStopsTerms[foda.terminology.stop],
       pluralLinesTerm: pluralLinesTerms[foda.terminology.line],
       pluralServicesTerm: pluralServicesTerms[foda.terminology.service],
+      positionIndicatorHeader:
+        positionIndicatorHeaders[foda.terminology.stopPosition],
     };
   }, [foda.terminology]);
 }

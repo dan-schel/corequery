@@ -19,6 +19,8 @@ type FrontendDepartureFields = {
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
 
+  readonly stopId: number;
+  readonly positionId: number | null;
   readonly timeType: FrontendServiceTypeTime;
   readonly time: Temporal.Instant;
   readonly formerTime: Temporal.Instant | null;
@@ -34,6 +36,8 @@ export class FrontendDeparture {
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
 
+  readonly stopId: number;
+  readonly positionId: number | null;
   readonly timeType: FrontendServiceTypeTime;
   readonly time: Temporal.Instant;
   readonly formerTime: Temporal.Instant | null;
@@ -48,6 +52,8 @@ export class FrontendDeparture {
     this.secondaryDestinationText = fields.secondaryDestinationText;
     this.color = fields.color;
 
+    this.stopId = fields.stopId;
+    this.positionId = fields.positionId;
     this.timeType = fields.timeType;
     this.time = fields.time;
     this.formerTime = fields.formerTime;
@@ -65,7 +71,7 @@ export class FrontendDeparture {
     return FrontendDepartureTimeStrings.build(this, now, formatTimezone);
   }
 
-  static wrap(departure: DepartureFromApi) {
+  static wrap(stopId: number, departure: DepartureFromApi) {
     return new FrontendDeparture({
       sourceId: departure.sourceId,
       intrasourceId: departure.intrasourceId,
@@ -75,18 +81,22 @@ export class FrontendDeparture {
       secondaryDestinationText: departure.secondaryDestinationText,
       color: departure.color,
 
+      stopId,
+      positionId: departure.movement.positionId ?? null,
       timeType: departure.movement.timeType,
       time: Temporal.Instant.from(departure.movement.time),
       formerTime:
         departure.movement.formerTime != null
           ? Temporal.Instant.from(departure.movement.formerTime)
           : null,
-
       movementIndex: departure.movement.index,
     });
   }
 
-  static wrapAll(departures: DepartureFromApi[] | null | undefined) {
-    return departures?.map((x) => FrontendDeparture.wrap(x)) ?? [];
+  static wrapAll(
+    stopId: number,
+    departures: DepartureFromApi[] | null | undefined,
+  ) {
+    return departures?.map((x) => FrontendDeparture.wrap(stopId, x)) ?? [];
   }
 }

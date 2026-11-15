@@ -11,6 +11,7 @@ import { ErrorButtonHousing } from "@/web/components/button/housings/ErrorButton
 import { WarningButtonHousing } from "@/web/components/button/housings/WarningButtonHousing";
 import { SuccessButtonHousing } from "@/web/components/button/housings/SuccessButtonHousing";
 import { NarrowIconButtonLayout } from "@/web/components/button/layouts/NarrowIconButtonLayout";
+import { TinyButtonLayout } from "@/web/components/button/layouts/TinyButtonLayout";
 
 const themes = {
   "default": DefaultButtonHousing,
@@ -24,6 +25,7 @@ const themes = {
 };
 const layouts = {
   "simple": SimpleButtonLayout,
+  "tiny": TinyButtonLayout,
   "menu-item": MenuItemButtonLayout,
   "narrow-icon": NarrowIconButtonLayout,
 };
