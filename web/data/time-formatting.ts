@@ -1,6 +1,6 @@
 import { hour24To12 } from "@dan-schel/js-utils";
 
-export function formatTime(
+function formatTime(
   input: Temporal.PlainTime,
   { includeSeconds = false }: { includeSeconds?: boolean } = {},
 ) {
@@ -40,7 +40,7 @@ export function formatDuration(
   return components.join(", ") + (addAgo ? " ago" : "");
 }
 
-export function formatDate(
+function formatDate(
   date: Temporal.PlainDate,
   { includeYear = false }: { includeYear?: boolean } = {},
 ) {
