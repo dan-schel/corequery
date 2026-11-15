@@ -19,7 +19,10 @@ export function formatDuration(
   input: Temporal.Duration,
   { suppressAgo = false }: { suppressAgo?: boolean } = {},
 ) {
-  const duration = input.round({ largestUnit: "day", smallestUnit: "second" });
+  const isNegative = input.sign === -1;
+  const duration = input
+    .abs()
+    .round({ largestUnit: "day", smallestUnit: "second" });
   const { days: d, hours: h, minutes: m, seconds: s } = duration;
 
   const components = [];
@@ -36,7 +39,7 @@ export function formatDuration(
     components.push(s === 1 ? "1 sec" : `${s.toFixed()} secs`);
   }
 
-  const addAgo = duration.sign === -1 && !suppressAgo;
+  const addAgo = isNegative && !suppressAgo;
   return components.join(", ") + (addAgo ? " ago" : "");
 }
 
@@ -62,7 +65,7 @@ export function formatRelativeTime(
   const nowDate = now.toPlainDate();
 
   const timeString = formatTime(inputTime);
-  const dayDiff = nowDate.until(inputDate).days;
+  const dayDiff = inputDate.since(nowDate).days;
 
   if (dayDiff === 0) {
     const isEarlierToday = Temporal.PlainTime.compare(inputTime, nowTime) <= 0;
