@@ -26,6 +26,10 @@ const styles = {
   "weak-struckout": "text-md text-fg-weak line-through",
   "small-narrow-strong-success":
     "text-sm text-success-text font-bold font-stretch-semi-condensed",
+  "small-narrow-strong-warning":
+    "text-sm text-warning-text font-bold font-stretch-semi-condensed",
+  "small-narrow-strong-error":
+    "text-sm text-error-text font-bold font-stretch-semi-condensed",
 };
 
 const alignments = {

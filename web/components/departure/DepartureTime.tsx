@@ -4,12 +4,12 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
 import type { FrontendServiceTypeTime } from "@/web/data/frontend-departure";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
+import type { FrontendDepartureTimeStrings } from "@/web/data/frontend-departure-time-strings";
 
 type DepartureTimeProps = {
   class?: string;
   timeType: FrontendServiceTypeTime;
-  time: Temporal.Instant;
-  formerTime: Temporal.Instant | null;
+  timeStrings: FrontendDepartureTimeStrings;
   serviceColor: TextColor | null;
 };
 
@@ -17,7 +17,7 @@ export function DepartureTime(props: DepartureTimeProps) {
   return (
     <Row class={clsx(props.class, "relative")}>
       <TextBlock style="strong" dynamicColor={props.serviceColor}>
-        {props.time.toString()}
+        {props.timeStrings.primary}
       </TextBlock>
       {props.timeType !== "scheduled-time" && (
         <DepartureLiveIcon

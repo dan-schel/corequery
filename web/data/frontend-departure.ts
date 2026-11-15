@@ -1,5 +1,6 @@
 import type { DEPARTURES_V0 } from "@/shared/apis";
 import type { TextColor } from "@/web/components/core/ColoredText";
+import { FrontendDepartureTimeStrings } from "@/web/data/frontend-departure-time-strings";
 import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
 
 type DepartureFromApi = ClientFodaSyncedResultOf<
@@ -13,6 +14,7 @@ type FrontendDepartureFields = {
   readonly sourceId: string;
   readonly intrasourceId: string;
 
+  readonly lineIds: readonly number[];
   readonly primaryDestinationText: string;
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
@@ -27,6 +29,7 @@ export class FrontendDeparture {
   readonly sourceId: string;
   readonly intrasourceId: string;
 
+  readonly lineIds: readonly number[];
   readonly primaryDestinationText: string;
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
@@ -40,6 +43,7 @@ export class FrontendDeparture {
     this.sourceId = fields.sourceId;
     this.intrasourceId = fields.intrasourceId;
 
+    this.lineIds = fields.lineIds;
     this.primaryDestinationText = fields.primaryDestinationText;
     this.secondaryDestinationText = fields.secondaryDestinationText;
     this.color = fields.color;
@@ -57,11 +61,16 @@ export class FrontendDeparture {
     return `/service/${sourceId}/${intrasourceId}?from=${movementIndex}`;
   }
 
+  getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
+    return FrontendDepartureTimeStrings.build(this, now, formatTimezone);
+  }
+
   static wrap(departure: DepartureFromApi) {
     return new FrontendDeparture({
       sourceId: departure.sourceId,
       intrasourceId: departure.intrasourceId,
 
+      lineIds: departure.lineIds,
       primaryDestinationText: departure.primaryDestinationText,
       secondaryDestinationText: departure.secondaryDestinationText,
       color: departure.color,

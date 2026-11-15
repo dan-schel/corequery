@@ -81,6 +81,7 @@ export class MultiversionalFoda {
         line: app.terminologyConfig.line,
         service: app.terminologyConfig.service,
       },
+      formatTimezone: app.formatTimezone,
     };
   }
 
@@ -116,6 +117,7 @@ export class MultiversionalFoda {
         line: this.obj.terminology.line,
         service: this.obj.terminology.service,
       },
+      formatTimezone: this.obj.formatTimezone,
     };
   }
 

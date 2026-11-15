@@ -219,6 +219,7 @@ export const fodaSchema = z.object({
   stops: stopFodaSchema.array().readonly(),
   lines: lineFodaSchema.array().readonly(),
   terminology: terminologySchema,
+  formatTimezone: z.string(),
   landingPage: landingPageFodaSchema,
   footer: footerFodaSchema,
 });
