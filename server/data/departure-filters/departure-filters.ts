@@ -1,6 +1,9 @@
 import type { CustomDepartureFilterTypesConfig } from "@/server/config/types/custom-filter-function-type.js";
 import type { Corequery } from "@/server/corequery.js";
-import type { DepartureFilterType } from "@/server/data/departure-filters/departure-filter-type.js";
+import type {
+  DepartureFilterFunction,
+  DepartureFilterType,
+} from "@/server/data/departure-filters/departure-filter-type.js";
 import { ArrivalDepartureFilterType } from "@/server/data/departure-filters/types/arrival.js";
 import { CustomDepartureFilterType } from "@/server/data/departure-filters/types/custom.js";
 import { LineTagDepartureFilterType } from "@/server/data/departure-filters/types/line-tag.js";
@@ -8,7 +11,6 @@ import { LineDepartureFilterType } from "@/server/data/departure-filters/types/l
 import { PositionDepartureFilterType } from "@/server/data/departure-filters/types/position.js";
 import { ServiceTagDepartureFilterType } from "@/server/data/departure-filters/types/service-tag.js";
 import { SetDownOnlyDepartureFilterType } from "@/server/data/departure-filters/types/set-down-only.js";
-import type { Departure } from "@/server/data/service/departure.js";
 import {
   DepartureFilterExpression,
   DepartureFilterToken,
@@ -59,8 +61,8 @@ export class DepartureFilters<CustomContextType> {
   }
 
   /**
-   * Returns a `(departure: Departure) => boolean` function based on the
-   * provided filter expression. The filter expression must be given in
+   * Returns a `(departure: DepartureForFiltering) => boolean` function based on
+   * the provided filter expression. The filter expression must be given in
    * conjunctive normal form (CNF), in the supported filter syntax.
    *
    * For example, `line:1|line:2 service-tag:1|service-tag:2 !arr` means the
@@ -95,7 +97,7 @@ export class DepartureFilters<CustomContextType> {
       // to false.
       .filter((x) => x.length > 0);
 
-    const filterFunction = (departure: Departure) => {
+    const filterFunction: DepartureFilterFunction = (departure) => {
       return disjunctions.every((disjunction) =>
         disjunction.some((fn) => fn(departure)),
       );
@@ -107,7 +109,7 @@ export class DepartureFilters<CustomContextType> {
   private _compileToken(
     token: DepartureFilterToken,
     invalidTokens: Set<DepartureFilterToken>,
-  ): ((departure: Departure) => boolean) | null {
+  ): DepartureFilterFunction | null {
     const type = this._types.get(token.prefix);
     if (type == null) {
       invalidTokens.add(token);
@@ -121,7 +123,7 @@ export class DepartureFilters<CustomContextType> {
     }
 
     if (token.negated) {
-      return (departure: Departure) => !fn(departure);
+      return (departure) => !fn(departure);
     } else {
       return fn;
     }

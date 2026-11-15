@@ -1,4 +1,5 @@
 import type {
+  LightweightDeparture,
   DeparturesIterationDirection,
   DeparturesIterator,
 } from "@/server/data/service/service-source.js";
@@ -17,10 +18,20 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
     this._isInitialized = false;
   }
 
-  async peek(): Promise<Departure | null> {
+  async peek(): Promise<LightweightDeparture | null> {
     await this._ensureSetup();
     if (this._nextIterator == null) return null;
     return await this._nextIterator.peek();
+  }
+
+  async skip(): Promise<void> {
+    await this._ensureSetup();
+
+    const iterator = this._nextIterator;
+    if (iterator == null) throw new Error("Nothing to skip.");
+
+    await iterator.skip();
+    this._nextIterator = await this._determineBestIterator();
   }
 
   async take(): Promise<Departure> {
@@ -44,7 +55,7 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
   }
 
   private async _determineBestIterator() {
-    let best: Departure | null = null;
+    let best: LightweightDeparture | null = null;
     let bestIterator: DeparturesIterator | null = null;
 
     for (const iterator of this._iterators) {
@@ -62,16 +73,6 @@ export class ZipperDeparturesIterator implements DeparturesIterator {
         bestIterator = iterator;
       }
     }
-
-    // TODO: Should we be storing the `best` value we're finding here, so that
-    // we don't have to call `peek` again on the subiterator? Or is it the
-    // subiterator's responsibility to cache its own `peek` value?
-    //
-    // A: It should probably be the subiterator's responsibility, because unless
-    // we cache the best value for each subiterator, we have to `peek` them all
-    // again everytime we `take`, so I think we're making the assumption that
-    // while `peek` has to be async for the first call, all subsequent calls
-    // should be free.
 
     return bestIterator;
   }

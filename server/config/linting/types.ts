@@ -19,6 +19,12 @@ export type LintableConfig = {
   readonly linesPage: CorequeryConfig["linesPage"];
   readonly tags: CorequeryConfig["tags"];
   readonly getCanonicalLinesServingStop: CorequeryConfig["getCanonicalLinesServingStop"];
+
+  // TODO: Lint the outputs of these. Are they valid functions, and valid args?
+  // Is the departure feeds array non-empty? etc.
+  //
+  // I guess I'll have to make the custom filter types themselves lintable too.
+  // But that's good! We can catch duplicate/invalid prefixes, etc.
   readonly getDefaultDepartureFeedsForStop: CorequeryConfig["getDefaultDepartureFeedsForStop"];
   readonly getDepartureFiltersForStop: CorequeryConfig["getDepartureFiltersForStop"];
 };

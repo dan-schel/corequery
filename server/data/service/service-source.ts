@@ -1,16 +1,21 @@
 import type { Service } from "@/server/data/service/service.js";
 import type { Departure } from "@/server/data/service/departure.js";
+import type { Tags } from "@/server/data/tags.js";
+import type { ServiceServicingMovement } from "@/server/data/service/service-movement.js";
 
 export type DeparturesIterationDirection = "forwards" | "backwards";
 
+export type LightweightDeparture = {
+  readonly sourceId: string;
+  readonly intrasourceId: string;
+  readonly lineIds: readonly number[];
+  readonly serviceTags: Tags;
+  readonly movement: ServiceServicingMovement;
+};
+
 export type DeparturesIterator = {
-  // Right now we're forming full departure objects, even for the ones we'll end
-  // up skipping during filtering. If this turns out to be too slow, we could
-  // consider adding lightweight methods like `peekLineIds`, `peekServiceTags`,
-  // etc., and then a `skip` method meaning that we'd only `take` a departure
-  // once it's passed the filtering stage. Let's see if it's actually an issue
-  // first though.
-  peek: () => Promise<Departure | null>;
+  peek: () => Promise<LightweightDeparture | null>;
+  skip: () => Promise<void>;
   take: () => Promise<Departure>;
 };
 

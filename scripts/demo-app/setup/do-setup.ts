@@ -5,10 +5,19 @@ import { updatePackageJson } from "@/scripts/demo-app/setup/package-json.js";
 import path from "path";
 import { assertNever } from "@dan-schel/js-utils";
 import { type SetupArgs } from "@/scripts/demo-app/setup/setup-args.js";
+import {
+  readEnvFile,
+  writeEnvFile,
+} from "@/scripts/demo-app/setup/env-file.js";
 
-export async function doSetup(args: SetupArgs) {
+export async function doSetup(args: SetupArgs, oldArgs: SetupArgs | null) {
+  const envContent = isSameRepo(args, oldArgs) ? await readEnvFile() : null;
+
   await prepareEmptyDemoAppFolder();
   await loadCodeIntoFolder(args);
+  if (envContent != null) {
+    await writeEnvFile(envContent);
+  }
   await updatePackageJson(args);
 
   logInfo("Installing dependencies...");
@@ -44,4 +53,9 @@ async function loadCodeFromGit(gitRepoUrl: string, branch: string | null) {
   });
 
   console.log();
+}
+
+function isSameRepo(args: SetupArgs, oldArgs: SetupArgs | null) {
+  if (oldArgs == null) return false;
+  return oldArgs.gitRepoUrl === args.gitRepoUrl;
 }
