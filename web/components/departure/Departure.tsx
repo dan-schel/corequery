@@ -8,7 +8,7 @@ import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { DepartureInfoRow } from "@/web/components/departure/DepartureInfoRow";
-import { DeparturePlatformIndicator } from "@/web/components/departure/DeparturePlatformIndicator";
+import { DeparturePositionIndicator } from "@/web/components/departure/DeparturePositionIndicator";
 
 type DepartureProps = {
   class?: string;
@@ -61,7 +61,7 @@ export function Departure(props: DepartureProps) {
             lineIds={props.departure.lineIds}
           />
         </Column>
-        <DeparturePlatformIndicator
+        <DeparturePositionIndicator
           class="-mb-0.5"
           stopId={props.departure.stopId}
           positionId={props.departure.positionId}

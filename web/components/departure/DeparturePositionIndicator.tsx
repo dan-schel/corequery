@@ -3,6 +3,7 @@ import { Column } from "@/web/components/core/Column";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import { useMemo } from "preact/hooks";
+import { useTerminology } from "@/web/hooks/use-terminology";
 
 type DeparturePlatformIndicatorProps = {
   class?: string;
@@ -10,10 +11,11 @@ type DeparturePlatformIndicatorProps = {
   positionId: number | null;
 };
 
-export function DeparturePlatformIndicator(
+export function DeparturePositionIndicator(
   props: DeparturePlatformIndicatorProps,
 ) {
   const { foda } = useFoundationalData();
+  const { positionIndicatorHeader } = useTerminology();
 
   const name = useMemo(() => {
     if (props.positionId == null) return null;
@@ -30,11 +32,11 @@ export function DeparturePlatformIndicator(
       yAlign="space-between"
       class={clsx(
         props.class,
-        "border-2 px-1.5 py-1 border-soft-border rounded-sm h-8.5",
+        "border-2 px-1.5 py-1 border-soft-border rounded-sm h-8.5 min-w-10",
       )}
     >
       <TextBlock style="tiny-narrow" align="center">
-        Platform
+        {positionIndicatorHeader}
       </TextBlock>
       <TextBlock style="strong" align="center">
         {name}
