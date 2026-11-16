@@ -30,6 +30,8 @@ const styles = {
   "departure-headline-struckout":
     "text-mdlg text-fg-weak-on-raised line-through",
   "departure-info": "text-sm text-fg font-stretch-semi-condensed",
+  "departure-info-struckout":
+    "text-sm text-fg-weak-on-raised font-stretch-semi-condensed line-through",
   "departure-info-success":
     "text-sm text-success-text font-bold font-stretch-semi-condensed",
   "departure-info-warning":

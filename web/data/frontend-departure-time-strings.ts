@@ -33,6 +33,10 @@ export class FrontendDepartureTimeStrings {
   ) {
     const { time, formerTime, timeType } = departure;
 
+    // Note: We don't consider `departure.isCancelled` here. In that case, the
+    // <DepartureTime> component will just show the primary time struckout, and
+    // everything else gets ignored.
+
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
     const timeLocal = this._inFormatTimezone(time, formatTimezone);
     const timeStr = formatRelativeTime(timeLocal, nowLocal, {

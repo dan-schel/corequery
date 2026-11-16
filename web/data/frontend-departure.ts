@@ -19,6 +19,8 @@ type FrontendDepartureFields = {
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
 
+  readonly isCancelled: boolean;
+
   readonly stopId: number;
   readonly positionId: number | null;
   readonly timeType: FrontendServiceTypeTime;
@@ -36,6 +38,8 @@ export class FrontendDeparture {
   readonly secondaryDestinationText: string | null;
   readonly color: TextColor | null;
 
+  readonly isCancelled: boolean;
+
   readonly stopId: number;
   readonly positionId: number | null;
   readonly timeType: FrontendServiceTypeTime;
@@ -51,6 +55,8 @@ export class FrontendDeparture {
     this.primaryDestinationText = fields.primaryDestinationText;
     this.secondaryDestinationText = fields.secondaryDestinationText;
     this.color = fields.color;
+
+    this.isCancelled = fields.isCancelled;
 
     this.stopId = fields.stopId;
     this.positionId = fields.positionId;
@@ -80,6 +86,8 @@ export class FrontendDeparture {
       primaryDestinationText: departure.primaryDestinationText,
       secondaryDestinationText: departure.secondaryDestinationText,
       color: departure.color,
+
+      isCancelled: departure.isCancelled,
 
       stopId,
       positionId: departure.movement.positionId ?? null,

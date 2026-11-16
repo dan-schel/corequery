@@ -26,22 +26,34 @@ export function Departure(props: DepartureProps) {
     [props.departure, currentMinute, foda.formatTimezone],
   );
 
+  const headlineDynamicColor = props.departure.isCancelled
+    ? null
+    : props.departure.color;
+
   // Departures are fixed at h-14 (3.5rem).
   return (
     <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
       <Row xAlign="space-between" class="gap-2 ">
         <Row yAlign="bottom" class="gap-1 shrink min-w-0">
           <TextBlock
-            style="departure-headline"
-            dynamicColor={props.departure.color}
+            style={
+              props.departure.isCancelled
+                ? "departure-headline-struckout"
+                : "departure-headline"
+            }
+            dynamicColor={headlineDynamicColor}
           >
             {props.departure.primaryDestinationText}
           </TextBlock>
           {props.departure.secondaryDestinationText != null && (
             <TextBlock
-              style="departure-info"
+              style={
+                props.departure.isCancelled
+                  ? "departure-info-struckout"
+                  : "departure-info"
+              }
               class="shrink min-w-0"
-              dynamicColor={props.departure.color}
+              dynamicColor={headlineDynamicColor}
               oneLine
             >
               {props.departure.secondaryDestinationText}
@@ -50,6 +62,7 @@ export function Departure(props: DepartureProps) {
         </Row>
         <DepartureTime
           timeType={props.departure.timeType}
+          isCancelled={props.departure.isCancelled}
           timeStrings={timeStrings}
           serviceColor={props.departure.color}
         />
@@ -62,6 +75,7 @@ export function Departure(props: DepartureProps) {
           <DepartureInfoRow
             timeStrings={timeStrings}
             lineIds={props.departure.lineIds}
+            isCancelled={props.departure.isCancelled}
           />
         </Column>
         <DeparturePositionIndicator

@@ -11,6 +11,7 @@ import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 import type { ServiceData } from "@/web/components/pages/service/types";
+import { useTerminology } from "@/web/hooks/use-terminology";
 
 export default function Service() {
   const {
@@ -55,12 +56,14 @@ type ServicePageContentProps = {
 };
 
 function ServicePageContent(props: ServicePageContentProps) {
+  const { singularServiceTerm } = useTerminology();
+
   return (
     <Page
       {...useSimpleHeaders({
         // TODO: Replace "service" with whatever the terminology is in the FODA
         // (will be "train" for trainquery-melbourne).
-        title: `${props.service.primaryDestinationText} service`,
+        title: `${props.service.primaryDestinationText} ${singularServiceTerm}`,
         back: {
           href: "/",
           text: "Home",

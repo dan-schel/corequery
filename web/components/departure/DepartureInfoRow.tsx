@@ -6,14 +6,34 @@ import type {
   FrontendDepartureTimeStringsDelay,
 } from "@/web/data/frontend-departure-time-strings";
 import { LinesList } from "@/web/components/LinesList";
+import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
+import { VerticalBleed } from "@/web/components/core/VerticalBleed";
+import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
+import { useTerminology } from "@/web/hooks/use-terminology";
 
 type DepartureTimeProps = {
   class?: string;
   timeStrings: FrontendDepartureTimeStrings;
   lineIds: readonly number[];
+  isCancelled: boolean;
 };
 
 export function DepartureInfoRow(props: DepartureTimeProps) {
+  const { singularServiceTerm } = useTerminology();
+
+  if (props.isCancelled) {
+    return (
+      <Row class={clsx(props.class, "gap-1")}>
+        <VerticalBleed heightRem={getTextBoxHeightRem("text-sm")}>
+          <MingcuteAlertDiamondLine class="text-error text-icon-md" />
+        </VerticalBleed>
+        <TextBlock style="departure-info-error">
+          This {singularServiceTerm} has been cancelled
+        </TextBlock>
+      </Row>
+    );
+  }
+
   return (
     <Row class={clsx(props.class, "gap-1")}>
       {props.timeStrings.delay != null && (
