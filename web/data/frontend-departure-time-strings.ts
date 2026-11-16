@@ -33,26 +33,37 @@ export class FrontendDepartureTimeStrings {
   ) {
     const { time, formerTime, timeType } = departure;
 
-    const timeLocal = this._inFormatTimezone(time, formatTimezone);
+    // Note: We don't consider `departure.isCancelled` here. In that case, the
+    // <DepartureTime> component will just show the primary time struckout, and
+    // everything else gets ignored.
+
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
-    const formattedTime = formatRelativeTime(timeLocal, nowLocal);
+    const timeLocal = this._inFormatTimezone(time, formatTimezone);
+    const timeStr = formatRelativeTime(timeLocal, nowLocal, {
+      suppressEarlierToday: true,
+    });
 
     if (timeType === "scheduled-time" || formerTime == null) {
       return new FrontendDepartureTimeStrings({
-        primary: formattedTime,
+        primary: timeStr,
         struckout: null,
         delay: null,
         schedule: null,
       });
     }
 
+    const formerTimeLocal = this._inFormatTimezone(formerTime, formatTimezone);
+    const formerTimeStr = formatRelativeTime(formerTimeLocal, nowLocal, {
+      suppressEarlierToday: true,
+    });
+
     const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
 
     if (durationFromNow.total({ unit: "minutes" }) > 60) {
       return new FrontendDepartureTimeStrings({
-        primary: formattedTime,
-        struckout: null,
+        primary: timeStr,
+        struckout: timeStr !== formerTimeStr ? formerTimeStr : null,
         delay,
         schedule: null,
       });
@@ -66,7 +77,7 @@ export class FrontendDepartureTimeStrings {
       primary,
       struckout: primary !== struckout ? struckout : null,
       delay,
-      schedule: formattedTime,
+      schedule: formerTimeStr,
     });
   }
 

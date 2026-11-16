@@ -11,6 +11,8 @@ import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 import type { ServiceData } from "@/web/components/pages/service/types";
+import { useTerminology } from "@/web/hooks/use-terminology";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 export default function Service() {
   const {
@@ -55,14 +57,14 @@ type ServicePageContentProps = {
 };
 
 function ServicePageContent(props: ServicePageContentProps) {
+  const { singularServiceTerm } = useTerminology();
+
   return (
     <Page
       {...useSimpleHeaders({
-        // TODO: Replace "service" with whatever the terminology is in the FODA
-        // (will be "train" for trainquery-melbourne).
-        title: `${props.service.primaryDestinationText} service`,
+        title: `${props.service.primaryDestinationText} ${singularServiceTerm}`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -72,7 +74,7 @@ function ServicePageContent(props: ServicePageContentProps) {
         <ServiceDiagram service={props.service} />
 
         {/* TODO: Only show if applicable. */}
-        <TextBlock style="small-narrow">
+        <TextBlock style="disclaimer">
           (Real-time data has not been provided for all stops. Times marked with
           * are estimates, extrapolated from the available data.)
         </TextBlock>
@@ -87,7 +89,7 @@ function ServiceLoadingPage() {
       {...useSimpleHeaders({
         title: `Loading...`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -104,7 +106,7 @@ function ServiceErrorPage() {
       {...useSimpleHeaders({
         title: `Error`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -134,7 +136,11 @@ function ServiceNotFoundPage() {
           since this link was generated. You might be able to find it again by
           searching for one of the stops it departed from.
         </TextBlock>
-        <Button href="/" text="Go home" icon={MingcuteHome4Line} />
+        <Button
+          href={CorequeryUrls.home}
+          text="Go home"
+          icon={MingcuteHome4Line}
+        />
       </Column>
     </Page>
   );

@@ -7,6 +7,7 @@ import type { SearchCandidate } from "@/web/data/search/types";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { LinesList } from "@/web/components/LinesList";
 import type { ComponentChildren } from "preact";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type PageSearchCandidateData = {
   title: string;
@@ -35,7 +36,7 @@ export function usePageSearch(): Result {
         description: (
           <LinesList lineIds={x.canonicalLinesServingStop} style="small" />
         ),
-        url: `/stop/${x.urlPath}`,
+        url: CorequeryUrls.stop(x.urlPath),
         icon: MingcuteLocationLine,
       },
     }));
@@ -47,7 +48,7 @@ export function usePageSearch(): Result {
       data: {
         title: formatLine(x.name),
         description: null,
-        url: `/line/${x.urlPath}`,
+        url: CorequeryUrls.line(x.urlPath),
         icon: MingcuteGitCommitLine,
       },
     }));

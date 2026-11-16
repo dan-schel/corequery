@@ -6,28 +6,48 @@ import type {
   FrontendDepartureTimeStringsDelay,
 } from "@/web/data/frontend-departure-time-strings";
 import { LinesList } from "@/web/components/LinesList";
+import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
+import { VerticalBleed } from "@/web/components/core/VerticalBleed";
+import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
+import { useTerminology } from "@/web/hooks/use-terminology";
 
 type DepartureTimeProps = {
   class?: string;
   timeStrings: FrontendDepartureTimeStrings;
   lineIds: readonly number[];
+  isCancelled: boolean;
 };
 
 export function DepartureInfoRow(props: DepartureTimeProps) {
+  const { singularServiceTerm } = useTerminology();
+
+  if (props.isCancelled) {
+    return (
+      <Row class={clsx(props.class, "gap-1")}>
+        <VerticalBleed heightRem={getTextBoxHeightRem("text-sm")}>
+          <MingcuteAlertDiamondLine class="text-error text-icon-md" />
+        </VerticalBleed>
+        <TextBlock style="departure-info-error">
+          This {singularServiceTerm} has been cancelled
+        </TextBlock>
+      </Row>
+    );
+  }
+
   return (
     <Row class={clsx(props.class, "gap-1")}>
       {props.timeStrings.delay != null && (
         <>
           <DelayText delay={props.timeStrings.delay} />
-          <TextBlock style="small-narrow">&bull;</TextBlock>
+          <TextBlock style="departure-info">&bull;</TextBlock>
         </>
       )}
       {props.timeStrings.schedule != null ? (
-        <TextBlock style="small-narrow" class="shrink min-w-0" oneLine>
+        <TextBlock style="departure-info" class="shrink min-w-0" oneLine>
           Scheduled for {props.timeStrings.schedule}
         </TextBlock>
       ) : (
-        <LinesList style="small-narrow" lineIds={props.lineIds} />
+        <LinesList style="departure-info" lineIds={props.lineIds} />
       )}
     </Row>
   );
@@ -39,9 +59,9 @@ type DelayTextProps = {
 
 function DelayText(props: DelayTextProps) {
   const style = {
-    green: "small-narrow-strong-success" as const,
-    yellow: "small-narrow-strong-warning" as const,
-    red: "small-narrow-strong-error" as const,
+    green: "departure-info-success" as const,
+    yellow: "departure-info-warning" as const,
+    red: "departure-info-error" as const,
   }[props.delay.color];
 
   return <TextBlock style={style}>{props.delay.text}</TextBlock>;

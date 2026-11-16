@@ -4,6 +4,7 @@ import { LinkText } from "@/web/components/core/LinkText";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import type { lineDiagramStopFodaSchema } from "@/shared/apis/foundational-data/v1/foundational-data";
 import type z from "zod";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 export function buildStopStructures(
   foda: FoundationalData,
@@ -12,8 +13,7 @@ export function buildStopStructures(
   return stops.map((stop) => {
     const stopData = foda.stops.require(stop.stopId);
 
-    // TODO: Standardize this with usePageSearch.
-    const url = `/stop/${stopData.urlPath}`;
+    const url = CorequeryUrls.stop(stopData.urlPath);
 
     if (stop.type === "regular") {
       return {

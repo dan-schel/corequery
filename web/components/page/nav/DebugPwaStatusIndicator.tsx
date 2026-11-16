@@ -4,6 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { MingcuteCloseLine } from "@/web/components/icons/MingcuteCloseLine";
 import { MingcuteCheckLine } from "@/web/components/icons/MingcuteCheckLine";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type DebugPwaStatusIndicatorProps = {
   class?: string;
@@ -60,7 +61,7 @@ export function DebugPwaStatusIndicator(props: DebugPwaStatusIndicatorProps) {
         class={clsx(props.class)}
         theme="default"
         layout="tiny"
-        href="/debug"
+        href={CorequeryUrls.debug}
         text="No SW registered"
         icon={MingcuteCloseLine}
       />

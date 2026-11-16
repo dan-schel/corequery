@@ -12,6 +12,7 @@ import { LinkText } from "@/web/components/core/LinkText";
 import { useMemo } from "preact/hooks";
 import type { FoundationalData } from "@/web/data/foundational-data";
 import { Row } from "@/web/components/core/Row";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type ServiceDiagramProps = {
   class?: string;
@@ -48,8 +49,7 @@ function buildStopStructures(
   return movements.map((m) => {
     const stopData = foda.stops.require(m.stopId);
 
-    // TODO: Standardize this with usePageSearch.
-    const url = `/stop/${stopData.urlPath}`;
+    const url = CorequeryUrls.stop(stopData.urlPath);
 
     const arrivalTime =
       m.arrivalTime != null

@@ -13,6 +13,7 @@ import { UilInfoCircle } from "@/web/components/icons/UilInfoCircle";
 import { MingcuteToolLine } from "@/web/components/icons/MingcuteToolLine";
 import { MingcuteTv1Line } from "@/web/components/icons/MingcuteTv1Line";
 import { useStaticData } from "@/web/hooks/use-static-data";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type NavItem = RegularNavItem | MenuNavItem | SearchNavItem;
 
@@ -50,24 +51,24 @@ export function useNavItems(): NavItem[] {
   return [
     {
       name: "Home",
-      href: "/",
+      href: CorequeryUrls.home,
       regularIcon: MingcuteHome4Line,
       activeIcon: MingcuteHome4Fill,
-      isActive: (url) => url === "/",
+      isActive: (url) => url === CorequeryUrls.home,
     },
     {
       name: "Status",
-      href: "/status",
+      href: CorequeryUrls.status,
       regularIcon: MingcuteAlertDiamondLine,
       activeIcon: MingcuteAlertDiamondFill,
-      isActive: (url) => url === "/status",
+      isActive: (url) => url === CorequeryUrls.status,
     },
     {
       name: "Nearby",
-      href: "/nearby",
+      href: CorequeryUrls.nearby,
       regularIcon: MingcuteMapPinLine,
       activeIcon: MingcuteMapPinFill,
-      isActive: (url) => url === "/nearby",
+      isActive: (url) => url === CorequeryUrls.nearby,
     },
     {
       name: "Search",
@@ -86,10 +87,26 @@ export function useMenuItems(): MenuItem[] {
   const { appName } = useStaticData();
 
   return [
-    { name: `About ${appName}`, href: "/about", icon: UilInfoCircle },
-    { name: "Settings", href: "/settings", icon: MingcuteSettings7Line },
-    { name: "Developer info", href: "/debug", icon: MingcuteChartVerticalLine },
-    { name: "Admin controls", href: "/admin", icon: MingcuteToolLine },
-    { name: "Zen mode", href: "/zen", icon: MingcuteTv1Line },
+    {
+      name: `About ${appName}`,
+      href: CorequeryUrls.about,
+      icon: UilInfoCircle,
+    },
+    {
+      name: "Settings",
+      href: CorequeryUrls.settings,
+      icon: MingcuteSettings7Line,
+    },
+    {
+      name: "Developer info",
+      href: CorequeryUrls.debug,
+      icon: MingcuteChartVerticalLine,
+    },
+    {
+      name: "Admin controls",
+      href: CorequeryUrls.admin,
+      icon: MingcuteToolLine,
+    },
+    { name: "Zen mode", href: CorequeryUrls.zen, icon: MingcuteTv1Line },
   ];
 }

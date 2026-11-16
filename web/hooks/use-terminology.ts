@@ -21,6 +21,14 @@ const pluralLinesTerms = {
   route: "routes",
 };
 
+const singularServiceTerm = {
+  service: "service",
+  trip: "trip",
+  train: "train",
+  tram: "tram",
+  bus: "bus",
+};
+
 const pluralServicesTerms = {
   service: "services",
   trip: "trips",
@@ -47,6 +55,7 @@ export function useTerminology() {
       formatLine: lineFormattingSchemes[foda.terminology.line],
       pluralStopsTerm: pluralStopsTerms[foda.terminology.stop],
       pluralLinesTerm: pluralLinesTerms[foda.terminology.line],
+      singularServiceTerm: singularServiceTerm[foda.terminology.service],
       pluralServicesTerm: pluralServicesTerms[foda.terminology.service],
       positionIndicatorHeader:
         positionIndicatorHeaders[foda.terminology.stopPosition],
