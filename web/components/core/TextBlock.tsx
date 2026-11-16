@@ -10,26 +10,31 @@ type TextBlockTag =
   "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "pre" | "li";
 
 const styles = {
-  "small": "text-sm text-fg",
-  "small-weak": "text-sm text-fg-weak",
-  "small-strong-accent": "text-sm text-accent-text font-bold",
-  "small-narrow": "text-sm text-fg font-stretch-semi-condensed",
-  "tiny-narrow": "text-xs text-fg font-stretch-semi-condensed",
   "regular": "text-md text-fg",
   "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
-  "struckout-on-raised": "text-md text-fg-weak-on-raised line-through",
-  "strong-accent": "text-md font-bold text-accent-text",
-  "wordmark": "text-mdlg font-bold text-fg-strong",
+
   "subtitle": "text-lg font-bold text-fg-strong",
   "title": "text-xl font-bold text-fg-strong",
   "megatitle": "text-2xl font-bold text-fg-strong",
-  "weak-struckout": "text-md text-fg-weak line-through",
-  "small-narrow-strong-success":
+
+  "small": "text-sm text-fg",
+  "small-weak": "text-sm text-fg-weak",
+  "small-strong-accent": "text-sm text-accent-text font-bold",
+  "tiny-narrow": "text-xs text-fg font-stretch-semi-condensed",
+
+  "wordmark": "text-mdlg font-bold text-fg-strong",
+  "disclaimer": "text-xs text-fg font-stretch-semi-condensed",
+
+  "departure-headline": "text-mdlg font-bold text-fg-strong",
+  "departure-headline-struckout":
+    "text-mdlg text-fg-weak-on-raised line-through",
+  "departure-info": "text-sm text-fg font-stretch-semi-condensed",
+  "departure-info-success":
     "text-sm text-success-text font-bold font-stretch-semi-condensed",
-  "small-narrow-strong-warning":
+  "departure-info-warning":
     "text-sm text-warning-text font-bold font-stretch-semi-condensed",
-  "small-narrow-strong-error":
+  "departure-info-error":
     "text-sm text-error-text font-bold font-stretch-semi-condensed",
 };
 

@@ -19,15 +19,15 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
       {props.timeStrings.delay != null && (
         <>
           <DelayText delay={props.timeStrings.delay} />
-          <TextBlock style="small-narrow">&bull;</TextBlock>
+          <TextBlock style="departure-info">&bull;</TextBlock>
         </>
       )}
       {props.timeStrings.schedule != null ? (
-        <TextBlock style="small-narrow" class="shrink min-w-0" oneLine>
+        <TextBlock style="departure-info" class="shrink min-w-0" oneLine>
           Scheduled for {props.timeStrings.schedule}
         </TextBlock>
       ) : (
-        <LinesList style="small-narrow" lineIds={props.lineIds} />
+        <LinesList style="departure-info" lineIds={props.lineIds} />
       )}
     </Row>
   );
@@ -39,9 +39,9 @@ type DelayTextProps = {
 
 function DelayText(props: DelayTextProps) {
   const style = {
-    green: "small-narrow-strong-success" as const,
-    yellow: "small-narrow-strong-warning" as const,
-    red: "small-narrow-strong-error" as const,
+    green: "departure-info-success" as const,
+    yellow: "departure-info-warning" as const,
+    red: "departure-info-error" as const,
   }[props.delay.color];
 
   return <TextBlock style={style}>{props.delay.text}</TextBlock>;

@@ -72,7 +72,7 @@ function ServicePageContent(props: ServicePageContentProps) {
         <ServiceDiagram service={props.service} />
 
         {/* TODO: Only show if applicable. */}
-        <TextBlock style="small-narrow">
+        <TextBlock style="disclaimer">
           (Real-time data has not been provided for all stops. Times marked with
           * are estimates, extrapolated from the available data.)
         </TextBlock>
