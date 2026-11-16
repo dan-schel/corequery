@@ -10,6 +10,7 @@ import { DepartureFeeds } from "@/web/components/departure/DepartureFeeds";
 import { DepartureControls } from "@/web/components/departure/DepartureControls";
 import { useNow } from "@/web/hooks/use-now";
 import type { FodaStop } from "@/web/data/foundational-data/foda-stop";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 export default function Stop() {
   const {
@@ -49,7 +50,7 @@ function StopPageContent(props: StopPageContentProps) {
       {...useCollapsingHeaders({
         title: props.stop.name,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
         additionalContent: (

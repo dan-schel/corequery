@@ -10,6 +10,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { useStaticData } from "@/web/hooks/use-static-data";
 import { useServiceWorker } from "@/web/hooks/use-service-worker";
 import { DebugPwaStatusIndicator } from "@/web/components/page/nav/DebugPwaStatusIndicator";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type DesktopNavBarProps = {
   class?: string;
@@ -29,7 +30,7 @@ export function DesktopNavBar(props: DesktopNavBarProps) {
     >
       <Row xAlign="space-between">
         <Row class="gap-2">
-          <HoverButtonHousing class="self-center" href="/">
+          <HoverButtonHousing class="self-center" href={CorequeryUrls.home}>
             <Row class="px-4 gap-2 h-8" xAlign="center" yAlign="center">
               <Favicon class="text-icon-md" />
               <TextBlock style="wordmark">{appName}</TextBlock>

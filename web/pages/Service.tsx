@@ -12,6 +12,7 @@ import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
 import type { ServiceData } from "@/web/components/pages/service/types";
 import { useTerminology } from "@/web/hooks/use-terminology";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 export default function Service() {
   const {
@@ -61,11 +62,9 @@ function ServicePageContent(props: ServicePageContentProps) {
   return (
     <Page
       {...useSimpleHeaders({
-        // TODO: Replace "service" with whatever the terminology is in the FODA
-        // (will be "train" for trainquery-melbourne).
         title: `${props.service.primaryDestinationText} ${singularServiceTerm}`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -90,7 +89,7 @@ function ServiceLoadingPage() {
       {...useSimpleHeaders({
         title: `Loading...`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -107,7 +106,7 @@ function ServiceErrorPage() {
       {...useSimpleHeaders({
         title: `Error`,
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}
@@ -137,7 +136,11 @@ function ServiceNotFoundPage() {
           since this link was generated. You might be able to find it again by
           searching for one of the stops it departed from.
         </TextBlock>
-        <Button href="/" text="Go home" icon={MingcuteHome4Line} />
+        <Button
+          href={CorequeryUrls.home}
+          text="Go home"
+          icon={MingcuteHome4Line}
+        />
       </Column>
     </Page>
   );

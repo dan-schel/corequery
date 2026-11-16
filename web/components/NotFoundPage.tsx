@@ -5,6 +5,7 @@ import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { useVersionAssurance } from "@/web/hooks/use-version-assurance";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type NotFoundPageProps = {
   afterConfirming: "frontend-version" | "foundational-data-version";
@@ -32,7 +33,11 @@ export function NotFoundPage({ afterConfirming }: NotFoundPageProps) {
         <TextBlock align="center">
           This page doesn't exist, at least not anymore!
         </TextBlock>
-        <Button href="/" text="Go home" icon={MingcuteHome4Line} />
+        <Button
+          href={CorequeryUrls.home}
+          text="Go home"
+          icon={MingcuteHome4Line}
+        />
       </Column>
     </Page>
   );

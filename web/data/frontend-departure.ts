@@ -2,6 +2,7 @@ import type { DEPARTURES_V0 } from "@/shared/apis";
 import type { TextColor } from "@/web/components/core/ColoredText";
 import { FrontendDepartureTimeStrings } from "@/web/data/frontend-departure-time-strings";
 import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type DepartureFromApi = ClientFodaSyncedResultOf<
   typeof DEPARTURES_V0
@@ -67,10 +68,11 @@ export class FrontendDeparture {
   }
 
   get servicePageUrl() {
-    const sourceId = encodeURIComponent(this.sourceId);
-    const intrasourceId = encodeURIComponent(this.intrasourceId);
-    const movementIndex = encodeURIComponent(this.movementIndex.toString());
-    return `/service/${sourceId}/${intrasourceId}?from=${movementIndex}`;
+    return CorequeryUrls.service(
+      this.sourceId,
+      this.intrasourceId,
+      this.movementIndex,
+    );
   }
 
   getTimeStrings(now: Temporal.Instant, formatTimezone: string) {

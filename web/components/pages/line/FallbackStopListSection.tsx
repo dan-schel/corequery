@@ -7,6 +7,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { LinkText } from "@/web/components/core/LinkText";
 import { Alert } from "@/web/components/Alert";
 import { useStaticData } from "@/web/hooks/use-static-data";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type FallbackStopListSectionProps = {
   class?: string;
@@ -46,7 +47,7 @@ export function FallbackStopListSection(props: FallbackStopListSectionProps) {
             view.{" "}
           </TextBlock>
           <TextBlock style="strong">
-            <LinkText href="/debug">Help me update</LinkText>
+            <LinkText href={CorequeryUrls.debug}>Help me update</LinkText>
           </TextBlock>
         </Column>
       </Alert>
@@ -54,7 +55,9 @@ export function FallbackStopListSection(props: FallbackStopListSectionProps) {
         {sortedStops.map((stop, i) => (
           <TextBlock key={i}>
             <li>
-              <LinkText href={`/stop/${stop.urlPath}`}>{stop.name}</LinkText>
+              <LinkText href={CorequeryUrls.stop(stop.urlPath)}>
+                {stop.name}
+              </LinkText>
             </li>
           </TextBlock>
         ))}

@@ -9,6 +9,7 @@ import { LinkText } from "@/web/components/core/LinkText";
 import { useMemo } from "preact/hooks";
 import { Fragment } from "preact";
 import type { FoundationalData } from "@/web/data/foundational-data";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type LinesListProps = {
   class?: string;
@@ -128,7 +129,7 @@ function extractLineData(lineId: number, foda: FoundationalData) {
 
   return {
     name: line.name,
-    href: `/line/${line.urlPath}`,
+    href: CorequeryUrls.line(line.urlPath),
     color: line.color,
   };
 }

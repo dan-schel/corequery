@@ -8,6 +8,7 @@ import { useTerminology } from "@/web/hooks/use-terminology";
 import { DiagramSection } from "@/web/components/pages/line/DiagramSection";
 import { useMemo } from "preact/hooks";
 import type { FodaLine } from "@/web/data/foundational-data/foda-line-collection";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 export default function Line() {
   const {
@@ -40,7 +41,7 @@ function LinePageContent(props: LinePageContentProps) {
       {...useSimpleHeaders({
         title: formatLine(props.line.name),
         back: {
-          href: "/",
+          href: CorequeryUrls.home,
           text: "Home",
         },
       })}

@@ -16,6 +16,7 @@ import { PageContainer } from "@/web/components/page/PageContainer";
 import { ServiceWorkerProvider } from "@/web/components/providers/ServiceWorkerProvider";
 import { ForceUpdateController } from "@/web/components/ForceUpdateController";
 import { NowProvider } from "@/web/components/providers/NowProvider.js";
+import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 const About = lazy(() => import("./pages/About.js"));
 const AdminControls = lazy(() => import("./pages/AdminControls.js"));
@@ -43,20 +44,32 @@ function App() {
                   <PageContainer>
                     <ErrorBoundary>
                       <Router>
-                        <Route path="/" component={Home} />
-                        <Route path="/about" component={About} />
-                        <Route path="/admin" component={AdminControls} />
-                        <Route path="/debug" component={Debug} />
-                        <Route path="/line/:id" component={Line} />
-                        <Route path="/nearby" component={Nearby} />
+                        <Route path={CorequeryUrls.home} component={Home} />
+                        <Route path={CorequeryUrls.about} component={About} />
                         <Route
-                          path="/service/:sourceId/:intrasourceId"
+                          path={CorequeryUrls.admin}
+                          component={AdminControls}
+                        />
+                        <Route path={CorequeryUrls.debug} component={Debug} />
+                        <Route
+                          path={CorequeryUrls.lineUrlTemplate}
+                          component={Line}
+                        />
+                        <Route path={CorequeryUrls.nearby} component={Nearby} />
+                        <Route
+                          path={CorequeryUrls.serviceUrlTemplate}
                           component={Service}
                         />
-                        <Route path="/settings" component={Settings} />
-                        <Route path="/status" component={Status} />
-                        <Route path="/stop/:id" component={Stop} />
-                        <Route path="/zen" component={ZenMode} />
+                        <Route
+                          path={CorequeryUrls.settings}
+                          component={Settings}
+                        />
+                        <Route path={CorequeryUrls.status} component={Status} />
+                        <Route
+                          path={CorequeryUrls.stopUrlTemplate}
+                          component={Stop}
+                        />
+                        <Route path={CorequeryUrls.zen} component={ZenMode} />
                         <Route default component={NotFound} />
                       </Router>
                     </ErrorBoundary>
