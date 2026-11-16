@@ -26,34 +26,22 @@ export function Departure(props: DepartureProps) {
     [props.departure, currentMinute, foda.formatTimezone],
   );
 
-  const headlineDynamicColor = props.departure.isCancelled
-    ? null
-    : props.departure.color;
-
   // Departures are fixed at h-14 (3.5rem).
   return (
     <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
       <Row xAlign="space-between" class="gap-2 ">
         <Row yAlign="bottom" class="gap-1 shrink min-w-0">
           <TextBlock
-            style={
-              props.departure.isCancelled
-                ? "departure-headline-struckout"
-                : "departure-headline"
-            }
-            dynamicColor={headlineDynamicColor}
+            style={"departure-headline"}
+            dynamicColor={props.departure.color}
           >
             {props.departure.primaryDestinationText}
           </TextBlock>
           {props.departure.secondaryDestinationText != null && (
             <TextBlock
-              style={
-                props.departure.isCancelled
-                  ? "departure-info-struckout"
-                  : "departure-info"
-              }
+              style={"departure-info"}
               class="shrink min-w-0"
-              dynamicColor={headlineDynamicColor}
+              dynamicColor={props.departure.color}
               oneLine
             >
               {props.departure.secondaryDestinationText}
@@ -69,7 +57,14 @@ export function Departure(props: DepartureProps) {
       </Row>
       <Row xAlign="space-between" yAlign="bottom">
         <Column class="gap-3 min-w-0 shrink">
-          <TextBlock style="departure-info" oneLine>
+          <TextBlock
+            style={
+              props.departure.isCancelled
+                ? "departure-info-struckout"
+                : "departure-info"
+            }
+            oneLine
+          >
             The stopping pattern goes here
           </TextBlock>
           <DepartureInfoRow
