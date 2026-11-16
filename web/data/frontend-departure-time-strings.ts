@@ -34,29 +34,32 @@ export class FrontendDepartureTimeStrings {
     const { time, formerTime, timeType } = departure;
 
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
+    const timeLocal = this._inFormatTimezone(time, formatTimezone);
+    const timeStr = formatRelativeTime(timeLocal, nowLocal, {
+      suppressEarlierToday: true,
+    });
 
     if (timeType === "scheduled-time" || formerTime == null) {
-      const timeLocal = this._inFormatTimezone(time, formatTimezone);
-      const formattedTime = formatRelativeTime(timeLocal, nowLocal);
-
       return new FrontendDepartureTimeStrings({
-        primary: formattedTime,
+        primary: timeStr,
         struckout: null,
         delay: null,
         schedule: null,
       });
     }
 
+    const formerTimeLocal = this._inFormatTimezone(formerTime, formatTimezone);
+    const formerTimeStr = formatRelativeTime(formerTimeLocal, nowLocal, {
+      suppressEarlierToday: true,
+    });
+
     const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
 
     if (durationFromNow.total({ unit: "minutes" }) > 60) {
-      const timeLocal = this._inFormatTimezone(time, formatTimezone);
-      const formattedTime = formatRelativeTime(timeLocal, nowLocal);
-
       return new FrontendDepartureTimeStrings({
-        primary: formattedTime,
-        struckout: null,
+        primary: timeStr,
+        struckout: timeStr !== formerTimeStr ? formerTimeStr : null,
         delay,
         schedule: null,
       });
@@ -66,14 +69,11 @@ export class FrontendDepartureTimeStrings {
     const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 
-    const formerTimeLocal = this._inFormatTimezone(formerTime, formatTimezone);
-    const formattedFormerTime = formatRelativeTime(formerTimeLocal, nowLocal);
-
     return new FrontendDepartureTimeStrings({
       primary,
       struckout: primary !== struckout ? struckout : null,
       delay,
-      schedule: formattedFormerTime,
+      schedule: formerTimeStr,
     });
   }
 
