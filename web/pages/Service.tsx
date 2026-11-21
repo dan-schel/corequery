@@ -10,9 +10,10 @@ import { LoadingSpinner } from "@/web/components/LoadingSpinner";
 import { Button } from "@/web/components/button/Button";
 import { MingcuteHome4Line } from "@/web/components/icons/MingcuteHome4Line";
 import { ServiceDiagram } from "@/web/components/pages/service/ServiceDiagram";
-import type { ServiceData } from "@/web/components/pages/service/types";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { CorequeryUrls } from "@/web/pages/corequery-urls";
+import { FrontendService } from "@/web/data/service/frontend-service";
+import { useMemo } from "preact/hooks";
 
 export default function Service() {
   const {
@@ -26,6 +27,11 @@ export default function Service() {
     intrasourceId: intrasourceId ?? "",
   });
 
+  const service = useMemo(() => {
+    if (data?.service == null) return null;
+    return FrontendService.wrap(data.service);
+  }, [data]);
+
   const movementIndex = parseIntNull(from ?? "");
 
   if (loading) {
@@ -35,16 +41,16 @@ export default function Service() {
     data == null ||
     movementIndex == null ||
     movementIndex < 0 ||
-    (data.service != null && movementIndex > data.service.movements.length - 1)
+    (service != null && movementIndex > service.movements.length - 1)
   ) {
     return <ServiceErrorPage />;
-  } else if (data.service == null) {
+  } else if (service == null) {
     return <ServiceNotFoundPage />;
   } else {
     return (
       <ServicePageContent
         key={`${sourceId}/${intrasourceId}`}
-        service={data.service}
+        service={service}
         movementIndex={movementIndex}
       />
     );
@@ -52,7 +58,7 @@ export default function Service() {
 }
 
 type ServicePageContentProps = {
-  service: ServiceData;
+  service: FrontendService;
   movementIndex: number;
 };
 

@@ -1,18 +1,16 @@
 import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
-import type {
-  MovementData,
-  ServiceData,
-} from "@/web/components/pages/service/types";
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
 import { LinearMapDiagram } from "@/web/components/map-diagram/linear";
 import { useMemo } from "preact/hooks";
 import { ServiceDiagramPassingMovement } from "@/web/components/pages/service/ServiceDiagramPassingMovement";
 import { ServiceDiagramServicingMovement } from "@/web/components/pages/service/ServiceDiagramServicingMovement";
+import type { FrontendService } from "@/web/data/service/frontend-service";
+import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
 
 type ServiceDiagramProps = {
   class?: string;
-  service: ServiceData;
+  service: FrontendService;
 };
 
 export function ServiceDiagram(props: ServiceDiagramProps) {
@@ -36,7 +34,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
   );
 }
 
-function buildStopStructures(movements: readonly MovementData[]) {
+function buildStopStructures(movements: readonly FrontendServiceMovement[]) {
   return movements.map((m) => {
     if (m.arrivalTime == null && m.departureTime == null) {
       return {

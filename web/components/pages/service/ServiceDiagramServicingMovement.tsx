@@ -3,11 +3,11 @@ import { LinkText } from "@/web/components/core/LinkText";
 import { CorequeryUrls } from "@/web/pages/corequery-urls";
 import { Row } from "@/web/components/core/Row";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
-import type { MovementData } from "@/web/components/pages/service/types";
+import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
-  movement: MovementData;
+  movement: FrontendServiceMovement;
 };
 
 export function ServiceDiagramServicingMovement(
@@ -20,12 +20,12 @@ export function ServiceDiagramServicingMovement(
 
   const arrivalTime =
     props.movement.arrivalTime != null
-      ? new Date(Date.parse(props.movement.arrivalTime)).toLocaleString()
+      ? props.movement.arrivalTime.toLocaleString()
       : null;
 
   const departureTime =
     props.movement.departureTime != null
-      ? new Date(Date.parse(props.movement.departureTime)).toLocaleString()
+      ? props.movement.departureTime.toLocaleString()
       : null;
 
   const time = departureTime ?? arrivalTime;
