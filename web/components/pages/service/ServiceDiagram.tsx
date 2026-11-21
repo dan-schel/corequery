@@ -33,6 +33,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
         structure={structure}
         lightThemeColorHexCode={props.service.color?.lightModeHexCode ?? null}
         darkThemeColorHexCode={props.service.color?.darkModeHexCode ?? null}
+        spacing="loose"
       />
     </Grid>
   );
