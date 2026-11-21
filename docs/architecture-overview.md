@@ -13,6 +13,11 @@
   - [Foundational data](#foundational-data)
   - [Static data](#static-data)
 - [Dealing with outdated frontends and caches](#dealing-with-outdated-frontends-and-caches)
+  - [The happy path](#the-happy-path)
+  - [API versioning](#api-versioning)
+  - [FODA-synced APIs](#foda-synced-apis)
+  - [Versioning schemes](#versioning-schemes)
+  - [Force update mechanism](#force-update-mechanism)
 
 ## Introduction
 
@@ -99,3 +104,37 @@ These value are precached by the service worker, meaning they'll only be updated
 > Anything further added to the static data would need a similarly strong justification. For example, the app description (shown on the landing page) **_doesn't_** need to be static data, because it's not part of the splash screen, and so can live in the foundational data instead.
 
 ## Dealing with outdated frontends and caches
+
+In normal running, the frontend keeps itself up-to-date using a "best effort" approach.
+
+Remember that there are two things to track here, the frontend version (i.e. the service worker, HTML, CSS, and JS code itself), and the foundational data version. Both are completely independent, and either one can be out of date, even if the other isn't.
+
+### The happy path
+
+Updates to the frontend version are largely handled by the browser. When it notices a change in `/sw.js`, it will attempt to install it, and inform CoreQuery when it has. CoreQuery will then show a prompt to the user for them to refresh and update. Even if they don't, next time the app is fully closed and opened, they'll be running the new version.
+
+As for the foundational data, as mentioned above, we attempt to refresh it every time the app starts, and we're on the splash screen. The request has a short timeout so we don't block the user for too long, but it should be sufficient in most cases.
+
+### API versioning
+
+To support users on outdated frontend versions, all APIs are versioned. Anytime a breaking change is made to an API, the server should implement a new version of the API and continue to serve the old version. A "breaking change" here means a change that old frontend versions will not handle correctly, so just adding a new field is not a breaking change, but removing one, or updating an enum to include a new value is.
+
+### FODA-synced APIs
+
+In some cases, an API response will be unusable unless the frontend is on the same foundational data version as the server who responded. For example, the departures API may return departures for a line which didn't exist last time the frontend updated it's foundational data!
+
+To handle this, affected APIs are "FODA-synced", meaning they return the foundational data version that the server is using as part of the response. If the frontend receives this response and sees that the version doesn't match its own, it must immediately call the foundational data API to refresh its cache before making that API response available to the component that requested it.
+
+### Versioning schemes
+
+I'm saying "version" a lot here, and there's several versions to track.
+
+- **Server version** - A version string configured by the consumer app. Usually it's just the commit hash.
+- **`corequery` package version** - The NPM version of the `corequery` package.
+- **Frontend version** - The frontend version is a hash calculated factoring in the HTML, CSS, and JS code, the app name, description, web manifest, and icons. It does **not** change as a result of the server version or `corequery` package version changing, as it's meant to represent a change to the actual bundled frontend code only.
+- **API versions** - Integers which increment each time there's a breaking change, e.g. `/departures/v1`, `/departures/v2`, etc.
+- **Foundational data version** - A hash calculated from all the data which can appear in the foundational data APIs. By "APIs" (plural), I mean `/foundational-data/v1`, `/foundational-data/v2`, etc. Regardless of which version of the frontend is running, they'll all receive the same foundational data version from the server at the same time. It doesn't depend on which version of the foundational data API they call.
+
+So, to be clear - the frontend bundle/PWA will update if and only if the frontend version changes, and the cached foundational data will update if and only if the foundational data version changes.
+
+### Force update mechanism
