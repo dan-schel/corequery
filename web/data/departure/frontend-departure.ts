@@ -74,7 +74,11 @@ export class FrontendDeparture {
   }
 
   getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
-    return FrontendServiceMovementTimeStrings.build(this, now, formatTimezone);
+    return FrontendServiceMovementTimeStrings.fromDeparture(
+      this,
+      now,
+      formatTimezone,
+    );
   }
 
   static wrap(stopId: number, departure: DepartureFromApi) {

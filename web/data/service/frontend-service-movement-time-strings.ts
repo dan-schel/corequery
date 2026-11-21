@@ -1,4 +1,8 @@
 import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
+import type {
+  FrontendServiceMovement,
+  FrontendServiceTimeType,
+} from "@/web/data/service/frontend-service-movement";
 import {
   formatDuration,
   formatRelativeTime,
@@ -30,17 +34,38 @@ export class FrontendServiceMovementTimeStrings {
     this.schedule = fields.schedule;
   }
 
-  static build(
+  static fromDeparture(
     departure: FrontendDeparture,
     now: Temporal.Instant,
     formatTimezone: string,
   ) {
-    const { time, formerTime, timeType } = departure;
-
     // Note: We don't consider `departure.isCancelled` here. In that case, the
     // <DepartureTime> component will just show the primary time struckout, and
     // everything else gets ignored.
 
+    const { time, formerTime, timeType } = departure;
+    return this._fromTimes(time, formerTime, timeType, now, formatTimezone);
+  }
+
+  static fromServiceMovement(
+    movement: FrontendServiceMovement,
+    now: Temporal.Instant,
+    formatTimezone: string,
+  ) {
+    const { time, formerTime, timeType } = movement.servicePageTime;
+    return this._fromTimes(time, formerTime, timeType, now, formatTimezone, {
+      neverUseDurations: true,
+    });
+  }
+
+  private static _fromTimes(
+    time: Temporal.Instant,
+    formerTime: Temporal.Instant | null,
+    timeType: FrontendServiceTimeType,
+    now: Temporal.Instant,
+    formatTimezone: string,
+    { neverUseDurations = false }: { neverUseDurations?: boolean } = {},
+  ) {
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
     const timeLocal = this._inFormatTimezone(time, formatTimezone);
     const timeStr = formatRelativeTime(timeLocal, nowLocal, {
@@ -64,7 +89,7 @@ export class FrontendServiceMovementTimeStrings {
     const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
 
-    if (durationFromNow.total({ unit: "minutes" }) > 60) {
+    if (durationFromNow.total({ unit: "minutes" }) > 60 || neverUseDurations) {
       // If a departure just after midnight is delayed, but it's still an hour
       // before midnight, I'd prefer it to show "~~12:05am~~ 12:08am tonight"
       // rather than "~~12:05am tonight~~ 12:08am tonight".

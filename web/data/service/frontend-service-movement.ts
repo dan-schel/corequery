@@ -1,4 +1,5 @@
 import type { ServiceFromApi } from "@/web/data/service/frontend-service";
+import { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
 
 type ServiceMovementFromApi = ServiceFromApi["movements"][number];
 
@@ -42,6 +43,14 @@ export class FrontendServiceMovement {
     }
 
     return time;
+  }
+
+  getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
+    return FrontendServiceMovementTimeStrings.fromServiceMovement(
+      this,
+      now,
+      formatTimezone,
+    );
   }
 
   static wrap(movement: ServiceMovementFromApi) {

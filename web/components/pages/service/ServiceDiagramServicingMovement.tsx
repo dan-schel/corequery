@@ -4,12 +4,12 @@ import { CorequeryUrls } from "@/web/pages/corequery-urls";
 import { Row } from "@/web/components/core/Row";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
-import { formatTime } from "@/web/data/time-formatting";
 import { useMemo } from "preact/hooks";
 import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
+import { useNow } from "@/web/hooks/use-now";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
@@ -23,6 +23,7 @@ export function ServiceDiagramServicingMovement(
 ) {
   const { foda } = useFoundationalData();
   const { formatPosition } = useTerminology();
+  const { currentMinute } = useNow();
 
   const stopData = foda.stops.require(props.movement.stopId);
   const url = CorequeryUrls.stop(stopData.urlPath);
@@ -37,25 +38,10 @@ export function ServiceDiagramServicingMovement(
     return formatPosition(position.name);
   }, [foda, formatPosition, props.movement]);
 
-  const { timeStr, formerTimeStr } = useMemo(() => {
-    const times = props.movement.servicePageTime;
-
-    const timePlainTime = times.time
-      .toZonedDateTimeISO(foda.formatTimezone)
-      .toPlainTime();
-    const timeStr = formatTime(timePlainTime);
-
-    if (times.formerTime == null) return { timeStr, formerTimeStr: null };
-
-    const formerTimePlainTime = times.formerTime
-      .toZonedDateTimeISO(foda.formatTimezone)
-      .toPlainTime();
-    const formerTimeStr = formatTime(formerTimePlainTime);
-
-    if (formerTimeStr === timeStr) return { timeStr, formerTimeStr: null };
-
-    return { timeStr, formerTimeStr };
-  }, [foda, props.movement.servicePageTime]);
+  const timeStrings = useMemo(
+    () => props.movement.getTimeStrings(currentMinute, foda.formatTimezone),
+    [currentMinute, foda.formatTimezone, props.movement],
+  );
 
   // TODO: Show formerTime, timeType asterisks, wifi symbol, etc.
 
@@ -77,17 +63,17 @@ export function ServiceDiagramServicingMovement(
         )}
       </Row>
       <Row class="min-w-0">
-        {formerTimeStr != null && (
+        {timeStrings.struckout != null && (
           <TextBlock
             class="shrink min-w-0"
             style="service-time-struckout"
             oneLine
           >
-            {formerTimeStr}
+            {timeStrings.struckout}
           </TextBlock>
         )}
         <TextBlock class="shrink min-w-0" style="service-time" oneLine>
-          {timeStr}
+          {timeStrings.primary}
         </TextBlock>
         <DepartureLiveIcon class="text-icon-xs" dynamicColor={null} />
       </Row>
