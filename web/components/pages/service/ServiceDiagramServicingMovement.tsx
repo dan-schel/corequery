@@ -9,6 +9,7 @@ import { useMemo } from "preact/hooks";
 import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
+import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
@@ -36,13 +37,25 @@ export function ServiceDiagramServicingMovement(
     return formatPosition(position.name);
   }, [foda, formatPosition, props.movement]);
 
-  const timeStr = useMemo(() => {
-    const instant = props.movement.servicePageTime.time;
-    const plainTime = instant
+  const { timeStr, formerTimeStr } = useMemo(() => {
+    const times = props.movement.servicePageTime;
+
+    const timePlainTime = times.time
       .toZonedDateTimeISO(foda.formatTimezone)
       .toPlainTime();
-    return formatTime(plainTime);
-  }, [foda, props.movement.servicePageTime.time]);
+    const timeStr = formatTime(timePlainTime);
+
+    if (times.formerTime == null) return { timeStr, formerTimeStr: null };
+
+    const formerTimePlainTime = times.formerTime
+      .toZonedDateTimeISO(foda.formatTimezone)
+      .toPlainTime();
+    const formerTimeStr = formatTime(formerTimePlainTime);
+
+    if (formerTimeStr === timeStr) return { timeStr, formerTimeStr: null };
+
+    return { timeStr, formerTimeStr };
+  }, [foda, props.movement.servicePageTime]);
 
   // TODO: Show formerTime, timeType asterisks, wifi symbol, etc.
 
@@ -64,9 +77,19 @@ export function ServiceDiagramServicingMovement(
         )}
       </Row>
       <Row class="min-w-0">
-        <TextBlock class="shrink min-w-0" oneLine>
+        {formerTimeStr != null && (
+          <TextBlock
+            class="shrink min-w-0"
+            style="service-time-struckout"
+            oneLine
+          >
+            {formerTimeStr}
+          </TextBlock>
+        )}
+        <TextBlock class="shrink min-w-0" style="service-time" oneLine>
           {timeStr}
         </TextBlock>
+        <DepartureLiveIcon class="text-icon-xs" dynamicColor={null} />
       </Row>
     </Column>
   );

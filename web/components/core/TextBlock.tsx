@@ -25,6 +25,7 @@ const styles = {
 
   "wordmark": "text-mdlg font-bold text-fg-strong",
   "disclaimer": "text-xs text-fg font-stretch-semi-condensed",
+  "skipped-stop": "text-sm text-fg-weak italic",
 
   "departure-headline": "text-mdlg font-bold text-fg-strong",
   "departure-headline-struckout":
@@ -38,6 +39,9 @@ const styles = {
     "text-sm text-warning-text font-bold font-stretch-semi-condensed",
   "departure-info-error":
     "text-sm text-error-text font-bold font-stretch-semi-condensed",
+
+  "service-time": "text-mdlg text-fg",
+  "service-time-struckout": "text-mdlg text-fg-weak-on-bg line-through",
 };
 
 const alignments = {

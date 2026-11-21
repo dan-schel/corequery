@@ -28,7 +28,7 @@ export function buildStopStructures(
     } else if (stop.type === "always-express") {
       return {
         content: (
-          <TextBlock style="small-weak">
+          <TextBlock style="skipped-stop">
             <LinkText href={url} style="subtle">
               Skips {stopData.name}
             </LinkText>

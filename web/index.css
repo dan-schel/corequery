@@ -43,6 +43,7 @@
 
   /* Used for struckout text (can't use semi-transparent colors). */
   --color-fg-weak-on-raised: #626a7d;
+  --color-fg-weak-on-bg: #5d677a;
 
   --color-accent: hsl(210, 80%, 45%);
   --color-accent-hover: hsl(210, 80%, 50%);
@@ -115,6 +116,7 @@ body {
 
   /* Used for struckout text (can't use semi-transparent colors). */
   --color-fg-weak-on-raised: #8a94a7;
+  --color-fg-weak-on-bg: #868fa1;
 
   --color-accent: hsl(210, 80%, 65%);
   --color-accent-hover: hsl(210, 80%, 70%);

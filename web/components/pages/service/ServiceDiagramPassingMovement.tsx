@@ -17,7 +17,7 @@ export function ServiceDiagramPassingMovement(
   const url = CorequeryUrls.stop(stopData.urlPath);
 
   return (
-    <TextBlock class={props.class} style="small-weak">
+    <TextBlock class={props.class} style="skipped-stop">
       <LinkText href={url} style="subtle">
         Skips {stopData.name}
       </LinkText>
