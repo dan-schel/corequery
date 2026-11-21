@@ -2,13 +2,13 @@ import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
-import type { FrontendServiceTypeTime } from "@/web/data/departure/frontend-departure";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
 import type { FrontendDepartureTimeStrings } from "@/web/data/departure/frontend-departure-time-strings";
+import type { FrontendServiceTimeType } from "@/web/data/service/frontend-service-movement";
 
 type DepartureTimeProps = {
   class?: string;
-  timeType: FrontendServiceTypeTime;
+  timeType: FrontendServiceTimeType;
   isCancelled: boolean;
   timeStrings: FrontendDepartureTimeStrings;
   serviceColor: TextColor | null;

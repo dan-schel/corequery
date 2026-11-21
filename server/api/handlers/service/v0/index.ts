@@ -49,37 +49,45 @@ function toApiMovement(x: ServiceMovement): ApiMovement {
     return {
       stopId: x.stopId,
       positionId: x.currentPositionId,
-      arrivalTime: null,
-      formerArrivalTime: null,
-      departureTime: x.departureTime.toString(),
-      formerDepartureTime: x.formerDepartureTime?.toString() ?? null,
+      arrival: null,
+      departure: {
+        timeType: x.departureTimeType,
+        time: x.departureTime.toString(),
+        formerTime: x.formerDepartureTime?.toString() ?? null,
+      },
     };
   } else if (x.type === "regular") {
     return {
       stopId: x.stopId,
       positionId: x.currentPositionId,
-      arrivalTime: x.arrivalTime.toString(),
-      formerArrivalTime: x.formerArrivalTime?.toString() ?? null,
-      departureTime: x.departureTime.toString(),
-      formerDepartureTime: x.formerDepartureTime?.toString() ?? null,
+      arrival: {
+        timeType: x.arrivalTimeType,
+        time: x.arrivalTime.toString(),
+        formerTime: x.formerArrivalTime?.toString() ?? null,
+      },
+      departure: {
+        timeType: x.departureTimeType,
+        time: x.departureTime.toString(),
+        formerTime: x.formerDepartureTime?.toString() ?? null,
+      },
     };
   } else if (x.type === "terminating") {
     return {
       stopId: x.stopId,
       positionId: x.currentPositionId,
-      arrivalTime: x.arrivalTime.toString(),
-      formerArrivalTime: x.formerArrivalTime?.toString() ?? null,
-      departureTime: null,
-      formerDepartureTime: null,
+      arrival: {
+        timeType: x.arrivalTimeType,
+        time: x.arrivalTime.toString(),
+        formerTime: x.formerArrivalTime?.toString() ?? null,
+      },
+      departure: null,
     };
   } else if (x.type === "passing") {
     return {
       stopId: x.stopId,
       positionId: null,
-      arrivalTime: null,
-      formerArrivalTime: null,
-      departureTime: null,
-      formerDepartureTime: null,
+      arrival: null,
+      departure: null,
     };
   } else {
     assertNever(x);
