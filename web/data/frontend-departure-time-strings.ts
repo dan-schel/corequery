@@ -1,5 +1,9 @@
 import type { FrontendDeparture } from "@/web/data/frontend-departure";
-import { formatDuration, formatRelativeTime } from "@/web/data/time-formatting";
+import {
+  formatDuration,
+  formatRelativeTime,
+  formatTime,
+} from "@/web/data/time-formatting";
 
 export type FrontendDepartureTimeStringsDelay = {
   readonly text: string;
@@ -61,9 +65,19 @@ export class FrontendDepartureTimeStrings {
     const delay = this._getDelay(time.since(formerTime));
 
     if (durationFromNow.total({ unit: "minutes" }) > 60) {
+      // If a departure just after midnight is delayed, but it's still an hour
+      // before midnight, I'd prefer it to show "~~12:05am~~ 12:08am tonight"
+      // rather than "~~12:05am tonight~~ 12:08am tonight".
+      const formerTimeStrShort = formatTime(formerTimeLocal.toPlainTime());
+
       return new FrontendDepartureTimeStrings({
         primary: timeStr,
-        struckout: timeStr !== formerTimeStr ? formerTimeStr : null,
+
+        // `timeStr !== formerTimeStr` is intentional, because
+        // `formerTimeStrShort` might differ from `formerTimeStr`, even though
+        // `timeStr` and `formerTimeStr` are the same.
+        struckout: timeStr !== formerTimeStr ? formerTimeStrShort : null,
+
         delay,
         schedule: null,
       });

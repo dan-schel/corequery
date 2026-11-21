@@ -1,6 +1,6 @@
 import { hour24To12 } from "@dan-schel/js-utils";
 
-function formatTime(
+export function formatTime(
   input: Temporal.PlainTime,
   { includeSeconds = false }: { includeSeconds?: boolean } = {},
 ) {
