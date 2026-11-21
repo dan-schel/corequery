@@ -58,7 +58,7 @@ export class ServiceWorkerPreparer {
     }
   }
 
-  private _hashValue(value: crypto.BinaryLike) {
+  private _hashValue(value: string | Uint8Array) {
     return crypto.createHash("md5").update(value).digest("hex");
   }
 
