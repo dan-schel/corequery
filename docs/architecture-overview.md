@@ -138,3 +138,11 @@ I'm saying "version" a lot here, and there's several versions to track.
 So, to be clear - the frontend bundle/PWA will update if and only if the frontend version changes, and the cached foundational data will update if and only if the foundational data version changes.
 
 ### Force update mechanism
+
+We probably can't support old frontends forever. Eventually, the time will come to remove an old API version. Hopefully by this time, it'll have been long enough that most users will be on the new version naturally, but there can always be someone who hasn't opened the app in a long time.
+
+Due to this, CoreQuery has a force update mechanism which enables the server to tell a frontend to do whatever it can to update immediately. Upon startup, the frontend calls the `version-check/v1` API and passes its frontend version hash and `corequery` package version (the one stored in the static data, i.e. what it was at the time of the last frontend version update). If the server responds with `isForceUpdateOfServiceWorkerRequired: true`, then the frontend evicts the service worker and programatically refreshes the page.
+
+Note that this mechanism works above the level of even the foundational data system, so even if the user is stuck with a broken splash screen (due to some newly introduced bug), this mechanism should still be able to get them unstuck. However, the force update API call is not a blocking query, and it runs entirely in the background. If it fails or times out, the user is not impacted.
+
+At the time of writing, this mechanism can only be used to force update the frontend version. The foundational data already has a force update mechanism of its own via FODA-synced queries, so it doesn't seem necessary to consider it here.
