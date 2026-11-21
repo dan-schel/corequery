@@ -6,7 +6,7 @@ const exceptions = [
   "@/shared/apis/types.js",
 ];
 
-const apiCodeRegex = /^\/shared\/apis\/[^\/]+\/v[0-9]\//;
+const apiCodeRegex = /^\/shared\/apis\/[^\/]+\/v[0-9]+\//;
 
 export default {
   meta: {
