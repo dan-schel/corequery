@@ -4,7 +4,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import type {
   FrontendDepartureTimeStrings,
   FrontendDepartureTimeStringsDelay,
-} from "@/web/data/frontend-departure-time-strings";
+} from "@/web/data/departure/frontend-departure-time-strings";
 import { LinesList } from "@/web/components/LinesList";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";

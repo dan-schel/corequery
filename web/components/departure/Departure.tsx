@@ -3,7 +3,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
 import { DepartureTime } from "@/web/components/departure/DepartureTime";
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";

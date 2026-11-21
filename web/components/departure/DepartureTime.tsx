@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
-import type { FrontendServiceTypeTime } from "@/web/data/frontend-departure";
+import type { FrontendServiceTypeTime } from "@/web/data/departure/frontend-departure";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
-import type { FrontendDepartureTimeStrings } from "@/web/data/frontend-departure-time-strings";
+import type { FrontendDepartureTimeStrings } from "@/web/data/departure/frontend-departure-time-strings";
 
 type DepartureTimeProps = {
   class?: string;

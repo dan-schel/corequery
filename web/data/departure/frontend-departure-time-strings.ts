@@ -1,4 +1,4 @@
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 import {
   formatDuration,
   formatRelativeTime,

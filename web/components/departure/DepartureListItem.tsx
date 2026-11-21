@@ -6,7 +6,7 @@ import {
   DEPARTURE_HEIGHT_REM,
 } from "@/web/components/departure/Departure";
 import { MingcuteRightLine } from "@/web/components/icons/MingcuteRightLine";
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 
 type DepartureListItemProps = {
   class?: string;

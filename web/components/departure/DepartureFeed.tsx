@@ -6,7 +6,7 @@ import { Row } from "@/web/components/core/Row";
 import { Button } from "@/web/components/button/Button";
 import { MajesticonsPinLine } from "@/web/components/icons/MajesticonsPinLine";
 import { MingcuteFullscreen2Line } from "@/web/components/icons/MingcuteFullscreen2Line";
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 
 type DepartureFeedProps = {
   class?: string;

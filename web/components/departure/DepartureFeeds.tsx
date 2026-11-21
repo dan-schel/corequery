@@ -4,7 +4,7 @@ import { DepartureFeed } from "@/web/components/departure/DepartureFeed";
 import { useFodaSyncedQuery } from "@/web/hooks/api/use-foda-synced-query";
 import { DEPARTURES_V0 } from "@/shared/apis";
 import { useMemo } from "preact/hooks";
-import { FrontendDeparture } from "@/web/data/frontend-departure";
+import { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 
 type DepartureFeedsProps = {
   class?: string;
