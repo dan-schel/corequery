@@ -28,7 +28,7 @@ CoreQuery is a platform for building web apps serving transit information. The m
 
 A transit app for Melbourne's train network can share a lot of code with one for Sydney's. That's what CoreQuery is, and therefore it has to be highly configurable to work for each case, i.e. different stops, different methods of fetching departures, different ways to interpret disruption messages, etc.
 
-The most effective way to do that configuration is with Typescript (rather than something like YML), since you can inject logic too. Someone wishing to build a web app using CoreQuery installs it from NPM, writes some Typescript code to import the `Corequery` class, configures it, and calls methods on it to initialise/start the web server, just like it were any other shared library.
+The most effective way to do that configuration is with TypeScript (rather than something like YAML), since you can inject logic too. Someone wishing to build a web app using CoreQuery installs it from NPM, writes some TypeScript code to import the `Corequery` class, configures it, and calls methods on it to initialise/start the web server, as if it were any other shared library.
 
 The consumer app doesn't build any frontend code, it only configures the server. The frontend code is a static bundle, built when the `corequery` NPM package is built. This means Preact, Vite, etc. are dev dependencies of CoreQuery rather than dependencies, and that all CoreQuery consumers run the exact same frontend code, despite their configuration (well almost, see [Static Data](#static-data) below).
 
@@ -65,7 +65,7 @@ This strategy is used for things like:
 
 This strategy is used for things like:
 
-- the list of stops, their positionsm, and filters
+- the list of stops, their positions, and filters
 - the list of lines, their colors and diagrams
 - landing page content
 - terminology (is it "stops" or "stations", "bays" or "platforms"?)
@@ -89,7 +89,7 @@ When the server starts, we have to replace some assets in the `web/dist` folder 
 <meta name="corequery-server-version-on-last-update" content="demo-app" />
 ```
 
-These value are precached by the service worker, meaning they'll only be updated when the service worker updates.
+These values are precached by the service worker, meaning they'll only be updated when the service worker updates.
 
 > [!CAUTION]
 > Unlike the other data strategies, this method has a very specific use case, and I don't expect that we'll ever need to add further fields using this approach.
@@ -97,7 +97,7 @@ These value are precached by the service worker, meaning they'll only be updated
 > The reason this is done **_at all_**, is that:
 >
 > - We show the app name on the splash screen before the foundational data is loaded, and it can't be updated dynamically anyway since it's hardcoded in the PWA manifest.
-> - The frontend version is _**by definition**_ meant to the tied to the precached frontend code to aid debugging and enable the "force service worker update" mechanism (see [Dealing with outdated frontends and caches](#dealing-with-outdated-frontends-and-caches) below), and therefore also shouldn't be dynamic.
+> - The frontend version is _**by definition**_ meant to be tied to the precached frontend code to aid debugging and enable the "force service worker update" mechanism (see [Dealing with outdated frontends and caches](#dealing-with-outdated-frontends-and-caches) below), and therefore also shouldn't be dynamic.
 > - Similarly, the `-on-last-update` fields are meant to be tied to the precached frontend code, for debugging.
 >
 > Anything further added to the static data would need a similarly strong justification. For example, the app description (shown on the landing page) **_doesn't_** need to be static data, because it's not part of the splash screen, and so can live in the foundational data instead.
@@ -120,7 +120,7 @@ To support users on outdated frontend versions, all APIs are versioned. Anytime 
 
 ### FODA-synced APIs
 
-In some cases, an API response will be unusable unless the frontend is on the same foundational data version as the server who responded. For example, the departures API may return departures for a line which didn't exist last time the frontend updated it's foundational data!
+In some cases, an API response will be unusable unless the frontend is on the same foundational data version as the server that responded. For example, the departures API may return departures for a line which didn't exist last time the frontend updated its foundational data!
 
 To handle this, affected APIs are "FODA-synced", meaning they return the foundational data version that the server is using as part of the response. If the frontend receives this response and sees that the version doesn't match its own, it must immediately call the foundational data API to refresh its cache before making that API response available to the component that requested it.
 
@@ -140,7 +140,7 @@ So, to be clear - the frontend bundle/PWA will update if and only if the fronten
 
 We probably can't support old frontends forever. Eventually, the time will come to remove an old API version. Hopefully by this time, it'll have been long enough that most users will be on the new version naturally, but there can always be someone who hasn't opened the app in a long time.
 
-Due to this, CoreQuery has a force update mechanism which enables the server to tell a frontend to do whatever it can to update immediately. Upon startup, the frontend calls the `version-check/v1` API and passes its frontend version hash and `corequery` package version (the one stored in the static data, i.e. what it was at the time of the last frontend version update). If the server responds with `isForceUpdateOfServiceWorkerRequired: true`, then the frontend evicts the service worker and programatically refreshes the page.
+Due to this, CoreQuery has a force update mechanism which enables the server to tell a frontend to do whatever it can to update immediately. Upon startup, the frontend calls the `version-check/v1` API and passes its frontend version hash and `corequery` package version (the one stored in the static data, i.e. what it was at the time of the last frontend version update). If the server responds with `isForceUpdateOfServiceWorkerRequired: true`, then the frontend evicts the service worker and programmatically refreshes the page.
 
 Note that this mechanism works above the level of even the foundational data system, so even if the user is stuck with a broken splash screen (due to some newly introduced bug), this mechanism should still be able to get them unstuck. However, the force update API call is not a blocking query, and it runs entirely in the background. If it fails or times out, the user is not impacted.
 
@@ -156,7 +156,7 @@ Add a new version of the API, and leave the old one alone, or at least try to ma
 
 It's the same as any other API breaking change really.
 
-#### If the frontend caches FODA from the V1 API and updates to a frontend version which uses FODA from the V2 API, what happens? <!-- omit in toc -->
+#### If the frontend caches FODA from the v1 API and updates to a frontend version which uses FODA from the v2 API, what happens? <!-- omit in toc -->
 
 Foundational data has a metadata field for which version of the API it came from, and this version is a `z.literal()` in the schema. This means the frontend will fail to parse the data in the cache, as it'll be expecting `z.literal("2")` and the cached data will have `"1"`. This failure to parse is just treated as if the cache was empty, and it's your first time visiting the site. Therefore the frontend will block on the splash screen until it successfully fetches the FODA from the `foundational-data/v2` API.
 
@@ -182,7 +182,7 @@ For example, if the departures API receives a request for departures from a stop
 
 #### What happens when I link someone to `/stops/XYZ`, but their FODA is outdated and doesn't know about that stop? <!-- omit in toc -->
 
-In this situation, even if the usual splash screen FODA refresh times out, CoreQuery is smart enough to trigger a force FODA update. The "Stop Not Found" page doesn't actually render until it has confirmed that the FODA is up-to-date (see `useVersionAssurance()`). Instead, it shows a loading spinner whilst making a call to the `versions/v1` API. If it finds the hash is outdated, the page will trigger a FODA update (similar to how a FODA-synced query can trigger one), continuing to showing the loading spinner until that's done. At that point, the user should be seeing a stop page, as whatever logic sent them to the not found page will no longer be doing so.
+In this situation, even if the usual splash screen FODA refresh times out, CoreQuery is smart enough to trigger a force FODA update. The "Stop Not Found" page doesn't actually render until it has confirmed that the FODA is up-to-date (see `useVersionAssurance()`). Instead, it shows a loading spinner whilst making a call to the `versions/v1` API. If it finds the hash is outdated, the page will trigger a FODA update (similar to how a FODA-synced query can trigger one), continuing to show the loading spinner until that's done. At that point, the user should be seeing a stop page, as whatever logic sent them to the not found page will no longer be doing so.
 
 #### What happens when I link someone to a brand new page, but their frontend version is outdated and doesn't support it? <!-- omit in toc -->
 

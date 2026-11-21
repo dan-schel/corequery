@@ -90,7 +90,7 @@ This is the most common situation when developing CoreQuery itself.
 
 Just like Option 3, we have the demo app with a symlink at `demo-app/node_modules/corequery` pointing to the upper directory (the CoreQuery repo), but there are two key differences:
 
-1. We run the demo app's `corequeryDemoApp.scripts.dev` script instead of `corequeryDemoApp.scripts.start`. The demo app will likely configure this to point to a script that hot-reloads it's (server) code.
+1. We run the demo app's `corequeryDemoApp.scripts.dev` script instead of `corequeryDemoApp.scripts.start`. The demo app will likely configure this to point to a script that hot-reloads its (server) code.
 
 2. We set the `COREQUERY_HOT_RELOAD` environment variable to `true` before starting the demo app. CoreQuery is configured to look out for this variable, and if seen, it uses the Vite middleware to serve the frontend code instead of serving the static files from `web/dist`. This means that any changes made to CoreQuery's frontend code (in the `web` folder) are hot-reloaded live in the demo app environment.
 
@@ -100,7 +100,7 @@ Just like Option 3, we have the demo app with a symlink at `demo-app/node_module
 
 This variable controls whether the frontend (Vite) code is hot-reloaded. It enables devs working in **this repo** to tweak frontend code and see their changes update live in the demo app environment. It should only ever be set by the `scripts/demo-app.ts` script, and certainly never in a repo consuming the package. It's `true` if we ran `npm run dev` in **this repo**, and `false` if we ran `npm run start`.
 
-The reason an enviroment variable is used (over configuration passed into the `Corequery` class constructor) is that end-consumers of the package consume a pre-built version of the frontend code (`node_modules/corequery/web/dist`). We don't bundle the source code into the NPM package, so comsumer projects are unable to run from the Vite middleware even if they wanted to. As they aren't developing CoreQuery, they have no need to hot-reload the frontend code anyway. There's no point having configuration that no (real) consumer of the package would ever use. Additionally, we should be able to clone any consumer of CoreQuery as a demo app, and shouldn't have to modify any of that consumer's code in order to use it, other than linking the import of the `corequery` package to this repo's local code. Setting an environment variable is much easier than trying to inject configuration into the consumer's Javascript/Typescript code.
+The reason an environment variable is used (over configuration passed into the `Corequery` class constructor) is that end-consumers of the package consume a pre-built version of the frontend code (`node_modules/corequery/web/dist`). We don't bundle the source code into the NPM package, so consumer projects are unable to run from the Vite middleware even if they wanted to. As they aren't developing CoreQuery, they have no need to hot-reload the frontend code anyway. There's no point having configuration that no (real) consumer of the package would ever use. Additionally, we should be able to clone any consumer of CoreQuery as a demo app, and shouldn't have to modify any of that consumer's code in order to use it, other than linking the import of the `corequery` package to this repo's local code. Setting an environment variable is much easier than trying to inject configuration into the consumer's JavaScript/TypeScript code.
 
 ### Why do we need to modify files in `web/dist` before starting the server?
 
