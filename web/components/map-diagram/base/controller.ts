@@ -108,10 +108,14 @@ export abstract class BaseMapDiagramController<
     return stops.map((stop, i) => {
       const content = itsOk(contentPerStop[i]);
 
+      const containerRect = this._canvasContainer.getBoundingClientRect();
+      const contentRect = content.getBoundingClientRect();
+      const offset = contentRect.top - containerRect.top;
+
       if (stop.getOverriddenMarkYPosition != null) {
-        return stop.getOverriddenMarkYPosition(content);
+        return offset + stop.getOverriddenMarkYPosition(content);
       } else {
-        return this._getDefaultMarkYPosition(content);
+        return offset + contentRect.height / 2;
       }
     });
   }
@@ -125,12 +129,6 @@ export abstract class BaseMapDiagramController<
     return Array.from(target.childNodes.values()).filter(
       (node): node is HTMLElement => node instanceof HTMLElement,
     );
-  }
-
-  private _getDefaultMarkYPosition(content: HTMLElement) {
-    const containerRect = this._canvasContainer.getBoundingClientRect();
-    const contentRect = content.getBoundingClientRect();
-    return contentRect.top - containerRect.top + contentRect.height / 2;
   }
 
   private _getDiagramColor() {

@@ -4,9 +4,13 @@ import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/lin
 import { LinearMapDiagram } from "@/web/components/map-diagram/linear";
 import { useMemo } from "preact/hooks";
 import { ServiceDiagramPassingMovement } from "@/web/components/pages/service/ServiceDiagramPassingMovement";
-import { ServiceDiagramServicingMovement } from "@/web/components/pages/service/ServiceDiagramServicingMovement";
+import {
+  ServiceDiagramServicingMovement,
+  Y_MARK_POSITION,
+} from "@/web/components/pages/service/ServiceDiagramServicingMovement";
 import type { FrontendService } from "@/web/data/service/frontend-service";
 import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
+import type { StopStructure } from "@/web/components/map-diagram/base/types";
 
 type ServiceDiagramProps = {
   class?: string;
@@ -34,7 +38,9 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
   );
 }
 
-function buildStopStructures(movements: readonly FrontendServiceMovement[]) {
+function buildStopStructures(
+  movements: readonly FrontendServiceMovement[],
+): StopStructure[] {
   return movements.map((m) => {
     if (m.isPassing) {
       return {
@@ -44,6 +50,7 @@ function buildStopStructures(movements: readonly FrontendServiceMovement[]) {
     } else {
       return {
         content: <ServiceDiagramServicingMovement movement={m} />,
+        getOverriddenMarkYPosition: () => Y_MARK_POSITION,
       };
     }
   });
