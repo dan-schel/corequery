@@ -29,13 +29,13 @@ export function ServiceDiagramServicingMovement(
   }, [foda.formatTimezone, props.movement.servicePageTime.time]);
 
   return (
-    <Row class="gap-2 min-w-0">
+    <Row class="min-w-0">
       <TextBlock style="strong">
         <LinkText href={url} style="subtle">
           {stopData.name}
         </LinkText>
       </TextBlock>
-      <TextBlock>&bull;</TextBlock>
+      <TextBlock class="bullet-margin">&bull;</TextBlock>
       <TextBlock class="shrink min-w-0" oneLine>
         {timeStr}
       </TextBlock>

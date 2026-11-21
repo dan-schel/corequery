@@ -35,11 +35,13 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
   }
 
   return (
-    <Row class={clsx(props.class, "gap-1")}>
+    <Row class={clsx(props.class)}>
       {props.timeStrings.delay != null && (
         <>
           <DelayText delay={props.timeStrings.delay} />
-          <TextBlock style="departure-info">&bull;</TextBlock>
+          <TextBlock class="bullet-margin" style="departure-info">
+            &bull;
+          </TextBlock>
         </>
       )}
       {props.timeStrings.schedule != null ? (
