@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import type {
-  FrontendDepartureTimeStrings,
-  FrontendDepartureTimeStringsDelay,
-} from "@/web/data/departure/frontend-departure-time-strings";
+  FrontendServiceMovementTimeStrings,
+  FrontendServiceMovementTimeStringsDelay,
+} from "@/web/data/service/frontend-service-movement-time-strings";
 import { LinesList } from "@/web/components/LinesList";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
@@ -13,7 +13,7 @@ import { useTerminology } from "@/web/hooks/use-terminology";
 
 type DepartureTimeProps = {
   class?: string;
-  timeStrings: FrontendDepartureTimeStrings;
+  timeStrings: FrontendServiceMovementTimeStrings;
   lineIds: readonly number[];
   isCancelled: boolean;
 };
@@ -56,7 +56,7 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
 }
 
 type DelayTextProps = {
-  delay: FrontendDepartureTimeStringsDelay;
+  delay: FrontendServiceMovementTimeStringsDelay;
 };
 
 function DelayText(props: DelayTextProps) {

@@ -5,25 +5,25 @@ import {
   formatTime,
 } from "@/web/data/time-formatting";
 
-export type FrontendDepartureTimeStringsDelay = {
+export type FrontendServiceMovementTimeStringsDelay = {
   readonly text: string;
   readonly color: "green" | "yellow" | "red";
 };
 
-type FrontendDepartureTimeStringsFields = {
+type FrontendServiceMovementTimeStringsFields = {
   readonly primary: string;
   readonly struckout: string | null;
-  readonly delay: FrontendDepartureTimeStringsDelay | null;
+  readonly delay: FrontendServiceMovementTimeStringsDelay | null;
   readonly schedule: string | null;
 };
 
-export class FrontendDepartureTimeStrings {
+export class FrontendServiceMovementTimeStrings {
   readonly primary: string;
   readonly struckout: string | null;
-  readonly delay: FrontendDepartureTimeStringsDelay | null;
+  readonly delay: FrontendServiceMovementTimeStringsDelay | null;
   readonly schedule: string | null;
 
-  constructor(fields: FrontendDepartureTimeStringsFields) {
+  constructor(fields: FrontendServiceMovementTimeStringsFields) {
     this.primary = fields.primary;
     this.struckout = fields.struckout;
     this.delay = fields.delay;
@@ -48,7 +48,7 @@ export class FrontendDepartureTimeStrings {
     });
 
     if (timeType === "scheduled-time" || formerTime == null) {
-      return new FrontendDepartureTimeStrings({
+      return new FrontendServiceMovementTimeStrings({
         primary: timeStr,
         struckout: null,
         delay: null,
@@ -70,7 +70,7 @@ export class FrontendDepartureTimeStrings {
       // rather than "~~12:05am tonight~~ 12:08am tonight".
       const formerTimeStrShort = formatTime(formerTimeLocal.toPlainTime());
 
-      return new FrontendDepartureTimeStrings({
+      return new FrontendServiceMovementTimeStrings({
         primary: timeStr,
 
         // `timeStr !== formerTimeStr` is intentional, because
@@ -87,7 +87,7 @@ export class FrontendDepartureTimeStrings {
     const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 
-    return new FrontendDepartureTimeStrings({
+    return new FrontendServiceMovementTimeStrings({
       primary,
       struckout: primary !== struckout ? struckout : null,
       delay,
@@ -97,7 +97,7 @@ export class FrontendDepartureTimeStrings {
 
   private static _getDelay(
     delayDuration: Temporal.Duration,
-  ): FrontendDepartureTimeStringsDelay {
+  ): FrontendServiceMovementTimeStringsDelay {
     const minutes = delayDuration.total({ unit: "minutes" });
     const formatted = formatDuration(delayDuration, { suppressAgo: true });
 

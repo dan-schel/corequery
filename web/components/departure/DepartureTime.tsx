@@ -3,14 +3,14 @@ import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
-import type { FrontendDepartureTimeStrings } from "@/web/data/departure/frontend-departure-time-strings";
+import type { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
 import type { FrontendServiceTimeType } from "@/web/data/service/frontend-service-movement";
 
 type DepartureTimeProps = {
   class?: string;
   timeType: FrontendServiceTimeType;
   isCancelled: boolean;
-  timeStrings: FrontendDepartureTimeStrings;
+  timeStrings: FrontendServiceMovementTimeStrings;
   serviceColor: TextColor | null;
 };
 

@@ -1,6 +1,6 @@
 import type { DEPARTURES_V0 } from "@/shared/apis";
 import type { TextColor } from "@/web/components/core/ColoredText";
-import { FrontendDepartureTimeStrings } from "@/web/data/departure/frontend-departure-time-strings";
+import { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
 import type { FrontendServiceTimeType } from "@/web/data/service/frontend-service-movement";
 import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
 import { CorequeryUrls } from "@/web/pages/corequery-urls";
@@ -74,7 +74,7 @@ export class FrontendDeparture {
   }
 
   getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
-    return FrontendDepartureTimeStrings.build(this, now, formatTimezone);
+    return FrontendServiceMovementTimeStrings.build(this, now, formatTimezone);
   }
 
   static wrap(stopId: number, departure: DepartureFromApi) {
