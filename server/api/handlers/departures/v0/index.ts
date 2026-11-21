@@ -35,6 +35,11 @@ export async function handle<CustomContextType>(
     const feedFilters = compiledFilters.map((x) => x.filterFunction);
 
     for (const stopId of stopIds) {
+      // TODO: What if the stopId is invalid because the frontend is on an old
+      // FODA version? We should probably return an empty array. Otherwise we
+      // could throw an error. Either way we should probably catch it before the
+      // departure iterator has to deal with it, and make sure the bit
+      // mentioning this in the architecture-overview.md FAQs is updated.
       const iterator = ctx.app.services.getDeparturesIterator(
         stopId,
         instant,

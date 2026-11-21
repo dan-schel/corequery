@@ -4,7 +4,7 @@ Horizontal scaling (i.e. having multiple instances running simultaneously) makes
 
 ## Database breaking changes
 
-Sometimes breaking changes need to be made to the database schema, e.g. removing a table. If that case, it's essential that all instances are no longer using the table before the migration runs to remove the table. This means we need to guarantee that the change where we stop using the table is deployed to all instances before the change which adds the migration.
+Sometimes breaking changes need to be made to the database schema, e.g. removing a table. In that case, it's essential that all instances are no longer using the table before the migration runs to remove the table. This means we need to guarantee that the change where we stop using the table is deployed to all instances before the change which adds the migration.
 
 As CoreQuery is published as an NPM package, CoreQuery itself doesn't control how it's deployed. That responsibility falls on the consumer projects. To help, CoreQuery will always ensure breaking database changes are made as a major version bump. This means consumer projects should always make sure they've deployed the latest minor version of any major version of CoreQuery before upgrading to the next major version, and never skip a major version.
 
@@ -12,13 +12,13 @@ As CoreQuery is published as an NPM package, CoreQuery itself doesn't control ho
 
 For example, if versions `1.0`, `1.1`, `1.2`, `2.0`, `2.1`, and `3.0` exist. A consumer running `2.0` must first upgrade to `2.1`, deploy all instances, and only then upgrade to `3.0`. A consumer running `1.0` can skip version `1.1`, but must upgrade to `1.2`, then `2.0`, then `2.1`, and only then `3.0`, deploying between each upgrade.
 
-(Note that this is unnecessary if deployments are not horizontally scaled!)
+(Note that this is unnecessary if deployments are not horizontally scaled and/or zero downtime!)
 
 ## GTFS, disruptions, and other polling
 
 GTFS data, disruptions, and other polled data are stored in memory for performance reasons. This means that if multiple instances are running, each instance will have its own copy of the data in memory. When data needs to be updated, those updates need to be synchronized across all instances.
 
-This is achieved through the relay server. CoreQuery instances poll the relay server for updates, at high frequency. As we own the relay server, and are it's only client, we can poll stupidly fast (e.g. every second) without worrying about rate limiting. We poll its `status` endpoint, where the relay server provides hashes of all the data it has. If the hashes differ from what the current instance has, we fetch the updated data.
+This is achieved through the relay server. CoreQuery instances poll the relay server for updates, at high frequency. As we own the relay server, and we're its only client, we can poll stupidly fast (e.g. every second) without worrying about rate limiting. We poll its `status` endpoint, where the relay server provides hashes of all the data it has. If the hashes differ from what the current instance has, we fetch the updated data.
 
 Since we poll extremely frequently, the instances are kept very closely in sync, and the user impact of any discrepancies is minimal.
 
@@ -40,6 +40,6 @@ This could mean, for a brief period of time, the frontend is forced to ping-pong
 
 Ideally, deployments would be configured to switch over to **all** instances of the new code when ready, all at once. However, depending the platform where the code is deployed, that might not be an option.
 
-This is a difficult problem to solve, and has a relatively minor user impact (it's only short, and the foundational data should remain consistent with each live data response due to the force update mechanism, so I don't expect any errors, just inconsistencies), so for now, no attempt is made to solve it.
+This is a difficult problem to solve, and has a relatively minor user impact (it's only short, and the foundational data should remain consistent with each live data response due to the force update mechanism, so I don't expect any errors, just inconsistencies - **Update: This isn't true, because the FODA is updated via a second query, so might be handled by a different instance. See [FODA-synced queries](./foda-synced-queries-adr.md)**), so for now, no attempt is made to solve it.
 
-Storing stringified foundational data in the database to be re-used on next boot for a certain period of time, at which time all instances would switch over to the new data simultaneously, is a solution that was considered, and may one-day be implemented. However, when the foundational data changes, the GTFS data should ideally be re-parsed (which complicates its synchronization mechanism), so this solution was seen as creating too much complexity for now.
+Storing stringified foundational data in the database to be reused on next boot for a certain period of time, at which time all instances would switch over to the new data simultaneously, is a solution that was considered, and may someday be implemented. However, when the foundational data changes, the GTFS data should ideally be re-parsed (which complicates its synchronization mechanism), so this solution was seen as creating too much complexity for now.
