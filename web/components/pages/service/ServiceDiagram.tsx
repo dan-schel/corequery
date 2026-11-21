@@ -36,7 +36,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
 
 function buildStopStructures(movements: readonly FrontendServiceMovement[]) {
   return movements.map((m) => {
-    if (m.arrivalTime == null && m.departureTime == null) {
+    if (m.isPassing) {
       return {
         content: <ServiceDiagramPassingMovement stopId={m.stopId} />,
         drawMark: false,

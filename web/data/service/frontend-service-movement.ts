@@ -28,6 +28,10 @@ export class FrontendServiceMovement {
     this.formerDepartureTime = fields.formerDepartureTime;
   }
 
+  get isPassing() {
+    return this.arrivalTime == null && this.departureTime == null;
+  }
+
   static wrap(movement: ServiceMovementFromApi) {
     return new FrontendServiceMovement({
       stopId: movement.stopId,
