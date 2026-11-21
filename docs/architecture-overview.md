@@ -18,6 +18,7 @@
   - [FODA-synced APIs](#foda-synced-apis)
   - [Versioning schemes](#versioning-schemes)
   - [Force update mechanism](#force-update-mechanism)
+- [FAQs](#faqs)
 
 ## Introduction
 
@@ -30,8 +31,6 @@ A transit app for Melbourne's train network can share a lot of code with one for
 The most effective way to do that configuration is with Typescript (rather than something like YML), since you can inject logic too. Someone wishing to build a web app using CoreQuery installs it from NPM, writes some Typescript code to import the `Corequery` class, configures it, and calls methods on it to initialise/start the web server, just like it were any other shared library.
 
 The consumer app doesn't build any frontend code, it only configures the server. The frontend code is a static bundle, built when the `corequery` NPM package is built. This means Preact, Vite, etc. are dev dependencies of CoreQuery rather than dependencies, and that all CoreQuery consumers run the exact same frontend code, despite their configuration (well almost, see [Static Data](#static-data) below).
-
-<!-- TODO: Link Static Data above to somewhere. -->
 
 ### 2. CoreQuery is a PWA
 
@@ -146,3 +145,45 @@ Due to this, CoreQuery has a force update mechanism which enables the server to 
 Note that this mechanism works above the level of even the foundational data system, so even if the user is stuck with a broken splash screen (due to some newly introduced bug), this mechanism should still be able to get them unstuck. However, the force update API call is not a blocking query, and it runs entirely in the background. If it fails or times out, the user is not impacted.
 
 At the time of writing, this mechanism can only be used to force update the frontend version. The foundational data already has a force update mechanism of its own via FODA-synced queries, so it doesn't seem necessary to consider it here.
+
+## FAQs
+
+#### What do I need to do if I make a breaking change to an API? <!-- omit in toc -->
+
+Add a new version of the API, and leave the old one alone, or at least try to maintain compatibility as best you can for old frontends. When it's been long enough that you're comfortable removing the old API version, update the handler to the `version-check/v1` API to return `isForceUpdateOfServiceWorkerRequired: true` if the `corequery` package version is older than the one in which the new API version was added.
+
+#### What do I need to do if I make a breaking change to the foundational data? <!-- omit in toc -->
+
+It's the same as any other API breaking change really.
+
+#### If the frontend caches FODA from the V1 API and updates to a frontend version which uses FODA from the V2 API, what happens? <!-- omit in toc -->
+
+Foundational data has a metadata field for which version of the API it came from, and this version is a `z.literal()` in the schema. This means the frontend will fail to parse the data in the cache, as it'll be expecting `z.literal("2")` and the cached data will have `"1"`. This failure to parse is just treated as if the cache was empty, and it's your first time visiting the site. Therefore the frontend will block on the splash screen until it successfully fetches the FODA from the `foundational-data/v2` API.
+
+(Note: Being in metadata, the field that tracks which version of the FODA API it came from is not factored into the hash. Foundational data from different API versions still have the same hash!)
+
+#### If a new field is added to the FODA without a breaking change, will the frontend cache it, or break when the frontend version later updates to require it? <!-- omit in toc -->
+
+For this reason, FODA is actually cached exactly as it is returned by the API, rather than only caching the value which Zod parses.
+
+If it's not clear, the problem occurs when a new field is added to the FODA. It's not a breaking change, so no new API version is needed, but it will cause a hash change because there's more stuff to hash. Even if the new field is added in the same commit as the frontend starts consuming it, client PWAs don't update immediately, so chances are the old frontend version will be the one to see the new FODA hash, and the one to cache it. If it weren't to cache the raw response, including the new field, when the PWA is later updated, it'll try to fetch the FODA from the cache and fail, as the new field won't be there.
+
+Now this wouldn't be a catastrophic situation of course, because the frontend will simply treat the cache as empty and fetch the updated FODA from the API. However, it _can_ lead to [some bugs](https://github.com/dan-schel/corequery/blob/d0a2c77584b29bf95b0de7d9d9295ee913bb80ae/web/components/providers/FoundationalDataProvider.tsx#L81-L93) if we're not careful.
+
+#### Why do FODA-synced queries not return the FODA directly when it's outdated? <!-- omit in toc -->
+
+This is discussed in [FODA-synced queries (ADR)](./foda-synced-queries-adr.md). The short answer is that if APIs returned the FODA directly, a FODA version update would cause a version update of all FODA-synced APIs, which is a DX nightmare.
+
+#### How do FODA-synced queries deal with outdated data in the _request_? <!-- omit in toc -->
+
+Good question. At the time of writing, they don't, and this is handled on a case-by-case basis.
+
+For example, if the departures API receives a request for departures from a stop ID it doesn't recognise, it will return an empty array. If it receives a filter token it doesn't understand (i.e. `line-10` when line 10 doesn't exist), it'll ignore that filter and return it in `invalidFilterTokens` (only so the frontend can inform the user that a filter was removed, the FODA will be synced on the response).
+
+#### What happens when I link someone to `/stops/XYZ`, but their FODA is outdated and doesn't know about that stop? <!-- omit in toc -->
+
+In this situation, even if the usual splash screen FODA refresh times out, CoreQuery is smart enough to trigger a force FODA update. The "Stop Not Found" page doesn't actually render until it has confirmed that the FODA is up-to-date (see `useVersionAssurance()`). Instead, it shows a loading spinner whilst making a call to the `versions/v1` API. If it finds the hash is outdated, the page will trigger a FODA update (similar to how a FODA-synced query can trigger one), continuing to showing the loading spinner until that's done. At that point, the user should be seeing a stop page, as whatever logic sent them to the not found page will no longer be doing so.
+
+#### What happens when I link someone to a brand new page, but their frontend version is outdated and doesn't support it? <!-- omit in toc -->
+
+Similar to the above, the not found page is designed to first check the frontend version before displaying "Not Found", so in this case, the PWA will be force updated, and they should see the new page.

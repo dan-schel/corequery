@@ -1,4 +1,4 @@
-# FODA synced queries (ADR)
+# FODA-synced queries (ADR)
 
 ## Problem
 
