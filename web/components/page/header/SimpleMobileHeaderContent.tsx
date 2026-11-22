@@ -15,7 +15,7 @@ export function SimpleMobileHeaderContent(
 ) {
   return (
     <Row
-      class={clsx(props.class, "gap-2", {
+      class={clsx(props.class, "gap-2 min-w-0", {
         "px-4": props.backHref == null,
         "pl-2 pr-4": props.backHref != null,
       })}
@@ -24,7 +24,9 @@ export function SimpleMobileHeaderContent(
       {props.backHref != null && (
         <Button href={props.backHref} icon={MingcuteLeftLine} theme="hover" />
       )}
-      <TextBlock style="title">{props.title}</TextBlock>
+      <TextBlock style="title" class="shrink min-w-0" oneLine>
+        {props.title}
+      </TextBlock>
     </Row>
   );
 }
