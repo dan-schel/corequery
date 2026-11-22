@@ -16,6 +16,7 @@ type CollapsingHeadersProps = {
     text: string;
   } | null;
   additionalContent?: ComponentChildren;
+  overriddenContent?: ComponentChildren;
 };
 
 export function useCollapsingHeaders(props: CollapsingHeadersProps) {
@@ -47,10 +48,12 @@ export function useCollapsingHeaders(props: CollapsingHeadersProps) {
                   layout="narrow-icon"
                 />
               )}
-              <Column class="gap-4">
-                <TextBlock style="megatitle">{props.title}</TextBlock>
-                {props.additionalContent}
-              </Column>
+              {props.overriddenContent ?? (
+                <Column class="gap-4">
+                  <TextBlock style="megatitle">{props.title}</TextBlock>
+                  {props.additionalContent}
+                </Column>
+              )}
             </Column>
           </Grid>
         </PageCenterer>

@@ -1,19 +1,17 @@
 import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import type {
-  FrontendDepartureTimeStrings,
-  FrontendDepartureTimeStringsDelay,
-} from "@/web/data/frontend-departure-time-strings";
+import type { FormattedServiceTimes } from "@/web/components/service-times/formatted-service-times";
 import { LinesList } from "@/web/components/LinesList";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { useTerminology } from "@/web/hooks/use-terminology";
+import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
 
 type DepartureTimeProps = {
   class?: string;
-  timeStrings: FrontendDepartureTimeStrings;
+  times: FormattedServiceTimes;
   lineIds: readonly number[];
   isCancelled: boolean;
 };
@@ -35,34 +33,25 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
   }
 
   return (
-    <Row class={clsx(props.class, "gap-1")}>
-      {props.timeStrings.delay != null && (
+    <Row class={clsx(props.class)}>
+      {props.times.delay != null && (
         <>
-          <DelayText delay={props.timeStrings.delay} />
-          <TextBlock style="departure-info">&bull;</TextBlock>
+          <ServiceDelayText
+            delay={props.times.delay}
+            showAsterisk={props.times.showAsterisk}
+          />
+          <TextBlock class="bullet-margin" style="departure-info">
+            &bull;
+          </TextBlock>
         </>
       )}
-      {props.timeStrings.schedule != null ? (
+      {props.times.schedule != null ? (
         <TextBlock style="departure-info" class="shrink min-w-0" oneLine>
-          Scheduled for {props.timeStrings.schedule}
+          Scheduled for {props.times.schedule}
         </TextBlock>
       ) : (
         <LinesList style="departure-info" lineIds={props.lineIds} />
       )}
     </Row>
   );
-}
-
-type DelayTextProps = {
-  delay: FrontendDepartureTimeStringsDelay;
-};
-
-function DelayText(props: DelayTextProps) {
-  const style = {
-    green: "departure-info-success" as const,
-    yellow: "departure-info-warning" as const,
-    red: "departure-info-error" as const,
-  }[props.delay.color];
-
-  return <TextBlock style={style}>{props.delay.text}</TextBlock>;
 }

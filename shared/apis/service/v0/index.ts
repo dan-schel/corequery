@@ -11,6 +11,16 @@ const argsSchema = z.object({
   intrasourceId: z.string(),
 });
 
+const timeSchema = z.object({
+  timeType: z.enum([
+    "scheduled-time",
+    "provided-live-time",
+    "interpolated-live-time",
+  ]),
+  time: z.string(),
+  formerTime: z.string().nullable(),
+});
+
 const resultSchema = createFodaSyncedResultSchema(
   z.object({
     service: z
@@ -34,12 +44,8 @@ const resultSchema = createFodaSyncedResultSchema(
           .object({
             stopId: z.number(),
             positionId: z.number().nullable(),
-
-            arrivalTime: z.string().nullable(),
-            formerArrivalTime: z.string().nullable(),
-
-            departureTime: z.string().nullable(),
-            formerDepartureTime: z.string().nullable(),
+            arrival: timeSchema.nullable(),
+            departure: timeSchema.nullable(),
           })
           .array()
           .readonly(),

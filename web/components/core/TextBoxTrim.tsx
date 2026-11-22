@@ -45,3 +45,7 @@ export function getTextBoxHeightRem(fontSize: number | keyof typeof textSizes) {
 
   return remSize * lineHeight - negativeMargin * 2 * remSize;
 }
+
+export function getTextBoxHeightPx(fontSize: number | keyof typeof textSizes) {
+  return getTextBoxHeightRem(fontSize) * 16;
+}

@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
-import { DepartureTime } from "@/web/components/departure/DepartureTime";
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
@@ -21,8 +21,8 @@ export function Departure(props: DepartureProps) {
   const { currentMinute } = useNow();
   const { foda } = useFoundationalData();
 
-  const timeStrings = useMemo(
-    () => props.departure.getTimeStrings(currentMinute, foda.formatTimezone),
+  const formattedTimes = useMemo(
+    () => props.departure.getFormattedTimes(currentMinute, foda.formatTimezone),
     [props.departure, currentMinute, foda.formatTimezone],
   );
 
@@ -32,7 +32,7 @@ export function Departure(props: DepartureProps) {
       <Row xAlign="space-between" class="gap-2 ">
         <Row yAlign="bottom" class="gap-1 shrink min-w-0">
           <TextBlock
-            style={"departure-headline"}
+            style={"departure-headline-strong"}
             dynamicColor={props.departure.color}
           >
             {props.departure.primaryDestinationText}
@@ -48,11 +48,10 @@ export function Departure(props: DepartureProps) {
             </TextBlock>
           )}
         </Row>
-        <DepartureTime
-          timeType={props.departure.timeType}
-          isCancelled={props.departure.isCancelled}
-          timeStrings={timeStrings}
-          serviceColor={props.departure.color}
+        <ServiceTimesText
+          style="departure"
+          times={formattedTimes}
+          dynamicColor={props.departure.color}
         />
       </Row>
       <Row xAlign="space-between" yAlign="bottom">
@@ -68,7 +67,7 @@ export function Departure(props: DepartureProps) {
             The stopping pattern goes here
           </TextBlock>
           <DepartureInfoRow
-            timeStrings={timeStrings}
+            times={formattedTimes}
             lineIds={props.departure.lineIds}
             isCancelled={props.departure.isCancelled}
           />

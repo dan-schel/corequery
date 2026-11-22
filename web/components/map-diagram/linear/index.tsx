@@ -14,15 +14,23 @@ import { MapDiagramError } from "@/web/components/map-diagram/base/Error";
 
 export const STOPS_SECTION_CLASS = "_diagram-stops";
 
+const spacingClasses = {
+  regular: "gap-6",
+  loose: "gap-8",
+};
+
 type LinearMapDiagramProps = {
   class?: string;
   structure: LinearMapDiagramStructure;
   lightThemeColorHexCode: string | null;
   darkThemeColorHexCode: string | null;
+  spacing?: keyof typeof spacingClasses;
 };
 
 export function LinearMapDiagram(props: LinearMapDiagramProps) {
   const { settings } = useSettings();
+
+  const spacingClass = spacingClasses[props.spacing ?? "regular"];
 
   const data = useMemo<BaseMapDiagramCanvasData<LinearMapDiagramStructure>>(
     () => ({
@@ -58,7 +66,7 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
         createController={createController}
         data={data}
       />
-      <Column class={clsx("gap-6", STOPS_SECTION_CLASS)}>
+      <Column class={clsx(spacingClass, STOPS_SECTION_CLASS)}>
         {props.structure.stops.map((stop, i) => (
           <Grid key={i}>{stop.content}</Grid>
         ))}

@@ -1,15 +1,13 @@
 import type { DEPARTURES_V0 } from "@/shared/apis";
 import type { TextColor } from "@/web/components/core/ColoredText";
-import { FrontendDepartureTimeStrings } from "@/web/data/frontend-departure-time-strings";
+import { FormattedServiceTimes } from "@/web/components/service-times/formatted-service-times";
+import type { FrontendServiceTimeType } from "@/web/data/service/frontend-service-movement";
 import type { ClientFodaSyncedResultOf } from "@/web/hooks/api/types";
 import { CorequeryUrls } from "@/web/pages/corequery-urls";
 
 type DepartureFromApi = ClientFodaSyncedResultOf<
   typeof DEPARTURES_V0
 >["feeds"][number]["departures"][number];
-
-export type FrontendServiceTypeTime =
-  "scheduled-time" | "provided-live-time" | "interpolated-live-time";
 
 type FrontendDepartureFields = {
   readonly sourceId: string;
@@ -24,7 +22,7 @@ type FrontendDepartureFields = {
 
   readonly stopId: number;
   readonly positionId: number | null;
-  readonly timeType: FrontendServiceTypeTime;
+  readonly timeType: FrontendServiceTimeType;
   readonly time: Temporal.Instant;
   readonly formerTime: Temporal.Instant | null;
   readonly movementIndex: number;
@@ -43,7 +41,7 @@ export class FrontendDeparture {
 
   readonly stopId: number;
   readonly positionId: number | null;
-  readonly timeType: FrontendServiceTypeTime;
+  readonly timeType: FrontendServiceTimeType;
   readonly time: Temporal.Instant;
   readonly formerTime: Temporal.Instant | null;
   readonly movementIndex: number;
@@ -75,8 +73,8 @@ export class FrontendDeparture {
     );
   }
 
-  getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
-    return FrontendDepartureTimeStrings.build(this, now, formatTimezone);
+  getFormattedTimes(now: Temporal.Instant, formatTimezone: string) {
+    return FormattedServiceTimes.fromDeparture(this, now, formatTimezone);
   }
 
   static wrap(stopId: number, departure: DepartureFromApi) {

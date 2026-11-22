@@ -11,6 +11,15 @@ const lineFormattingSchemes = {
   route: (x: string) => `Route ${x}`,
 };
 
+const positionFormattingSchemes = {
+  "platform": (x: string) => `Platform ${x}`,
+  "track": (x: string) => `Track ${x}`,
+  "bay": (x: string) => `Bay ${x}`,
+  "wharf": (x: string) => `Wharf ${x}`,
+  "wharf-and-side": (x: string) => `Wharf/Side ${x}`,
+  "stand": (x: string) => `Stand ${x}`,
+};
+
 const pluralStopsTerms = {
   stop: "stops",
   station: "stations",
@@ -53,6 +62,7 @@ export function useTerminology() {
     return {
       formatStop: stopFormattingSchemes[foda.terminology.stop],
       formatLine: lineFormattingSchemes[foda.terminology.line],
+      formatPosition: positionFormattingSchemes[foda.terminology.stopPosition],
       pluralStopsTerm: pluralStopsTerms[foda.terminology.stop],
       pluralLinesTerm: pluralLinesTerms[foda.terminology.line],
       singularServiceTerm: singularServiceTerm[foda.terminology.service],

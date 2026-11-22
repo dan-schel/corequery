@@ -12,7 +12,7 @@ const config: KnipConfig = {
     "scripts/demo-app/commands/start.ts",
     "scripts/generate-pwa-assets/main.ts",
   ],
-  ignoreDependencies: ["tsc-alias"],
+  ignoreDependencies: [],
   ignoreFiles: [
     "web/components/StatusDot.tsx",
     "web/hooks/api/use-mutation.ts",

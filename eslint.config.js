@@ -30,6 +30,10 @@ const customRules = [
       // Require imports to use the @ alias instead of relative paths.
       "custom/enforce-import-alias": "warn",
 
+      // Keep API versions isolated and consistently named.
+      "custom/isolate-api-imports": "warn",
+      "custom/require-api-version-folder": "warn",
+
       // Warn if debugDelay/debugError are used.
       "custom/warn-debug-delay-or-error": "warn",
 

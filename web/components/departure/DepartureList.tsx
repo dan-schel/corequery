@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { ErrorMessage } from "@/web/components/ErrorMessage";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { MingcuteCalendarXLine } from "@/web/components/icons/MingcuteCalendarXLine";
-import type { FrontendDeparture } from "@/web/data/frontend-departure";
+import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 
 type DepartureListProps = {
   class?: string;
