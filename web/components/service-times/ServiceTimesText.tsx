@@ -11,8 +11,8 @@ const styles = {
     struckoutStyle: "departure-headline-struckout" as const,
   },
   "service-page": {
-    primaryStyle: "departure-headline" as const,
-    struckoutStyle: "departure-headline-struckout" as const,
+    primaryStyle: "regular" as const,
+    struckoutStyle: "struckout" as const,
   },
 };
 

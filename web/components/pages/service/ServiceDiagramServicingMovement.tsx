@@ -19,7 +19,7 @@ type ServiceDiagramServicingMovementProps = {
   isCancelled: boolean;
 };
 
-export const Y_MARK_POSITION = getTextBoxHeightPx("text-mdlg") / 2;
+export const Y_MARK_POSITION = getTextBoxHeightPx("text-md") / 2;
 
 export function ServiceDiagramServicingMovement(
   props: ServiceDiagramServicingMovementProps,
@@ -58,11 +58,7 @@ export function ServiceDiagramServicingMovement(
           "pr-2": formattedTimes.showLiveIcon,
         })}
       >
-        <TextBlock
-          style="departure-headline-strong"
-          class="shrink min-w-0"
-          oneLine
-        >
+        <TextBlock style="strong" class="shrink min-w-0" oneLine>
           <LinkText href={url} style="subtle">
             {stopData.name}
           </LinkText>
