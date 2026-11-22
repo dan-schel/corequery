@@ -4,12 +4,9 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
 import type { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
-import type { FrontendServiceTimeType } from "@/web/data/service/frontend-service-movement";
 
 type DepartureTimeProps = {
   class?: string;
-  timeType: FrontendServiceTimeType;
-  isCancelled: boolean;
   timeStrings: FrontendServiceMovementTimeStrings;
   serviceColor: TextColor | null;
 };
@@ -17,28 +14,17 @@ type DepartureTimeProps = {
 export function DepartureTime(props: DepartureTimeProps) {
   return (
     <Row class={clsx(props.class, "relative gap-1")}>
-      {props.isCancelled ? (
+      {props.timeStrings.struckout != null && (
         <TextBlock style="departure-headline-struckout">
+          {props.timeStrings.struckout}
+        </TextBlock>
+      )}
+      {props.timeStrings.primary != null && (
+        <TextBlock style="departure-headline" dynamicColor={props.serviceColor}>
           {props.timeStrings.primary}
         </TextBlock>
-      ) : (
-        <>
-          {props.timeStrings.struckout != null && (
-            <TextBlock style="departure-headline-struckout">
-              {props.timeStrings.struckout}
-            </TextBlock>
-          )}
-          {props.timeStrings.primary != null && (
-            <TextBlock
-              style="departure-headline"
-              dynamicColor={props.serviceColor}
-            >
-              {props.timeStrings.primary}
-            </TextBlock>
-          )}
-        </>
       )}
-      {props.timeType !== "scheduled-time" && !props.isCancelled && (
+      {props.timeStrings.showLiveIcon && (
         <DepartureLiveIcon
           dynamicColor={props.serviceColor}
           class="absolute right-[-0.65rem] -top-2 text-icon-xs"

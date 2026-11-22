@@ -49,8 +49,6 @@ export function Departure(props: DepartureProps) {
           )}
         </Row>
         <DepartureTime
-          timeType={props.departure.timeType}
-          isCancelled={props.departure.isCancelled}
           timeStrings={timeStrings}
           serviceColor={props.departure.color}
         />

@@ -14,6 +14,7 @@ import { useNow } from "@/web/hooks/use-now";
 type ServiceDiagramServicingMovementProps = {
   class?: string;
   movement: FrontendServiceMovement;
+  isCancelled: boolean;
 };
 
 export const Y_MARK_POSITION = (getTextBoxHeightRem("text-md") * 16) / 2;
@@ -39,8 +40,13 @@ export function ServiceDiagramServicingMovement(
   }, [foda, formatPosition, props.movement]);
 
   const timeStrings = useMemo(
-    () => props.movement.getTimeStrings(currentMinute, foda.formatTimezone),
-    [currentMinute, foda.formatTimezone, props.movement],
+    () =>
+      props.movement.getTimeStrings(
+        props.isCancelled,
+        currentMinute,
+        foda.formatTimezone,
+      ),
+    [currentMinute, foda.formatTimezone, props.movement, props.isCancelled],
   );
 
   // TODO: Show formerTime, timeType asterisks, wifi symbol, etc.
@@ -72,9 +78,11 @@ export function ServiceDiagramServicingMovement(
             {timeStrings.struckout}
           </TextBlock>
         )}
-        <TextBlock class="shrink min-w-0" style="service-time" oneLine>
-          {timeStrings.primary}
-        </TextBlock>
+        {timeStrings.primary != null && (
+          <TextBlock class="shrink min-w-0" style="service-time" oneLine>
+            {timeStrings.primary}
+          </TextBlock>
+        )}
         <DepartureLiveIcon class="text-icon-xs" dynamicColor={null} />
       </Row>
     </Column>

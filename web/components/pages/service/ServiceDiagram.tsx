@@ -21,9 +21,12 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
   const structure = useMemo<LinearMapDiagramStructure>(
     () => ({
       type: "linear",
-      stops: buildStopStructures(props.service.movements),
+      stops: buildStopStructures(
+        props.service.movements,
+        props.service.isCancelled,
+      ),
     }),
-    [props.service.movements],
+    [props.service],
   );
 
   return (
@@ -41,6 +44,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
 
 function buildStopStructures(
   movements: readonly FrontendServiceMovement[],
+  isCancelled: boolean,
 ): StopStructure[] {
   return movements.map((m) => {
     if (m.isPassing) {
@@ -50,7 +54,12 @@ function buildStopStructures(
       };
     } else {
       return {
-        content: <ServiceDiagramServicingMovement movement={m} />,
+        content: (
+          <ServiceDiagramServicingMovement
+            movement={m}
+            isCancelled={isCancelled}
+          />
+        ),
         getOverriddenMarkYPosition: () => Y_MARK_POSITION,
       };
     }

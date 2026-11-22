@@ -45,9 +45,14 @@ export class FrontendServiceMovement {
     return time;
   }
 
-  getTimeStrings(now: Temporal.Instant, formatTimezone: string) {
+  getTimeStrings(
+    isCancelled: boolean,
+    now: Temporal.Instant,
+    formatTimezone: string,
+  ) {
     return FrontendServiceMovementTimeStrings.fromServiceMovement(
       this,
+      isCancelled,
       now,
       formatTimezone,
     );

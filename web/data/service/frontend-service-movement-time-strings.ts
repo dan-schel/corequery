@@ -15,23 +15,40 @@ export type FrontendServiceMovementTimeStringsDelay = {
 };
 
 type FrontendServiceMovementTimeStringsFields = {
-  readonly primary: string;
+  readonly primary: string | null;
   readonly struckout: string | null;
   readonly delay: FrontendServiceMovementTimeStringsDelay | null;
   readonly schedule: string | null;
+  readonly showLiveIcon: boolean;
+  readonly showAsterisk: boolean;
 };
 
 export class FrontendServiceMovementTimeStrings {
-  readonly primary: string;
+  readonly primary: string | null;
   readonly struckout: string | null;
   readonly delay: FrontendServiceMovementTimeStringsDelay | null;
   readonly schedule: string | null;
+  readonly showLiveIcon: boolean;
+  readonly showAsterisk: boolean;
 
   constructor(fields: FrontendServiceMovementTimeStringsFields) {
     this.primary = fields.primary;
     this.struckout = fields.struckout;
     this.delay = fields.delay;
     this.schedule = fields.schedule;
+    this.showLiveIcon = fields.showLiveIcon;
+    this.showAsterisk = fields.showAsterisk;
+  }
+
+  asCancelled() {
+    return new FrontendServiceMovementTimeStrings({
+      primary: null,
+      struckout: this.primary,
+      delay: null,
+      schedule: null,
+      showLiveIcon: false,
+      showAsterisk: false,
+    });
   }
 
   static fromDeparture(
@@ -39,23 +56,22 @@ export class FrontendServiceMovementTimeStrings {
     now: Temporal.Instant,
     formatTimezone: string,
   ) {
-    // Note: We don't consider `departure.isCancelled` here. In that case, the
-    // <DepartureTime> component will just show the primary time struckout, and
-    // everything else gets ignored.
-
     const { time, formerTime, timeType } = departure;
-    return this._fromTimes(time, formerTime, timeType, now, formatTimezone);
+    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone);
+    return departure.isCancelled ? r.asCancelled() : r;
   }
 
   static fromServiceMovement(
     movement: FrontendServiceMovement,
+    isCancelled: boolean,
     now: Temporal.Instant,
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = movement.servicePageTime;
-    return this._fromTimes(time, formerTime, timeType, now, formatTimezone, {
+    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone, {
       neverUseDurations: true,
     });
+    return isCancelled ? r.asCancelled() : r;
   }
 
   private static _fromTimes(
@@ -78,6 +94,8 @@ export class FrontendServiceMovementTimeStrings {
         struckout: null,
         delay: null,
         schedule: null,
+        showLiveIcon: false,
+        showAsterisk: false,
       });
     }
 
@@ -88,6 +106,8 @@ export class FrontendServiceMovementTimeStrings {
 
     const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
+
+    const showAsterisk = timeType === "interpolated-live-time";
 
     if (durationFromNow.total({ unit: "minutes" }) > 60 || neverUseDurations) {
       // If a departure just after midnight is delayed, but it's still an hour
@@ -105,6 +125,8 @@ export class FrontendServiceMovementTimeStrings {
 
         delay,
         schedule: null,
+        showLiveIcon: true,
+        showAsterisk,
       });
     }
 
@@ -117,6 +139,8 @@ export class FrontendServiceMovementTimeStrings {
       struckout: primary !== struckout ? struckout : null,
       delay,
       schedule: formerTimeStr,
+      showLiveIcon: true,
+      showAsterisk,
     });
   }
 
