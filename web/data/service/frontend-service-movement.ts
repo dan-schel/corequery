@@ -1,5 +1,6 @@
 import type { ServiceFromApi } from "@/web/data/service/frontend-service";
 import { FormattedServiceTimes } from "@/web/components/service-times/formatted-service-times";
+import { formatTime } from "@/web/data/time-formatting";
 
 type ServiceMovementFromApi = ServiceFromApi["movements"][number];
 
@@ -43,6 +44,18 @@ export class FrontendServiceMovement {
     }
 
     return time;
+  }
+
+  getFormattedScheduledTime(formatTimezone: string) {
+    const { time, formerTime } = this.servicePageTime;
+
+    const scheduledTime = formerTime ?? time;
+
+    const plainTime = scheduledTime
+      .toZonedDateTimeISO(formatTimezone)
+      .toPlainTime();
+
+    return formatTime(plainTime);
   }
 
   getFormattedTimes(

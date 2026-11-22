@@ -17,7 +17,6 @@ import { useMemo } from "preact/hooks";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { LinesList } from "@/web/components/LinesList";
 import { Row } from "@/web/components/core/Row";
-import { formatTime } from "@/web/data/time-formatting";
 import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
 import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 
@@ -78,21 +77,15 @@ function ServicePageContent(props: ServicePageContentProps) {
   const { foda } = useFoundationalData();
   const { singularServiceTerm } = useTerminology();
 
-  const scheduledTime = useMemo(() => {
-    const times = props.movement.servicePageTime;
-    const scheduledTime = times.formerTime ?? times.time;
-
-    const plainTime = scheduledTime
-      .toZonedDateTimeISO(foda.formatTimezone)
-      .toPlainTime();
-
-    return formatTime(plainTime);
-  }, [foda.formatTimezone, props.movement]);
+  const scheduledTimeStr = useMemo(
+    () => props.movement.getFormattedScheduledTime(foda.formatTimezone),
+    [foda.formatTimezone, props.movement],
+  );
 
   return (
     <Page
       {...useCollapsingHeaders({
-        title: `${scheduledTime} ${props.service.primaryDestinationText} ${singularServiceTerm}`,
+        title: `${scheduledTimeStr} ${props.service.primaryDestinationText} ${singularServiceTerm}`,
         back: {
           href: CorequeryUrls.home,
           text: "Home",
@@ -101,7 +94,7 @@ function ServicePageContent(props: ServicePageContentProps) {
           <Column class="gap-6">
             <Column class="gap-4">
               <TextBlock>
-                {scheduledTime} {singularServiceTerm} to
+                {scheduledTimeStr} {singularServiceTerm} to
               </TextBlock>
               <TextBlock style="megatitle">
                 {props.service.primaryDestinationText}
