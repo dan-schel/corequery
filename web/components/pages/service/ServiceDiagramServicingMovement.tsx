@@ -11,6 +11,7 @@ import { getTextBoxHeightPx } from "@/web/components/core/TextBoxTrim";
 import { useNow } from "@/web/hooks/use-now";
 import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
 import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
+import clsx from "clsx";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
@@ -51,9 +52,17 @@ export function ServiceDiagramServicingMovement(
   );
 
   return (
-    <Column class="gap-3" xAlign="left">
-      <Row class="min-w-0">
-        <TextBlock style="departure-headline-strong">
+    <Column class="gap-3 min-w-0">
+      <Row
+        class={clsx({
+          "pr-2": formattedTimes.showLiveIcon,
+        })}
+      >
+        <TextBlock
+          style="departure-headline-strong"
+          class="shrink min-w-0"
+          oneLine
+        >
           <LinkText href={url} style="subtle">
             {stopData.name}
           </LinkText>
@@ -65,7 +74,7 @@ export function ServiceDiagramServicingMovement(
           dynamicColor={null}
         />
       </Row>
-      <Row class="min-w-0">
+      <Row>
         {formattedTimes.delay != null && (
           <ServiceDelayText
             delay={formattedTimes.delay}
