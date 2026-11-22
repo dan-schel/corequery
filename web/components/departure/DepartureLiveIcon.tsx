@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 export type DepartureLiveIconProps = {
   class?: string;
-  dynamicColor: TextColor | null;
+  dynamicColor?: TextColor | null;
 };
 
 export function DepartureLiveIcon(props: DepartureLiveIconProps) {

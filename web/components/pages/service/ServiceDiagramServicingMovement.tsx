@@ -8,8 +8,9 @@ import { useMemo } from "preact/hooks";
 import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
-import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
 import { useNow } from "@/web/hooks/use-now";
+import { DelayText } from "@/web/components/service-times/DelayText";
+import { DepartureTime } from "@/web/components/service-times/DepartureTime";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
@@ -52,38 +53,29 @@ export function ServiceDiagramServicingMovement(
   // TODO: Show formerTime, timeType asterisks, wifi symbol, etc.
 
   return (
-    <Column class="gap-3">
+    <Column class="gap-3" xAlign="left">
       <Row class="min-w-0">
         <TextBlock style="strong">
           <LinkText href={url} style="subtle">
             {stopData.name}
           </LinkText>
         </TextBlock>
-        {positionStr != null && (
-          <>
-            <TextBlock class="bullet-margin">&bull;</TextBlock>
-            <TextBlock class="shrink min-w-0" oneLine>
-              {positionStr}
-            </TextBlock>
-          </>
-        )}
+
+        <TextBlock class="bullet-margin">&bull;</TextBlock>
+        <DepartureTime
+          timeStrings={timeStrings}
+          dynamicColor={null}
+          style="service-page"
+        />
       </Row>
       <Row class="min-w-0">
-        {timeStrings.struckout != null && (
-          <TextBlock
-            class="shrink min-w-0"
-            style="service-time-struckout"
-            oneLine
-          >
-            {timeStrings.struckout}
+        {timeStrings.delay != null && <DelayText delay={timeStrings.delay} />}
+        <TextBlock class="bullet-margin">&bull;</TextBlock>
+        {positionStr != null && (
+          <TextBlock class="shrink min-w-0" oneLine>
+            {positionStr}
           </TextBlock>
         )}
-        {timeStrings.primary != null && (
-          <TextBlock class="shrink min-w-0" style="service-time" oneLine>
-            {timeStrings.primary}
-          </TextBlock>
-        )}
-        <DepartureLiveIcon class="text-icon-xs" dynamicColor={null} />
       </Row>
     </Column>
   );

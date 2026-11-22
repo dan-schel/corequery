@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
-import { DepartureTime } from "@/web/components/departure/DepartureTime";
+import { DepartureTime } from "@/web/components/service-times/DepartureTime";
 import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
@@ -50,7 +50,8 @@ export function Departure(props: DepartureProps) {
         </Row>
         <DepartureTime
           timeStrings={timeStrings}
-          serviceColor={props.departure.color}
+          dynamicColor={props.departure.color}
+          style="departure"
         />
       </Row>
       <Row xAlign="space-between" yAlign="bottom">

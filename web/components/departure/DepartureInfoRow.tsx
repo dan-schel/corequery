@@ -1,15 +1,13 @@
 import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import type {
-  FrontendServiceMovementTimeStrings,
-  FrontendServiceMovementTimeStringsDelay,
-} from "@/web/data/service/frontend-service-movement-time-strings";
+import type { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
 import { LinesList } from "@/web/components/LinesList";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { useTerminology } from "@/web/hooks/use-terminology";
+import { DelayText } from "@/web/components/service-times/DelayText";
 
 type DepartureTimeProps = {
   class?: string;
@@ -53,18 +51,4 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
       )}
     </Row>
   );
-}
-
-type DelayTextProps = {
-  delay: FrontendServiceMovementTimeStringsDelay;
-};
-
-function DelayText(props: DelayTextProps) {
-  const style = {
-    green: "departure-info-success" as const,
-    yellow: "departure-info-warning" as const,
-    red: "departure-info-error" as const,
-  }[props.delay.color];
-
-  return <TextBlock style={style}>{props.delay.text}</TextBlock>;
 }

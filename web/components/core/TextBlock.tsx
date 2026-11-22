@@ -13,6 +13,7 @@ const styles = {
   "regular": "text-md text-fg",
   "weak": "text-md text-fg-weak",
   "strong": "text-md font-bold text-fg-strong",
+  "struckout": "text-md text-fg-weak-on-bg line-through",
 
   "subtitle": "text-lg font-bold text-fg-strong",
   "title": "text-xl font-bold text-fg-strong",
@@ -39,9 +40,6 @@ const styles = {
     "text-sm text-warning-text font-bold font-stretch-semi-condensed",
   "departure-info-error":
     "text-sm text-error-text font-bold font-stretch-semi-condensed",
-
-  "service-time": "text-mdlg text-fg",
-  "service-time-struckout": "text-mdlg text-fg-weak-on-bg line-through",
 };
 
 const alignments = {
