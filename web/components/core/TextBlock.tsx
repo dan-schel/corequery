@@ -25,10 +25,11 @@ const styles = {
   "tiny-narrow": "text-xs text-fg font-stretch-semi-condensed",
 
   "wordmark": "text-mdlg font-bold text-fg-strong",
-  "disclaimer": "text-xs text-fg font-stretch-semi-condensed",
+  "disclaimer": "text-sm text-fg font-stretch-semi-condensed",
   "skipped-stop": "text-sm text-fg-weak italic",
 
-  "departure-headline": "text-mdlg font-bold text-fg-strong",
+  "departure-headline": "text-mdlg text-fg",
+  "departure-headline-strong": "text-mdlg font-bold text-fg-strong",
   "departure-headline-struckout":
     "text-mdlg text-fg-weak-on-raised line-through",
   "departure-info": "text-sm text-fg font-stretch-semi-condensed",

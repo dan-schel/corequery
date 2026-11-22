@@ -7,7 +7,7 @@ import type { FrontendServiceMovement } from "@/web/data/service/frontend-servic
 import { useMemo } from "preact/hooks";
 import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
-import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
+import { getTextBoxHeightPx } from "@/web/components/core/TextBoxTrim";
 import { useNow } from "@/web/hooks/use-now";
 import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
 import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
@@ -18,7 +18,7 @@ type ServiceDiagramServicingMovementProps = {
   isCancelled: boolean;
 };
 
-export const Y_MARK_POSITION = (getTextBoxHeightRem("text-md") * 16) / 2;
+export const Y_MARK_POSITION = getTextBoxHeightPx("text-mdlg") / 2;
 
 export function ServiceDiagramServicingMovement(
   props: ServiceDiagramServicingMovementProps,
@@ -50,12 +50,10 @@ export function ServiceDiagramServicingMovement(
     [currentMinute, foda.formatTimezone, props.movement, props.isCancelled],
   );
 
-  // TODO: Show formerTime, timeType asterisks, wifi symbol, etc.
-
   return (
     <Column class="gap-3" xAlign="left">
       <Row class="min-w-0">
-        <TextBlock style="strong">
+        <TextBlock style="departure-headline-strong">
           <LinkText href={url} style="subtle">
             {stopData.name}
           </LinkText>
@@ -69,11 +67,18 @@ export function ServiceDiagramServicingMovement(
       </Row>
       <Row class="min-w-0">
         {formattedTimes.delay != null && (
-          <ServiceDelayText delay={formattedTimes.delay} />
+          <ServiceDelayText
+            delay={formattedTimes.delay}
+            showAsterisk={formattedTimes.showAsterisk}
+          />
         )}
-        <TextBlock class="bullet-margin">&bull;</TextBlock>
+        {formattedTimes.delay != null && positionStr != null && (
+          <TextBlock class="bullet-margin" style="departure-info">
+            &bull;
+          </TextBlock>
+        )}
         {positionStr != null && (
-          <TextBlock class="shrink min-w-0" oneLine>
+          <TextBlock class="shrink min-w-0" style="departure-info" oneLine>
             {positionStr}
           </TextBlock>
         )}

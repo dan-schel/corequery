@@ -32,7 +32,7 @@ export function Departure(props: DepartureProps) {
       <Row xAlign="space-between" class="gap-2 ">
         <Row yAlign="bottom" class="gap-1 shrink min-w-0">
           <TextBlock
-            style={"departure-headline"}
+            style={"departure-headline-strong"}
             dynamicColor={props.departure.color}
           >
             {props.departure.primaryDestinationText}

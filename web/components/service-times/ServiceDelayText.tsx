@@ -3,6 +3,7 @@ import type { FormattedServiceDelay } from "@/web/components/service-times/forma
 
 type ServiceDelayTextProps = {
   delay: FormattedServiceDelay;
+  showAsterisk: boolean;
 };
 
 export function ServiceDelayText(props: ServiceDelayTextProps) {
@@ -12,5 +13,10 @@ export function ServiceDelayText(props: ServiceDelayTextProps) {
     red: "departure-info-error" as const,
   }[props.delay.color];
 
-  return <TextBlock style={style}>{props.delay.text}</TextBlock>;
+  return (
+    <TextBlock style={style}>
+      {props.delay.text}
+      {props.showAsterisk ? "*" : ""}
+    </TextBlock>
+  );
 }

@@ -36,7 +36,10 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
     <Row class={clsx(props.class)}>
       {props.times.delay != null && (
         <>
-          <ServiceDelayText delay={props.times.delay} />
+          <ServiceDelayText
+            delay={props.times.delay}
+            showAsterisk={props.times.showAsterisk}
+          />
           <TextBlock class="bullet-margin" style="departure-info">
             &bull;
           </TextBlock>

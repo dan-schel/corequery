@@ -7,12 +7,12 @@ import type { FormattedServiceTimes } from "@/web/components/service-times/forma
 
 const styles = {
   "departure": {
-    primaryStyle: "departure-headline" as const,
+    primaryStyle: "departure-headline-strong" as const,
     struckoutStyle: "departure-headline-struckout" as const,
   },
   "service-page": {
-    primaryStyle: "regular" as const,
-    struckoutStyle: "struckout" as const,
+    primaryStyle: "departure-headline" as const,
+    struckoutStyle: "departure-headline-struckout" as const,
   },
 };
 
