@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { Column } from "@/web/components/core/Column";
 import { Row } from "@/web/components/core/Row";
-import { DepartureTime } from "@/web/components/service-times/DepartureTime";
+import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
 import type { FrontendDeparture } from "@/web/data/departure/frontend-departure";
 import { useMemo } from "preact/hooks";
 import { useNow } from "@/web/hooks/use-now";
@@ -21,8 +21,8 @@ export function Departure(props: DepartureProps) {
   const { currentMinute } = useNow();
   const { foda } = useFoundationalData();
 
-  const timeStrings = useMemo(
-    () => props.departure.getTimeStrings(currentMinute, foda.formatTimezone),
+  const formattedTimes = useMemo(
+    () => props.departure.getFormattedTimes(currentMinute, foda.formatTimezone),
     [props.departure, currentMinute, foda.formatTimezone],
   );
 
@@ -48,10 +48,10 @@ export function Departure(props: DepartureProps) {
             </TextBlock>
           )}
         </Row>
-        <DepartureTime
-          timeStrings={timeStrings}
-          dynamicColor={props.departure.color}
+        <ServiceTimesText
           style="departure"
+          times={formattedTimes}
+          dynamicColor={props.departure.color}
         />
       </Row>
       <Row xAlign="space-between" yAlign="bottom">
@@ -67,7 +67,7 @@ export function Departure(props: DepartureProps) {
             The stopping pattern goes here
           </TextBlock>
           <DepartureInfoRow
-            timeStrings={timeStrings}
+            times={formattedTimes}
             lineIds={props.departure.lineIds}
             isCancelled={props.departure.isCancelled}
           />

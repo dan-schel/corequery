@@ -9,8 +9,8 @@ import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { useNow } from "@/web/hooks/use-now";
-import { DelayText } from "@/web/components/service-times/DelayText";
-import { DepartureTime } from "@/web/components/service-times/DepartureTime";
+import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
+import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
@@ -40,9 +40,9 @@ export function ServiceDiagramServicingMovement(
     return formatPosition(position.name);
   }, [foda, formatPosition, props.movement]);
 
-  const timeStrings = useMemo(
+  const formattedTimes = useMemo(
     () =>
-      props.movement.getTimeStrings(
+      props.movement.getFormattedTimes(
         props.isCancelled,
         currentMinute,
         foda.formatTimezone,
@@ -60,16 +60,17 @@ export function ServiceDiagramServicingMovement(
             {stopData.name}
           </LinkText>
         </TextBlock>
-
         <TextBlock class="bullet-margin">&bull;</TextBlock>
-        <DepartureTime
-          timeStrings={timeStrings}
-          dynamicColor={null}
+        <ServiceTimesText
           style="service-page"
+          times={formattedTimes}
+          dynamicColor={null}
         />
       </Row>
       <Row class="min-w-0">
-        {timeStrings.delay != null && <DelayText delay={timeStrings.delay} />}
+        {formattedTimes.delay != null && (
+          <ServiceDelayText delay={formattedTimes.delay} />
+        )}
         <TextBlock class="bullet-margin">&bull;</TextBlock>
         {positionStr != null && (
           <TextBlock class="shrink min-w-0" oneLine>

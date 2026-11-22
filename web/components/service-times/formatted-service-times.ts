@@ -9,29 +9,29 @@ import {
   formatTime,
 } from "@/web/data/time-formatting";
 
-export type FrontendServiceMovementTimeStringsDelay = {
+export type FormattedServiceDelay = {
   readonly text: string;
   readonly color: "green" | "yellow" | "red";
 };
 
-type FrontendServiceMovementTimeStringsFields = {
+type FormattedServiceTimesFields = {
   readonly primary: string | null;
   readonly struckout: string | null;
-  readonly delay: FrontendServiceMovementTimeStringsDelay | null;
+  readonly delay: FormattedServiceDelay | null;
   readonly schedule: string | null;
   readonly showLiveIcon: boolean;
   readonly showAsterisk: boolean;
 };
 
-export class FrontendServiceMovementTimeStrings {
+export class FormattedServiceTimes {
   readonly primary: string | null;
   readonly struckout: string | null;
-  readonly delay: FrontendServiceMovementTimeStringsDelay | null;
+  readonly delay: FormattedServiceDelay | null;
   readonly schedule: string | null;
   readonly showLiveIcon: boolean;
   readonly showAsterisk: boolean;
 
-  constructor(fields: FrontendServiceMovementTimeStringsFields) {
+  constructor(fields: FormattedServiceTimesFields) {
     this.primary = fields.primary;
     this.struckout = fields.struckout;
     this.delay = fields.delay;
@@ -41,7 +41,7 @@ export class FrontendServiceMovementTimeStrings {
   }
 
   asCancelled() {
-    return new FrontendServiceMovementTimeStrings({
+    return new FormattedServiceTimes({
       primary: null,
       struckout: this.primary,
       delay: null,
@@ -89,7 +89,7 @@ export class FrontendServiceMovementTimeStrings {
     });
 
     if (timeType === "scheduled-time" || formerTime == null) {
-      return new FrontendServiceMovementTimeStrings({
+      return new FormattedServiceTimes({
         primary: timeStr,
         struckout: null,
         delay: null,
@@ -115,7 +115,7 @@ export class FrontendServiceMovementTimeStrings {
       // rather than "~~12:05am tonight~~ 12:08am tonight".
       const formerTimeStrShort = formatTime(formerTimeLocal.toPlainTime());
 
-      return new FrontendServiceMovementTimeStrings({
+      return new FormattedServiceTimes({
         primary: timeStr,
 
         // `timeStr !== formerTimeStr` is intentional, because
@@ -134,7 +134,7 @@ export class FrontendServiceMovementTimeStrings {
     const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 
-    return new FrontendServiceMovementTimeStrings({
+    return new FormattedServiceTimes({
       primary,
       struckout: primary !== struckout ? struckout : null,
       delay,
@@ -146,7 +146,7 @@ export class FrontendServiceMovementTimeStrings {
 
   private static _getDelay(
     delayDuration: Temporal.Duration,
-  ): FrontendServiceMovementTimeStringsDelay {
+  ): FormattedServiceDelay {
     const minutes = delayDuration.total({ unit: "minutes" });
     const formatted = formatDuration(delayDuration, { suppressAgo: true });
 

@@ -1,17 +1,17 @@
 import clsx from "clsx";
 import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
-import type { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
+import type { FormattedServiceTimes } from "@/web/components/service-times/formatted-service-times";
 import { LinesList } from "@/web/components/LinesList";
 import { MingcuteAlertDiamondLine } from "@/web/components/icons/MingcuteAlertDiamondLine";
 import { VerticalBleed } from "@/web/components/core/VerticalBleed";
 import { getTextBoxHeightRem } from "@/web/components/core/TextBoxTrim";
 import { useTerminology } from "@/web/hooks/use-terminology";
-import { DelayText } from "@/web/components/service-times/DelayText";
+import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
 
 type DepartureTimeProps = {
   class?: string;
-  timeStrings: FrontendServiceMovementTimeStrings;
+  times: FormattedServiceTimes;
   lineIds: readonly number[];
   isCancelled: boolean;
 };
@@ -34,17 +34,17 @@ export function DepartureInfoRow(props: DepartureTimeProps) {
 
   return (
     <Row class={clsx(props.class)}>
-      {props.timeStrings.delay != null && (
+      {props.times.delay != null && (
         <>
-          <DelayText delay={props.timeStrings.delay} />
+          <ServiceDelayText delay={props.times.delay} />
           <TextBlock class="bullet-margin" style="departure-info">
             &bull;
           </TextBlock>
         </>
       )}
-      {props.timeStrings.schedule != null ? (
+      {props.times.schedule != null ? (
         <TextBlock style="departure-info" class="shrink min-w-0" oneLine>
-          Scheduled for {props.timeStrings.schedule}
+          Scheduled for {props.times.schedule}
         </TextBlock>
       ) : (
         <LinesList style="departure-info" lineIds={props.lineIds} />

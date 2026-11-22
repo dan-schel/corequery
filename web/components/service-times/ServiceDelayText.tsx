@@ -1,11 +1,11 @@
 import { TextBlock } from "@/web/components/core/TextBlock";
-import type { FrontendServiceMovementTimeStringsDelay } from "@/web/data/service/frontend-service-movement-time-strings";
+import type { FormattedServiceDelay } from "@/web/components/service-times/formatted-service-times";
 
-type DelayTextProps = {
-  delay: FrontendServiceMovementTimeStringsDelay;
+type ServiceDelayTextProps = {
+  delay: FormattedServiceDelay;
 };
 
-export function DelayText(props: DelayTextProps) {
+export function ServiceDelayText(props: ServiceDelayTextProps) {
   const style = {
     green: "departure-info-success" as const,
     yellow: "departure-info-warning" as const,

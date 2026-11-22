@@ -3,7 +3,7 @@ import { Row } from "@/web/components/core/Row";
 import { TextBlock } from "@/web/components/core/TextBlock";
 import { type TextColor } from "@/web/components/core/ColoredText";
 import { DepartureLiveIcon } from "@/web/components/departure/DepartureLiveIcon";
-import type { FrontendServiceMovementTimeStrings } from "@/web/data/service/frontend-service-movement-time-strings";
+import type { FormattedServiceTimes } from "@/web/components/service-times/formatted-service-times";
 
 const styles = {
   "departure": {
@@ -16,29 +16,29 @@ const styles = {
   },
 };
 
-type DepartureTimeProps = {
+type ServiceTimesTextProps = {
   class?: string;
-  timeStrings: FrontendServiceMovementTimeStrings;
+  times: FormattedServiceTimes;
   dynamicColor?: TextColor | null;
   style: keyof typeof styles;
 };
 
-export function DepartureTime(props: DepartureTimeProps) {
+export function ServiceTimesText(props: ServiceTimesTextProps) {
   const style = styles[props.style];
 
   return (
     <Row class={clsx(props.class, "relative gap-1")}>
-      {props.timeStrings.struckout != null && (
+      {props.times.struckout != null && (
         <TextBlock style={style.struckoutStyle}>
-          {props.timeStrings.struckout}
+          {props.times.struckout}
         </TextBlock>
       )}
-      {props.timeStrings.primary != null && (
+      {props.times.primary != null && (
         <TextBlock style={style.primaryStyle} dynamicColor={props.dynamicColor}>
-          {props.timeStrings.primary}
+          {props.times.primary}
         </TextBlock>
       )}
-      {props.timeStrings.showLiveIcon && (
+      {props.times.showLiveIcon && (
         <DepartureLiveIcon
           dynamicColor={props.dynamicColor}
           class="absolute right-[-0.65rem] -top-2 text-icon-xs"
