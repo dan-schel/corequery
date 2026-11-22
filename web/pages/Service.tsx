@@ -14,6 +14,9 @@ import { useTerminology } from "@/web/hooks/use-terminology";
 import { CorequeryUrls } from "@/web/pages/corequery-urls";
 import { FrontendService } from "@/web/data/service/frontend-service";
 import { useMemo } from "preact/hooks";
+import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
+import { LinesList } from "@/web/components/LinesList";
+import { Row } from "@/web/components/core/Row";
 
 export default function Service() {
   const {
@@ -64,26 +67,54 @@ type ServicePageContentProps = {
 
 function ServicePageContent(props: ServicePageContentProps) {
   const { singularServiceTerm } = useTerminology();
+  const time = "X:XXpm";
 
   return (
     <Page
-      {...useSimpleHeaders({
-        title: `${props.service.primaryDestinationText} ${singularServiceTerm}`,
+      {...useCollapsingHeaders({
+        title: `${time} ${props.service.primaryDestinationText} ${props.service.primaryDestinationText}`,
         back: {
           href: CorequeryUrls.home,
           text: "Home",
         },
+        overriddenContent: (
+          <Column class="gap-6">
+            <Column class="gap-4">
+              <TextBlock>
+                {time} {singularServiceTerm} to
+              </TextBlock>
+              <TextBlock style="megatitle">
+                {props.service.primaryDestinationText}
+              </TextBlock>
+            </Column>
+            <LinesList lineIds={props.service.lineIds} withLinks />
+          </Column>
+        ),
       })}
     >
-      <Column class="px-4 py-8 gap-8">
-        {/* TODO: Collapse (and show faded ) */}
-        <ServiceDiagram service={props.service} />
+      <Column class="gap-8 desktop:py-6 pb-8">
+        <Column class="desktop:gap-2 desktop:mx-4">
+          <Row class="bg-bg-raised p-4 border-soft-border desktop:border not-desktop:border-b desktop:rounded-lg">
+            <TextBlock style="departure-info">
+              Whether the train is running on time, delayed, cancelled, etc.
+            </TextBlock>
+          </Row>
+          <Row class="bg-bg-raised p-4 border-soft-border desktop:border not-desktop:border-b desktop:rounded-lg">
+            <TextBlock style="departure-info">
+              A disruption message or something.
+            </TextBlock>
+          </Row>
+        </Column>
+        <Column class="px-4 gap-8">
+          {/* TODO: Collapse (and show faded ) */}
+          <ServiceDiagram service={props.service} />
 
-        {/* TODO: Only show if applicable. */}
-        <TextBlock style="disclaimer">
-          (Real-time data has not been provided for all stops. Times marked with
-          * are estimates, extrapolated from the available data.)
-        </TextBlock>
+          {/* TODO: Only show if applicable. */}
+          <TextBlock style="disclaimer">
+            (Real-time data has not been provided for all stops. Times marked
+            with * are estimates, extrapolated from the available data.)
+          </TextBlock>
+        </Column>
       </Column>
     </Page>
   );
