@@ -17,6 +17,9 @@ import { useMemo } from "preact/hooks";
 import { useCollapsingHeaders } from "@/web/components/page/header/use-collapsing-mobile-header";
 import { LinesList } from "@/web/components/LinesList";
 import { Row } from "@/web/components/core/Row";
+import { formatTime } from "@/web/data/time-formatting";
+import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
+import { useFoundationalData } from "@/web/hooks/use-foundational-data";
 
 export default function Service() {
   const {
@@ -37,24 +40,29 @@ export default function Service() {
 
   const movementIndex = parseIntNull(from ?? "");
 
+  const movement = useMemo(() => {
+    if (service == null || movementIndex == null) return null;
+    const movement = service.movements[movementIndex];
+
+    if (movement == null || movement.isPassing) return null;
+    return movement;
+  }, [service, movementIndex]);
+
   if (loading) {
     return <ServiceLoadingPage />;
-  } else if (
-    error != null ||
-    data == null ||
-    movementIndex == null ||
-    movementIndex < 0 ||
-    (service != null && movementIndex > service.movements.length - 1)
-  ) {
+  } else if (error != null || data == null) {
     return <ServiceErrorPage />;
   } else if (service == null) {
     return <ServiceNotFoundPage />;
+  } else if (movement == null || movementIndex == null) {
+    return <ServiceErrorPage />;
   } else {
     return (
       <ServicePageContent
         key={`${sourceId}/${intrasourceId}`}
         service={service}
         movementIndex={movementIndex}
+        movement={movement}
       />
     );
   }
@@ -63,16 +71,28 @@ export default function Service() {
 type ServicePageContentProps = {
   service: FrontendService;
   movementIndex: number;
+  movement: FrontendServiceMovement;
 };
 
 function ServicePageContent(props: ServicePageContentProps) {
+  const { foda } = useFoundationalData();
   const { singularServiceTerm } = useTerminology();
-  const time = "X:XXpm";
+
+  const scheduledTime = useMemo(() => {
+    const times = props.movement.servicePageTime;
+    const scheduledTime = times.formerTime ?? times.time;
+
+    const plainTime = scheduledTime
+      .toZonedDateTimeISO(foda.formatTimezone)
+      .toPlainTime();
+
+    return formatTime(plainTime);
+  }, [foda.formatTimezone, props.movement]);
 
   return (
     <Page
       {...useCollapsingHeaders({
-        title: `${time} ${props.service.primaryDestinationText} ${props.service.primaryDestinationText}`,
+        title: `${scheduledTime} ${props.service.primaryDestinationText} ${singularServiceTerm}`,
         back: {
           href: CorequeryUrls.home,
           text: "Home",
@@ -81,7 +101,7 @@ function ServicePageContent(props: ServicePageContentProps) {
           <Column class="gap-6">
             <Column class="gap-4">
               <TextBlock>
-                {time} {singularServiceTerm} to
+                {scheduledTime} {singularServiceTerm} to
               </TextBlock>
               <TextBlock style="megatitle">
                 {props.service.primaryDestinationText}
