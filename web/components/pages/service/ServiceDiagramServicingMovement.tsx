@@ -70,24 +70,26 @@ export function ServiceDiagramServicingMovement(
           dynamicColor={null}
         />
       </Row>
-      <Row>
-        {formattedTimes.delay != null && (
-          <ServiceDelayText
-            delay={formattedTimes.delay}
-            showAsterisk={formattedTimes.showAsterisk}
-          />
-        )}
-        {formattedTimes.delay != null && positionStr != null && (
-          <TextBlock class="bullet-margin" style="departure-info">
-            &bull;
-          </TextBlock>
-        )}
-        {positionStr != null && (
-          <TextBlock class="shrink min-w-0" style="departure-info" oneLine>
-            {positionStr}
-          </TextBlock>
-        )}
-      </Row>
+      {(formattedTimes.delay != null || positionStr != null) && (
+        <Row>
+          {formattedTimes.delay != null && (
+            <ServiceDelayText
+              delay={formattedTimes.delay}
+              showAsterisk={formattedTimes.showAsterisk}
+            />
+          )}
+          {formattedTimes.delay != null && positionStr != null && (
+            <TextBlock class="bullet-margin" style="departure-info">
+              &bull;
+            </TextBlock>
+          )}
+          {positionStr != null && (
+            <TextBlock class="shrink min-w-0" style="departure-info" oneLine>
+              {positionStr}
+            </TextBlock>
+          )}
+        </Row>
+      )}
     </Column>
   );
 }
