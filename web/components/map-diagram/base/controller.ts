@@ -8,7 +8,7 @@ import type {
 
 export const NOTCH_WIDTH = 16;
 const NOTCH_HEIGHT = 6;
-export const LINE_WIDTH = 6;
+const LINE_WIDTH = 6;
 const OVERSHOOT = 1;
 
 type Side = "left" | "right";
@@ -29,11 +29,10 @@ export abstract class BaseMapDiagramController<
   }
 
   override onRender(): void {
-    // The fill/strokes can be drawn literally whatever color we want. We use
+    // The strokes can be drawn literally whatever color we want. We use
     // `globalCompositeOperation` below to draw the color over them, and
     // essentially use these strokes as a mask.
     this.ctx.strokeStyle = "#000000";
-    this.ctx.fillStyle = "#000000";
 
     this._onRenderStructure();
 
@@ -100,12 +99,6 @@ export abstract class BaseMapDiagramController<
     this.ctx.moveTo(termination ? x - (NOTCH_WIDTH / 2) * dir : x, y);
     this.ctx.lineTo(x + (NOTCH_WIDTH / 2) * dir, y);
     this.ctx.stroke();
-  }
-
-  protected _drawCircle(x: number, y: number, radius: number) {
-    this.ctx.beginPath();
-    this.ctx.ellipse(x, y, radius, radius, 0, 0, 2 * Math.PI);
-    this.ctx.fill();
   }
 
   protected _extractYLevels(stops: readonly StopStructure[], inner: string) {

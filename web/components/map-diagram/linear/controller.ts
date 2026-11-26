@@ -1,14 +1,10 @@
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
-import {
-  BaseMapDiagramController,
-  LINE_WIDTH,
-} from "@/web/components/map-diagram/base/controller";
+import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
 import { STOPS_SECTION_CLASS } from "@/web/components/map-diagram/linear";
 import { itsOk } from "@dan-schel/js-utils";
 
-const CONTINUING_BUBBLES_OFFSETS = 10;
-const CONTINUING_BUBBLES_RADIUS = LINE_WIDTH / 2;
-const CONTINUING_BUBBLES_COUNT = 4;
+const CONTINUING_DASHES_LENGTHS = [2, 3, 4];
+const CONTINUING_DASHES_GAPS = 4;
 
 export class LinearMapDiagramController extends BaseMapDiagramController<LinearMapDiagramStructure> {
   protected override _onRenderStructure() {
@@ -26,9 +22,9 @@ export class LinearMapDiagramController extends BaseMapDiagramController<LinearM
       notchSide: "right",
     });
 
-    const bubblesHeight =
-      CONTINUING_BUBBLES_OFFSETS * (CONTINUING_BUBBLES_COUNT - 1) +
-      CONTINUING_BUBBLES_RADIUS;
+    const dashesHeight =
+      CONTINUING_DASHES_GAPS * CONTINUING_DASHES_LENGTHS.length +
+      CONTINUING_DASHES_LENGTHS.reduce((a, b) => a + b, 0);
 
     if (structure.continuingAboveContent != null) {
       // renderSection would crash if there were no stops, and extractYLevels
@@ -37,16 +33,17 @@ export class LinearMapDiagramController extends BaseMapDiagramController<LinearM
       const topY = itsOk(yLevels[0]);
 
       this._drawLine((ctx) => {
-        ctx.moveTo(x, bubblesHeight);
+        ctx.moveTo(x, dashesHeight);
         ctx.lineTo(x, topY);
       });
 
-      for (let i = 0; i < CONTINUING_BUBBLES_COUNT; i++) {
-        this._drawCircle(
-          x,
-          bubblesHeight - i * CONTINUING_BUBBLES_OFFSETS,
-          CONTINUING_BUBBLES_RADIUS,
-        );
+      let y = 0;
+      for (const length of CONTINUING_DASHES_LENGTHS) {
+        this._drawLine((ctx) => {
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + length);
+        });
+        y += length + CONTINUING_DASHES_GAPS;
       }
     }
 
@@ -55,15 +52,16 @@ export class LinearMapDiagramController extends BaseMapDiagramController<LinearM
 
       this._drawLine((ctx) => {
         ctx.moveTo(x, bottomY);
-        ctx.lineTo(x, this.height - bubblesHeight);
+        ctx.lineTo(x, this.height - dashesHeight);
       });
 
-      for (let i = 0; i < CONTINUING_BUBBLES_COUNT; i++) {
-        this._drawCircle(
-          x,
-          this.height - bubblesHeight + i * CONTINUING_BUBBLES_OFFSETS,
-          CONTINUING_BUBBLES_RADIUS,
-        );
+      let y = this.height;
+      for (const length of CONTINUING_DASHES_LENGTHS) {
+        this._drawLine((ctx) => {
+          ctx.moveTo(x, y - length);
+          ctx.lineTo(x, y);
+        });
+        y -= length + CONTINUING_DASHES_GAPS;
       }
     }
   }
