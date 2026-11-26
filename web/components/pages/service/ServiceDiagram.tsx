@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Grid } from "@/web/components/core/Grid";
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
 import { LinearMapDiagram } from "@/web/components/map-diagram/linear";
-import { useMemo } from "preact/hooks";
+import { useCallback, useMemo, useState } from "preact/hooks";
 import { ServiceDiagramPassingMovement } from "@/web/components/pages/service/ServiceDiagramPassingMovement";
 import {
   ServiceDiagramServicingMovement,
@@ -11,7 +11,8 @@ import {
 import type { FrontendService } from "@/web/data/service/frontend-service";
 import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
 import type { StopStructure } from "@/web/components/map-diagram/base/types";
-import { TextBlock } from "@/web/components/core/TextBlock";
+import { ServiceDiagramCollapsedButton } from "@/web/components/pages/service/ServiceDiagramCollapsedButton";
+import { itsOk } from "@dan-schel/js-utils";
 
 type ServiceDiagramProps = {
   class?: string;
@@ -20,25 +21,41 @@ type ServiceDiagramProps = {
 };
 
 export function ServiceDiagram(props: ServiceDiagramProps) {
-  const structure = useMemo<LinearMapDiagramStructure>(
-    () => ({
-      type: "linear",
-      stops: buildStopStructures(
-        props.service.movements,
-        props.service.isCancelled,
-      ),
-      continuingAboveContent: (
-        <TextBlock style="skipped-stop">Has good vibes</TextBlock>
-      ),
-      continuingBelowContent: (
-        <TextBlock style="skipped-stop">Has bad vibes</TextBlock>
-      ),
-      transparentUntilStopIndex: props.movementIndex,
-    }),
-    [props.service, props.movementIndex],
-  );
+  const canCollapse = props.movementIndex > 2;
 
-  // TODO: Make it collapsable if movementIndex is greater than 2.
+  // TODO: Make sure this resets when the service/movementIndex changes.
+  const [collapsed, setCollapsed] = useState(canCollapse);
+
+  const handleExpand = useCallback(() => setCollapsed(false), []);
+
+  const structure = useMemo<LinearMapDiagramStructure>(() => {
+    const allStops = buildStopStructures(
+      props.service.movements,
+      props.service.isCancelled,
+    );
+
+    if (collapsed) {
+      const originatingMovement = itsOk(props.service.movements[0]);
+
+      return {
+        type: "linear",
+        stops: allStops.slice(props.movementIndex),
+        transparentUntilStopIndex: 0,
+        continuingAboveContent: (
+          <ServiceDiagramCollapsedButton
+            onClick={handleExpand}
+            movement={originatingMovement}
+          />
+        ),
+      };
+    }
+
+    return {
+      type: "linear",
+      stops: allStops,
+      transparentUntilStopIndex: props.movementIndex,
+    };
+  }, [props.service, props.movementIndex, collapsed, handleExpand]);
 
   return (
     <Grid class={clsx(props.class)}>
