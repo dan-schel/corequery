@@ -66,10 +66,14 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
         createController={createController}
         data={data}
       />
-      <Column class={clsx(spacingClass, STOPS_SECTION_CLASS)}>
-        {props.structure.stops.map((stop, i) => (
-          <Grid key={i}>{stop.content}</Grid>
-        ))}
+      <Column class={clsx(spacingClass)}>
+        {props.structure.continuingAboveContent}
+        <Column class={clsx(spacingClass, STOPS_SECTION_CLASS)}>
+          {props.structure.stops.map((stop, i) => (
+            <Grid key={i}>{stop.content}</Grid>
+          ))}
+        </Column>
+        {props.structure.continuingBelowContent}
       </Column>
     </Grid>
   );
