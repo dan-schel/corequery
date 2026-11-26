@@ -16,6 +16,7 @@ import { TextBlock } from "@/web/components/core/TextBlock";
 type ServiceDiagramProps = {
   class?: string;
   service: FrontendService;
+  movementIndex: number;
 };
 
 export function ServiceDiagram(props: ServiceDiagramProps) {
@@ -32,9 +33,12 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
       continuingBelowContent: (
         <TextBlock style="skipped-stop">Has bad vibes</TextBlock>
       ),
+      transparentUntilStopIndex: props.movementIndex,
     }),
-    [props.service],
+    [props.service, props.movementIndex],
   );
+
+  // TODO: Make it collapsable if movementIndex is greater than 2.
 
   return (
     <Grid class={clsx(props.class)}>

@@ -1,5 +1,8 @@
 import type { LinearMapDiagramStructure } from "@/web/components/map-diagram/linear/types";
-import { BaseMapDiagramController } from "@/web/components/map-diagram/base/controller";
+import {
+  BaseMapDiagramController,
+  NOTCH_HEIGHT,
+} from "@/web/components/map-diagram/base/controller";
 import { STOPS_SECTION_CLASS } from "@/web/components/map-diagram/linear";
 import { itsOk } from "@dan-schel/js-utils";
 
@@ -64,5 +67,16 @@ export class LinearMapDiagramController extends BaseMapDiagramController<LinearM
         y -= length + CONTINUING_DASHES_GAPS;
       }
     }
+  }
+
+  protected override _getTransparencyYLevel(): number | null {
+    const structure = this.data.structure;
+    if (structure.transparentUntilStopIndex == null) return null;
+
+    const yLevels = this._extractYLevels(structure.stops, STOPS_SECTION_CLASS);
+    const result = yLevels[structure.transparentUntilStopIndex];
+    if (result == null) throw new Error("Invalid transparentUntilStopIndex.");
+
+    return result - NOTCH_HEIGHT / 2;
   }
 }

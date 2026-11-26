@@ -7,6 +7,7 @@ export type LinearMapDiagramStructure = {
 
   readonly continuingAboveContent?: ComponentChildren;
   readonly continuingBelowContent?: ComponentChildren;
+  readonly transparentUntilStopIndex?: number;
 
   // TODO: Allow setting a threshold for the faded out section. Only linear
   // needs it, as it's only for the service page.

@@ -59,6 +59,9 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
     return <MapDiagramError />;
   }
 
+  const transparentUntilStopIndex =
+    props.structure.transparentUntilStopIndex ?? 0;
+
   return (
     <Grid class={clsx(props.class, "grid-cols-[auto_1fr] gap-4")}>
       <Canvas<BaseMapDiagramCanvasData<LinearMapDiagramStructure>>
@@ -70,7 +73,14 @@ export function LinearMapDiagram(props: LinearMapDiagramProps) {
         {props.structure.continuingAboveContent}
         <Column class={clsx(spacingClass, STOPS_SECTION_CLASS)}>
           {props.structure.stops.map((stop, i) => (
-            <Grid key={i}>{stop.content}</Grid>
+            <Grid
+              key={i}
+              class={clsx({
+                "opacity-50": i < transparentUntilStopIndex,
+              })}
+            >
+              {stop.content}
+            </Grid>
           ))}
         </Column>
         {props.structure.continuingBelowContent}
