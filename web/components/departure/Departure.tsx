@@ -26,6 +26,10 @@ export function Departure(props: DepartureProps) {
     [props.departure, currentMinute, foda.formatTimezone],
   );
 
+  // TODO: When trips are replaced, they can have a "former" primary
+  // destination, e.g. a Traralgon train which is "replaced" to terminate at
+  // Morwell. In this situation, we should show the old destination struck out.
+
   // Departures are fixed at h-14 (3.5rem).
   return (
     <Column class={clsx(props.class, "h-14 min-w-0")} yAlign="space-between">
