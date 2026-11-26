@@ -11,6 +11,7 @@ import {
 import type { FrontendService } from "@/web/data/service/frontend-service";
 import type { FrontendServiceMovement } from "@/web/data/service/frontend-service-movement";
 import type { StopStructure } from "@/web/components/map-diagram/base/types";
+import { TextBlock } from "@/web/components/core/TextBlock";
 
 type ServiceDiagramProps = {
   class?: string;
@@ -24,6 +25,12 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
       stops: buildStopStructures(
         props.service.movements,
         props.service.isCancelled,
+      ),
+      continuingAboveContent: (
+        <TextBlock style="skipped-stop">Has good vibes</TextBlock>
+      ),
+      continuingBelowContent: (
+        <TextBlock style="skipped-stop">Has bad vibes</TextBlock>
       ),
     }),
     [props.service],
