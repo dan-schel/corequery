@@ -144,6 +144,26 @@ describe("FormattedServiceTimes", () => {
       });
     });
 
+    it("does not label a time earlier today as such", () => {
+      const result = FormattedServiceTimes.fromTimes({
+        time: Temporal.Instant.from("2026-11-28T09:32:00+11:00"),
+        formerTime: Temporal.Instant.from("2026-11-28T09:30:00+11:00"),
+        timeType: "provided-live-time",
+        now: Temporal.Instant.from("2026-11-28T10:00:00+11:00"),
+        formatTimezone: "Australia/Melbourne",
+        neverUseDurations: true,
+      });
+
+      expect(result).toEqual({
+        primary: "9:32am",
+        struckout: "9:30am",
+        delay: { text: "2 mins late", color: "green" },
+        schedule: null,
+        showLiveIcon: true,
+        showAsterisk: false,
+      });
+    });
+
     it("shows a live delay and former time when both times are soon", () => {
       const result = FormattedServiceTimes.fromTimes({
         time: Temporal.Instant.from("2026-11-28T10:20:00+11:00"),
