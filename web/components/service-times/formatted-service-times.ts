@@ -57,8 +57,15 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = departure;
-    const r = this.fromTimes(time, formerTime, timeType, now, formatTimezone);
-    return departure.isCancelled ? r.asCancelled() : r;
+    const result = this.fromTimes({
+      time,
+      formerTime,
+      timeType,
+      now,
+      formatTimezone,
+      neverUseDurations: false,
+    });
+    return departure.isCancelled ? result.asCancelled() : result;
   }
 
   static fromServiceMovement(
@@ -68,20 +75,32 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = movement.servicePageTime;
-    const r = this.fromTimes(time, formerTime, timeType, now, formatTimezone, {
+    const result = this.fromTimes({
+      time,
+      formerTime,
+      timeType,
+      now,
+      formatTimezone,
       neverUseDurations: true,
     });
-    return isCancelled ? r.asCancelled() : r;
+    return isCancelled ? result.asCancelled() : result;
   }
 
-  static fromTimes(
-    time: Temporal.Instant,
-    formerTime: Temporal.Instant | null,
-    timeType: FrontendServiceTimeType,
-    now: Temporal.Instant,
-    formatTimezone: string,
-    { neverUseDurations = false }: { neverUseDurations?: boolean } = {},
-  ) {
+  static fromTimes({
+    time,
+    formerTime,
+    timeType,
+    now,
+    formatTimezone,
+    neverUseDurations = false,
+  }: {
+    time: Temporal.Instant;
+    formerTime: Temporal.Instant | null;
+    timeType: FrontendServiceTimeType;
+    now: Temporal.Instant;
+    formatTimezone: string;
+    neverUseDurations?: boolean;
+  }) {
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
     const timeLocal = this._inFormatTimezone(time, formatTimezone);
     const timeStr = formatRelativeTime(timeLocal, nowLocal, {
