@@ -26,6 +26,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
   // TODO: Make sure this resets when the service/movementIndex changes.
   const [collapsed, setCollapsed] = useState(canCollapse);
 
+  // TODO: Clicking expand is breaking the diagram on Chrome (mobile).
   const handleExpand = useCallback(() => setCollapsed(false), []);
 
   const structure = useMemo<LinearMapDiagramStructure>(() => {
