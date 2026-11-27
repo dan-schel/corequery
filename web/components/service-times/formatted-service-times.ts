@@ -116,7 +116,7 @@ export class FormattedServiceTimes {
         primary: useDuration ? primary : timeStr,
         struckout: null,
         delay: null,
-        schedule: useDuration ? null : timeStr,
+        schedule: useDuration ? timeStr : null,
         showLiveIcon: false,
         showAsterisk: false,
       });
