@@ -57,7 +57,7 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = departure;
-    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone);
+    const r = this.fromTimes(time, formerTime, timeType, now, formatTimezone);
     return departure.isCancelled ? r.asCancelled() : r;
   }
 
@@ -68,13 +68,13 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = movement.servicePageTime;
-    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone, {
+    const r = this.fromTimes(time, formerTime, timeType, now, formatTimezone, {
       neverUseDurations: true,
     });
     return isCancelled ? r.asCancelled() : r;
   }
 
-  private static _fromTimes(
+  static fromTimes(
     time: Temporal.Instant,
     formerTime: Temporal.Instant | null,
     timeType: FrontendServiceTimeType,
