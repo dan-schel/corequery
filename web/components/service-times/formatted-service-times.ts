@@ -87,13 +87,17 @@ export class FormattedServiceTimes {
     const timeStr = formatRelativeTime(timeLocal, nowLocal, {
       suppressEarlierToday: true,
     });
+    const durationFromNow = time.since(now);
+    const primary = this._formatDurationWithNow(durationFromNow);
+    const departsSoon = durationFromNow.total({ unit: "minutes" }) <= 60;
+    const useDuration = departsSoon && !neverUseDurations;
 
     if (timeType === "scheduled-time" || formerTime == null) {
       return new FormattedServiceTimes({
-        primary: timeStr,
+        primary: useDuration ? primary : timeStr,
         struckout: null,
         delay: null,
-        schedule: null,
+        schedule: useDuration ? null : timeStr,
         showLiveIcon: false,
         showAsterisk: false,
       });
@@ -104,12 +108,11 @@ export class FormattedServiceTimes {
       suppressEarlierToday: true,
     });
 
-    const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
 
     const showAsterisk = timeType === "interpolated-live-time";
 
-    if (durationFromNow.total({ unit: "minutes" }) > 60 || neverUseDurations) {
+    if (!useDuration) {
       // If a departure just after midnight is delayed, but it's still an hour
       // before midnight, I'd prefer it to show "~~12:05am~~ 12:08am tonight"
       // rather than "~~12:05am tonight~~ 12:08am tonight".
@@ -131,7 +134,6 @@ export class FormattedServiceTimes {
     }
 
     const formerDurationFromNow = formerTime.since(now);
-    const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 
     return new FormattedServiceTimes({
