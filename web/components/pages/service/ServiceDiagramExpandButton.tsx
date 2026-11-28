@@ -31,12 +31,9 @@ export function ServiceDiagramExpandButton(
       class={clsx(props.class, "-m-2 p-2")}
       onClick={props.onClick}
     >
-      <Row yAlign="center">
+      <Row class="gap-4" yAlign="center">
         <TextBlock style="small" class="shrink">
           Originates at {stopData.name} at {scheduledTimeStr}
-        </TextBlock>
-        <TextBlock style="small-weak" class="bullet-margin">
-          &bull;
         </TextBlock>
         <Row class="gap-1" yAlign="center">
           <TextBlock style="small-weak">Expand</TextBlock>

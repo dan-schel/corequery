@@ -47,6 +47,7 @@ export function ServiceDiagram(props: ServiceDiagramProps) {
           <ServiceDiagramExpandButton
             onClick={handleExpand}
             movement={originatingMovement}
+            class="self-start"
           />
         ),
       };

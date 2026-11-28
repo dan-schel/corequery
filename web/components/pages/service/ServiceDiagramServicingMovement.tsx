@@ -64,7 +64,10 @@ export function ServiceDiagramServicingMovement(
   return (
     <Column class={clsx(props.class, "gap-8")}>
       {props.onCollapse != null && (
-        <ServiceDiagramCollapseButton onClick={props.onCollapse} />
+        <ServiceDiagramCollapseButton
+          class="self-start"
+          onClick={props.onCollapse}
+        />
       )}
       <Column class="gap-3 min-w-0">
         <Row
