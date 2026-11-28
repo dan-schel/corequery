@@ -58,7 +58,7 @@ export default function Service() {
   } else {
     return (
       <ServicePageContent
-        key={`${sourceId}/${intrasourceId}`}
+        key={`${sourceId}/${intrasourceId}/${movementIndex}`}
         service={service}
         movementIndex={movementIndex}
         movement={movement}

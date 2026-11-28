@@ -1,6 +1,6 @@
 import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 
 export type CreateControllerFunc<T> = (
   container: HTMLDivElement,
@@ -43,7 +43,12 @@ export function Canvas<T>(props: CanvasProps<T>) {
     };
   }, [createController]);
 
-  useEffect(() => {
+  // The `useLayoutEffect` is needed because map diagram stops can change
+  // dynamically (e.g. when its collapsed/expanded on the service page), and the
+  // data needs to set immediately after the layout updates because the number
+  // of stops might've changed, and it reads the Y-levels of the DOM components,
+  // leading to a race condition if we just used `useEffect` instead.
+  useLayoutEffect(() => {
     controller?.setData(data);
   }, [controller, data]);
 
