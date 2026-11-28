@@ -35,11 +35,11 @@ export function ServiceDiagramExpandButton(
         <TextBlock style="small" class="shrink">
           Originates at {stopData.name} at {scheduledTimeStr}
         </TextBlock>
-        <Row class="gap-1" yAlign="center">
-          <TextBlock style="small-weak">Expand</TextBlock>
+        <Row class="gap-2" yAlign="center">
           <VerticalBleed heightRem={getTextBoxHeightRem("text-sm")}>
-            <MingcuteChevronsUpDownLine class="text-fg-weak text-icon-md" />
+            <MingcuteChevronsUpDownLine class="text-fg-weak text-icon-md -mx-1" />
           </VerticalBleed>
+          <TextBlock style="small-weak">Expand</TextBlock>
         </Row>
       </Row>
     </HoverButtonHousing>

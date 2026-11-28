@@ -6,8 +6,8 @@ import {
   getTextBoxHeightPx,
   getTextBoxHeightRem,
 } from "@/web/components/core/TextBoxTrim";
-import { MingcuteChevronsUpDownLine } from "@/web/components/icons/MingcuteChevronsUpDownLine";
 import clsx from "clsx";
+import { MingcuteChevronsDownUpLine } from "@/web/components/icons/MingcuteChevronsDownUpLine";
 
 type ServiceDiagramCollapseButtonProps = {
   class?: string;
@@ -24,13 +24,13 @@ export function ServiceDiagramCollapseButton(
       class={clsx(props.class, "-m-2 p-2")}
       onClick={props.onClick}
     >
-      <Row class="gap-1" yAlign="center">
+      <Row class="gap-2" yAlign="center">
+        <VerticalBleed heightRem={getTextBoxHeightRem("text-sm")}>
+          <MingcuteChevronsDownUpLine class="text-fg-weak text-icon-md -mx-1" />
+        </VerticalBleed>
         <TextBlock style="small-weak" class="shrink">
           Collapse previous stops
         </TextBlock>
-        <VerticalBleed heightRem={getTextBoxHeightRem("text-sm")}>
-          <MingcuteChevronsUpDownLine class="text-fg-weak text-icon-md" />
-        </VerticalBleed>
       </Row>
     </HoverButtonHousing>
   );
