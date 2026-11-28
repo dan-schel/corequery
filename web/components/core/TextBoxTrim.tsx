@@ -22,7 +22,7 @@ export function TextBoxTrim(props: TextBoxTrimProps) {
   // 16 = is the rem to px conversion.
   //
   // Note that this equals 10.656px but in my browser it's actually 10.6667px.
-  // My devicePixelRatio is 1.5, so if it rounds 10.656 to the nearest device
+  // My `devicePixelRatio` is 1.5, so if it rounds 10.656 to the nearest device
   // pixel (15.984 -> 16), then that works out to 10.6667px.
 
   return <span class="block mt-[-0.38em] mb-[-0.38em]">{props.children}</span>;
@@ -48,4 +48,9 @@ export function getTextBoxHeightRem(fontSize: number | keyof typeof textSizes) {
 
 export function getTextBoxHeightPx(fontSize: number | keyof typeof textSizes) {
   return getTextBoxHeightRem(fontSize) * 16;
+}
+
+export function getTailwindUnitsPx(tailwindUnit: number) {
+  // 1 tailwind unit = 0.25rem = 4px (assuming 1rem = 16px)
+  return tailwindUnit * 4;
 }
