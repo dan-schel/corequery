@@ -60,7 +60,7 @@ export function SearchDrawer(props: SearchDrawerProps) {
     <div
       class={clsx(
         props.class,
-        "relative transition-[opacity,visibility,translate] duration-100",
+        "relative max-h-full overflow-y-auto transition-[opacity,visibility,translate] duration-100",
         {
           "invisible": !props.open,
           "opacity-0": !props.open,
@@ -85,8 +85,8 @@ export function SearchDrawer(props: SearchDrawerProps) {
             <MingcuteSearch2Line class="absolute left-4 top-[50%] translate-y-[-50%] pointer-events-none text-fg-weak text-icon-xl desktop:text-icon-lg" />
           </Grid>
 
-          {/* `calc(100vh - 12rem)` leaves a 4rem gap between the search drawer and the mobile navbar. */}
-          <Column class="max-h-[calc(100vh-12rem)] py-3 overflow-y-scroll">
+          {/* `calc(100svh - 12rem)` leaves a 4rem gap between the search drawer and the mobile navbar. */}
+          <Column class="max-h-[calc(100svh-12rem)] desktop:max-h-[calc(100vh-12rem)] py-3 overflow-y-scroll">
             {results.length === 0 && (
               <Grid class="h-32 items-center">
                 <TextBlock class="px-4" style="weak">

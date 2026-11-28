@@ -57,8 +57,15 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = departure;
-    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone);
-    return departure.isCancelled ? r.asCancelled() : r;
+    const result = this.fromTimes({
+      time,
+      formerTime,
+      timeType,
+      now,
+      formatTimezone,
+      neverUseDurations: false,
+    });
+    return departure.isCancelled ? result.asCancelled() : result;
   }
 
   static fromServiceMovement(
@@ -68,32 +75,48 @@ export class FormattedServiceTimes {
     formatTimezone: string,
   ) {
     const { time, formerTime, timeType } = movement.servicePageTime;
-    const r = this._fromTimes(time, formerTime, timeType, now, formatTimezone, {
+    const result = this.fromTimes({
+      time,
+      formerTime,
+      timeType,
+      now,
+      formatTimezone,
       neverUseDurations: true,
     });
-    return isCancelled ? r.asCancelled() : r;
+    return isCancelled ? result.asCancelled() : result;
   }
 
-  private static _fromTimes(
-    time: Temporal.Instant,
-    formerTime: Temporal.Instant | null,
-    timeType: FrontendServiceTimeType,
-    now: Temporal.Instant,
-    formatTimezone: string,
-    { neverUseDurations = false }: { neverUseDurations?: boolean } = {},
-  ) {
+  static fromTimes({
+    time,
+    formerTime,
+    timeType,
+    now,
+    formatTimezone,
+    neverUseDurations = false,
+  }: {
+    time: Temporal.Instant;
+    formerTime: Temporal.Instant | null;
+    timeType: FrontendServiceTimeType;
+    now: Temporal.Instant;
+    formatTimezone: string;
+    neverUseDurations?: boolean;
+  }) {
     const nowLocal = this._inFormatTimezone(now, formatTimezone);
     const timeLocal = this._inFormatTimezone(time, formatTimezone);
     const timeStr = formatRelativeTime(timeLocal, nowLocal, {
       suppressEarlierToday: true,
     });
+    const durationFromNow = time.since(now);
+    const primary = this._formatDurationWithNow(durationFromNow);
+    const departsSoon = durationFromNow.total({ unit: "minutes" }) <= 60;
+    const useDuration = departsSoon && !neverUseDurations;
 
     if (timeType === "scheduled-time" || formerTime == null) {
       return new FormattedServiceTimes({
-        primary: timeStr,
+        primary: useDuration ? primary : timeStr,
         struckout: null,
         delay: null,
-        schedule: null,
+        schedule: useDuration ? timeStr : null,
         showLiveIcon: false,
         showAsterisk: false,
       });
@@ -104,12 +127,11 @@ export class FormattedServiceTimes {
       suppressEarlierToday: true,
     });
 
-    const durationFromNow = time.since(now);
     const delay = this._getDelay(time.since(formerTime));
 
     const showAsterisk = timeType === "interpolated-live-time";
 
-    if (durationFromNow.total({ unit: "minutes" }) > 60 || neverUseDurations) {
+    if (!useDuration) {
       // If a departure just after midnight is delayed, but it's still an hour
       // before midnight, I'd prefer it to show "~~12:05am~~ 12:08am tonight"
       // rather than "~~12:05am tonight~~ 12:08am tonight".
@@ -131,7 +153,6 @@ export class FormattedServiceTimes {
     }
 
     const formerDurationFromNow = formerTime.since(now);
-    const primary = this._formatDurationWithNow(durationFromNow);
     const struckout = this._formatDurationWithNow(formerDurationFromNow);
 
     return new FormattedServiceTimes({

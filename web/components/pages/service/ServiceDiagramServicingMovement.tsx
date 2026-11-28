@@ -7,19 +7,29 @@ import type { FrontendServiceMovement } from "@/web/data/service/frontend-servic
 import { useMemo } from "preact/hooks";
 import { Column } from "@/web/components/core/Column";
 import { useTerminology } from "@/web/hooks/use-terminology";
-import { getTextBoxHeightPx } from "@/web/components/core/TextBoxTrim";
+import {
+  getTailwindUnitsPx,
+  getTextBoxHeightPx,
+} from "@/web/components/core/TextBoxTrim";
 import { useNow } from "@/web/hooks/use-now";
 import { ServiceDelayText } from "@/web/components/service-times/ServiceDelayText";
 import { ServiceTimesText } from "@/web/components/service-times/ServiceTimesText";
 import clsx from "clsx";
+import {
+  COLLAPSE_BUTTON_HEIGHT_PX,
+  ServiceDiagramCollapseButton,
+} from "@/web/components/pages/service/ServiceDiagramCollapseButton";
 
 type ServiceDiagramServicingMovementProps = {
   class?: string;
   movement: FrontendServiceMovement;
   isCancelled: boolean;
+  onCollapse?: () => void;
 };
 
 export const Y_MARK_POSITION = getTextBoxHeightPx("text-md") / 2;
+export const Y_MARK_POSITION_WITH_COLLAPSE_BUTTON =
+  Y_MARK_POSITION + COLLAPSE_BUTTON_HEIGHT_PX + getTailwindUnitsPx(8);
 
 export function ServiceDiagramServicingMovement(
   props: ServiceDiagramServicingMovementProps,
@@ -52,42 +62,52 @@ export function ServiceDiagramServicingMovement(
   );
 
   return (
-    <Column class="gap-3 min-w-0">
-      <Row
-        class={clsx({
-          "pr-2": formattedTimes.showLiveIcon,
-        })}
-      >
-        <TextBlock style="strong" class="shrink min-w-0" oneLine>
-          <LinkText href={url} style="subtle">
-            {stopData.name}
-          </LinkText>
-        </TextBlock>
-        <TextBlock class="bullet-margin">&bull;</TextBlock>
-        <ServiceTimesText
-          style="service-page"
-          times={formattedTimes}
-          dynamicColor={null}
+    <Column class={clsx(props.class, "gap-8")}>
+      {props.onCollapse != null && (
+        <ServiceDiagramCollapseButton
+          class="self-start"
+          onClick={props.onCollapse}
         />
-      </Row>
-      <Row>
-        {formattedTimes.delay != null && (
-          <ServiceDelayText
-            delay={formattedTimes.delay}
-            showAsterisk={formattedTimes.showAsterisk}
+      )}
+      <Column class="gap-3 min-w-0">
+        <Row
+          class={clsx({
+            "pr-2": formattedTimes.showLiveIcon,
+          })}
+        >
+          <TextBlock style="strong" class="shrink min-w-0" oneLine>
+            <LinkText href={url} style="subtle">
+              {stopData.name}
+            </LinkText>
+          </TextBlock>
+          <TextBlock class="bullet-margin">&bull;</TextBlock>
+          <ServiceTimesText
+            style="service-page"
+            times={formattedTimes}
+            dynamicColor={null}
           />
+        </Row>
+        {(formattedTimes.delay != null || positionStr != null) && (
+          <Row>
+            {formattedTimes.delay != null && (
+              <ServiceDelayText
+                delay={formattedTimes.delay}
+                showAsterisk={formattedTimes.showAsterisk}
+              />
+            )}
+            {formattedTimes.delay != null && positionStr != null && (
+              <TextBlock class="bullet-margin" style="departure-info">
+                &bull;
+              </TextBlock>
+            )}
+            {positionStr != null && (
+              <TextBlock class="shrink min-w-0" style="departure-info" oneLine>
+                {positionStr}
+              </TextBlock>
+            )}
+          </Row>
         )}
-        {formattedTimes.delay != null && positionStr != null && (
-          <TextBlock class="bullet-margin" style="departure-info">
-            &bull;
-          </TextBlock>
-        )}
-        {positionStr != null && (
-          <TextBlock class="shrink min-w-0" style="departure-info" oneLine>
-            {positionStr}
-          </TextBlock>
-        )}
-      </Row>
+      </Column>
     </Column>
   );
 }

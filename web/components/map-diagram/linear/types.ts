@@ -1,8 +1,13 @@
 import type { StopStructure } from "@/web/components/map-diagram/base/types";
+import type { ComponentChildren } from "preact";
 
 export type LinearMapDiagramStructure = {
   readonly type: "linear";
   readonly stops: readonly StopStructure[];
+
+  readonly continuingAboveContent?: ComponentChildren;
+  readonly continuingBelowContent?: ComponentChildren;
+  readonly transparentUntilStopIndex?: number;
 
   // TODO: Allow setting a threshold for the faded out section. Only linear
   // needs it, as it's only for the service page.

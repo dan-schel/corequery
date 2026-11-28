@@ -117,4 +117,8 @@ export class BranchMapDiagramController extends BaseMapDiagramController<BranchM
       },
     };
   }
+
+  protected override _getTransparencyYLevel(): number | null {
+    return null;
+  }
 }

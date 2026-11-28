@@ -1,15 +1,17 @@
 import { CanvasController } from "@/web/components/canvas/canvas-controller";
 import { getColors, type Colors } from "@/web/components/canvas/colors";
-import { itsOk } from "@dan-schel/js-utils";
+import { clamp, itsOk } from "@dan-schel/js-utils";
 import type {
   BaseMapDiagramCanvasData,
   StopStructure,
 } from "@/web/components/map-diagram/base/types";
 
 export const NOTCH_WIDTH = 16;
-const NOTCH_HEIGHT = 6;
+export const NOTCH_HEIGHT = 6;
 const LINE_WIDTH = 6;
 const OVERSHOOT = 1;
+
+const TRANSPARENCY_PERCENTAGE = 0.5;
 
 type Side = "left" | "right";
 
@@ -39,11 +41,29 @@ export abstract class BaseMapDiagramController<
     // Fill over the whole canvas with the chosen color. The strokes become the
     // mask.
     this.ctx.globalCompositeOperation = "source-in";
-    this.ctx.fillStyle = this._getDiagramColor();
+    this.ctx.fillStyle = this._getDiagramFillStyle();
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
   protected abstract _onRenderStructure(): void;
+  protected abstract _getTransparencyYLevel(): number | null;
+
+  private _getDiagramFillStyle() {
+    const color = this._getDiagramColor();
+    const transparencyYLevel = this._getTransparencyYLevel();
+    if (transparencyYLevel == null) return color;
+
+    const transparencyStop = clamp(transparencyYLevel / this.height, 0, 1);
+    const alphaHex = Math.floor(TRANSPARENCY_PERCENTAGE * 255).toString(16);
+    const transparentColor = color + alphaHex.padStart(2, "0");
+
+    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.height);
+    gradient.addColorStop(0, transparentColor);
+    gradient.addColorStop(transparencyStop, transparentColor);
+    gradient.addColorStop(transparencyStop, color);
+    gradient.addColorStop(1, color);
+    return gradient;
+  }
 
   protected _renderSection({
     stops,

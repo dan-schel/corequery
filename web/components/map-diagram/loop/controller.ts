@@ -181,4 +181,8 @@ export class LoopMapDiagramController extends BaseMapDiagramController<LoopMapDi
       },
     };
   }
+
+  protected override _getTransparencyYLevel(): number | null {
+    return null;
+  }
 }

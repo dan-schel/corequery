@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { useLocation } from "preact-iso";
-import { Grid } from "@/web/components/core/Grid";
 import { MoreDrawer } from "@/web/components/page/nav/MoreDrawer";
 import { SearchDrawer } from "@/web/components/page/nav/SearchDrawer";
 import { useEffect, useState } from "preact/hooks";
@@ -41,37 +40,29 @@ export function Nav(props: NavProps) {
   }, [url]);
 
   return (
-    <Grid
-      class={clsx(
-        props.class,
-        "fixed top-0 bottom-0 left-0 right-0 desktop:grid-rows-[auto_1fr] not-desktop:grid-rows-[1fr_auto]",
-        {
-          "pointer-events-none": !moreDrawerOpen && !searchDrawerOpen,
-        },
-      )}
-    >
-      <div class="desktop:hidden row-2 pointer-events-auto relative z-1">
-        {showMobileNav && (
-          <MobileNavBar
-            onOpenMoreDrawerRequest={handleOpenMoreDrawerRequest}
-            onOpenSearchDrawerRequest={handleOpenSearchDrawerRequest}
-          />
-        )}
-      </div>
-      <div class="not-desktop:hidden row-1 pointer-events-auto relative z-1">
-        {showDesktopNav && (
-          <DesktopNavBar
-            onOpenMoreDrawerRequest={handleOpenMoreDrawerRequest}
-            onOpenSearchDrawerRequest={handleOpenSearchDrawerRequest}
-          />
-        )}
-      </div>
-      <div class="relative z-0 h-full desktop:row-2 not-desktop:row-1">
+    <div class={clsx(props.class, "pointer-events-none")}>
+      <div class="fixed bottom-0 top-auto left-0 right-0 desktop:top-0 desktop:bottom-auto z-1">
+        <div class="desktop:hidden pointer-events-auto relative z-1">
+          {showMobileNav && (
+            <MobileNavBar
+              onOpenMoreDrawerRequest={handleOpenMoreDrawerRequest}
+              onOpenSearchDrawerRequest={handleOpenSearchDrawerRequest}
+            />
+          )}
+        </div>
+        <div class="not-desktop:hidden pointer-events-auto relative z-1">
+          {showDesktopNav && (
+            <DesktopNavBar
+              onOpenMoreDrawerRequest={handleOpenMoreDrawerRequest}
+              onOpenSearchDrawerRequest={handleOpenSearchDrawerRequest}
+            />
+          )}
+        </div>
         <div
           class={clsx(
-            "absolute desktop:top-0 not-desktop:bottom-0 left-0 right-0 z-1",
+            "absolute desktop:top-full not-desktop:bottom-full left-0 right-0 z-0",
             {
-              "pointer-events-none": !moreDrawerOpen,
+              "pointer-events-auto": moreDrawerOpen,
             },
           )}
         >
@@ -80,21 +71,29 @@ export function Nav(props: NavProps) {
             onClose={handleCloseDrawersRequest}
           />
         </div>
-        <div
-          class={clsx("absolute top-0 left-0 right-0 z-1", {
-            "pointer-events-none": !searchDrawerOpen,
-          })}
-        >
+      </div>
+      <div
+        class={clsx("fixed top-0 left-0 right-0 z-0", {
+          "not-desktop:bottom-18": showMobileNav,
+          "not-desktop:bottom-0": !showMobileNav,
+          "desktop:top-12 desktop:bottom-0": showDesktopNav,
+          "desktop:bottom-0": !showDesktopNav,
+        })}
+      >
+        <div class="absolute inset-0 z-1 pointer-events-none">
           <SearchDrawer
+            class={clsx({ "pointer-events-auto": searchDrawerOpen })}
             open={searchDrawerOpen}
             onClose={handleCloseDrawersRequest}
           />
         </div>
         <div
-          class="absolute top-0 left-0 right-0 bottom-0 z-0"
+          class={clsx("absolute inset-0 z-0", {
+            "pointer-events-auto": moreDrawerOpen || searchDrawerOpen,
+          })}
           onClick={handleCloseDrawersRequest}
         />
       </div>
-    </Grid>
+    </div>
   );
 }

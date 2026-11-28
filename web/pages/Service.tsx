@@ -58,7 +58,7 @@ export default function Service() {
   } else {
     return (
       <ServicePageContent
-        key={`${sourceId}/${intrasourceId}`}
+        key={`${sourceId}/${intrasourceId}/${movementIndex}`}
         service={service}
         movementIndex={movementIndex}
         movement={movement}
@@ -119,8 +119,10 @@ function ServicePageContent(props: ServicePageContentProps) {
           </Row>
         </Column>
         <Column class="px-4 gap-8">
-          {/* TODO: Collapse (and show faded ) */}
-          <ServiceDiagram service={props.service} />
+          <ServiceDiagram
+            service={props.service}
+            movementIndex={props.movementIndex}
+          />
 
           {/* TODO: Only show if applicable. */}
           <TextBlock style="disclaimer">
